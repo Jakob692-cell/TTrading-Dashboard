@@ -3694,5 +3694,49 @@
     "evidence_no_video": "Keine Tour-Technologie-Keywords auf der Property-Management-Services-Seite.",
     "source_url": "https://www.allmountainrentals.com/property-management-services/",
     "region_cluster": "Ozarks / Cape Cod-New England"
+  },
+  {
+    "company": "Cottages on the Coast",
+    "market": "UK · North Devon",
+    "type": "Property Manager",
+    "email": "hello@cottagesonthecoast.co.uk",
+    "phone": "01271 410210",
+    "website": "https://cottagesonthecoast.co.uk/",
+    "evidence_no_video": "Nur Instagram-Widget mit \"video\"-Klasse, keine Matterport/3D/Walkthrough-Tour für Objekte.",
+    "source_url": "https://cottagesonthecoast.co.uk/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Croyde Holidays",
+    "market": "UK · North Devon (Croyde)",
+    "type": "Property Manager",
+    "email": "admin@croydeholidays.info",
+    "phone": "07836 319810",
+    "website": "https://www.croydeholidays.info/",
+    "evidence_no_video": "Nur statische Foto-Galerien für die 3 Cottages, kein Video/3D/Matterport.",
+    "source_url": "https://www.croydeholidays.info/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Islands & Highlands Cottages",
+    "market": "UK · Isle of Skye / Highlands",
+    "type": "Property Manager",
+    "email": "sales@ihcottages.com",
+    "phone": "+44 (0)1478 612123",
+    "website": "https://www.ihcottages.com/",
+    "evidence_no_video": "Kleine unabhängige Skye-Agentur, keine Video-/Matterport-/3D-Tour-Sprache gefunden.",
+    "source_url": "https://www.ihcottages.com/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Highland Holiday Homes",
+    "market": "UK · Highlands (Aviemore/Grantown)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: +44 (0)1479 810020",
+    "phone": "+44 (0)1479 810020",
+    "website": "https://www.highlandholidayhomes.com/Contact",
+    "evidence_no_video": "30+ Jahre führende lokale Agentur, keine Video-/3D-/Matterport-Tour-Erwähnung.",
+    "source_url": "https://www.highlandholidayhomes.com/Contact",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
   }
 ]
