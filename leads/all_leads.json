@@ -4673,5 +4673,192 @@
     "evidence_no_video": "Einzelnes historisches Anwesen, individuell geführt, nur statische Fotos, kein Video-/Drohnen-Tour.",
     "source_url": "https://www.theoldgamefarm.com/estate",
     "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Star Properties Destinations",
+    "market": "USA · Key Largo, FL",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 305-680-9852",
+    "phone": "305-680-9852",
+    "website": "https://www.starpropertiesdestinations.com/",
+    "evidence_no_video": "Nur Standard-Fotografie, kein Video/Drohne/Matterport-Content.",
+    "source_url": "https://www.starpropertiesdestinations.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Florida Keys Luxury Rentals",
+    "market": "USA · Marathon, FL",
+    "type": "Property Manager",
+    "email": "info@myfklr.com",
+    "phone": "(305) 852-4321",
+    "website": "https://floridakeysluxuryrentals.com/property-management/",
+    "evidence_no_video": "Nur „professionelle Fotografie“, keine Video- oder 3D-Touren erwähnt.",
+    "source_url": "https://floridakeysluxuryrentals.com/property-management/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Coastal Vacation Rentals of the Florida Keys",
+    "market": "USA · Islamorada, FL",
+    "type": "Property Manager",
+    "email": "vacations@CoastalFloridaKeys.com",
+    "phone": "305-664-0077",
+    "website": "https://www.coastalvacationrentalsofthefloridakeys.com/property-management-services.asp",
+    "evidence_no_video": "40+ Objekte, nur statische Fotografie, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.coastalvacationrentalsofthefloridakeys.com/property-management-services.asp",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Key West Vacation Properties & Realty (KWVPR)",
+    "market": "USA · Key West, FL",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: 305-296-6667",
+    "phone": "305-296-6667",
+    "website": "https://www.kwvpr.com/",
+    "evidence_no_video": "Keine Referenz auf Video-Touren, Drohnenaufnahmen oder 3D-Touren.",
+    "source_url": "https://www.kwvpr.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Key West Hideaways",
+    "market": "USA · Key West, FL",
+    "type": "Property Manager",
+    "email": "reservations@keywesthideaways.com",
+    "phone": "305-296-9090",
+    "website": "https://www.keywesthideaways.com/",
+    "evidence_no_video": "Nur Fotos, keine Video- oder 3D-Tour-Technologie erwähnt.",
+    "source_url": "https://www.keywesthideaways.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Vacation Homes of Key West (VHKW)",
+    "market": "USA · Key West, FL",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (305) 294-7358",
+    "phone": "(305) 294-7358",
+    "website": "https://vacationhomesofkeywest.com/about-vhkw/",
+    "evidence_no_video": "About-Seite fokussiert auf Mission/Team, kein Video-Tour-Content.",
+    "source_url": "https://vacationhomesofkeywest.com/about-vhkw/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Florida Keys Villas",
+    "market": "USA · Marathon, FL",
+    "type": "Property Manager",
+    "email": "info@floridakeysvillas.com",
+    "phone": "954-263-2995",
+    "website": "https://www.floridakeysvillas.com/florida-keys-vacation-rentals-by-owner/",
+    "evidence_no_video": "Eigentümer-Listings nur mit statischen Fotos, kein Video/Matterport.",
+    "source_url": "https://www.floridakeysvillas.com/florida-keys-vacation-rentals-by-owner/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Island Villa (Patti Stanley)",
+    "market": "USA · Islamorada, FL",
+    "type": "Property Manager",
+    "email": "rentals@islandvilla.com",
+    "phone": "305.664.3333",
+    "website": "https://islandvilla.com/property/sea-ranch/",
+    "evidence_no_video": "Nur statische Foto-Galerie, kein Walkthrough-Video oder 3D-Tour.",
+    "source_url": "https://islandvilla.com/property/sea-ranch/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Island Management (Judy Rossignol)",
+    "market": "USA · Islamorada, FL",
+    "type": "Property Manager",
+    "email": "islamoradajudy@gmail.com",
+    "phone": "(305) 393-0523",
+    "website": "https://www.islandmanagementrentals.com/",
+    "evidence_no_video": "6 Objekte nur mit Fotos, keine Video-, Drohnen- oder 3D-Tour-Technologie.",
+    "source_url": "https://www.islandmanagementrentals.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Beach Boutique Rentals",
+    "market": "USA · Anna Maria Island, FL",
+    "type": "Property Manager",
+    "email": "info@beachboutiquerentals.com",
+    "phone": "866-817-7974",
+    "website": "https://www.beachboutiquerentals.com/contact/",
+    "evidence_no_video": "Nur Standard-Foto-Galerien, kein Video-Tour-Verweis gefunden.",
+    "source_url": "https://www.beachboutiquerentals.com/contact/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Anchor Down Vacation Rentals",
+    "market": "USA · Bradenton, FL",
+    "type": "Property Manager",
+    "email": "info@anchordownre.com",
+    "phone": "(941) 301-8629",
+    "website": "https://anchordownmanagement.com/vacation-rental-property-management/",
+    "evidence_no_video": "Nur „professionelle Fotografie“ beworben, keine Video-Touren.",
+    "source_url": "https://anchordownmanagement.com/vacation-rental-property-management/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Mainsail Vacation Rentals",
+    "market": "USA · Holmes Beach, FL",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 1-866-724-5287",
+    "phone": "1-866-724-5287",
+    "website": "https://www.mainsailvr.com/",
+    "evidence_no_video": "Keine Video-/3D-Tour-Technologie gefunden.",
+    "source_url": "https://www.mainsailvr.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Rent Siesta Key",
+    "market": "USA · Siesta Key, FL",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 888-941-RENT",
+    "phone": "888-941-RENT",
+    "website": "https://www.rentsiestakey.com/",
+    "evidence_no_video": "Nur Fotos möblierter Häuser, kein Video-Tour-Content gefunden.",
+    "source_url": "https://www.rentsiestakey.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Anna Maria Island Home Rental (Nancy McAleer)",
+    "market": "USA · Anna Maria Island, FL",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 514-606-6673",
+    "phone": "514-606-6673",
+    "website": "https://www.annamariaislandhomerental.com/contact-us",
+    "evidence_no_video": "Solo-Betreiberin mit 3 Objekten, nur Fotos, keine Video-Touren.",
+    "source_url": "https://www.annamariaislandhomerental.com/contact-us",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Once Upon a Beach (Mike & Nikki)",
+    "market": "USA · Anna Maria Island, FL",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 941-584-5844",
+    "phone": "941-584-5844",
+    "website": "https://www.onceuponabeachami.com/",
+    "evidence_no_video": "Paar-geführtes exklusives Portfolio, kein Video/Drohne/Matterport-Content.",
+    "source_url": "https://www.onceuponabeachami.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Anna Maria Beach Cottages",
+    "market": "USA · Anna Maria Island, FL",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 941-778-1503",
+    "phone": "941-778-1503",
+    "website": "https://annamariabeachcottages.com/",
+    "evidence_no_video": "Kleine Eigentümer-Seite mit 2 Cottages, keine Video-Tour-Technologie gefunden.",
+    "source_url": "https://annamariabeachcottages.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Florida Keys Vacation Rentals (Michael Morrissey)",
+    "market": "USA · Key Colony Beach, FL",
+    "type": "Solo-Host",
+    "email": "keysvacation1000@aol.com",
+    "phone": "708-878-8750",
+    "website": "http://www.keycolonybeachcondorentals.com/",
+    "evidence_no_video": "Einzeleigentümer, eigene Domain für ein Condo, keine Video-/Drohnen-/3D-Tour-Referenzen.",
+    "source_url": "http://www.keycolonybeachcondorentals.com/",
+    "region_cluster": "Florida Keys / Sarasota-Anna Maria"
   }
 ]
