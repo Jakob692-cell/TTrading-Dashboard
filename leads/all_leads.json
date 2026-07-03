@@ -2374,5 +2374,192 @@
     "evidence_no_video": "Familiengeführte Boutique-Agentur, 60+ Objekte wöchentlich, keine Video-/Drohnen-/Matterport-Erwähnung.",
     "source_url": "https://www.seabreezerealtyonlbi.com/",
     "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Country Hideaways",
+    "market": "UK · Yorkshire Dales",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01969 663559",
+    "phone": "01969 663559",
+    "website": "https://www.countryhideaways.co.uk/",
+    "evidence_no_video": "~40 Cottages, nur Standard-Foto-Galerien, kein Video/Virtual/Matterport.",
+    "source_url": "https://www.countryhideaways.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Holiday Home Yorkshire",
+    "market": "UK · Yorkshire Dales",
+    "type": "Property Manager",
+    "email": "contactus@holidayhomeyorkshire.co.uk",
+    "phone": "01748 900420",
+    "website": "https://www.holidayhomeyorkshire.co.uk/",
+    "evidence_no_video": "Foto- und Text-basiert, keine Video-/Virtual-/3D-Tour-Erwähnung.",
+    "source_url": "https://www.holidayhomeyorkshire.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Holiday at Home",
+    "market": "UK · Yorkshire Dales / North Yorkshire",
+    "type": "Property Manager",
+    "email": "enquiries@holidayathome.co.uk",
+    "phone": "01748 850333",
+    "website": "https://www.holidayathome.co.uk/contact-us/",
+    "evidence_no_video": "Nur statische Fotografie, kein Virtual-/Video-Tour-Feature.",
+    "source_url": "https://www.holidayathome.co.uk/contact-us/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Yorkshire Hideaways",
+    "market": "UK · Yorkshire Dales",
+    "type": "Property Manager",
+    "email": "enquiries@yorkshirehideaways.co.uk",
+    "phone": "01969 600600",
+    "website": "https://www.yorkshirehideaways.co.uk/",
+    "evidence_no_video": "Keine Matterport-/Virtual-/Video-Tour-Keywords, nur Foto-Galerien.",
+    "source_url": "https://www.yorkshirehideaways.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "DSC Holiday Cottages (Yorkshire Dale Cottages)",
+    "market": "UK · Yorkshire Dales (Grassington/Wharfedale)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01756 752435",
+    "phone": "01756 752435",
+    "website": "https://www.yorkshiredalecottages.com/",
+    "evidence_no_video": "Nur statische Foto-Galerie, kein Video/3D-Tour.",
+    "source_url": "https://www.yorkshiredalecottages.com/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Beautiful Escapes",
+    "market": "UK · Yorkshire Dales / North Yorkshire",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01642 711165",
+    "phone": "01642 711165",
+    "website": "https://www.beautifulescapes.co.uk/",
+    "evidence_no_video": "Keine Erwähnung von Video-, Virtual- oder Matterport/3D-Touren.",
+    "source_url": "https://www.beautifulescapes.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Peak Venues",
+    "market": "UK · Peak District",
+    "type": "Property Manager",
+    "email": "hello@peakvenues.co.uk",
+    "phone": "01629 888666",
+    "website": "https://www.peakvenues.co.uk/contact-us",
+    "evidence_no_video": "Großes Gruppenunterkunfts-Portfolio nur mit Fotos, keine Video-/Virtual-Tour-Technologie.",
+    "source_url": "https://www.peakvenues.co.uk/contact-us",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Peak Holidays",
+    "market": "UK · Peak District",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01629 828301",
+    "phone": "01629 828301",
+    "website": "https://www.peak-holidays.co.uk/contact/",
+    "evidence_no_video": "Keine Referenz auf Video-/Virtual-/Matterport-Tour gefunden.",
+    "source_url": "https://www.peak-holidays.co.uk/contact/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Cottage Team (Blue Limes)",
+    "market": "UK · Peak District",
+    "type": "Property Manager",
+    "email": "enquiries@cottageteam.co.uk",
+    "phone": "01629 828299",
+    "website": "https://www.cottageteam.co.uk/",
+    "evidence_no_video": "Full-Service-Verwaltung, kein Video- oder 3D-/Matterport-Tour-Angebot.",
+    "source_url": "https://www.cottageteam.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Knockerdown Cottages",
+    "market": "UK · Peak District (Derbyshire)",
+    "type": "Property Manager",
+    "email": "hello@knockerdowncottages.co.uk",
+    "phone": "01629 540525",
+    "website": "https://www.knockerdowncottages.co.uk/",
+    "evidence_no_video": "Nur „Virtual Viewing“ für Hochzeiten/Events, nicht für die Ferienhaus-Listings selbst.",
+    "source_url": "https://www.knockerdowncottages.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "The Pembrokeshire Holiday Company",
+    "market": "UK · Pembrokeshire",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 07415861255",
+    "phone": "07415861255",
+    "website": "https://thepembrokeshireholidaycompany.co.uk/",
+    "evidence_no_video": "Nur Foto-Galerie, keine Video-/Virtual-/Matterport-Tour-Technologie.",
+    "source_url": "https://thepembrokeshireholidaycompany.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Great Welsh Escapes",
+    "market": "UK · Pembrokeshire/Carmarthenshire",
+    "type": "Property Manager",
+    "email": "enquiries@greatwelshescapes.com",
+    "phone": "01994 220629",
+    "website": "https://www.greatwelshescapes.com/",
+    "evidence_no_video": "Standard-Fotos und Beschreibungen, keine immersive Tour-Technologie.",
+    "source_url": "https://www.greatwelshescapes.com/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "St Davids Escapes",
+    "market": "UK · Pembrokeshire",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01437 709790",
+    "phone": "01437 709790",
+    "website": "https://www.stdavidsescapes.co.uk/",
+    "evidence_no_video": "Nur statische Bilder und Beschreibungen, keine Video-/Virtual-/Matterport-Referenzen.",
+    "source_url": "https://www.stdavidsescapes.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "North Wales Holiday Cottages",
+    "market": "UK · Snowdonia / North Wales",
+    "type": "Property Manager",
+    "email": "info@northwalesholidaycottages.co.uk",
+    "phone": "01492 582492",
+    "website": "https://www.northwalesholidaycottages.co.uk/",
+    "evidence_no_video": "Unabhängige Agentur seit 1966, nur Standard-Fotos, kein Video/3D-Tour.",
+    "source_url": "https://www.northwalesholidaycottages.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Boltholes & Hideaways",
+    "market": "UK · Snowdonia / Anglesey / Conwy",
+    "type": "Property Manager",
+    "email": "info@boltholesandhideaways.co.uk",
+    "phone": "01248 546100",
+    "website": "https://boltholesandhideaways.co.uk/",
+    "evidence_no_video": "Keine Erwähnung von Video-, Virtual- oder Matterport/3D-Touren für Listings.",
+    "source_url": "https://boltholesandhideaways.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Dioni Holiday Cottages",
+    "market": "UK · Snowdonia (Meirionnydd/Betws-y-Coed/Harlech)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01341 247200",
+    "phone": "01341 247200",
+    "website": "https://www.dioni.co.uk/",
+    "evidence_no_video": "Nur persönliche Kontakt-Email gefunden, nur Fotos, kein Video/3D-Tour.",
+    "source_url": "https://www.dioni.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
+  },
+  {
+    "company": "Nefyn Holidays",
+    "market": "UK · Snowdonia / Llŷn Peninsula",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01758 720674",
+    "phone": "01758 720674",
+    "website": "https://www.nefynholidays.co.uk/",
+    "evidence_no_video": "Einzige unabhängige Vermietungsagentur der Llŷn-Halbinsel seit 1970, keine Video-/Virtual-/Matterport-Technologie.",
+    "source_url": "https://www.nefynholidays.co.uk/",
+    "region_cluster": "Yorkshire Dales/Peak District / Wales"
   }
 ]
