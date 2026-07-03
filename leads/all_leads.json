@@ -669,5 +669,203 @@
     "evidence_no_video": "70+ Objekte, kein Video/Drohne/3D-Tour-Marketing gefunden.",
     "source_url": "https://www.nwvacations.com/northwest-island-escapes/",
     "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Stowe Vacations",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "katy@stowevtvacations.com",
+    "phone": "+1 802-232-2001",
+    "website": "https://stowevtvacations.com",
+    "evidence_no_video": "Kein Video/Drohne/3D-Tour auf About-/Objektseiten erwähnt.",
+    "source_url": "https://stowevtvacations.com/about-us/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Stowe Country Homes",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "info@stowecountryhomes.com",
+    "phone": "(800) 639-1990",
+    "website": "https://stowecountryhomes.com",
+    "evidence_no_video": "20+ Jahre Erfahrung, durchsuchbare Listing-Datenbank ohne Video-Tour-Referenzen.",
+    "source_url": "https://stowecountryhomes.com/property-management-old/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Ashley Management Group",
+    "market": "USA · Stowe/Waterbury Center, VT",
+    "type": "Property Manager",
+    "email": "info@ashleymanagementgrp.com",
+    "phone": "",
+    "website": "https://www.ashleymanagementgrp.com",
+    "evidence_no_video": "Kleines 17-Objekte-Portfolio, nur Standard-Fotolistings.",
+    "source_url": "https://www.ashleymanagementgrp.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Stowe Resort Homes",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "Reservations@StoweResortHomes.com",
+    "phone": "(802) 760-1157",
+    "website": "https://stoweresorthomes.com",
+    "evidence_no_video": "Keine Referenz auf Video, Drohne oder Matterport-Touren.",
+    "source_url": "https://stoweresorthomes.com/property-management/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Killington Vacation Rentals",
+    "market": "USA · Killington, VT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 802-422-3000",
+    "phone": "802-422-3000",
+    "website": "https://killingtonvacationrentals.com",
+    "evidence_no_video": "~90 Objekte, keine Video-/Virtual-Tour-Technologie erwähnt.",
+    "source_url": "https://killingtonvacationrentals.com/property-management/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Killington Rental Associates",
+    "market": "USA · Killington, VT",
+    "type": "Property Manager",
+    "email": "info@killingtonaccommodations.com",
+    "phone": "802-422-7368",
+    "website": "https://www.vermontvacations.com",
+    "evidence_no_video": "Fokus auf Listing-Syndizierung, keine immersive Tour-Technologie.",
+    "source_url": "https://www.vermontvacations.com/killington-rental-associates-property-management",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Killington Pico Realty",
+    "market": "USA · Killington, VT",
+    "type": "Makler",
+    "email": "info@killingtonpicorealty.com",
+    "phone": "802-422-3600",
+    "website": "https://www.killingtonpicorealty.com",
+    "evidence_no_video": "Boutique-Maklerbüro (seit 2013), kein Video/Drohne/3D-Tour-Service.",
+    "source_url": "https://www.killingtonpicorealty.com/about/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Killington Valley Real Estate",
+    "market": "USA · Killington, VT",
+    "type": "Makler",
+    "email": "bret@killingtonvalleyrealestate.com",
+    "phone": "802-422-3610",
+    "website": "https://killingtonvalleyrealestate.com",
+    "evidence_no_video": "Unabhängiges lokales Maklerbüro, keine Video-/Drohnen-/Matterport-Touren.",
+    "source_url": "https://killingtonvalleyrealestate.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Oceanfront Cottage Rentals",
+    "market": "USA · Tybee Island, GA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (800) 786-5889",
+    "phone": "(800) 786-5889",
+    "website": "https://www.oceanfrontcottage.com",
+    "evidence_no_video": "20+ Jahre lokaler Betreiber, nur Fotos, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.oceanfrontcottage.com/contact/propertymanagementservices",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Mermaid Cottages",
+    "market": "USA · Tybee Island, GA",
+    "type": "Property Manager",
+    "email": "diane@mermaidcottages.com",
+    "phone": "912-658-0714",
+    "website": "https://mermaidcottages.com",
+    "evidence_no_video": "Lokal geführte kuratierte Cottage-Sammlung, kein Video/Drohne/Matterport.",
+    "source_url": "https://mermaidcottages.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Tybee Joy Vacation Rentals",
+    "market": "USA · Tybee Island, GA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 912-257-9097",
+    "phone": "912-257-9097",
+    "website": "https://www.tybeejoyvacationrentals.com",
+    "evidence_no_video": "Nur Standard-Fotografie, keine immersiven Tour-Optionen.",
+    "source_url": "https://www.tybeejoyvacationrentals.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Tybee Island Rentals",
+    "market": "USA · Tybee Island, GA",
+    "type": "Property Manager",
+    "email": "info@tybeeislandrentals.com",
+    "phone": "(912) 786-4034",
+    "website": "https://tybeeislandrentals.com",
+    "evidence_no_video": "Familienbetrieb seit 30+ Jahren, nur statische Bilder.",
+    "source_url": "https://tybeeislandrentals.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Signature Rentals St. Simons Island",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 912-638-5843",
+    "phone": "912-638-5843",
+    "website": "https://www.signaturerentalssi.com",
+    "evidence_no_video": "Nur Standard-Fotos, keine interaktive/immersive Tour-Fähigkeit.",
+    "source_url": "https://www.signaturerentalssi.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Lighthouse Vacations",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "inquiries@lighthousevacations.com",
+    "phone": "(912) 244-7229",
+    "website": "https://lighthousevacations.com",
+    "evidence_no_video": "Kuratierte Boutique-Verwaltung, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://lighthousevacations.com/property-management/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "St. Simons Island Beach Rentals",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "info@ssibeachrentals.com",
+    "phone": "(912) 373-8037",
+    "website": "https://www.stsimonsislandbeachrentals.com",
+    "evidence_no_video": "Individueller Service, keine Virtual-Tour-Technologie erwähnt.",
+    "source_url": "https://www.stsimonsislandbeachrentals.com/property-management-services/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Lilmar Properties",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 912-771-8099",
+    "phone": "912-771-8099",
+    "website": "https://lilmarvacations.com",
+    "evidence_no_video": "Kleiner, boutique-großer Verwalter, kein Video/3D-Tour.",
+    "source_url": "https://lilmarvacations.com/property-management",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Golden Isles Realty Co.",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "gircrent@bellsouth.net",
+    "phone": "912-638-8623",
+    "website": "https://www.goldenislesrealty.com",
+    "evidence_no_video": "Lokale Firma seit 1966, keine immersive Tour-Technologie.",
+    "source_url": "https://www.goldenislesrealty.com/",
+    "region_cluster": "Vermont / Georgia Küste"
+  },
+  {
+    "company": "Georgia Coast Realty",
+    "market": "USA · St. Simons Island, GA",
+    "type": "Property Manager",
+    "email": "rental@gacoastrealty.com",
+    "phone": "912-638-1144",
+    "website": "https://www.gacoastrealty.com",
+    "evidence_no_video": "Nur Standard-Listing-Fotos, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://www.gacoastrealty.com/rentals/property-management.html",
+    "region_cluster": "Vermont / Georgia Küste"
   }
 ]
