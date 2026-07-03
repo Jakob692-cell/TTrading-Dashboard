@@ -471,5 +471,203 @@
     "evidence_no_video": "Solo-Makler-Boutique-Agentur, kein spezifischer Video/Drohne/3D-Tour-Service.",
     "source_url": "https://www.destinationblackhills.com/",
     "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Five Star Rentals of Montana",
+    "market": "USA · Whitefish, MT",
+    "type": "Property Manager",
+    "email": "info@fivestarrentals.com",
+    "phone": "(406) 862-5994",
+    "website": "https://fivestarrentals.com/",
+    "evidence_no_video": "Nur statische Fotos, kein Drohnen-/Video-/3D-Tour-Service.",
+    "source_url": "https://fivestarrentals.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Bozeman Guesthouse",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "office@bozemanguesthouse.com",
+    "phone": "",
+    "website": "https://www.bozemanguesthouse.com/",
+    "evidence_no_video": "Nur professionelle Fotos erwähnt, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://www.bozemanguesthouse.com/airbnb-management",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Bozeman Montana Vacation Rentals",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "bozemanmontanavacationrentals@gmail.com",
+    "phone": "(406) 800-1015",
+    "website": "https://bozemanmontanavacationrentals.com/",
+    "evidence_no_video": "Betont statische Fotos, keine Virtual-Tour-Technologie erwähnt.",
+    "source_url": "https://bozemanmontanavacationrentals.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Bozeman Cottage Vacation Rentals",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "info@BozemanCottage.com",
+    "phone": "(406) 580-3223",
+    "website": "https://bozemancottage.com/",
+    "evidence_no_video": "~24 Objekte, nur statische Vorschaubilder.",
+    "source_url": "https://bozemancottage.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "LT Management Group",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "info@ltmgmt.group",
+    "phone": "406-219-7516",
+    "website": "https://ltmgmt.group/",
+    "evidence_no_video": "Boutique-Agentur, kein Video/Drohne/3D-Tour-Marketing gefunden.",
+    "source_url": "https://ltmgmt.group/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "The Arrival Co.",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "hello@thearrivalco.com",
+    "phone": "(406) 551-9661",
+    "website": "https://www.thearrivalco.com/",
+    "evidence_no_video": "Management-Seite ohne Video/Drohne/Matterport-Erwähnung.",
+    "source_url": "https://www.thearrivalco.com/rental-management-montana",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Best Bozeman Property Management, LLC",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (406) 595-0655",
+    "phone": "(406) 595-0655",
+    "website": "https://bestbozemanpropertymanagement.com/",
+    "evidence_no_video": "Vacation-Rentals-Seite ohne Video/Drohne/3D-Tour-Erwähnung.",
+    "source_url": "https://bestbozemanpropertymanagement.com/vacation-rentals/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Montana Hideaways",
+    "market": "USA · Whitefish, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 406-314-8715",
+    "phone": "406-314-8715",
+    "website": "https://www.montanahideaways.com/",
+    "evidence_no_video": "Kleines Unternehmen, kein Video/Drohne/3D-Tour-Marketing gefunden.",
+    "source_url": "https://www.montanahideaways.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Mountain Modern Lodges",
+    "market": "USA · Whitefish/Columbia Falls, MT",
+    "type": "Property Manager",
+    "email": "HOST@MOUNTAINMODERNLODGES.COM",
+    "phone": "(850) 375-4113",
+    "website": "https://mountainmodernlodges.com/",
+    "evidence_no_video": "Kleines 4-Objekte-Boutique-Portfolio, nur statische Bilder.",
+    "source_url": "https://mountainmodernlodges.com/vacation-rentals/montana-properties/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Above & Beyond Property Management",
+    "market": "USA · Bozeman, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 406-551-2093",
+    "phone": "406-551-2093",
+    "website": "https://www.aboveandbeyondrentals.com/",
+    "evidence_no_video": "Kurzzeitvermietung + Wohnimmobilien, kein Video/Drohne/3D-Tour beworben.",
+    "source_url": "https://www.aboveandbeyondrentals.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Cannon Beach Property Management (CBPM)",
+    "market": "USA · Cannon Beach, OR",
+    "type": "Property Manager",
+    "email": "cbpm@cbpm.com",
+    "phone": "(503) 436-2021",
+    "website": "https://www.cbpm.com/",
+    "evidence_no_video": "~30+ Objekte, nur Foto-Galerien, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://www.cbpm.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Beachcomber Vacation Homes",
+    "market": "USA · Cannon Beach, OR",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 503-436-4500",
+    "phone": "503-436-4500",
+    "website": "https://www.beachcombervacationhomes.com/",
+    "evidence_no_video": "~90 Objekte, nur Standard-Foto-Thumbnails.",
+    "source_url": "https://www.beachcombervacationhomes.com/property-management-services/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Haystack Luxury Vacation Rentals",
+    "market": "USA · Cannon Beach, OR",
+    "type": "Property Manager",
+    "email": "haystackluxuryvacationrentals@gmail.com",
+    "phone": "(971) 287-1907",
+    "website": "https://www.haystackluxuryvacationrentals.com/",
+    "evidence_no_video": "Keine Hinweise auf Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren.",
+    "source_url": "https://www.haystackluxuryvacationrentals.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Cannon Beach Vacation Rentals (VisitCB)",
+    "market": "USA · Cannon Beach, OR",
+    "type": "Property Manager",
+    "email": "info@visitcb.com",
+    "phone": "(541) 764-1753",
+    "website": "https://www.visitcb.com/",
+    "evidence_no_video": "~20 Objekte, nur Standard-Bildergalerien.",
+    "source_url": "https://www.visitcb.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Northwest Lodgings",
+    "market": "USA · Lincoln City, OR",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 503-899-5532",
+    "phone": "503-899-5532",
+    "website": "https://www.staylincolncity.com/",
+    "evidence_no_video": "~30 Objekte, kein Video/Drohne/3D-Tour-Marketing.",
+    "source_url": "https://www.staylincolncity.com/vacation-rental-management",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Cascadia Getaways",
+    "market": "USA · Seaside / Oregon Coast, OR",
+    "type": "Property Manager",
+    "email": "Hello@CascadiaGetaways.com",
+    "phone": "(971) 350-1869",
+    "website": "https://www.cascadiagetaways.com/",
+    "evidence_no_video": "Verwaltetes Listing zeigt nur statische Fotos, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.sandandseacondos.com/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "San Juan Property Management",
+    "market": "USA · Friday Harbor, San Juan Island, WA",
+    "type": "Property Manager",
+    "email": "info@sanjuanpm.com",
+    "phone": "360-378-2070",
+    "website": "https://www.sanjuanpm.com/",
+    "evidence_no_video": "About-Seite ohne Video/Drohne/3D-Tour-Erwähnung.",
+    "source_url": "https://www.sanjuanpm.com/about-us",
+    "region_cluster": "Montana / Oregon-Washington Küste"
+  },
+  {
+    "company": "Northwest Vacations (Northwest Island Escapes)",
+    "market": "USA · Eastsound, San Juan Islands, WA",
+    "type": "Property Manager",
+    "email": "info@nwvacations.com",
+    "phone": "800-391-8190",
+    "website": "https://www.nwvacations.com/northwest-island-escapes/",
+    "evidence_no_video": "70+ Objekte, kein Video/Drohne/3D-Tour-Marketing gefunden.",
+    "source_url": "https://www.nwvacations.com/northwest-island-escapes/",
+    "region_cluster": "Montana / Oregon-Washington Küste"
   }
 ]
