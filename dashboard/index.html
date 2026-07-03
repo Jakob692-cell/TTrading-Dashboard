@@ -23,6 +23,8 @@
     --blue: #2E6FA8;   --blue-soft: #E1EBF4;
     --red: #B0483C;    --red-soft: #F4E3E0;
     --ok: #2C7A54;     --ok-soft: #E0EEE4;
+    --chart-1: #1A9873; --chart-2: #A9823B; --chart-3: #2E6FA8; --chart-4: #B0483C;
+    --chart-surface: #FFFFFF;
     --shadow: 0 1px 2px rgba(29,43,37,.05), 0 8px 24px rgba(29,43,37,.06);
     --shadow-lift: 0 2px 4px rgba(29,43,37,.06), 0 14px 34px rgba(29,43,37,.10);
     --r: 16px;
@@ -38,6 +40,8 @@
     --blue: #7FB1DE; --blue-soft: rgba(127,177,222,.14);
     --red: #E29287; --red-soft: rgba(226,146,135,.14);
     --ok: #74C795; --ok-soft: rgba(116,199,149,.14);
+    --chart-1: #1E9670; --chart-2: #A6842A; --chart-3: #3A7DC2; --chart-4: #BE5D4B;
+    --chart-surface: #17211C;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     --shadow-lift: 0 2px 4px rgba(0,0,0,.35), 0 14px 34px rgba(0,0,0,.35);
   } }
@@ -50,6 +54,8 @@
     --blue: #7FB1DE; --blue-soft: rgba(127,177,222,.14);
     --red: #E29287; --red-soft: rgba(226,146,135,.14);
     --ok: #74C795; --ok-soft: rgba(116,199,149,.14);
+    --chart-1: #1E9670; --chart-2: #A6842A; --chart-3: #3A7DC2; --chart-4: #BE5D4B;
+    --chart-surface: #17211C;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     --shadow-lift: 0 2px 4px rgba(0,0,0,.35), 0 14px 34px rgba(0,0,0,.35);
   }
@@ -62,6 +68,8 @@
     --blue: #2E6FA8; --blue-soft: #E1EBF4;
     --red: #B0483C; --red-soft: #F4E3E0;
     --ok: #2C7A54; --ok-soft: #E0EEE4;
+    --chart-1: #1A9873; --chart-2: #A9823B; --chart-3: #2E6FA8; --chart-4: #B0483C;
+    --chart-surface: #FFFFFF;
     --shadow: 0 1px 2px rgba(29,43,37,.05), 0 8px 24px rgba(29,43,37,.06);
     --shadow-lift: 0 2px 4px rgba(29,43,37,.06), 0 14px 34px rgba(29,43,37,.10);
   }
@@ -242,6 +250,81 @@
   section.panel.active { display: block; animation: fade .2s ease; }
   @keyframes fade { from { opacity: 0; transform: translateY(5px); } }
 
+  /* ================= analytics / charts ================= */
+  .hero-strip {
+    border-radius: var(--r); padding: 26px 28px; margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--side-bg), var(--side-bg-2) 60%, #223B32);
+    color: var(--side-ink); box-shadow: var(--shadow-lift); position: relative; overflow: hidden;
+  }
+  .hero-strip::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(560px 220px at 88% -20%, rgba(211,177,104,.22), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-strip .htop { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; position: relative; }
+  .hero-strip .htop .kicker { color: var(--brass); }
+  .hero-strip h2 { margin: 2px 0 4px; font: 550 30px/1.15 var(--serif); color: var(--side-ink); }
+  .hero-strip p { margin: 0; color: var(--side-muted); font-size: 13.5px; max-width: 620px; }
+  .xkpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 22px; position: relative; }
+  .xkpi { border-left: 1px solid var(--side-line); padding-left: 16px; }
+  .xkpi:first-child { border-left: 0; padding-left: 0; }
+  .xkpi .label { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--side-muted); font-weight: 650; }
+  .xkpi .value { font: 550 27px/1.3 var(--serif); margin-top: 4px; color: var(--side-ink); font-variant-numeric: tabular-nums; }
+  .xkpi .value.up::before { content: "▲ "; font-size: 12px; color: #8FD6B4; }
+  .xkpi .hint { color: var(--side-muted); font-size: 11px; margin-top: 2px; }
+
+  .analytics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: stretch; }
+  .analytics-grid .chart-card.wide { grid-column: 1 / -1; }
+  .analytics-grid .chart-card.third { grid-column: span 1; }
+  @media (max-width: 760px) { .analytics-grid { grid-template-columns: 1fr; } }
+
+  .chart-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 22px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  .chart-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-bottom: 2px; }
+  .chart-head h3 { margin: 0; font: 600 16.5px/1.3 var(--serif); }
+  .chart-head .tag { font-size: 10px; }
+  .chart-sub { color: var(--muted); font-size: 12px; margin: 2px 0 12px; }
+  .chart-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted); margin: 2px 0 8px; }
+  .chart-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2.5px; margin-right: 6px; vertical-align: 1px; }
+
+  .chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart-svg text { font: 10.5px/1 var(--sans); fill: var(--muted); }
+  .chart-svg .gridline { stroke: var(--line); stroke-width: 1; }
+  .chart-svg .track { fill: var(--card-2); }
+  .chart-svg .row-label { fill: var(--muted); font-size: 11.5px; }
+  .chart-svg .val-label { fill: var(--ink); font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .chart-svg .muted-label { fill: var(--faint); font-weight: 500; }
+  .chart-svg .direct-label { fill: var(--ink); font-weight: 600; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  .chart-svg .cat-label { fill: var(--muted); font-size: 10.5px; text-anchor: middle; }
+  .chart-svg .mark { cursor: pointer; transition: opacity .12s; }
+  .chart-svg .mark:hover { opacity: .82; }
+  .chart-svg circle.mark { fill: var(--card); stroke-width: 2.25; }
+  .chart-svg circle.mark:hover { r: 6; }
+
+  #chartTip {
+    position: fixed; pointer-events: none; z-index: 80; opacity: 0; transition: opacity .1s ease;
+    background: var(--ink); color: var(--paper); font-size: 11.5px; font-weight: 550; letter-spacing: .01em;
+    padding: 6px 10px; border-radius: 8px; box-shadow: var(--shadow-lift); white-space: nowrap;
+    transform: translate(-50%, -130%);
+  }
+  #chartTip.show { opacity: 1; }
+
+  .gauge-row { display: flex; align-items: center; justify-content: center; gap: 22px; flex: 1; }
+  .gauge-wrap { position: relative; display: flex; align-items: center; justify-content: center; flex: none; }
+  .gauge-num { position: absolute; text-align: center; }
+  .gauge-num b { display: block; font: 600 27px/1.1 var(--serif); color: var(--ink); }
+  .gauge-num span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .gauge-facts { font-size: 12.5px; color: var(--muted); line-height: 1.9; }
+  .gauge-facts b { color: var(--ink); font-weight: 650; }
+
+  details.tbl-toggle { margin-top: auto; padding-top: 10px; }
+  details.tbl-toggle summary { list-style: none; cursor: pointer; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+  details.tbl-toggle summary::-webkit-details-marker { display: none; }
+  details.tbl-toggle summary::before { content: "▸ "; }
+  details.tbl-toggle[open] summary::before { content: "▾ "; }
+  details.tbl-toggle table { margin-top: 8px; width: 100%; font-size: 12px; border-collapse: collapse; }
+  details.tbl-toggle th, details.tbl-toggle td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+  details.tbl-toggle td.num, details.tbl-toggle th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
   @media (max-width: 900px) {
     .app { grid-template-columns: 1fr; }
     aside { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 14px 16px; gap: 2px; }
@@ -259,8 +342,12 @@
     <div class="monogram">WS</div>
     <div><b>Walkthrough<br>Studio</b><span>Operations</span></div>
   </div>
+  <div class="navlab">Übersicht</div>
+  <button class="nitem active" data-panel="p-analytics">
+    <svg viewBox="0 0 24 24"><path d="M4 19V10M10 19V4M16 19v-7M21 19H3"/></svg>
+    Dashboard</button>
   <div class="navlab">Betrieb</div>
-  <button class="nitem active" data-panel="p-orders">
+  <button class="nitem" data-panel="p-orders">
     <svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>
     Aufträge<span class="n" id="nOrders"></span></button>
   <button class="nitem" data-panel="p-contacts">
@@ -271,7 +358,7 @@
     <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
     Emails</button>
   <button class="nitem" data-panel="p-tracking">
-    <svg viewBox="0 0 24 24"><path d="M4 19V10M10 19V4M16 19v-7M21 19H3"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg>
     Tracking</button>
   <button class="nitem" data-panel="p-pricing">
     <svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c-.8-1.5-2.6-2.5-5-2.5-2.8 0-5 1.6-5 4s2.4 3.3 5 4c2.6.7 5 1.6 5 4s-2.2 4-5 4c-2.4 0-4.2-1-5-2.5"/></svg>
@@ -285,7 +372,58 @@
 
 <div class="content">
 
-  <section class="panel active" id="p-orders">
+  <section class="panel active" id="p-analytics">
+    <div class="hero-strip">
+      <div class="htop">
+        <div>
+          <div class="kicker">Executive Overview</div>
+          <h2>Business Dashboard</h2>
+          <p>Umsatz, Pipeline, CRM und Outreach-Performance auf einen Blick — die Zahlen ziehen sich live aus Aufträgen, Kontakten und dem Email-Log.</p>
+        </div>
+      </div>
+      <div class="xkpis" id="xkpis"></div>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="chart-card wide">
+        <div class="chart-head"><h3>Umsatz-Verlauf</h3><span class="tag brass">wöchentlich</span></div>
+        <div class="chart-sub">Ausgelieferte Aufträge je Kalenderwoche — Demo-Historie, verlängert um deine echten Auslieferungen.</div>
+        <div id="chartRevenue"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Pipeline-Funnel</h3></div>
+        <div class="chart-sub">Aufträge je Produktionsstufe inkl. Conversion zur nächsten Stufe.</div>
+        <div id="chartFunnel"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Kontakte nach Status</h3></div>
+        <div class="chart-sub">Vom Lead bis zum Kunden — dein CRM auf einen Blick.</div>
+        <div id="chartContacts"></div>
+      </div>
+
+      <div class="chart-card wide">
+        <div class="chart-head"><h3>Email-Performance je Variante</h3></div>
+        <div class="chart-sub">Gesendet vs. Antworten — welcher Ton funktioniert.</div>
+        <div id="chartEmail"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Umsatz nach Service</h3></div>
+        <div class="chart-sub">Welches Produkt den Umsatz bringt.</div>
+        <div id="chartService"></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Antwortrate gesamt</h3></div>
+        <div class="chart-sub">Zusammengefasste Outreach-Performance über alle Varianten.</div>
+        <div class="gauge-row" id="chartGauge"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-orders">
     <div class="phead">
       <div>
         <div class="kicker">Produktion &amp; Auslieferung</div>
@@ -409,6 +547,7 @@
 
 </div>
 </div>
+<div id="chartTip"></div>
 
 <script>
 /* ---------------- data ---------------- */
@@ -429,6 +568,12 @@ const DATA = {
   emailLog: [
     { id:"E-01", demo:true, contactId:"C-02", variant:"neugierig", date:"2026-06-28", replied:true },
     { id:"E-02", demo:true, contactId:"C-03", variant:"direkt", date:"2026-06-29", replied:false }
+  ],
+  /* Demo-Baseline für den Umsatz-Verlauf — reale gelieferte Aufträge hängen sich automatisch hinten an. */
+  revenueHistory: [
+    { label:"KW 19", value:89 }, { label:"KW 20", value:59 }, { label:"KW 21", value:148 },
+    { label:"KW 22", value:99 }, { label:"KW 23", value:178 }, { label:"KW 24", value:219 },
+    { label:"KW 25", value:168 }
   ],
   templates: [
     { variant:"direkt", subject:"Video walkthrough for [address] — from your existing photos",
@@ -463,12 +608,229 @@ const eur = n => "€" + Number(n||0).toLocaleString("de-DE");
 const initials = s => s.split(/\s+/).map(w => w[0]).filter(Boolean).slice(0,2).join("").toUpperCase();
 const hashG = s => "g" + (1 + [...s].reduce((a,c) => a + c.charCodeAt(0), 0) % 4);
 
+/* ---------------- chart engine ---------------- */
+const weekKey = dateStr => {
+  const d = new Date(dateStr + "T00:00:00Z");
+  const jan1 = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const wk = Math.ceil((((d - jan1) / 86400000) + jan1.getUTCDay() + 1) / 7);
+  return d.getUTCFullYear() + "-W" + String(wk).padStart(2, "0");
+};
+const niceMax = n => {
+  if (!n || n <= 0) return 10;
+  const mag = Math.pow(10, Math.floor(Math.log10(n)));
+  const norm = n / mag;
+  const step = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
+  return step * mag;
+};
+const niceTicks = (maxV, integer) => {
+  let n = 4;
+  if (integer) n = Math.max(1, Math.min(4, Math.round(maxV)));
+  const out = [];
+  for (let i = 0; i <= n; i++) {
+    let v = (i * maxV) / n;
+    if (integer) v = Math.round(v);
+    out.push(v);
+  }
+  return [...new Set(out)];
+};
+const legendHTML = items => `<div class="chart-legend">${items.map(i => `<span><i style="background:${i.color}"></i>${esc(i.label)}</span>`).join("")}</div>`;
+const tableToggle = (headers, rows) => `<details class="tbl-toggle"><summary>Als Tabelle anzeigen</summary>
+  <table><thead><tr>${headers.map(h => `<th${h.num ? ' class="num"' : ""}>${esc(h.label || h)}</th>`).join("")}</tr></thead>
+  <tbody>${rows.map(r => `<tr>${r.map((c,i) => `<td${headers[i] && headers[i].num ? ' class="num"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></details>`;
+
+function areaChart(points){
+  const W = 640, H = 220, pad = { l: 46, r: 16, t: 16, b: 26 };
+  const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+  const maxV = niceMax(Math.max(...points.map(p => p.value)) * 1.2);
+  const stepX = points.length > 1 ? iw / (points.length - 1) : 0;
+  const X = i => pad.l + i * stepX;
+  const Y = v => pad.t + ih - (v / maxV) * ih;
+  const grid = niceTicks(maxV, false).map(v => {
+    const y = pad.t + ih - (v / maxV) * ih;
+    return `<line class="gridline" x1="${pad.l}" x2="${W - pad.r}" y1="${y}" y2="${y}"/><text x="${pad.l - 8}" y="${y + 3}" text-anchor="end">${eur(Math.round(v))}</text>`;
+  }).join("");
+  const line = points.map((p,i) => `${i === 0 ? "M" : "L"}${X(i).toFixed(1)},${Y(p.value).toFixed(1)}`).join(" ");
+  const area = `${line} L${X(points.length-1).toFixed(1)},${pad.t+ih} L${X(0).toFixed(1)},${pad.t+ih} Z`;
+  const dots = points.map((p,i) => `<circle class="mark" style="stroke:var(--chart-1)" data-tip="${esc(p.label)} · ${eur(p.value)}${p.demo ? " (Demo)" : ""}" cx="${X(i).toFixed(1)}" cy="${Y(p.value).toFixed(1)}" r="4"/>`).join("");
+  const xlabels = points.map((p,i) => `<text class="cat-label" x="${X(i).toFixed(1)}" y="${H-6}">${esc(p.label)}</text>`).join("");
+  const last = points[points.length-1];
+  const lastLabel = `<text class="direct-label" text-anchor="end" x="${X(points.length-1).toFixed(1)}" y="${(Y(last.value)-12).toFixed(1)}">${eur(last.value)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart-svg area">
+    <defs><linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--chart-1)" stop-opacity=".32"/>
+      <stop offset="100%" stop-color="var(--chart-1)" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${grid}
+    <path d="${area}" style="fill:url(#revFill);stroke:none"/>
+    <path d="${line}" style="fill:none;stroke:var(--chart-1);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round"/>
+    ${dots}${xlabels}${lastLabel}
+  </svg>`;
+}
+
+function barsH(items, opts = {}){
+  const W = 640, rowH = 38, H = items.length * rowH + 8;
+  const labelW = 128, gap = 14;
+  const maxV = opts.max || niceMax(Math.max(...items.map(i => i.value)) * 1.15);
+  const barMaxW = W - labelW - 74 - gap;
+  const fmt = opts.fmt || (v => v);
+  const rows = items.map((it,i) => {
+    const y = 8 + i * rowH, h = rowH - 16;
+    const w = maxV ? Math.max(3, (it.value / maxV) * barMaxW) : 3;
+    return `<g class="mark" data-tip="${esc(it.label)}: ${fmt(it.value)}${it.extra ? " · " + esc(it.extra) : ""}">
+      <text class="row-label" text-anchor="end" x="${labelW - 10}" y="${y + h/2 + 4}">${esc(it.label)}</text>
+      <rect class="track" x="${labelW}" y="${y}" width="${barMaxW}" height="${h}" rx="5"/>
+      <rect x="${labelW}" y="${y}" width="${w}" height="${h}" rx="5" style="fill:${it.color}"/>
+      <text class="val-label" x="${labelW + w + 9}" y="${y + h/2 + 4}">${fmt(it.value)}${it.extra ? ` <tspan class="muted-label">(${esc(it.extra)})</tspan>` : ""}</text>
+    </g>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart-svg barsh">${rows}</svg>`;
+}
+
+function groupedBars(categories, series){
+  const W = 640, H = 230, pad = { l: 42, r: 16, t: 16, b: 40 };
+  const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+  const groupW = iw / categories.length;
+  const barW = Math.min(38, groupW / (series.length + 1.4));
+  const maxV = niceMax(Math.max(...categories.flatMap(c => c.values)) * 1.25);
+  const Y = v => pad.t + ih - (v / maxV) * ih;
+  const grid = niceTicks(maxV, true).map(v => {
+    const y = pad.t + ih - (v / maxV) * ih;
+    return `<line class="gridline" x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}"/><text x="${pad.l-8}" y="${y+3}" text-anchor="end">${v}</text>`;
+  }).join("");
+  const bars = categories.map((c,i) => {
+    const gx = pad.l + i * groupW + (groupW - barW * series.length) / 2;
+    const rects = series.map((s,j) => {
+      const v = c.values[j];
+      const x = gx + j * barW;
+      const y = Y(v);
+      return `<rect class="mark" data-tip="${esc(c.label)} · ${esc(s.label)}: ${v}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW-4}" height="${(pad.t+ih-y).toFixed(1)}" rx="4" style="fill:${s.color}"/>`;
+    }).join("");
+    const rate = c.rate != null ? `<text class="direct-label" text-anchor="middle" x="${(gx + barW*series.length/2).toFixed(1)}" y="${(Y(Math.max(...c.values))-9).toFixed(1)}">${c.rate}%</text>` : "";
+    const label = `<text class="cat-label" x="${(gx + barW*series.length/2).toFixed(1)}" y="${H-16}">${esc(c.label)}</text>`;
+    return rects + rate + label;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart-svg groupedbars">${grid}${bars}</svg>`;
+}
+
+function funnelChart(stages){
+  const W = 640, rowH = 42, H = stages.length * rowH + 8;
+  const trackX = 96, trackMax = W - trackX - 96;
+  const maxV = stages[0] ? Math.max(1, stages[0].count) : 1;
+  const rows = stages.map((s,i) => {
+    const y = 8 + i * rowH, h = rowH - 16;
+    const w = Math.max(6, (s.count / maxV) * trackMax);
+    const conv = i > 0 && stages[i-1].count ? Math.round(100 * s.count / stages[i-1].count) : null;
+    return `<g class="mark" data-tip="${esc(s.label)}: ${s.count}${conv !== null ? " · " + conv + "% von vorheriger Stufe" : ""}">
+      <text class="row-label" text-anchor="end" x="${trackX - 10}" y="${y + h/2 + 4}">${esc(s.label)}</text>
+      <rect class="track" x="${trackX}" y="${y}" width="${trackMax}" height="${h}" rx="6"/>
+      <rect x="${trackX}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:${s.color}"/>
+      <text class="val-label" x="${trackX + w + 10}" y="${y + h/2 + 4}">${s.count}${conv !== null ? ` <tspan class="muted-label">(${conv}%)</tspan>` : ""}</text>
+    </g>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart-svg funnel">${rows}</svg>`;
+}
+
+function gaugeChart(pct, label, sub){
+  const r = 54, c = 2 * Math.PI * r, off = c * (1 - Math.max(0, Math.min(100, pct)) / 100);
+  return `<div class="gauge-wrap">
+    <svg viewBox="0 0 140 140" width="150" height="150">
+      <circle cx="70" cy="70" r="${r}" style="fill:none;stroke:var(--card-2)" stroke-width="14"/>
+      <circle cx="70" cy="70" r="${r}" style="fill:none;stroke:var(--chart-2)" stroke-width="14" stroke-linecap="round"
+        stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 70 70)"/>
+    </svg>
+    <div class="gauge-num"><b>${pct}%</b><span>${esc(label)}</span></div>
+  </div>
+  <div class="gauge-facts">${sub}</div>`;
+}
+
+/* chart hover tooltip (event delegation) */
+(function(){
+  const tip = document.getElementById("chartTip");
+  document.addEventListener("mouseover", e => {
+    const m = e.target.closest(".mark[data-tip]");
+    if (!m) return;
+    tip.textContent = m.dataset.tip;
+    tip.classList.add("show");
+  });
+  document.addEventListener("mousemove", e => {
+    if (!tip.classList.contains("show")) return;
+    tip.style.left = e.clientX + "px";
+    tip.style.top = e.clientY + "px";
+  });
+  document.addEventListener("mouseout", e => {
+    if (e.target.closest(".mark[data-tip]") && !e.relatedTarget?.closest(".mark[data-tip]")) tip.classList.remove("show");
+  });
+})();
+
+/* ---------------- analytics ---------------- */
+function renderAnalytics(orders, contacts, log){
+  const delivered = orders.filter(o => o.status === "geliefert");
+  const deliveredRevenue = delivered.reduce((s,o) => s + o.price, 0);
+  const activeCustomers = contacts.filter(c => c.status === "kunde").length;
+  const avgOrder = orders.length ? Math.round(orders.reduce((s,o) => s + o.price, 0) / orders.length) : 0;
+  const replyRate = log.length ? Math.round(100 * log.filter(l => l.replied).length / log.length) : 0;
+
+  document.getElementById("xkpis").innerHTML = [
+    ["Gesamtumsatz (geliefert)", eur(deliveredRevenue), delivered.length + " Aufträge ausgeliefert"],
+    ["Ø Auftragswert", eur(avgOrder), orders.length + " Aufträge gesamt"],
+    ["Aktive Kunden", activeCustomers, contacts.length + " Kontakte im CRM"],
+    ["Antwortrate Outreach", replyRate + " %", log.length + " Emails im Log"]
+  ].map(([l,v,h]) => `<div class="xkpi"><div class="label">${l}</div><div class="value">${v}</div><div class="hint">${h}</div></div>`).join("");
+
+  /* revenue trend: demo baseline + real delivered orders, grouped by week */
+  const realByWeek = {};
+  delivered.filter(o => o.due).forEach(o => { const k = weekKey(o.due); realByWeek[k] = (realByWeek[k] || 0) + o.price; });
+  const revPoints = DATA.revenueHistory.map(h => ({ label: h.label, value: h.value, demo: true }));
+  Object.keys(realByWeek).sort().forEach(k => revPoints.push({ label: "KW " + k.split("-W")[1], value: realByWeek[k], demo: false }));
+  document.getElementById("chartRevenue").innerHTML = areaChart(revPoints) +
+    tableToggle([{label:"Woche"},{label:"Umsatz",num:true}], revPoints.map(p => [esc(p.label), eur(p.value)]));
+
+  /* pipeline funnel */
+  const funnelStages = STAGES.map(st => ({ label: st.label, count: orders.filter(o => o.status === st.key).length, color: st.dot }));
+  document.getElementById("chartFunnel").innerHTML = funnelChart(funnelStages) +
+    tableToggle([{label:"Stufe"},{label:"Aufträge",num:true}], funnelStages.map(s => [esc(s.label), s.count]));
+
+  /* contacts by status */
+  const statusOrder = [["lead","Lead","var(--faint)"],["angeschrieben","Angeschrieben","var(--blue)"],["antwort","Antwort","var(--brass)"],["kunde","Kunde","var(--ok)"]];
+  const contactBars = statusOrder.map(([key,label,color]) => ({ label, value: contacts.filter(c => c.status === key).length, color }));
+  document.getElementById("chartContacts").innerHTML = barsH(contactBars, { fmt: v => v }) +
+    tableToggle([{label:"Status"},{label:"Kontakte",num:true}], contactBars.map(b => [esc(b.label), b.value]));
+
+  /* revenue by service */
+  const svcMap = {};
+  orders.forEach(o => { svcMap[o.svc] = (svcMap[o.svc] || 0) + o.price; });
+  const svcBars = Object.entries(svcMap).sort((a,b) => b[1]-a[1]).map(([label,value]) => ({ label, value, color: "var(--chart-2)" }));
+  document.getElementById("chartService").innerHTML = (svcBars.length
+    ? barsH(svcBars, { fmt: eur })
+    : `<div class="empty">Noch keine Aufträge.</div>`) +
+    (svcBars.length ? tableToggle([{label:"Service"},{label:"Umsatz",num:true}], svcBars.map(b => [esc(b.label), eur(b.value)])) : "");
+
+  /* email performance by variant */
+  const byVar = {};
+  log.forEach(l => { const v = byVar[l.variant] = byVar[l.variant] || { sent:0, rep:0 }; v.sent++; if (l.replied) v.rep++; });
+  const variants = Object.entries(byVar);
+  const seriesDefs = [{ label:"Gesendet", color:"var(--chart-3)" }, { label:"Antworten", color:"var(--chart-1)" }];
+  document.getElementById("chartEmail").innerHTML = variants.length === 0
+    ? `<div class="empty">Tracking startet, sobald Emails im Versand-Log stehen.</div>`
+    : legendHTML(seriesDefs) + groupedBars(
+        variants.map(([label,s]) => ({ label, values:[s.sent, s.rep], rate: s.sent ? Math.round(100*s.rep/s.sent) : 0 })),
+        seriesDefs
+      ) + tableToggle([{label:"Variante"},{label:"Gesendet",num:true},{label:"Antworten",num:true},{label:"Rate",num:true}],
+        variants.map(([label,s]) => [esc(label), s.sent, s.rep, (s.sent ? Math.round(100*s.rep/s.sent) : 0) + " %"]));
+
+  /* overall gauge */
+  document.getElementById("chartGauge").innerHTML = gaugeChart(replyRate, "Antwortrate",
+    `<div><b>${log.length}</b> Emails gesamt</div><div><b>${log.filter(l=>l.replied).length}</b> Antworten</div><div><b>${variants.length}</b> aktive Varianten</div>`);
+}
+
 /* ---------------- render ---------------- */
 function render(){
   const orders = allOrders(), contacts = allContacts(), log = allLog();
   const inProd = orders.filter(o => o.status === "produktion");
   const review = orders.filter(o => o.status === "freigabe");
   const delivered = orders.filter(o => o.status === "geliefert");
+
+  renderAnalytics(orders, contacts, log);
 
   document.getElementById("kpis").innerHTML = [
     ["Anfragen", orders.filter(o => o.status === "anfrage").length, "", ""],
