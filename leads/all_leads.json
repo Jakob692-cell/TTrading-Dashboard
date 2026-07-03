@@ -4497,5 +4497,181 @@
     "evidence_no_video": "Eigentümergeführtes Inn, nur Standard-Fotografie, kein Video- oder 3D-Tour-Content.",
     "source_url": "https://baytowninn.com/",
     "region_cluster": "Louisiana / Mississippi Golfküste"
+  },
+  {
+    "company": "Catskills Home Services",
+    "market": "USA · Rock Hill, NY",
+    "type": "Property Manager",
+    "email": "Alan@CatskillsHomeServices.com",
+    "phone": "845-397-7768",
+    "website": "https://catskillshomeservices.com/property-management/",
+    "evidence_no_video": "Keine Video-Touren, Drohnenaufnahmen oder Matterport-Links.",
+    "source_url": "https://catskillshomeservices.com/property-management/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Crimson Catskills",
+    "market": "USA · Woodstock, NY",
+    "type": "Property Manager",
+    "email": "design@crimson-catskills.com",
+    "phone": "+1 (845) 391-9899",
+    "website": "https://www.crimson-catskills.com/catskills-property-management",
+    "evidence_no_video": "Boutique-Verwaltung, nur Text-Beschreibungen, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.crimson-catskills.com/catskills-property-management",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Casskell Stays",
+    "market": "USA · Jeffersonville, NY",
+    "type": "Property Manager",
+    "email": "casskellstaysllc@gmail.com",
+    "phone": "(845) 747-0772",
+    "website": "https://www.casskellstays.com/",
+    "evidence_no_video": "Sullivan-County-STR-Verwaltung, kein Video-Tour/Drohne/3D-Walkthrough-Content.",
+    "source_url": "https://www.casskellstays.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Green Label Home",
+    "market": "USA · Roxbury, NY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 1-800-913-9813",
+    "phone": "1-800-913-9813",
+    "website": "https://www.greenlabelhome.com/catskills-rental-cabin.html",
+    "evidence_no_video": "~23 Objekte, individuell geführtes Portfolio, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.greenlabelhome.com/catskills-rental-cabin.html",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "A Tiny House Resort",
+    "market": "USA · South Cairo, NY",
+    "type": "Property Manager",
+    "email": "margie@atinyhouseresort.com",
+    "phone": "518-622-2626",
+    "website": "https://atinyhouseresort.com/",
+    "evidence_no_video": "Boutique 16-Einheiten-Tiny-House-Resort, nur statische Fotografie, keine Video-Touren.",
+    "source_url": "https://atinyhouseresort.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Catskills Cabin Rentals",
+    "market": "USA · Catskills, NY",
+    "type": "Property Manager",
+    "email": "mike@catskillscabinrentals.com",
+    "phone": "(201) 247-1002",
+    "website": "https://catskillscabinrentals.com/lake-eugene-log-estate/",
+    "evidence_no_video": "Familienbetrieb mit ~11 Blockhütten, nur Foto-Karussells, kein Video/Matterport.",
+    "source_url": "https://catskillscabinrentals.com/lake-eugene-log-estate/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Garnier Property Management",
+    "market": "USA · Port Ewen, NY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: +1-845-853-5755",
+    "phone": "+1-845-853-5755",
+    "website": "https://garnierpropertymanagement.com/",
+    "evidence_no_video": "Hudson-Valley-PM, kein Video-, Drohnen- oder Matterport-Content.",
+    "source_url": "https://garnierpropertymanagement.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Home Sweet Hudson",
+    "market": "USA · Rosendale, NY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: +1 845-579-5251",
+    "phone": "+1 845-579-5251",
+    "website": "https://homesweethudson.com/contact/",
+    "evidence_no_video": "Mid-Hudson-Valley-Verwaltung, keine Video-Touren oder 3D-/Drohnen-Inhalte.",
+    "source_url": "https://homesweethudson.com/contact/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Hudson Valley Hosting",
+    "market": "USA · Columbia County (Hudson), NY",
+    "type": "Property Manager",
+    "email": "hello@hudsonvalleyhosting.com",
+    "phone": "(518) 217-8221",
+    "website": "https://www.hudsonvalleyhosting.com",
+    "evidence_no_video": "Airbnb-Co-Hosting-Service, keine Video-Tour- oder Matterport-Referenzen.",
+    "source_url": "https://www.hudsonvalleyhosting.com",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Vigilus Home",
+    "market": "USA · Rhinebeck, NY",
+    "type": "Property Manager",
+    "email": "connect@vigilushome.com",
+    "phone": "845-868-2370",
+    "website": "https://vigilushome.com/vacation-rentals/",
+    "evidence_no_video": "~9 Luxus-Objekte, nur statische Bilder, kein Video/Drohne/Matterport.",
+    "source_url": "https://vigilushome.com/vacation-rentals/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "WKND-R",
+    "market": "USA · Germantown, NY",
+    "type": "Property Manager",
+    "email": "info@wknd-r.com",
+    "phone": "518-672-1535",
+    "website": "https://www.wknd-r.com/",
+    "evidence_no_video": "~20+ Objekte, erwähnt Fotografie/House-Books, keine Video-Touren.",
+    "source_url": "https://www.wknd-r.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Clove Cottages",
+    "market": "USA · High Falls, NY",
+    "type": "Property Manager",
+    "email": "contact@clovecottages.com",
+    "phone": "845-687-4170",
+    "website": "https://www.clovecottages.com/",
+    "evidence_no_video": "Eigentümergeführte 8-Cottage-Anlage, nur Fotos, keine Video-Touren gefunden.",
+    "source_url": "https://www.clovecottages.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Millbrook Property Management (MPM)",
+    "market": "USA · Rhinebeck, NY",
+    "type": "Property Manager",
+    "email": "info@mbkpm.com",
+    "phone": "845-600-2957",
+    "website": "https://www.mbkpm.com/rhinebeck-ny-property-management",
+    "evidence_no_video": "Full-Service-PM, kein Video-, Drohnen- oder Matterport-Content.",
+    "source_url": "https://www.mbkpm.com/rhinebeck-ny-property-management",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Haus Windham",
+    "market": "USA · Windham, NY",
+    "type": "Solo-Host",
+    "email": "info@HausWindham.com",
+    "phone": "(518) 734-0688",
+    "website": "https://www.hauswindham.com/",
+    "evidence_no_video": "Einzelnes Boutique-Bergrefugium, nur statische Fotografie, kein Video/Drohne/Matterport-Tour.",
+    "source_url": "https://www.hauswindham.com/",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "Hudson Valley Cabin (Karen Sergio)",
+    "market": "USA · Stanfordville, NY",
+    "type": "Solo-Host",
+    "email": "HudsonValCabin@aol.com",
+    "phone": "(845) 266-3213",
+    "website": "https://hudsonvalleycabin.com/info.html",
+    "evidence_no_video": "Einzeln geführte Hütten-Seite, kein Video-Tour- oder Matterport-Content.",
+    "source_url": "https://hudsonvalleycabin.com/info.html",
+    "region_cluster": "Catskills / Hudson Valley NY"
+  },
+  {
+    "company": "The Old Game Farm",
+    "market": "USA · Catskill, NY",
+    "type": "Solo-Host",
+    "email": "visit@theoldgamefarm.com",
+    "phone": "1-518-719-2177",
+    "website": "https://www.theoldgamefarm.com/estate",
+    "evidence_no_video": "Einzelnes historisches Anwesen, individuell geführt, nur statische Fotos, kein Video-/Drohnen-Tour.",
+    "source_url": "https://www.theoldgamefarm.com/estate",
+    "region_cluster": "Catskills / Hudson Valley NY"
   }
 ]
