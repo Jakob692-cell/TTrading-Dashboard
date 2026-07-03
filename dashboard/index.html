@@ -278,6 +278,8 @@
     Preise</button>
   <div class="grow"></div>
   <button class="side-export" id="exportBtn">Export JSON</button>
+  <button class="side-export" id="importBtn">Import JSON</button>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
   <div class="side-note">Daten liegen lokal im Browser. Fertige Videos verlassen das Studio erst nach deiner Freigabe.</div>
 </aside>
 
@@ -507,10 +509,11 @@ function render(){
   const f = (document.getElementById("contactFilter").value || "").toLowerCase();
   const rows = contacts.filter(c => !f || [c.name,c.comp,c.market,c.type,c.status].join(" ").toLowerCase().includes(f));
   document.getElementById("contactTable").innerHTML = `<table><thead>
-    <tr><th>Kontakt</th><th>Typ</th><th>Markt</th><th>Email</th><th>Quelle</th><th>Status</th></tr></thead><tbody>
+    <tr><th>Kontakt</th><th>Typ</th><th>Markt</th><th>Email</th><th>Angebot / Ansatz</th><th>Status</th></tr></thead><tbody>
     ${rows.map(c => `<tr>
       <td><div class="who"><div class="ava">${initials(c.name)}</div><div><strong>${esc(c.name)}</strong>${c.demo?' <span class="tag grey">DEMO</span>':""}<br><span class="meta">${esc(c.comp)}</span></div></div></td>
-      <td>${esc(c.type)}</td><td>${esc(c.market)}</td><td class="meta">${esc(c.email)}</td><td class="meta">${esc(c.src)}</td>
+      <td>${esc(c.type)}</td><td>${esc(c.market)}</td><td class="meta">${esc(c.email)}</td>
+      <td class="meta" style="max-width:280px">${c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">Angebote ansehen ↗</a><br>`:""}${esc(c.pitch || c.src || "")}</td>
       <td><button class="tag ${CONTACT_STATUS[c.status]}" style="border:0;cursor:pointer" title="Klick = nächster Status" data-contact="${c.id}">${c.status}</button></td>
     </tr>`).join("") || `<tr><td colspan="6" class="meta">Keine Treffer.</td></tr>`}
   </tbody></table>`;
@@ -592,6 +595,25 @@ document.getElementById("lf-add").addEventListener("click", () => {
   save(); render();
 });
 document.getElementById("contactFilter").addEventListener("input", render);
+document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const j = JSON.parse(r.result);
+      const known = k => new Set([...DATA[k], ...store[k]].map(x => x.id));
+      let added = 0;
+      for (const k of ["contacts","orders","emailLog"]) {
+        const have = known(k);
+        (j[k] || []).forEach(x => { if (x && x.id && !have.has(x.id)) { store[k].push(x); added++; } });
+      }
+      save(); render();
+      alert(added + " neue Einträge importiert.");
+    } catch { alert("Datei konnte nicht gelesen werden — bitte eine Export-/Leads-JSON wählen."); }
+  };
+  r.readAsText(f); e.target.value = "";
+});
 document.getElementById("exportBtn").addEventListener("click", () => {
   const out = { exportedAt:new Date().toISOString(), orders:allOrders(), contacts:allContacts(), emailLog:allLog(), templates:DATA.templates };
   const a = document.createElement("a");
