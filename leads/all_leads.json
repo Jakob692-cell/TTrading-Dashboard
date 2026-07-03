@@ -6730,5 +6730,181 @@
     "evidence_no_video": "Verwaltet 11 NEK-Ferienobjekte, keine Video-/Drohnen-/Matterport-Touren vorhanden.",
     "source_url": "https://northernvtrealestate.com/vacation-rentals/",
     "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "The Grandin Agency",
+    "market": "USA · Roanoke, VA",
+    "type": "Property Manager",
+    "email": "marjory.grandin@gmail.com",
+    "phone": "(540) 404-1184",
+    "website": "https://www.rentgrandin.com/roanoke-vacation-property-management",
+    "evidence_no_video": "Keine Video-Touren, Drohnenaufnahmen oder Matterport-Content.",
+    "source_url": "https://www.rentgrandin.com/roanoke-vacation-property-management",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Blue Ridge Escapes",
+    "market": "USA · Floyd, VA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 540-744-2911",
+    "phone": "540-744-2911",
+    "website": "https://brescapes.com/",
+    "evidence_no_video": "60+ Häuser, kein Video, Drohne oder Matterport-Tour auf der Website.",
+    "source_url": "https://brescapes.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Buffalo Mountain Getaway",
+    "market": "USA · Floyd, VA",
+    "type": "Property Manager",
+    "email": "patvaughn@swva.net",
+    "phone": "540-230-3679",
+    "website": "https://www.buffalomountaingetaway.com/",
+    "evidence_no_video": "27 Objekte, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.buffalomountaingetaway.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Lake Retreat Rental Properties",
+    "market": "USA · Moneta (Smith Mountain Lake), VA",
+    "type": "Property Manager",
+    "email": "broker@lakeretreat.com",
+    "phone": "(540) 297-6002",
+    "website": "https://lakeretreat.com/",
+    "evidence_no_video": "Etablierte SML-Vermietungssparte, kein Video-Tour, Drohne oder Matterport-Content.",
+    "source_url": "https://lakeretreat.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "New River Trail Cabins",
+    "market": "USA · Galax, VA",
+    "type": "Property Manager",
+    "email": "nrtrailcabins@gmail.com",
+    "phone": "276-733-8886",
+    "website": "https://www.newrivertrailcabins.com/",
+    "evidence_no_video": "12-Hütten-Betrieb, nur Foto-Marketing, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.newrivertrailcabins.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Cozy Cabins and Homes",
+    "market": "USA · Fancy Gap, VA",
+    "type": "Solo-Host",
+    "email": "laura@cozycabinsandhomes.com",
+    "phone": "540-384-1757",
+    "website": "https://cozycabinsandhomes.com/",
+    "evidence_no_video": "Familienbetrieb mit 2 Wasserfront-Hütten, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://cozycabinsandhomes.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Buffalo Mountain Lodging",
+    "market": "USA · Floyd, VA",
+    "type": "Solo-Host",
+    "email": "buffalomtnlodging@yahoo.com",
+    "phone": "",
+    "website": "https://www.buffalomountainlodging.com/contact",
+    "evidence_no_video": "Kleiner ~6-Hütten-Familienbetrieb, kein Video-Tour, Drohne oder Matterport-Content.",
+    "source_url": "https://www.buffalomountainlodging.com/contact",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Bent Mountain Lodge",
+    "market": "USA · Copper Hill, VA",
+    "type": "Solo-Host",
+    "email": "bentmtnlodge@swva.net",
+    "phone": "540-651-2500",
+    "website": "https://www.bentmountainlodge.com/",
+    "evidence_no_video": "Eigentümergeführte Lodge/Hütten am Blue Ridge Parkway, kein Video/Drohne/Matterport-Tour.",
+    "source_url": "https://www.bentmountainlodge.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Fernwood Cabin",
+    "market": "USA · Galax, VA",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 276-236-3335",
+    "phone": "276-236-3335",
+    "website": "https://fernwoodcabingalaxva.com/",
+    "evidence_no_video": "Einzelhütten-Listing, nur Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://fernwoodcabingalaxva.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Crooked Road Cabin",
+    "market": "USA · Meadows of Dan, VA",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 276-293-1233",
+    "phone": "276-293-1233",
+    "website": "https://www.blueridgeparkway.org/members/crooked-road-cabin/",
+    "evidence_no_video": "Einzelnes Blockhaus-Listing, kein Video-Tour/Drohne/Matterport gefunden.",
+    "source_url": "https://www.blueridgeparkway.org/members/crooked-road-cabin/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Doe Run Lodging",
+    "market": "USA · Meadows of Dan/Fancy Gap, VA",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 276-398-4099",
+    "phone": "276-398-4099",
+    "website": "https://thecrookedroadva.com/plan/doe-run-lodging-at-groundhog-mountain/",
+    "evidence_no_video": "Kleine Blockhütten-/Chalet-Unterkunft, kein Video/Drohne/Matterport gefunden.",
+    "source_url": "https://thecrookedroadva.com/plan/doe-run-lodging-at-groundhog-mountain/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "New River Getaways",
+    "market": "USA · Draper, VA",
+    "type": "Solo-Host",
+    "email": "newrivergetaways@gmail.com",
+    "phone": "1-540-492-4422",
+    "website": "https://www.newrivergetaways.com/new-river-log-cabin",
+    "evidence_no_video": "Einzelnes Wasserfront-Blockhaus, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.newrivergetaways.com/new-river-log-cabin",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Claytor Lake Getaways (Lakewood Getaways, LLC)",
+    "market": "USA · Dublin (Claytor Lake), VA",
+    "type": "Solo-Host",
+    "email": "michelleporterfield2025@yahoo.com",
+    "phone": "",
+    "website": "https://www.claytorlakegetaways.com",
+    "evidence_no_video": "Eigentümerin verwaltet persönlich 4 Häuser, kein Video/Drohne/Matterport-Content.",
+    "source_url": "https://www.claytorlakegetaways.com",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Potomac Property Group (Mountainside Getaways)",
+    "market": "USA · Berkeley Springs, WV",
+    "type": "Property Manager",
+    "email": "info@potomacpropertygroup.com",
+    "phone": "304-500-8282",
+    "website": "https://discoverpotomacproperties.com/property-management-1",
+    "evidence_no_video": "Privat verwaltete Objekte, kein Video-Tour, Drohne oder Matterport erwähnt.",
+    "source_url": "https://discoverpotomacproperties.com/property-management-1",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Berkeley Ridge Vacation Rentals",
+    "market": "USA · Berkeley Springs, WV",
+    "type": "Solo-Host",
+    "email": "berkeleyridge25411@gmail.com",
+    "phone": "304-404-3050",
+    "website": "https://www.berkeleyridge.com/our-properties",
+    "evidence_no_video": "3-Objekte-Betrieb, Besichtigungen nur nach Vereinbarung, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.berkeleyridge.com/our-properties",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Judy's Cottage Rentals",
+    "market": "USA · Berkeley Springs, WV",
+    "type": "Solo-Host",
+    "email": "info@westvirginiacottagerentals.com",
+    "phone": "304-258-4974",
+    "website": "http://www.westvirginiacottagerentals.com/",
+    "evidence_no_video": "Einzelvermieterin mit 2 Objekten, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "http://www.westvirginiacottagerentals.com/",
+    "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
   }
 ]
