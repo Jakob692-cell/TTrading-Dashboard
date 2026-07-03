@@ -3738,5 +3738,60 @@
     "evidence_no_video": "30+ Jahre führende lokale Agentur, keine Video-/3D-/Matterport-Tour-Erwähnung.",
     "source_url": "https://www.highlandholidayhomes.com/Contact",
     "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Padstow Cottage Company",
+    "market": "UK · Padstow/St Ives, Cornwall",
+    "type": "Property Manager",
+    "email": "info@padstowcottagecompany.co.uk",
+    "phone": "07715 374 688",
+    "website": "https://www.padstowcottagecompany.co.uk/contact",
+    "evidence_no_video": "22 Cottages, kein Video/Walkthrough/3D-Matterport-Tour erwähnt.",
+    "source_url": "https://www.padstowcottagecompany.co.uk/contact",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Harbour Holidays",
+    "market": "UK · Padstow, Cornwall",
+    "type": "Property Manager",
+    "email": "contact@harbourholidays.co.uk",
+    "phone": "01841 533402",
+    "website": "https://harbourholidays.co.uk/properties/gull-high/",
+    "evidence_no_video": "~150+ Cottages, nur statische Foto-Galerie, kein Video-Player oder 3D/Matterport-Widget.",
+    "source_url": "https://harbourholidays.co.uk/properties/gull-high/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Devon Holiday Lets",
+    "market": "UK · Devon",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01752 873303",
+    "phone": "01752 873303",
+    "website": "https://devonholiday-lets.co.uk/",
+    "evidence_no_video": "Kleine Agentur mit ausgewählten Eigentümern, keine Video-/Walkthrough-/3D-Matterport-Tour erwähnt.",
+    "source_url": "https://devonholiday-lets.co.uk/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Your Devon Escape",
+    "market": "UK · Dartmouth, Devon",
+    "type": "Property Manager",
+    "email": "enquiries@yourdevonescape.co.uk",
+    "phone": "",
+    "website": "https://www.yourdevonescape.co.uk/contact",
+    "evidence_no_video": "Kleine Agentur, keine Video-/Walkthrough-/3D-Matterport-Tour erwähnt.",
+    "source_url": "https://www.yourdevonescape.co.uk/contact",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Finest Stays",
+    "market": "UK · South Devon (Bantham/Bigbury/Dartmouth/Salcombe)",
+    "type": "Property Manager",
+    "email": "hello@fineststays.com",
+    "phone": "01548 706 706",
+    "website": "https://www.fineststays.co.uk/contact",
+    "evidence_no_video": "Mehrere South-Devon-Standorte, keine Video-/Walkthrough-/3D-Matterport-Tour in Marketing-Texten gefunden.",
+    "source_url": "https://www.fineststays.co.uk/contact",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
   }
 ]
