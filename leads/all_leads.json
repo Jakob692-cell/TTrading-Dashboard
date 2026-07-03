@@ -2187,5 +2187,192 @@
     "evidence_no_video": "Familienbetrieb seit 1976, ~150 Villen, keine Matterport/3D-Tour/Drohnen/Video-Tour-Keywords.",
     "source_url": "https://www.vthhi.com/about-us",
     "region_cluster": "Florida/SC Golf- & Atlantikküste"
+  },
+  {
+    "company": "Paramount Destinations",
+    "market": "USA · Corolla, NC",
+    "type": "Property Manager",
+    "email": "visitobx@paramountdestinations.com",
+    "phone": "(866) 753-3045",
+    "website": "https://paramountdestinations.com/contact-us/",
+    "evidence_no_video": "Standard-Listings/Fotografie, keine Video-/Drohnen-/Matterport-Erwähnung.",
+    "source_url": "https://paramountdestinations.com/contact-us/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Coastal Carolina Vacations",
+    "market": "USA · Duck, NC",
+    "type": "Property Manager",
+    "email": "info@coastalcarolinaobx.com",
+    "phone": "252-489-4700",
+    "website": "https://coastalcarolinaobx.com/property-management/",
+    "evidence_no_video": "~200 Objekte, keine Video-/Drohnen-/Virtual-Tour-Technologie.",
+    "source_url": "https://coastalcarolinaobx.com/property-management/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Cove Realty",
+    "market": "USA · Nags Head, NC",
+    "type": "Property Manager",
+    "email": "info@coverealtyobx.com",
+    "phone": "252-441-6391",
+    "website": "https://www.coverealty.com/contact-us",
+    "evidence_no_video": "Nur „Broschüren-Bilder“ erwähnt, keine Video-/Virtual-Tour-Technologie.",
+    "source_url": "https://www.coverealty.com/contact-us",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Dolphin Realty",
+    "market": "USA · Hatteras, NC",
+    "type": "Property Manager",
+    "email": "info@dolphinrealtyhatteras.com",
+    "phone": "252-986-2241",
+    "website": "https://www.dolphinrealtyhatteras.com/owner-rental-information.html",
+    "evidence_no_video": "~30 Cottages, persönlicher Service betont, kein Drohnen/Video/Matterport.",
+    "source_url": "https://www.dolphinrealtyhatteras.com/owner-rental-information.html",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Great Escapes OBX",
+    "market": "USA · Duck, NC",
+    "type": "Property Manager",
+    "email": "info@greatescapesobx.com",
+    "phone": "844-458-0201",
+    "website": "https://greatescapesobx.com/property-management/",
+    "evidence_no_video": "~30+ Häuser wachsendes Portfolio, keine Video/Drohne/3D-Tour-Erwähnung.",
+    "source_url": "https://greatescapesobx.com/property-management/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Atlantic Realty of the Outer Banks",
+    "market": "USA · Duck, NC",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 877-858-4795",
+    "phone": "877-858-4795",
+    "website": "https://www.atlanticrealty-nc.com/duck-vacation-homes",
+    "evidence_no_video": "Nur statischer Surf-Cam-Feed, keine Objekt-Video- oder Matterport-Touren.",
+    "source_url": "https://www.atlanticrealty-nc.com/duck-vacation-homes",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Carova Cottages",
+    "market": "USA · Corolla, NC",
+    "type": "Property Manager",
+    "email": "Laura@CarovaCottages.com",
+    "phone": "252-435-3970",
+    "website": "https://www.carovacottages.com/",
+    "evidence_no_video": "Kleines 16-18-Cottages-Portfolio, keine Video-/3D-Tour-Technologie.",
+    "source_url": "https://www.carovacottages.com/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Cola Vaughan Realty",
+    "market": "USA · Nags Head, NC",
+    "type": "Property Manager",
+    "email": "vacations@obxcola.com",
+    "phone": "(252) 573-2811",
+    "website": "https://www.obxcola.com/contact/",
+    "evidence_no_video": "Boutique-Agentur mit unter 60 Cottages, keine Virtual-Tour-/Video-Technologie gefunden.",
+    "source_url": "https://www.obxcola.com/contact/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Homestead Real Estate",
+    "market": "USA · Cape May, NJ",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 609-884-1888",
+    "phone": "1-888-309-7454 / 609-884-1888",
+    "website": "https://www.homesteadcapemayrentals.com/cape-may-property-management",
+    "evidence_no_video": "Nur statische Strand-Cam, keine Video- oder Matterport-Touren erwähnt.",
+    "source_url": "https://www.homesteadcapemayrentals.com/cape-may-property-management",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Connection Property Management",
+    "market": "USA · Long Beach Island, NJ",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (856) 652-9694",
+    "phone": "(856) 652-9694",
+    "website": "https://cpm-nj.com/lbi-property-management-companies/",
+    "evidence_no_video": "Selbstbeschrieben als „kleines Unternehmen“, keine Video-/Virtual-Tour-Technologie.",
+    "source_url": "https://cpm-nj.com/lbi-property-management-companies/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Island Realty",
+    "market": "USA · Surf City, NJ",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: 609-494-4091",
+    "phone": "609-494-4091",
+    "website": "https://www.islandrealtylbi.com/",
+    "evidence_no_video": "Familienbetrieb seit 50+ Jahren, kein Video-/Drohnen-/Matterport-Tour-Content.",
+    "source_url": "https://www.islandrealtylbi.com/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Mancini Realty",
+    "market": "USA · Beach Haven, NJ",
+    "type": "Makler",
+    "email": "info@mancinirealty.com",
+    "phone": "(609) 492-2256",
+    "website": "https://mancinirealty.com/contact.php",
+    "evidence_no_video": "30+ Jahre auf LBI, keine Erwähnung von Video-Touren, Drohnenaufnahmen oder Matterport.",
+    "source_url": "https://mancinirealty.com/contact.php",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Justice Property Management",
+    "market": "USA · Long Beach Island, NJ",
+    "type": "Property Manager",
+    "email": "justicepropertiesnj@gmail.com",
+    "phone": "(609) 286-3631",
+    "website": "https://justicepropertymanagementnj.com/contact-us/",
+    "evidence_no_video": "Concierge-/Verwaltungsdienste, keine Virtual-Tour- oder Video-Technologie erwähnt.",
+    "source_url": "https://justicepropertymanagementnj.com/contact-us/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Fox Real Estate",
+    "market": "USA · Ocean City, NJ",
+    "type": "Makler",
+    "email": "Rentals@foxocnj.com",
+    "phone": "609-399-0980",
+    "website": "https://foxocnj.com/",
+    "evidence_no_video": "Familienbetrieb seit den frühen 1900ern, keine Video- oder Matterport-Tour-Technologie gefunden.",
+    "source_url": "https://foxocnj.com/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Ocean City Property Management (OCNJ Management Services)",
+    "market": "USA · Ocean City, NJ",
+    "type": "Property Manager",
+    "email": "info@oceancitypropertymanagement.com",
+    "phone": "(609) 618-6225",
+    "website": "https://www.oceancitypropertymanagement.com/",
+    "evidence_no_video": "Wirbt nur mit „Professional Rental Photography“, kein Video/Matterport-Tour.",
+    "source_url": "https://www.oceancitypropertymanagement.com/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "Ocean Property Management of NJ",
+    "market": "USA · Ocean City, NJ",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (609) 335-4294",
+    "phone": "(609) 335-4294",
+    "website": "https://oceanpmnj.com/property-management/",
+    "evidence_no_video": "Kein Video/Matterport-Tour-Angebot gefunden (Live-Fetch nicht möglich, Beleg über Suchindex — vor Versand gegenprüfen).",
+    "source_url": "https://oceanpmnj.com/property-management/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
+  },
+  {
+    "company": "SeaBreeze Realty",
+    "market": "USA · Long Beach Island, NJ",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: (609) 492-8800",
+    "phone": "(609) 492-8800",
+    "website": "https://www.seabreezerealtyonlbi.com/",
+    "evidence_no_video": "Familiengeführte Boutique-Agentur, 60+ Objekte wöchentlich, keine Video-/Drohnen-/Matterport-Erwähnung.",
+    "source_url": "https://www.seabreezerealtyonlbi.com/",
+    "region_cluster": "Outer Banks satellit / Jersey Shore"
   }
 ]
