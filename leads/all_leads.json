@@ -5190,5 +5190,192 @@
     "evidence_no_video": "12 Hütten an zwei Standorten, „Tour“-Bereich ist nur statisches Bild-CTA, kein Video/YouTube/Matterport.",
     "source_url": "https://www.brandywinegrove.com/",
     "region_cluster": "Laurel Highlands / Ohio Amish Country"
+  },
+  {
+    "company": "Durrants Holiday Cottages",
+    "market": "UK · Suffolk Coast (Southwold)",
+    "type": "Property Manager",
+    "email": "holidays@durrants.com",
+    "phone": "01502 723292",
+    "website": "https://www.durrantsholidaycottages.co.uk/",
+    "evidence_no_video": "Nur statische Foto-Galerien, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.durrantsholidaycottages.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Aldeburgh Coastal Cottages",
+    "market": "UK · Suffolk Coast",
+    "type": "Property Manager",
+    "email": "info@accottages.co.uk",
+    "phone": "01728 830250",
+    "website": "https://aldeburghcoastalcottages.co.uk/",
+    "evidence_no_video": "~200 Cottages, nur Foto-Galerien, keine Virtual-Tour-Funktion.",
+    "source_url": "https://aldeburghcoastalcottages.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Norfolk Cottage Agency",
+    "market": "UK · Norfolk Coast (Wells/Burnham/Blakeney)",
+    "type": "Property Manager",
+    "email": "hello@norfolkcottageagency.co.uk",
+    "phone": "01263 808899",
+    "website": "https://norfolkcottageagency.co.uk/",
+    "evidence_no_video": "Nur Platzhalter-/statische Bilder, kein Video- oder 3D-Tour-Angebot.",
+    "source_url": "https://norfolkcottageagency.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Barefoot Retreats",
+    "market": "UK · Norfolk Coast (Brancaster/Burnham Market/Wells)",
+    "type": "Property Manager",
+    "email": "enquiries@barefootretreats.co.uk",
+    "phone": "01485 512245",
+    "website": "https://www.barefootretreats.co.uk/",
+    "evidence_no_video": "Themen-Cottage-Sammlungen nur mit Fotos, kein Video/Matterport-Tour.",
+    "source_url": "https://www.barefootretreats.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "HB Holiday Lettings",
+    "market": "UK · Isle of Wight (Bembridge/St Helens/Seaview)",
+    "type": "Property Manager",
+    "email": "enquiries@hbholidaylettings.co.uk",
+    "phone": "01983 326796",
+    "website": "https://www.hbholidaylettings.co.uk/",
+    "evidence_no_video": "24-Objekte-Portfolio, keine Video-Tour-, Virtual-Tour- oder Matterport-Links.",
+    "source_url": "https://www.hbholidaylettings.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "The Wight Holiday Company",
+    "market": "UK · Isle of Wight",
+    "type": "Property Manager",
+    "email": "info@thewightholidaycompany.co.uk",
+    "phone": "01983 716320",
+    "website": "https://www.thewightholidaycompany.co.uk/",
+    "evidence_no_video": "Keine Erwähnung von Video-, Virtual-, 3D- oder Matterport-Touren.",
+    "source_url": "https://www.thewightholidaycompany.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "The Island Holiday Company",
+    "market": "UK · Isle of Wight",
+    "type": "Property Manager",
+    "email": "enquiries@theislandholidaycompany.co.uk",
+    "phone": "01983 632236",
+    "website": "https://www.theislandholidaycompany.co.uk/",
+    "evidence_no_video": "100+ Objekte, nur statische Fotos, kein Video-/3D-Tour-Feature.",
+    "source_url": "https://www.theislandholidaycompany.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Wight Coast Holidays",
+    "market": "UK · Isle of Wight (Bembridge/Seaview/Cowes)",
+    "type": "Property Manager",
+    "email": "mail@wightcoastholidays.co.uk",
+    "phone": "01983 873163",
+    "website": "https://www.wightcoastholidays.com/",
+    "evidence_no_video": "Listings nur mit Fotos, keine Tour-Video/3D gefunden.",
+    "source_url": "https://www.wightcoastholidays.com/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Island Holiday Homes",
+    "market": "UK · Isle of Wight",
+    "type": "Property Manager",
+    "email": "hello@islandholidayhomes.co.uk",
+    "phone": "01983 866455",
+    "website": "https://www.islandholidayhomes.co.uk/",
+    "evidence_no_video": "Handverlesene Listings, keine Video-Tour, Virtual-Tour oder Matterport-Integration.",
+    "source_url": "https://www.islandholidayhomes.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Suffolk Coastal Cottages",
+    "market": "UK · Suffolk Coast (Wenhaston, bei Southwold)",
+    "type": "Solo-Host",
+    "email": "bookings@suffolkcoastalcottages.co.uk",
+    "phone": "",
+    "website": "https://www.suffolkcoastalcottages.co.uk/",
+    "evidence_no_video": "Solo-geführte Seite mit 2 Cottages, nur statische Bilder, kein Video/3D-Tour.",
+    "source_url": "https://www.suffolkcoastalcottages.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Coastguard Cottage Wells",
+    "market": "UK · Norfolk Coast (Wells-next-the-Sea)",
+    "type": "Solo-Host",
+    "email": "info@coastguardcottagewells.co.uk",
+    "phone": "01277 824379",
+    "website": "https://coastguardcottagewells.co.uk/",
+    "evidence_no_video": "Einzelobjekt-Eigentümerseite, nur statische Fotos, kein Video/3D-Tour.",
+    "source_url": "https://coastguardcottagewells.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Southwold Holiday (Chestnutt Cottage)",
+    "market": "UK · Suffolk Coast (Southwold/Reydon)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01473 735343",
+    "phone": "01473 735343",
+    "website": "https://www.southwoldholiday.com/",
+    "evidence_no_video": "Nur „Cottage Photos“-Seite, kein Video-, 3D- oder Matterport-Tour.",
+    "source_url": "https://www.southwoldholiday.com/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Norfolk Coast Cottage",
+    "market": "UK · Norfolk Coast (Cley/Wells)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07776 184589",
+    "phone": "07776 184589",
+    "website": "https://www.norfolkcoastcottage.com/",
+    "evidence_no_video": "2-Cottage-Seite, nur statische Bilder, kein Video-Tour (nur persönliche Email gefunden, ausgeschlossen).",
+    "source_url": "https://www.norfolkcoastcottage.com/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Simply Southwold Holiday Lettings",
+    "market": "UK · Suffolk Coast (Southwold)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07470 496496",
+    "phone": "07470 496496",
+    "website": "https://www.simplysouthwold.com/",
+    "evidence_no_video": "Kein Video/Virtual/3D-Tour erwähnt (nur persönliche Email gefunden, ausgeschlossen).",
+    "source_url": "https://www.simplysouthwold.com/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Arethusa Cottage",
+    "market": "UK · Isle of Wight (Ryde)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07815 865779",
+    "phone": "07815 865779",
+    "website": "https://www.arethusacottage.co.uk/",
+    "evidence_no_video": "2 Lodges, statische Galerie, kein Video-Tour (nur Gmail-Adresse gefunden, ausgeschlossen).",
+    "source_url": "https://www.arethusacottage.co.uk/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Woodcliffe Holiday Apartments",
+    "market": "UK · Isle of Wight (Ventnor)",
+    "type": "Solo-Host",
+    "email": "info@woodcliffe.net",
+    "phone": "01983 852397",
+    "website": "https://www.woodcliffe.net/",
+    "evidence_no_video": "Kleine Apartment-/Cottage-Anlage, nur traditionelle Foto-Galerie, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.woodcliffe.net/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
+  },
+  {
+    "company": "Thompson Brancaster Farms Holiday Homes",
+    "market": "UK · Norfolk Coast (Brancaster/Burnham Deepdale)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01485 210000",
+    "phone": "01485 210000",
+    "website": "http://tbfholidayhomes.weebly.com/",
+    "evidence_no_video": "Eigentümergeführtes 7-Cottage-Portfolio, kein Video-, Virtual- oder Matterport-Tour gefunden.",
+    "source_url": "http://tbfholidayhomes.weebly.com/",
+    "region_cluster": "Norfolk/Suffolk / Isle of Wight"
   }
 ]
