@@ -4860,5 +4860,170 @@
     "evidence_no_video": "Einzeleigentümer, eigene Domain für ein Condo, keine Video-/Drohnen-/3D-Tour-Referenzen.",
     "source_url": "http://www.keycolonybeachcondorentals.com/",
     "region_cluster": "Florida Keys / Sarasota-Anna Maria"
+  },
+  {
+    "company": "Scenic Coast Property Management",
+    "market": "USA · Cambria, CA",
+    "type": "Property Manager",
+    "email": "info@sceniccoastrentals.com",
+    "phone": "(800) 927-6163",
+    "website": "https://www.cambriacoastrentals.com/",
+    "evidence_no_video": "100+ Objekte, nur statische Foto-Listings, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.cambriacoastrentals.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Cambria Vacation Rentals (CVR)",
+    "market": "USA · Cambria, CA",
+    "type": "Property Manager",
+    "email": "stay@cvrrentals.com",
+    "phone": "",
+    "website": "https://www.cambriavacationrentals.com/",
+    "evidence_no_video": "Familienagentur seit 30+ Jahren, ~13 Objekte, nur Foto-Galerien.",
+    "source_url": "https://www.cambriavacationrentals.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Breen Vacation Station",
+    "market": "USA · Cambria, CA",
+    "type": "Property Manager",
+    "email": "info@breenvacationstation.com",
+    "phone": "+1 (805) 927-1303",
+    "website": "https://www.breenvacationstation.com/cambria-vacation-rentals",
+    "evidence_no_video": "~50+ Objekte, nur statische Fotos, keine Video-Tour-Technologie.",
+    "source_url": "https://www.breenvacationstation.com/cambria-vacation-rentals",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Mendocino Preferred Vacation Home Rentals",
+    "market": "USA · Mendocino, CA",
+    "type": "Property Manager",
+    "email": "info@mendocinopreferred.com",
+    "phone": "800-942-6300",
+    "website": "https://www.mendocinopreferred.com/",
+    "evidence_no_video": "~23 lokal verwaltete Häuser, statische Bilder, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://www.mendocinopreferred.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Sweetwater Vacation Home Rentals",
+    "market": "USA · Mendocino / Little River, CA",
+    "type": "Property Manager",
+    "email": "info@sweetwatervacationrentals.com",
+    "phone": "1-800-300-4140",
+    "website": "https://sweetwatervacationrentals.com/",
+    "evidence_no_video": "Boutique 4-Objekte-Verwalter, nur statische Bilder, kein Video-Content.",
+    "source_url": "https://sweetwatervacationrentals.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Pacific Blue Vacation Rentals",
+    "market": "USA · Fort Bragg, CA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 707-357-2520",
+    "phone": "707-357-2520",
+    "website": "https://www.pacificblue.biz/",
+    "evidence_no_video": "Lokal geführter Verwalter seit 2016, kein Video/Drohne/Matterport-Tour gefunden.",
+    "source_url": "https://www.pacificblue.biz/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Ripplewood Resort",
+    "market": "USA · Big Sur, CA",
+    "type": "Property Manager",
+    "email": "reservations@ripplewoodbigsur.com",
+    "phone": "",
+    "website": "https://ripplewoodbigsur.com/",
+    "evidence_no_video": "Familiengeführte Lodge/Cabins seit 1928, nur statische Fotos, kein Video-Tour.",
+    "source_url": "https://ripplewoodbigsur.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Mendocino Coast Reservations",
+    "market": "USA · Mendocino, CA",
+    "type": "Property Manager",
+    "email": "mcr@mendocinovacations.com",
+    "phone": "",
+    "website": "https://www.mendocinovacations.com/",
+    "evidence_no_video": "Vermittelt 5+ Häuser, nur statische Bilder, kein Video-Tour.",
+    "source_url": "https://www.mendocinovacations.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Tides Turn Vacation Home",
+    "market": "USA · Albion, CA (Mendocino Coast)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email (Cloudflare-verschleiert) — Tel: 415-824-1649",
+    "phone": "415-824-1649",
+    "website": "https://www.tidesturnvacationhome.com/",
+    "evidence_no_video": "Einzelobjekt-Solo-Host-Seite, nur Foto-Galerie, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.tidesturnvacationhome.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "New Spirit Vacation Homes",
+    "market": "USA · Idyllwild, CA",
+    "type": "Property Manager",
+    "email": "info@newspiritvacationhomes.com",
+    "phone": "(951) 659-3100",
+    "website": "https://newspiritvacationhomes.com/",
+    "evidence_no_video": "Verwaltet Hütten in Idyllwild/San Jacinto, nur statische Bilder, kein Video-Tour.",
+    "source_url": "https://newspiritvacationhomes.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Idyllwild Vacation Cabins",
+    "market": "USA · Idyllwild, CA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (951) 663-0527",
+    "phone": "(951) 663-0527",
+    "website": "https://www.idyllwildvacationcabins.com/",
+    "evidence_no_video": "Familienbetrieb in dritter Generation, ~50+ Hütten, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.idyllwildvacationcabins.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Wildland Cabins",
+    "market": "USA · Idyllwild, CA",
+    "type": "Property Manager",
+    "email": "wildlandcabins@gmail.com",
+    "phone": "",
+    "website": "https://wildlandcabins.guestywebsites.com/",
+    "evidence_no_video": "Eigentümergeführte Sammlung von 7 Eco-Luxe-Hütten, nur statische Foto-Galerien.",
+    "source_url": "https://wildlandcabins.guestywebsites.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Woodland Park Manor",
+    "market": "USA · Idyllwild, CA",
+    "type": "Property Manager",
+    "email": "info@woodlandparkmanor.com",
+    "phone": "",
+    "website": "https://woodlandparkmanor.com/",
+    "evidence_no_video": "Familienbetrieb seit 1979, keine Video-Touren gefunden.",
+    "source_url": "https://woodlandparkmanor.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Julian Vacations",
+    "market": "USA · Julian, CA",
+    "type": "Solo-Host",
+    "email": "mjp.sandiego@gmail.com",
+    "phone": "",
+    "website": "https://www.julianvacations.com/",
+    "evidence_no_video": "Familie besitzt nur 2 Hütten, statische Bildergalerien, kein Video.",
+    "source_url": "https://www.julianvacations.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
+  },
+  {
+    "company": "Mod Wild Cabin",
+    "market": "USA · Idyllwild, CA",
+    "type": "Solo-Host",
+    "email": "booking@modwildcabin.com",
+    "phone": "",
+    "website": "https://modwildcabin.com/",
+    "evidence_no_video": "Einzeleigentümer-A-Frame-Hütte, nur Foto-Galerie, kein Video-Tour.",
+    "source_url": "https://modwildcabin.com/",
+    "region_cluster": "Kalifornien Küste / Backcountry"
   }
 ]
