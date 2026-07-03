@@ -5784,5 +5784,170 @@
     "evidence_no_video": "Einzelhütten-Solo-Host mit eigenem Direkt-Buchungs-/Zahlungsablauf, kein Video/Drohne/Matterport.",
     "source_url": "https://libertylodgebrightwood.com/",
     "region_cluster": "Olympic Peninsula / Mt. Hood"
+  },
+  {
+    "company": "Dorset Cottage Holidays",
+    "market": "UK · Dorset (Corfe Castle/Swanage)",
+    "type": "Property Manager",
+    "email": "enq@dhcottages.co.uk",
+    "phone": "01929 481547",
+    "website": "https://dhcottages.co.uk/",
+    "evidence_no_video": "Nur statische Fotos, keine Video-/3D-/Matterport-Touren.",
+    "source_url": "https://dhcottages.co.uk/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Osprey Holiday Cottages",
+    "market": "UK · Dorset (Weymouth & Portland)",
+    "type": "Property Manager",
+    "email": "hello@ospreycottages.co.uk",
+    "phone": "01305 818118",
+    "website": "https://www.ospreycottages.co.uk/contact-us",
+    "evidence_no_video": "~43 Objekte, nur Standard-Foto-Galerien, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.ospreycottages.co.uk/contact-us",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Curated Cottages",
+    "market": "UK · Dorset (Weymouth/Purbeck/West Dorset)",
+    "type": "Property Manager",
+    "email": "hello@curatedcottages.co.uk",
+    "phone": "",
+    "website": "https://www.curatedcottages.co.uk/dorset-locations/",
+    "evidence_no_video": "Nur Foto-Galerien, keine Video-/3D-Tour-Referenzen.",
+    "source_url": "https://www.curatedcottages.co.uk/dorset-locations/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Character Farm Cottages",
+    "market": "UK · Dorset (Langton Herring, nr Weymouth)",
+    "type": "Property Manager",
+    "email": "info@characterfarmcottages.net",
+    "phone": "07920 554277",
+    "website": "https://characterfarmcottages.net/",
+    "evidence_no_video": "5-Cottage-Familienhof, kein Matterport/Video-Tour gefunden.",
+    "source_url": "https://characterfarmcottages.net/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Swanage Holiday Properties",
+    "market": "UK · Dorset (Swanage/Isle of Purbeck)",
+    "type": "Property Manager",
+    "email": "info@swanageholidays.com",
+    "phone": "01929 421525",
+    "website": "https://swanageholidays.com/",
+    "evidence_no_video": "~30-40 Objekte, nur statische Bilder, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://swanageholidays.com/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Lyme Cottage",
+    "market": "UK · Dorset (Lyme Regis)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07590 541299",
+    "phone": "07590 541299",
+    "website": "https://lymecottage.com/contact/",
+    "evidence_no_video": "Nur statische Foto-Galerien, kein Video-/3D-Tour beworben.",
+    "source_url": "https://lymecottage.com/contact/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Whatley Cottage",
+    "market": "UK · Dorset (Beaminster, nr Bridport/Lyme Regis)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07525 720221",
+    "phone": "07525 720221",
+    "website": "https://www.whatleycottages.com/contact/",
+    "evidence_no_video": "Einzel-Cottage-Solo-Host, nur traditionelle Fotos, persönliche Email ausgeschlossen.",
+    "source_url": "https://www.whatleycottages.com/contact/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Weymouth Bay Holiday Apartments",
+    "market": "UK · Dorset (Weymouth seafront)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01305 785003",
+    "phone": "01305 785003",
+    "website": "https://weymouthbayholidays.co.uk/",
+    "evidence_no_video": "Familienbetrieb, 3 Apartments, nur statische Fotos, keine Email veröffentlicht.",
+    "source_url": "https://weymouthbayholidays.co.uk/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Marrington Escapes",
+    "market": "UK · Shropshire (Chirbury, nr Ludlow)",
+    "type": "Property Manager",
+    "email": "stay@marringtonescapes.com",
+    "phone": "01743 234232",
+    "website": "https://marringtonescapes.com/",
+    "evidence_no_video": "10-Cottage-Anwesen, keine Video-/3D-/Matterport-Tour-Referenzen.",
+    "source_url": "https://marringtonescapes.com/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Charlie's Cottage Ludlow",
+    "market": "UK · Shropshire (Ludlow)",
+    "type": "Solo-Host",
+    "email": "info@charliescottageludlow.co.uk",
+    "phone": "01584 831733",
+    "website": "https://www.charliescottageludlow.co.uk/",
+    "evidence_no_video": "Einzelnes Cottage, eigentümergeführt, nur Standard-Foto-Galerie.",
+    "source_url": "https://www.charliescottageludlow.co.uk/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Stay in Hay",
+    "market": "UK · Herefordshire (Hay-on-Wye)",
+    "type": "Solo-Host",
+    "email": "info@stayinhay.com",
+    "phone": "",
+    "website": "https://stayinhay.com/",
+    "evidence_no_video": "Boutique 2-Objekte-Betrieb, nur statische Fotos.",
+    "source_url": "https://stayinhay.com/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Middle Farm & Cottages",
+    "market": "UK · Shropshire (Shropshire Hills)",
+    "type": "Solo-Host",
+    "email": "hello@middlefarmandcottages.com",
+    "phone": "",
+    "website": "https://www.middlefarmandcottages.com/",
+    "evidence_no_video": "Kleiner Familienhof mit 3 Cottages, kein Video-/3D-/Matterport-Tour beworben.",
+    "source_url": "https://www.middlefarmandcottages.com/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "The Maltsters House",
+    "market": "UK · Shropshire (Ludlow)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07831 537835",
+    "phone": "07831 537835",
+    "website": "https://www.themaltstershouse.co.uk/contact.html",
+    "evidence_no_video": "Einzelnes Luxus-Ferienhaus, nur Foto-Galerie, keine öffentliche Firmen-Email gefunden.",
+    "source_url": "https://www.themaltstershouse.co.uk/contact.html",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Stud Farm Barns",
+    "market": "UK · Shropshire (Goldstone, nr Market Drayton)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01630 661656",
+    "phone": "01630 661656",
+    "website": "https://studfarmbarns.co.uk/",
+    "evidence_no_video": "Kleines Familienunternehmen, 2 Scheunen, nur Foto-Galerien, keine Virtual-Tour.",
+    "source_url": "https://studfarmbarns.co.uk/",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Ludlow Cottages",
+    "market": "UK · Shropshire (Ludlow)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01584 879500",
+    "phone": "01584 879500",
+    "website": "https://www.ludlowcottages.co.uk/contact-us",
+    "evidence_no_video": "Unabhängige 2-Cottage-Vermietung, kein Video-/3D-Tour auf der Seite.",
+    "source_url": "https://www.ludlowcottages.co.uk/contact-us",
+    "region_cluster": "Shropshire/Herefordshire / Dorset"
   }
 ]
