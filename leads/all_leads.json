@@ -6367,5 +6367,181 @@
     "evidence_no_video": "2-Suiten-Solo-Host, kein eingebettetes Video/Drohne/3D-Tour, nur statische Foto-Galerien.",
     "source_url": "https://visitthevolcano.com/",
     "region_cluster": "Hawaii"
+  },
+  {
+    "company": "Penllwyn Cottages",
+    "market": "UK · Ceredigion (New Quay/Cardigan Bay)",
+    "type": "Solo-Host",
+    "email": "info@penllwyncottages.co.uk",
+    "phone": "",
+    "website": "https://penllwyncottages.co.uk/",
+    "evidence_no_video": "Nur statische Foto-Galerien für 3 Cottages, keine Tour-Technologie.",
+    "source_url": "https://penllwyncottages.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Aberaeron Cottages",
+    "market": "UK · Ceredigion (Aberaeron/Llangrannog)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01559 384313",
+    "phone": "01559 384313",
+    "website": "https://www.aberaeroncottages.co.uk/",
+    "evidence_no_video": "3-Objekte-Seite, nur Fotos, keine Virtual-/3D-Tour-Referenzen.",
+    "source_url": "https://www.aberaeroncottages.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Dolphin Bay Holiday Cottages",
+    "market": "UK · Ceredigion (Llangrannog)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01239 654613",
+    "phone": "01239 654613",
+    "website": "https://www.dolphinbay.co.uk/",
+    "evidence_no_video": "Nur Gmail-Adresse gefunden (ausgeschlossen), keine Virtual-/Video-Tour-Erwähnung.",
+    "source_url": "https://www.dolphinbay.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Morfa Isaf Farm Cottages",
+    "market": "UK · Ceredigion (Llangrannog)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01239 654282",
+    "phone": "01239 654282",
+    "website": "https://www.cardigan-bay.com/llangrannog-self-catering-cottage/",
+    "evidence_no_video": "Kleiner eigentümergeführter Betrieb mit 2 Cottages, nur statische Bilder, keine Tour-Technologie.",
+    "source_url": "https://www.cardigan-bay.com/llangrannog-self-catering-cottage/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Welsh Country Retreats (Ffynnon Mereddydd)",
+    "market": "UK · Ceredigion (Aberaeron)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01545 570522",
+    "phone": "01545 570522",
+    "website": "https://www.welshcountryretreats.co.uk/",
+    "evidence_no_video": "6-Cottage-Bauernhof-Anwesen, nur Foto-Galerien, kein Video/Virtual/3D/Matterport-Tour.",
+    "source_url": "https://www.welshcountryretreats.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Fronifor Tresaith (tresaith.net)",
+    "market": "UK · Ceredigion (Tresaith/Aberporth)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07780 548288",
+    "phone": "07780 548288",
+    "website": "https://www.tresaith.net/contact.html",
+    "evidence_no_video": "3-Wohnungen-Selbstversorgerhaus, nur persönliche Hotmail-Adresse (ausgeschlossen), keine Tour-Technologie.",
+    "source_url": "https://www.tresaith.net/contact.html",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Aber Holiday Cottages",
+    "market": "UK · Ceredigion (Aberystwyth)",
+    "type": "Property Manager",
+    "email": "info@aberholidaycottages.com",
+    "phone": "",
+    "website": "https://www.aberholidaycottages.com/",
+    "evidence_no_video": "22-Objekte-Portfolio, keine Video-, Virtual-, 3D- oder Matterport-Touren erwähnt.",
+    "source_url": "https://www.aberholidaycottages.com/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Stallion Valley Holiday Cottages",
+    "market": "UK · Ceredigion (New Quay/Llanina)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07976 893092",
+    "phone": "07976 893092",
+    "website": "https://www.stallionvalley.com/",
+    "evidence_no_video": "2-Objekte-Betrieb, nur Foto-Galerien, keine Virtual-/Video-Tour-Erwähnung.",
+    "source_url": "https://www.stallionvalley.com/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Stay Gower",
+    "market": "UK · Gower Peninsula (Swansea)",
+    "type": "Property Manager",
+    "email": "info@stay-gower.co.uk",
+    "phone": "",
+    "website": "https://stay-gower.co.uk/",
+    "evidence_no_video": "114-Objekte-Agentur, keine Referenzen auf Video, Virtual, 3D oder Matterport-Touren gefunden.",
+    "source_url": "https://stay-gower.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Gower Holidays",
+    "market": "UK · Gower Peninsula (Rhossili/Swansea)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 07733 915728",
+    "phone": "07733 915728",
+    "website": "https://www.gowerholidays.com/accommodation-in-gower/self-catering/",
+    "evidence_no_video": "64 Objekte, nur statische Bilder pro Listing, keine Video/Virtual/3D/Matterport-Touren.",
+    "source_url": "https://www.gowerholidays.com/accommodation-in-gower/self-catering/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Bayview Oxwich",
+    "market": "UK · Gower Peninsula (Oxwich)",
+    "type": "Property Manager",
+    "email": "bookings@bayviewoxwich.co.uk",
+    "phone": "",
+    "website": "https://www.bayviewoxwich.co.uk/",
+    "evidence_no_video": "7+ Objekte auf 12-Acre-Anwesen, keine Video/Virtual/3D/Matterport-Tour erwähnt.",
+    "source_url": "https://www.bayviewoxwich.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Gower Coast Holiday Cottages",
+    "market": "UK · Gower Peninsula (Oxwich)",
+    "type": "Solo-Host",
+    "email": "info@gowercoastholidaycottages.com",
+    "phone": "",
+    "website": "https://www.gowercoastholidaycottages.com/",
+    "evidence_no_video": "Einzelnes Cottage („The Gables“), nur traditionelle Foto-Galerie, keine Tour-Technologie.",
+    "source_url": "https://www.gowercoastholidaycottages.com/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Blaen Cedi Holiday Cottages",
+    "market": "UK · Gower Peninsula (North Gower)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 07368 577232",
+    "phone": "07368 577232",
+    "website": "https://www.walesgowercottages.co.uk/contact",
+    "evidence_no_video": "5-Cottage-Familienbetrieb, nur Gmail-Adresse gefunden (ausgeschlossen), keine Virtual-/3D-Tour-Erwähnung.",
+    "source_url": "https://www.walesgowercottages.co.uk/contact",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Gower Cottage (Heather & Dai Howells)",
+    "market": "UK · Gower Peninsula (Llanmadoc)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07795 177663",
+    "phone": "07795 177663",
+    "website": "https://www.gowercottage.com/index.html",
+    "evidence_no_video": "2-Cottage-Solo-Host, nur persönliche Namensadresse gefunden (ausgeschlossen), keine Tour-Technologie.",
+    "source_url": "https://www.gowercottage.com/index.html",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Horton Farm",
+    "market": "UK · Gower Peninsula (Horton)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01792 390256",
+    "phone": "01792 390256",
+    "website": "http://www.hortonfarm.co.uk/",
+    "evidence_no_video": "Einzelnes Bauernhaus, keine generische Domain-Email, keine Virtual-/Video-Tour-Referenz.",
+    "source_url": "http://www.hortonfarm.co.uk/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Rock Cottage Barn",
+    "market": "UK · Gower Peninsula (Horton)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01792 390218",
+    "phone": "01792 390218",
+    "website": "https://rockcottagebarn.weebly.com/",
+    "evidence_no_video": "Einzelnes Cottage, nur statische Foto-Galerien, kein Video-/3D-/Matterport-Tour.",
+    "source_url": "https://rockcottagebarn.weebly.com/",
+    "region_cluster": "Ceredigion / Gower Peninsula Wales"
   }
 ]
