@@ -5949,5 +5949,181 @@
     "evidence_no_video": "Unabhängige 2-Cottage-Vermietung, kein Video-/3D-Tour auf der Seite.",
     "source_url": "https://www.ludlowcottages.co.uk/contact-us",
     "region_cluster": "Shropshire/Herefordshire / Dorset"
+  },
+  {
+    "company": "Coast & Country Stays",
+    "market": "UK · Northumberland",
+    "type": "Property Manager",
+    "email": "info@coastandcountrystays.co.uk",
+    "phone": "0191 406 5212",
+    "website": "https://coastandcountrystays.co.uk/",
+    "evidence_no_video": "~14 Cottages, nur statische Foto-Galerien, keine Tour-Technologie.",
+    "source_url": "https://coastandcountrystays.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Stay in Bamburgh",
+    "market": "UK · Northumberland",
+    "type": "Solo-Host",
+    "email": "info@stayinbamburgh.com",
+    "phone": "07967 981985",
+    "website": "https://stayinbamburgh.com/",
+    "evidence_no_video": "3 Objekte, nur statische Foto-Galerie, kein Video-/3D-Tour.",
+    "source_url": "https://stayinbamburgh.com/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Bamburgh Holiday Cottages",
+    "market": "UK · Northumberland",
+    "type": "Solo-Host",
+    "email": "info@bamburghholidaycottages.co.uk",
+    "phone": "01670 787392",
+    "website": "https://www.bamburghholidaycottages.co.uk/contact/",
+    "evidence_no_video": "2-Objekte-Seite, nur statische Bilder.",
+    "source_url": "https://www.bamburghholidaycottages.co.uk/contact/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Point Cottages",
+    "market": "UK · Northumberland",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01668 214431",
+    "phone": "01668 214431",
+    "website": "https://bamburgh-cottages.co.uk/",
+    "evidence_no_video": "5-Cottage-Cluster, nur statische Bilder.",
+    "source_url": "https://bamburgh-cottages.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Bamburgh Cottage Holidays",
+    "market": "UK · Northumberland",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07846 226631",
+    "phone": "07846 226631",
+    "website": "https://www.bamburghcottageholidays.co.uk/",
+    "evidence_no_video": "Einzelnes historisches Cottage, statische Fotos, kein Video-/3D-Content.",
+    "source_url": "https://www.bamburghcottageholidays.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Thornbrae",
+    "market": "UK · Northumberland (Alnwick)",
+    "type": "Solo-Host",
+    "email": "stay@thornbrae.co.uk",
+    "phone": "07547 143254",
+    "website": "https://thornbrae.co.uk/",
+    "evidence_no_video": "5-Einheiten-Hot-Tub-Cottage-Seite, nur statische Bildergalerien.",
+    "source_url": "https://thornbrae.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Brunton House and Cottages",
+    "market": "UK · Northumberland (Alnwick-Bamburgh)",
+    "type": "Solo-Host",
+    "email": "stay@bruntoncottages.co.uk",
+    "phone": "01665 589 120",
+    "website": "https://www.bruntoncottages.co.uk/",
+    "evidence_no_video": "9 Hof-Anwesen-Objekte, nur Fotos/Links, kein Video- oder Matterport-Tour.",
+    "source_url": "https://www.bruntoncottages.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Alnmouth Cottages (Midwood Lodge & Cottage)",
+    "market": "UK · Northumberland (Alnmouth)",
+    "type": "Solo-Host",
+    "email": "enquiries@alnmouthcottages.co.uk",
+    "phone": "07587 144284",
+    "website": "https://alnmouthcottages.co.uk/",
+    "evidence_no_video": "2-Objekte-Seite, nur klickbare statische Foto-Galerien.",
+    "source_url": "https://alnmouthcottages.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Winkston Holiday Accommodation",
+    "market": "UK · Scottish Borders (Peebles)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: +44 (0)7816 833155",
+    "phone": "+44 (0)7816 833155",
+    "website": "https://winkstonholidays.co.uk/",
+    "evidence_no_video": "3-Cottage-Bauernhof-Seite, nur statische Bilder, kein Video/3D-Tour.",
+    "source_url": "https://winkstonholidays.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Hearthstanes Estate",
+    "market": "UK · Scottish Borders (Tweed Valley/Peebles)",
+    "type": "Solo-Host",
+    "email": "info@hearthstanes.com",
+    "phone": "+44 (0)1899 225119",
+    "website": "https://www.hearthstanes.com/",
+    "evidence_no_video": "5 umgebaute Steading-Cottages, nur statische Fotografien.",
+    "source_url": "https://www.hearthstanes.com/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Tweed Valley Pods",
+    "market": "UK · Scottish Borders (Innerleithen/Peebles)",
+    "type": "Solo-Host",
+    "email": "info@tweed-valley-pods.co.uk",
+    "phone": "07877 878079",
+    "website": "https://www.tweed-valley-pods.co.uk/",
+    "evidence_no_video": "4 Glamping-Pods, nur statische Foto-Galerie, keine immersive Tour-Technologie.",
+    "source_url": "https://www.tweed-valley-pods.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Old Melrose Estate",
+    "market": "UK · Scottish Borders (Melrose)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01835 823777",
+    "phone": "01835 823777",
+    "website": "https://www.oldmelrose.co.uk/",
+    "evidence_no_video": "4 Flussufer-Cottages, nur Fotografie und Bewertungen, keine generische Firmen-Email.",
+    "source_url": "https://www.oldmelrose.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Eildon Melrose",
+    "market": "UK · Scottish Borders (Melrose)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01896 823 258",
+    "phone": "01896 823 258",
+    "website": "https://www.eildonmelrose.co.uk/",
+    "evidence_no_video": "8 Hütten/Cottages, nur statische Bilder, keine generische Firmen-Email gefunden.",
+    "source_url": "https://www.eildonmelrose.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Neidpath Castle",
+    "market": "UK · Scottish Borders (Peebles)",
+    "type": "Property Manager",
+    "email": "office@neidpathcastle.com",
+    "phone": "+44 (0)1721 400701",
+    "website": "https://www.neidpathcastle.com/stay",
+    "evidence_no_video": "7 Selbstversorger-Objekte auf Burg-Anwesen, nur statische Bildergalerien, keine Virtual-Tour.",
+    "source_url": "https://www.neidpathcastle.com/stay",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "The Burrow",
+    "market": "UK · Scottish Borders (Kelso/Jedburgh)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01573 401100",
+    "phone": "01573 401100",
+    "website": "https://theburrowscottishborders.com/",
+    "evidence_no_video": "Einzelnes 1-Zimmer-Cottage, Standard-Foto-Galerie, kein Video/3D-Tour.",
+    "source_url": "https://theburrowscottishborders.com/",
+    "region_cluster": "Northumberland / Scottish Borders"
+  },
+  {
+    "company": "Scottish Borders Holiday Lets",
+    "market": "UK · Scottish Borders (Kelso/Jedburgh)",
+    "type": "Solo-Host",
+    "email": "bookings@stayintheborders.com",
+    "phone": "07753 416397",
+    "website": "https://www.scottishbordersholidaylets.co.uk/",
+    "evidence_no_video": "2 angrenzende Kelso-Objekte, nur Standard-Fotos.",
+    "source_url": "https://www.scottishbordersholidaylets.co.uk/",
+    "region_cluster": "Northumberland / Scottish Borders"
   }
 ]
