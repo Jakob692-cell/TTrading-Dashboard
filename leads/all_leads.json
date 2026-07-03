@@ -1560,5 +1560,203 @@
     "evidence_no_video": "Familienbetrieb, 60+ Wasserfront-Häuser, persönlicher Service statt Video-Touren.",
     "source_url": "https://www.kennebunkbeachrentals.com/",
     "region_cluster": "Adirondacks / Maine Küste"
+  },
+  {
+    "company": "Three Daughters Properties, LLC",
+    "market": "USA · Cresco, PA",
+    "type": "Property Manager",
+    "email": "info@threedaughtersproperties.com",
+    "phone": "(570) 325-1213",
+    "website": "https://www.threedaughtersproperties.com/",
+    "evidence_no_video": "Nur statische Foto-Galerien, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.threedaughtersproperties.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Pocono Rental Management",
+    "market": "USA · Pocono Region, PA",
+    "type": "Property Manager",
+    "email": "hello@poconorentman.com",
+    "phone": "(570) 243-9843",
+    "website": "https://www.poconorentalmanagement.com/",
+    "evidence_no_video": "Keine Erwähnung von Video/Walkthrough/Matterport, nur statische Fotos.",
+    "source_url": "https://www.poconorentalmanagement.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "True North Vacation Rentals LLC",
+    "market": "USA · Tannersville, PA",
+    "type": "Property Manager",
+    "email": "bookdirect@truenorthpocono.com",
+    "phone": "570-269-7812",
+    "website": "https://truenorthpocono.com/",
+    "evidence_no_video": "20 Objekte nur mit Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://truenorthpocono.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Pocono Lodge Rentals",
+    "market": "USA · Tannersville (Camelback), PA",
+    "type": "Property Manager",
+    "email": "info@poconolodgerentals.com",
+    "phone": "718-807-5080",
+    "website": "https://www.poconolodgerentals.com/",
+    "evidence_no_video": "11 Objekte nur mit Fotos gelistet, kein Video-Tour-Content.",
+    "source_url": "https://www.poconolodgerentals.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Carr Realty of the Poconos",
+    "market": "USA · Tannersville, PA",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: 570-629-3661",
+    "phone": "570-629-3661",
+    "website": "https://www.carrrealty.com/rental-listings",
+    "evidence_no_video": "Familienagentur seit 50+ Jahren, keine Video-Tour oder 3D-Walkthrough-Inhalte.",
+    "source_url": "https://www.carrrealty.com/rental-listings",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "CG's Vacation Rental Property Management",
+    "market": "USA · Lake Ariel, PA",
+    "type": "Property Manager",
+    "email": "cgsvrpm@gmail.com",
+    "phone": "(570) 591-1670",
+    "website": "https://cgsvacationrentals.com/contact/",
+    "evidence_no_video": "Keine Erwähnung von Video-Touren, Drohnenaufnahmen oder Matterport.",
+    "source_url": "https://cgsvacationrentals.com/contact/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Select Rentals",
+    "market": "USA · Lakeville, PA (Poconos)",
+    "type": "Property Manager",
+    "email": "selectrentalsre3@gmail.com",
+    "phone": "570-251-1287",
+    "website": "https://selectrentals.net/",
+    "evidence_no_video": "Boutique ~25-Objekte-Portfolio, nur statische Bilder.",
+    "source_url": "https://selectrentals.net/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Landmark Management Services (NEPA)",
+    "market": "USA · Mt. Pocono/Scranton, PA",
+    "type": "Property Manager",
+    "email": "adawinter@gmail.com",
+    "phone": "(570) 903-4823",
+    "website": "https://www.landmarkmgmtservices.com/",
+    "evidence_no_video": "Boutique-Firma seit 2008, keine Video-Tour-/Drohnen-/Matterport-Referenzen.",
+    "source_url": "https://www.landmarkmgmtservices.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Pocono Property Management (PMPocono)",
+    "market": "USA · Pocono Lake/Long Pond, PA",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (570) 972-0022",
+    "phone": "(570) 972-0022",
+    "website": "https://pmpocono.com/",
+    "evidence_no_video": "Nur „professionelle Fotos“ beworben, keine Video-Tour oder Drohne/Matterport.",
+    "source_url": "https://pmpocono.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Finger Lakes Property Solutions",
+    "market": "USA · Ithaca, NY",
+    "type": "Property Manager",
+    "email": "admin@fingerlakespropertysolutions.com",
+    "phone": "(607) 288-2401",
+    "website": "https://www.fingerlakespropertysolutions.com/",
+    "evidence_no_video": "Boutique-Full-Service-PM seit 2018, keine Video/Drohne/Matterport-Touren.",
+    "source_url": "https://www.fingerlakespropertysolutions.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Single Island Shores",
+    "market": "USA · Hector, NY (Seneca Lake)",
+    "type": "Property Manager",
+    "email": "info@singleislandshores.com",
+    "phone": "607-210-2655",
+    "website": "https://www.singleislandshores.com/",
+    "evidence_no_video": "Nur statische Foto-Galerie für Cottages, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.singleislandshores.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Get RED-y Vacations",
+    "market": "USA · Finger Lakes, NY",
+    "type": "Property Manager",
+    "email": "redytorespond@getredyvacations.com",
+    "phone": "(585) 420-7993",
+    "website": "https://www.getredyvacations.com/",
+    "evidence_no_video": "Kleines Familienteam, keine Virtual-Tour- oder Luftbild-/3D-Erwähnung.",
+    "source_url": "https://www.getredyvacations.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Linger Hospitality",
+    "market": "USA · Penn Yan, NY (Seneca/Keuka)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email (Cloudflare-geschützt) — Tel: 315-924-3181",
+    "phone": "315-924-3181",
+    "website": "https://www.lingerhospitality.com/",
+    "evidence_no_video": "Familienbetrieb, Listing-Kategorien nur mit Fotos, kein Video/Matterport.",
+    "source_url": "https://www.lingerhospitality.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "East Shore Management and Consulting",
+    "market": "USA · Ithaca, NY",
+    "type": "Property Manager",
+    "email": "dominic@eastshoremanagement.com",
+    "phone": "607-592-8069",
+    "website": "https://www.eastshoremanagement.com/",
+    "evidence_no_video": "STR/Langzeit-Verwalter, kein Virtual-Tour- oder Matterport-Content gefunden.",
+    "source_url": "https://www.eastshoremanagement.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Vibe Short Term Rental Management",
+    "market": "USA · Canandaigua, NY",
+    "type": "Property Manager",
+    "email": "booking@vibestrmanagement.com",
+    "phone": "(585) 501-2017",
+    "website": "https://www.vibefingerlakes.com/",
+    "evidence_no_video": "108 Objekte, nur Foto-Galerien, keine Video-Tour-Technologie erwähnt.",
+    "source_url": "https://www.vibefingerlakes.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "The Key to Rentals",
+    "market": "USA · Victor, NY (Canandaigua)",
+    "type": "Makler",
+    "email": "contact@thekeytorentals.com",
+    "phone": "585.283.7087",
+    "website": "https://www.thekeytorentals.com/canandaigua-property-management",
+    "evidence_no_video": "Lizenziertes Maklerbüro, keine Video-Tour- oder Matterport-Referenzen.",
+    "source_url": "https://www.thekeytorentals.com/canandaigua-property-management",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Skelly Properties",
+    "market": "USA · Penn Yan, NY (Keuka Lake)",
+    "type": "Property Manager",
+    "email": "skellyproperties@gmail.com",
+    "phone": "(607) 661-6009",
+    "website": "https://skellyproperties.com/",
+    "evidence_no_video": "Kleiner lokaler Betreiber, Kabinen/Jurten nur mit statischen Fotos.",
+    "source_url": "https://skellyproperties.com/",
+    "region_cluster": "Poconos / Finger Lakes NY"
+  },
+  {
+    "company": "Connect-A-Service Properties LLC",
+    "market": "USA · Penn Yan, NY (Keuka Lake)",
+    "type": "Property Manager",
+    "email": "connectaserviceinc@gmail.com",
+    "phone": "(315) 536-4733",
+    "website": "https://connectaserviceproperties.com/vacation-rentals",
+    "evidence_no_video": "10-Objekte-Portfolio nur mit statischen Bildern und Kalendern.",
+    "source_url": "https://connectaserviceproperties.com/vacation-rentals",
+    "region_cluster": "Poconos / Finger Lakes NY"
   }
 ]
