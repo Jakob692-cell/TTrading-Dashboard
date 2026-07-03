@@ -1,356 +1,490 @@
-<title>Approval Cockpit — AI Listing Media</title>
+<title>Walkthrough Studio — Operations</title>
 <style>
   :root {
-    --bg: #F4F6F5;
-    --surface: #FFFFFF;
-    --surface-2: #ECF0EF;
-    --ink: #17222B;
-    --muted: #5C6B77;
-    --line: #DFE6E6;
-    --accent: #0E7467;
-    --accent-soft: #E0F0ED;
-    --on-accent: #FFFFFF;
-    --ok: #1D7A3E;      --ok-bg: #E2F3E7;
-    --warn: #9A5B00;    --warn-bg: #FBF0DC;
-    --bad: #B3372E;     --bad-bg: #FBE7E4;
-    --info: #2456B3;    --info-bg: #E5EDFB;
-    --shadow: 0 1px 3px rgba(23,34,43,.08);
+    --bg: #0B0E12;
+    --bg-glow: radial-gradient(1200px 500px at 70% -10%, rgba(228,184,96,.07), transparent 60%),
+               radial-gradient(900px 400px at 10% 110%, rgba(111,168,255,.05), transparent 60%);
+    --panel: #12161C;
+    --panel-2: #181E26;
+    --panel-3: #1F2731;
+    --line: #262E39;
+    --line-soft: #1C232C;
+    --ink: #EDF0F4;
+    --muted: #8C97A6;
+    --faint: #5C6874;
+    --gold: #E4B860;
+    --gold-deep: #B8903C;
+    --gold-ink: #16110A;
+    --blue: #7FAEF5;   --blue-bg: rgba(127,174,245,.12);
+    --green: #63D394;  --green-bg: rgba(99,211,148,.12);
+    --red: #F0837A;    --red-bg: rgba(240,131,122,.12);
+    --amber: #E4B860;  --amber-bg: rgba(228,184,96,.13);
+    --grey-bg: rgba(140,151,166,.13);
+    --radius: 14px;
+    --serif: "Didot", "Bodoni MT", "Playfair Display", "Palatino Linotype", Georgia, serif;
+    --sans: "Inter", "Segoe UI", "Avenir Next", system-ui, sans-serif;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #10161A; --surface: #1A2328; --surface-2: #141C21;
-      --ink: #E6EDF0; --muted: #8FA0AB; --line: #2A3740;
-      --accent: #3FBFAE; --accent-soft: #12332F; --on-accent: #071614;
-      --ok: #57C97C; --ok-bg: #123420; --warn: #E0A54A; --warn-bg: #33270F;
-      --bad: #EF8A80; --bad-bg: #391613; --info: #7FA8EF; --info-bg: #14243F;
-      --shadow: 0 1px 3px rgba(0,0,0,.4);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #10161A; --surface: #1A2328; --surface-2: #141C21;
-    --ink: #E6EDF0; --muted: #8FA0AB; --line: #2A3740;
-    --accent: #3FBFAE; --accent-soft: #12332F; --on-accent: #071614;
-    --ok: #57C97C; --ok-bg: #123420; --warn: #E0A54A; --warn-bg: #33270F;
-    --bad: #EF8A80; --bad-bg: #391613; --info: #7FA8EF; --info-bg: #14243F;
-    --shadow: 0 1px 3px rgba(0,0,0,.4);
-  }
-  :root[data-theme="light"] {
-    --bg: #F4F6F5; --surface: #FFFFFF; --surface-2: #ECF0EF;
-    --ink: #17222B; --muted: #5C6B77; --line: #DFE6E6;
-    --accent: #0E7467; --accent-soft: #E0F0ED; --on-accent: #FFFFFF;
-    --ok: #1D7A3E; --ok-bg: #E2F3E7; --warn: #9A5B00; --warn-bg: #FBF0DC;
-    --bad: #B3372E; --bad-bg: #FBE7E4; --info: #2456B3; --info-bg: #E5EDFB;
-    --shadow: 0 1px 3px rgba(23,34,43,.08);
-  }
-
   * { box-sizing: border-box; }
+  html { scrollbar-color: var(--panel-3) var(--bg); }
   body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font: 15px/1.55 "Seravek", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    margin: 0; background: var(--bg) fixed; background-image: var(--bg-glow);
+    color: var(--ink); font: 14.5px/1.55 var(--sans);
+    -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--accent); }
+  a { color: var(--gold); text-decoration-color: rgba(228,184,96,.4); }
   button { font: inherit; cursor: pointer; }
+  ::placeholder { color: var(--faint); }
 
+  /* ---------- header ---------- */
   header {
-    position: sticky; top: 0; z-index: 5;
-    background: var(--surface); border-bottom: 1px solid var(--line);
-    padding: 14px 24px; display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 28px;
+    background: rgba(11,14,18,.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-soft);
   }
-  header h1 { font-size: 17px; font-weight: 650; letter-spacing: -.01em; margin: 0; }
-  header .sub { color: var(--muted); font-size: 13px; }
+  .mark {
+    width: 38px; height: 38px; border-radius: 10px; flex: none;
+    background: linear-gradient(145deg, var(--gold), var(--gold-deep));
+    color: var(--gold-ink); font: 700 19px/38px var(--serif); text-align: center;
+    letter-spacing: .02em; box-shadow: 0 4px 14px rgba(228,184,96,.25);
+  }
+  .brand h1 { margin: 0; font: 600 18px/1.2 var(--serif); letter-spacing: .02em; }
+  .brand .sub { color: var(--muted); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
   header .spacer { flex: 1; }
   .btn {
-    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-    border-radius: 8px; padding: 7px 14px; font-size: 13.5px; font-weight: 550;
+    border: 1px solid var(--line); background: var(--panel-2); color: var(--ink);
+    border-radius: 9px; padding: 8px 15px; font-size: 13px; font-weight: 550;
+    transition: background .15s, border-color .15s;
   }
-  .btn:hover { background: var(--surface-2); }
-  .btn:focus-visible, .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-  .btn.approve { background: var(--ok-bg); border-color: transparent; color: var(--ok); }
-  .btn.reject  { background: var(--bad-bg); border-color: transparent; color: var(--bad); }
+  .btn:hover { background: var(--panel-3); border-color: #39434F; }
+  .btn:focus-visible, .tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .btn.gold { background: linear-gradient(145deg, var(--gold), var(--gold-deep)); color: var(--gold-ink); border-color: transparent; font-weight: 650; }
+  .btn.gold:hover { filter: brightness(1.08); }
+  .btn.ok { background: var(--green-bg); color: var(--green); border-color: transparent; }
+  .btn.bad { background: var(--red-bg); color: var(--red); border-color: transparent; }
+  .btn.ghost { background: none; border-color: var(--line); color: var(--muted); }
+  .btn.sm { padding: 5px 11px; font-size: 12.5px; border-radius: 8px; }
 
-  main { max-width: 1080px; margin: 0 auto; padding: 24px 24px 80px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 26px 28px 90px; }
 
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 22px; }
-  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
-  .kpi .label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
-  .kpi .value { font-size: 28px; font-weight: 650; font-variant-numeric: tabular-nums; margin-top: 2px; }
-  .kpi.attention .value { color: var(--warn); }
+  /* ---------- KPIs ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .kpi {
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 15px 17px;
+  }
+  .kpi .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 600; }
+  .kpi .value { font: 600 30px/1.15 var(--serif); font-variant-numeric: tabular-nums; margin-top: 4px; }
+  .kpi.gold .value { color: var(--gold); }
+  .kpi.attn { border-color: rgba(228,184,96,.45); box-shadow: 0 0 0 1px rgba(228,184,96,.15), 0 6px 20px rgba(228,184,96,.06); }
+  .kpi.attn .value { color: var(--gold); }
+  .kpi .hint { color: var(--faint); font-size: 11.5px; margin-top: 2px; }
 
-  nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 22px; overflow-x: auto; }
+  /* ---------- tabs ---------- */
+  nav.tabs { display: flex; gap: 6px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 2px; }
   .tab {
-    border: 0; background: none; color: var(--muted); padding: 9px 14px 11px;
-    font-size: 14px; font-weight: 550; border-bottom: 2px solid transparent; white-space: nowrap;
+    border: 1px solid transparent; background: none; color: var(--muted);
+    padding: 8px 16px; border-radius: 99px; font-size: 13.5px; font-weight: 550; white-space: nowrap;
   }
-  .tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab:hover { color: var(--ink); }
+  .tab.active { background: var(--panel-2); border-color: var(--line); color: var(--ink); }
+  .tab .n { display: inline-block; min-width: 18px; text-align: center; background: var(--amber-bg); color: var(--gold); border-radius: 99px; font-size: 11px; padding: 1px 6px; margin-left: 6px; font-variant-numeric: tabular-nums; }
   section.panel { display: none; }
-  section.panel.active { display: block; }
+  section.panel.active { display: block; animation: fade .18s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } }
 
-  .banner {
-    background: var(--warn-bg); color: var(--warn); border-radius: 10px;
-    padding: 12px 16px; font-size: 13.5px; margin-bottom: 20px;
+  .note {
+    background: var(--amber-bg); color: var(--gold); border: 1px solid rgba(228,184,96,.25);
+    border-radius: 12px; padding: 10px 16px; font-size: 13px; margin-bottom: 20px;
   }
 
+  /* ---------- board ---------- */
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 14px; align-items: start; }
+  .col { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 12px; min-height: 120px; }
+  .col > h3 {
+    margin: 2px 4px 12px; font-size: 11px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--muted); font-weight: 650; display: flex; align-items: center; gap: 8px;
+  }
+  .col > h3 .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .col > h3 .cnt { margin-left: auto; color: var(--faint); font-weight: 600; }
+  .ocard {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px;
+    padding: 13px 14px; margin-bottom: 10px;
+  }
+  .ocard.review { border-color: rgba(228,184,96,.5); box-shadow: 0 0 0 1px rgba(228,184,96,.12); }
+  .ocard h4 { margin: 0 0 2px; font-size: 14px; font-weight: 650; }
+  .ocard .cust { color: var(--muted); font-size: 12.5px; }
+  .ocard .svc { margin: 8px 0 2px; font-size: 12.5px; color: var(--muted); }
+  .ocard .price { color: var(--gold); font-weight: 650; font-variant-numeric: tabular-nums; }
+  .ocard .row { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
+  .ocard .due { color: var(--faint); font-size: 11.5px; margin-top: 6px; }
+  .ocard a.prev { font-size: 12.5px; }
+
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 650; letter-spacing: .02em; }
+  .tag.blue { background: var(--blue-bg); color: var(--blue); }
+  .tag.green { background: var(--green-bg); color: var(--green); }
+  .tag.amber { background: var(--amber-bg); color: var(--gold); }
+  .tag.grey { background: var(--grey-bg); color: var(--muted); }
+  .tag.red { background: var(--red-bg); color: var(--red); }
+
+  /* ---------- cards / tables ---------- */
   .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
-    padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+    background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 16px;
   }
-  .card h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 650; }
+  .card h3 { margin: 0 0 6px; font: 600 17px/1.3 var(--serif); letter-spacing: .01em; }
   .meta { color: var(--muted); font-size: 13px; }
-
-  .pill {
-    display: inline-block; padding: 2px 10px; border-radius: 99px;
-    font-size: 12px; font-weight: 600; vertical-align: middle;
-  }
-  .pill.ok   { background: var(--ok-bg);   color: var(--ok); }
-  .pill.warn { background: var(--warn-bg); color: var(--warn); }
-  .pill.bad  { background: var(--bad-bg);  color: var(--bad); }
-  .pill.info { background: var(--info-bg); color: var(--info); }
-  .pill.mut  { background: var(--surface-2); color: var(--muted); }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
-  .chip { background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 2px 8px; font-size: 12px; }
-
-  .email {
-    background: var(--surface-2); border-radius: 10px; padding: 14px 16px;
-    margin-top: 12px; font-size: 14px; white-space: pre-wrap;
-  }
-  .email .subj { font-weight: 650; margin-bottom: 8px; }
-  .draft-head { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-  .actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
-  .note-in {
-    flex: 1; min-width: 180px; border: 1px solid var(--line); border-radius: 8px;
-    background: var(--surface); color: var(--ink); padding: 7px 10px; font: inherit; font-size: 13.5px;
-  }
-
-  .tbl-wrap { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; font-size: 14px; }
-  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; padding: 8px 12px; border-bottom: 1px solid var(--line); }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .11em; color: var(--muted); font-weight: 650; padding: 12px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
   td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  .bar { height: 7px; border-radius: 99px; background: var(--panel-3); min-width: 110px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-deep), var(--gold)); border-radius: 99px; }
 
-  .empty { color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 28px; text-align: center; font-size: 14px; }
-  .price { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  h2.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 26px 0 12px; }
-  footer { color: var(--muted); font-size: 12.5px; margin-top: 40px; }
+  /* ---------- forms ---------- */
+  details.adder { margin-bottom: 16px; }
+  details.adder summary {
+    list-style: none; display: inline-block; cursor: pointer;
+    border: 1px dashed var(--line); color: var(--muted); border-radius: 9px; padding: 8px 15px; font-size: 13px; font-weight: 550;
+  }
+  details.adder summary:hover { color: var(--ink); border-color: #39434F; }
+  details.adder[open] summary { color: var(--gold); border-color: rgba(228,184,96,.4); }
+  .form { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .form label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; display: block; margin-bottom: 4px; }
+  .in, select.in, textarea.in {
+    width: 100%; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-2);
+    color: var(--ink); padding: 8px 11px; font: inherit; font-size: 13.5px;
+  }
+  .in:focus { outline: none; border-color: var(--gold-deep); }
+  .form .full { grid-column: 1 / -1; }
+
+  /* ---------- emails ---------- */
+  .tpl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .tpl { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; }
+  .tpl > .tag { align-self: flex-start; }
+  .tpl .subj { font-weight: 650; font-size: 14px; margin: 8px 0 8px; }
+  .tpl pre {
+    margin: 0 0 12px; white-space: pre-wrap; font: 13px/1.55 var(--sans); color: var(--muted);
+    background: var(--panel-2); border-radius: 10px; padding: 12px 14px; flex: 1;
+  }
+  h2.sec { font: 600 15px/1.3 var(--serif); letter-spacing: .04em; color: var(--ink); margin: 28px 0 12px; }
+  h2.sec:first-child { margin-top: 0; }
+  h2.sec .thin { color: var(--faint); font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0; margin-left: 8px; }
+
+  /* ---------- pricing ---------- */
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .pcard { background: linear-gradient(180deg, var(--panel-2), var(--panel)); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 20px; }
+  .pcard.hero { border-color: rgba(228,184,96,.45); box-shadow: 0 0 0 1px rgba(228,184,96,.12), 0 10px 30px rgba(228,184,96,.05); }
+  .pcard .name { font-size: 11px; text-transform: uppercase; letter-spacing: .13em; color: var(--muted); font-weight: 650; }
+  .pcard .amount { font: 600 34px/1.1 var(--serif); color: var(--gold); margin: 8px 0 2px; }
+  .pcard .per { color: var(--faint); font-size: 12px; }
+  .pcard ul { margin: 12px 0 0; padding: 0 0 0 18px; color: var(--muted); font-size: 13px; }
+  .pcard li { margin: 4px 0; }
+
+  .empty { color: var(--muted); background: var(--panel); border: 1px dashed var(--line); border-radius: var(--radius); padding: 26px; text-align: center; font-size: 13.5px; }
+  footer { color: var(--faint); font-size: 12px; margin-top: 44px; }
+  @media (max-width: 640px) { header { padding: 12px 16px; } main { padding: 20px 16px 70px; } }
 </style>
 
 <header>
-  <div>
-    <h1>Approval Cockpit</h1>
-    <div class="sub">AI Listing Media — Prospecting · Freigabe · Tracking</div>
+  <div class="mark">W</div>
+  <div class="brand">
+    <h1>Walkthrough Studio</h1>
+    <div class="sub">Operations · Aufträge · Kontakte · Outreach</div>
   </div>
   <div class="spacer"></div>
-  <button class="btn" id="exportBtn" title="Aktuellen Stand inkl. deiner Entscheidungen als JSON herunterladen">Export JSON</button>
+  <button class="btn" id="exportBtn" title="Kompletten Stand als JSON sichern">Export JSON</button>
 </header>
 
 <main>
-  <div class="banner"><strong>Demo-Modus:</strong> Die 3 Leads unten sind Beispieldaten, um den Freigabe-Workflow zu zeigen — keine echten Personen.
-  Echte Recherche (USA/UK) startet, sobald du die Strategie in <code>BUSINESS.md</code> freigibst.</div>
+  <div class="note" id="demoNote"><strong>Demo-Daten aktiv</strong> — Aufträge, Kontakte und Log-Einträge mit „DEMO" sind Beispiele, damit du den Workflow siehst. Eigene Einträge legst du über die „+"-Buttons an; alles wird im Browser gespeichert und per Export gesichert.</div>
 
   <div class="kpis" id="kpis"></div>
 
   <nav class="tabs" id="tabs">
-    <button class="tab active" data-panel="p-approve">Freigabe-Queue</button>
-    <button class="tab" data-panel="p-pipeline">Pipeline</button>
+    <button class="tab active" data-panel="p-orders">Aufträge<span class="n" id="nOrders"></span></button>
+    <button class="tab" data-panel="p-contacts">Kontakte<span class="n" id="nContacts"></span></button>
+    <button class="tab" data-panel="p-emails">Emails</button>
     <button class="tab" data-panel="p-tracking">Tracking</button>
-    <button class="tab" data-panel="p-services">Services &amp; Preise</button>
-    <button class="tab" data-panel="p-legal">Recht-Checkliste</button>
+    <button class="tab" data-panel="p-pricing">Preise</button>
   </nav>
 
-  <section class="panel active" id="p-approve"></section>
-  <section class="panel" id="p-pipeline"></section>
-  <section class="panel" id="p-tracking"></section>
-
-  <section class="panel" id="p-services">
-    <div class="card"><h3>S1 · Listing-Text-Boost <span class="price">€79</span> <span class="pill info">Launch: €59 für die ersten 5 Kunden</span></h3>
-      <p class="meta">Neuer Titel + komplette Beschreibung (DE+EN bzw. EN), SEO-Keywords, Foto-Untertitel. 48 h Lieferung, 1 Korrekturrunde.</p></div>
-    <div class="card"><h3>S2 · Foto-zu-Video Reel <span class="price">€99</span></h3>
-      <p class="meta">30–60 s vertikales Video aus 8–15 vorhandenen Fotos (Higgsfield AI Motion), Musik + Text-Overlays, Export 9:16 + 16:9. Ehrliches Wording: AI-Motion-Reel aus Fotos, kein gedrehter Rundgang.</p></div>
-    <div class="card"><h3>S3 · Bundle S1 + S2 <span class="price">€139</span></h3>
-      <p class="meta">Beides zusammen, 72 h Lieferung.</p></div>
-    <div class="card"><h3>S4 · Portfolio-Paket <span class="price">3 Objekte €249 · 5 Objekte €379 · 10 Objekte €690</span></h3>
-      <p class="meta">Für Property Manager &amp; Makler: Bundle pro Objekt mit Volumen-Rabatt. Ersetzt das gestrichene Monats-Abo — Verwalter haben Bedarf über <em>mehrere Objekte</em>, nicht über die Zeit.</p></div>
-    <div class="card"><h3>S5 · Saison-Refresh <span class="price">€49/Objekt</span></h3>
-      <p class="meta">Nur Bestandskunden: Text-Update + neues Cover, 2×/Jahr aktiv angeboten (Sommer/Winter).</p></div>
+  <section class="panel active" id="p-orders">
+    <details class="adder"><summary>＋ Neuer Auftrag</summary>
+      <div class="form" id="orderForm">
+        <div><label>Kunde</label><input class="in" id="of-cust" placeholder="Lakeside Realty"></div>
+        <div><label>Objekt</label><input class="in" id="of-obj" placeholder="4BR Lakehouse, Austin"></div>
+        <div><label>Service</label><select class="in" id="of-svc">
+          <option>Walkthrough</option><option>Walkthrough + Text</option><option>Portfolio-Paket</option><option>Nur Text</option></select></div>
+        <div><label>Preis €</label><input class="in" id="of-price" type="number" min="0" placeholder="59"></div>
+        <div><label>Fällig</label><input class="in" id="of-due" type="date"></div>
+        <div class="full"><label>Notiz / Foto-Link</label><input class="in" id="of-note" placeholder="Drive-Link zu den Fotos, Wünsche des Kunden …"></div>
+        <div class="full"><button class="btn gold" id="of-add">Auftrag anlegen</button></div>
+      </div>
+    </details>
+    <div class="board" id="board"></div>
   </section>
 
-  <section class="panel" id="p-legal">
-    <div class="card"><h3>Cold-Email erlaubt <span class="pill ok">USA · UK</span></h3>
-      <p class="meta"><strong>USA (CAN-SPAM):</strong> Opt-out-Link, echte Absenderangaben, keine irreführende Betreffzeile, Postadresse im Footer.<br>
-      <strong>UK (PECR):</strong> nur an Firmen-Postfächer (Ltd/Agentur), nicht an Einzelunternehmer.</p></div>
-    <div class="card"><h3>Keine Kalt-Emails <span class="pill bad">DE · AT · Kanada</span></h3>
-      <p class="meta"><strong>DE/AT:</strong> §7 Abs. 2 UWG — auch B2B ohne Einwilligung unzulässig, Abmahnrisiko. DACH läuft nur über Inbound (Content, Empfehlungen, Marktplätze).<br>
-      <strong>Kanada (CASL):</strong> sehr streng, hohe Bußgelder — meiden.</p></div>
-    <div class="card"><h3>Plattform-Regeln <span class="pill warn">Airbnb</span></h3>
-      <p class="meta">Hosts nie über die Airbnb-Nachrichtenfunktion für Services anschreiben, kein Scraping — verstößt gegen die ToS. Kontakt nur über öffentliche Kanäle außerhalb: eigene Website, Instagram-Business-Profil, Google-Eintrag.</p></div>
-    <div class="card"><h3>Vor der ersten Rechnung <span class="pill warn">Gewerbe</span></h3>
-      <p class="meta">Gewerbeanmeldung (Kleinunternehmerregelung §19 UStG). Unter 18: Einwilligung der Eltern + Genehmigung des Familiengerichts (§112 BGB) nötig.</p></div>
-    <div class="card"><h3>Jede Email: Pflicht-Check vor Versand</h3>
-      <p class="meta">① Markt erlaubt (USA/UK)? ② Firmen-Adresse, keine Privatperson? ③ Objekt konkret referenziert? ④ Opt-out-Zeile im Footer? ⑤ Im Dashboard freigegeben? — erst dann senden.</p></div>
+  <section class="panel" id="p-contacts">
+    <details class="adder"><summary>＋ Neuer Kontakt</summary>
+      <div class="form" id="contactForm">
+        <div><label>Name</label><input class="in" id="cf-name" placeholder="Jane Miller"></div>
+        <div><label>Firma</label><input class="in" id="cf-comp" placeholder="Miller Realty"></div>
+        <div><label>Typ</label><select class="in" id="cf-type">
+          <option>Makler</option><option>Property Manager</option><option>Airbnb-Host</option><option>Agentur</option></select></div>
+        <div><label>Markt</label><input class="in" id="cf-market" placeholder="USA · Austin, TX"></div>
+        <div><label>Email</label><input class="in" id="cf-email" placeholder="info@millerrealty.com"></div>
+        <div><label>Quelle</label><input class="in" id="cf-src" placeholder="Google Maps / Website / Instagram"></div>
+        <div class="full"><button class="btn gold" id="cf-add">Kontakt anlegen</button></div>
+      </div>
+    </details>
+    <div style="margin-bottom:12px"><input class="in" id="contactFilter" placeholder="Filtern: Name, Firma, Markt, Status …" style="max-width:340px"></div>
+    <div class="tbl-wrap" id="contactTable"></div>
   </section>
 
-  <footer>Stand: <span id="stamp"></span> · Freigaben werden lokal im Browser gespeichert (localStorage) — „Export JSON" sichert sie dauerhaft.</footer>
+  <section class="panel" id="p-emails">
+    <h2 class="sec">Email-Vorlagen <span class="thin">A/B/C-Varianten · personalisieren, dann direkt raus (nur USA &amp; UK)</span></h2>
+    <div class="tpl-grid" id="tplGrid"></div>
+
+    <h2 class="sec">Versand-Log <span class="thin">jede rausgeschickte Email hier eintragen — füttert das Tracking</span></h2>
+    <details class="adder"><summary>＋ Email loggen</summary>
+      <div class="form" id="logForm">
+        <div><label>Kontakt</label><select class="in" id="lf-contact"></select></div>
+        <div><label>Variante</label><select class="in" id="lf-variant"><option>direkt</option><option>neugierig</option><option>frage</option></select></div>
+        <div><label>Datum</label><input class="in" id="lf-date" type="date"></div>
+        <div><label>Antwort?</label><select class="in" id="lf-replied"><option value="0">nein / offen</option><option value="1">ja</option></select></div>
+        <div class="full"><button class="btn gold" id="lf-add">Eintragen</button></div>
+      </div>
+    </details>
+    <div id="logTable"></div>
+    <p class="meta" style="margin-top:14px">⚖️ Kurz-Check vor jedem Versand: Nur USA/UK · Firmen-Adresse · Objekt konkret genannt · Opt-out-Zeile im Footer. In DE/AT keine Kalt-Emails (§7 UWG).</p>
+  </section>
+
+  <section class="panel" id="p-tracking" ><div id="trackingBody"></div></section>
+
+  <section class="panel" id="p-pricing">
+    <div class="price-grid">
+      <div class="pcard hero">
+        <div class="name">Website-Walkthrough</div>
+        <div class="amount">€59</div><div class="per">pro Objekt · 48 h Lieferung</div>
+        <ul><li>60–90 s Video aus vorhandenen Listing-Fotos (AI Motion)</li><li>Ausgelegt für die Objektseite / Portal-Einbettung (16:9)</li><li>9:16-Export als kostenlose Zugabe für Social</li><li>1 Korrekturrunde</li></ul>
+      </div>
+      <div class="pcard">
+        <div class="name">Text-Add-on</div>
+        <div class="amount">€39</div><div class="per">nur zusammen mit Walkthrough</div>
+        <ul><li>Titel + Objektbeschreibung neu (EN oder DE+EN)</li><li>SEO-Keywords für Portal-Suche</li></ul>
+      </div>
+      <div class="pcard">
+        <div class="name">Bundle</div>
+        <div class="amount">€89</div><div class="per">Walkthrough + Text · 72 h</div>
+        <ul><li>Beides zusammen, €9 gespart</li></ul>
+      </div>
+      <div class="pcard">
+        <div class="name">Portfolio</div>
+        <div class="amount">€249<span style="font-size:16px;color:var(--muted)"> / 5</span> · €449<span style="font-size:16px;color:var(--muted)"> / 10</span></div>
+        <div class="per">Walkthroughs für Makler &amp; Verwalter</div>
+        <ul><li>€49,80 bzw. €44,90 pro Objekt</li><li>Hier liegt der eigentliche Umsatz — ein Deal statt zehn</li></ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Preis-Logik</h3>
+      <p class="meta">Ehrlich: Ein Foto-zu-Video-Walkthrough ist replizierbar — auf Fiverr gibt es Slideshow-Videos ab ~$30. Verkauft wird deshalb nicht „Technik", sondern <strong>„fertig ohne eigenen Aufwand"</strong>: Makler rechnen ihre Zeit gegen ihre Provision, nicht gegen den Videopreis. €59 liegt im Impulskauf-Bereich („no-brainer"), ist aber über dem Fiverr-Boden — Abgrenzung über Qualität + 48 h + Portal-fertig. Launch: <strong>erstes Video pro Kunde −50 % (€29) gegen Testimonial.</strong> Preise anheben, sobald Portfolio + Bewertungen da sind — runter geht immer, rauf nur mit Beweis.</p>
+    </div>
+  </section>
+
+  <footer>Stand: <span id="stamp"></span> · Daten liegen lokal im Browser (localStorage) — regelmäßig „Export JSON" klicken. Fertige Walkthroughs werden erst nach deiner Freigabe in der Spalte „Zur Freigabe" ausgeliefert.</footer>
 </main>
 
 <script>
+/* ---------------- data ---------------- */
 const DATA = {
   generated: "2026-07-03",
-  leads: [
-    {
-      id: "L-001", demo: true,
-      name: "Hill Country Cabin (Beispiel-Host)", type: "Airbnb-Host", market: "USA · Austin, TX",
-      url: "https://example.com/listing-demo-1", contact: "Instagram-Business-Profil (Beispiel)",
-      status: "entwurf", priority: "hoch",
-      weaknesses: ["Kein Video", "Beschreibung nur 3 Zeilen", "Titel generisch (\"Cozy cabin\")"],
-      pitch: "S3 Bundle €139: neuer SEO-Titel + Beschreibung EN, dazu 45s-Reel aus den vorhandenen 14 Fotos.",
-      drafts: [
-        { id: "D-001a", variant: "direkt", lang: "EN", status: "entwurf", sent: false, replied: false,
-          subject: "Your Hill Country cabin — 2 quick wins",
-          body: "Hi [Name],\n\nI came across your cabin listing — great photos, but the title (\"Cozy cabin\") and the 3-line description don't do the place justice, and there's no video for guests scrolling on mobile.\n\nI turn existing photos into a 45-second reel (Instagram/TikTok-ready) and rewrite title + description with the search terms guests actually use. Package: €139, delivered in 72h.\n\nWant me to send a free before/after sample of your title?\n\n[Signatur + Adresse + Opt-out-Zeile]" },
-        { id: "D-001b", variant: "frage", lang: "EN", status: "entwurf", sent: false, replied: false,
-          subject: "Quick question about your cabin listing",
-          body: "Hi [Name],\n\nquick question: is the cabin's booking rate where you want it in the shoulder season?\n\nI ask because the listing has strong photos but no video and a very short description — the two things that most affect click-through from search. I fix exactly that (photo-to-video reel + rewritten copy, €139, 72h).\n\nHappy to send a free sample rewrite of your title if useful.\n\n[Signatur + Adresse + Opt-out-Zeile]" }
-      ]
-    },
-    {
-      id: "L-002", demo: true,
-      name: "Northern Quarter Estates (Beispiel-Makler)", type: "Immobilienmakler", market: "UK · Manchester",
-      url: "https://example.com/agency-demo-2", contact: "info@… (Firmen-Postfach, PECR-konform)",
-      status: "analysiert", priority: "hoch",
-      weaknesses: ["Keine Video-Touren auf Listings", "Kein Instagram-Reel-Content", "12 aktive Objekte"],
-      pitch: "S4 Portfolio: 5 Objekte €379 — Reels für die Top-Listings, Rest nach Ergebnis.",
-      drafts: [
-        { id: "D-002a", variant: "neugierig", lang: "EN", status: "entwurf", sent: false, replied: false,
-          subject: "Video tours for your 12 listings — without a videographer",
-          body: "Hi [Name],\n\nyour 12 active listings all have professional photos but none have video — and listings with video get roughly double the engagement on portals and Instagram.\n\nI turn your existing photos into 45–60s video tours (AI motion, music, captions), ready for Rightmove, your site and Reels. 5 listings: €379, delivered within a week.\n\nWant to see one of your current listings as a finished sample first?\n\n[Signatur + Adresse + Opt-out-Zeile]" }
-      ]
-    },
-    {
-      id: "L-003", demo: true,
-      name: "Gulf Coast Stays (Beispiel-Verwalter)", type: "Property Manager", market: "USA · Florida",
-      url: "https://example.com/pm-demo-3", contact: "hello@… (Firmen-Postfach)",
-      status: "neu", priority: "mittel",
-      weaknesses: ["23 Objekte, uneinheitliche Beschreibungen", "Kein Social-Content"],
-      pitch: "S4 Portfolio 10 Objekte €690, Start mit 3er-Paket €249 als Test.",
-      drafts: []
-    }
+  contacts: [
+    { id:"C-01", demo:true, name:"[Beispiel] J. Miller", comp:"Lakeside Realty", type:"Makler", market:"USA · Austin, TX", email:"info@…", src:"Google Maps", status:"kunde" },
+    { id:"C-02", demo:true, name:"[Beispiel] A. Whitfield", comp:"NQ Estates Ltd", type:"Agentur", market:"UK · Manchester", email:"hello@… (Firmen-Postfach)", src:"Website", status:"antwort" },
+    { id:"C-03", demo:true, name:"[Beispiel] R. Ortega", comp:"Gulf Coast Stays", type:"Property Manager", market:"USA · Florida", email:"office@…", src:"VRMA-Verzeichnis", status:"angeschrieben" },
+    { id:"C-04", demo:true, name:"[Beispiel] D. Chen", comp:"Sunrise Homes", type:"Makler", market:"USA · Phoenix, AZ", email:"contact@…", src:"Zillow-Profil → Website", status:"lead" }
+  ],
+  orders: [
+    { id:"A-100", demo:true, cust:"Sunrise Homes", obj:"3BR Villa, Phoenix", svc:"Walkthrough", price:59, due:"2026-07-08", status:"anfrage", note:"Wartet auf Foto-Link" },
+    { id:"A-101", demo:true, cust:"Lakeside Realty", obj:"4BR Lakehouse, Austin", svc:"Walkthrough + Text", price:89, due:"2026-07-05", status:"produktion", note:"14 Fotos erhalten, Higgsfield-Renders laufen" },
+    { id:"A-102", demo:true, cust:"NQ Estates Ltd", obj:"2BR Loft, Manchester", svc:"Walkthrough", price:59, due:"2026-07-04", status:"freigabe", preview:"https://example.com/preview-a102", note:"V2 nach Musik-Feedback" },
+    { id:"A-103", demo:true, cust:"Gulf Coast Stays", obj:"Beach Condo 12A (1/5 Portfolio)", svc:"Portfolio-Paket", price:249, due:"2026-06-30", status:"geliefert", note:"Kunde zufrieden, 4 weitere Objekte folgen" }
+  ],
+  emailLog: [
+    { id:"E-01", demo:true, contactId:"C-02", variant:"neugierig", date:"2026-06-28", replied:true },
+    { id:"E-02", demo:true, contactId:"C-03", variant:"direkt", date:"2026-06-29", replied:false }
+  ],
+  templates: [
+    { variant:"direkt", subject:"Video walkthrough for [address] — from your existing photos",
+      body:"Hi [Name],\n\nyour listing at [address] has strong photos but no video tour on the page — and listing pages with video hold buyers 2–3× longer.\n\nI turn the photos you already have into a 60–90s walkthrough video, ready to embed on your site or portal listing. €59 per listing, delivered in 48h. First one half price.\n\nWant me to do [address] as the test?\n\n[Signatur · Postadresse · Opt-out-Zeile]" },
+    { variant:"neugierig", subject:"What your listings are missing (30-second look)",
+      body:"Hi [Name],\n\nI went through [Agency]'s current listings — great photography, but not a single video tour. That's the one thing buyers scroll for before booking a viewing.\n\nI make walkthrough videos from your existing photos (no shoot, no visit). Happy to turn one of your live listings into a finished sample so you can judge the quality yourself — takes me a day.\n\nInterested?\n\n[Signatur · Postadresse · Opt-out-Zeile]" },
+    { variant:"frage", subject:"Do you do video tours in-house?",
+      body:"Hi [Name],\n\nquick question — does [Agency] produce video tours for listings in-house, or do you skip video because a videographer per property isn't worth it?\n\nI ask because I build walkthrough videos from existing listing photos: €59 per property, 48h, embed-ready for your website. No shoot needed.\n\nIf video is on your list anyway, I'll send a sample from one of your live listings.\n\n[Signatur · Postadresse · Opt-out-Zeile]" }
   ]
 };
 
-const STAGES = ["neu","analysiert","entwurf","freigegeben","gesendet","antwort","kunde"];
-const STAGE_PILL = { neu:"mut", analysiert:"info", entwurf:"warn", freigegeben:"ok", gesendet:"info", antwort:"ok", kunde:"ok" };
-const DRAFT_PILL = { entwurf:"warn", freigegeben:"ok", abgelehnt:"bad", gesendet:"info" };
-const LS_KEY = "alm-decisions-v1";
+const STAGES = [
+  { key:"anfrage",    label:"Anfragen",       dot:"var(--muted)",  next:"produktion", nextLabel:"Annehmen → Produktion" },
+  { key:"produktion", label:"In Produktion",  dot:"var(--blue)",   next:"freigabe",   nextLabel:"Fertig → zur Freigabe" },
+  { key:"freigabe",   label:"Zur Freigabe",   dot:"var(--gold)",   next:"geliefert",  nextLabel:"✓ Freigeben & liefern" },
+  { key:"geliefert",  label:"Ausgeliefert",   dot:"var(--green)",  next:null }
+];
+const CONTACT_STATUS = { lead:"grey", angeschrieben:"blue", antwort:"amber", kunde:"green" };
+const CONTACT_NEXT = { lead:"angeschrieben", angeschrieben:"antwort", antwort:"kunde", kunde:"lead" };
 
-const store = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
-function saveStore(){ localStorage.setItem(LS_KEY, JSON.stringify(store)); }
-function draftState(d){ return Object.assign({ status: d.status, note: "" }, store[d.id] || {}); }
-function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+/* ---------------- state ---------------- */
+const LS_KEY = "ws-ops-v2";
+const store = Object.assign({ orders:[], contacts:[], emailLog:[], orderStatus:{}, contactStatus:{} },
+  JSON.parse(localStorage.getItem(LS_KEY) || "{}"));
+const save = () => localStorage.setItem(LS_KEY, JSON.stringify(store));
 
-function allDrafts(){ return DATA.leads.flatMap(l => l.drafts.map(d => ({ lead: l, d }))); }
+const allOrders   = () => DATA.orders.concat(store.orders).map(o => Object.assign({}, o, { status: store.orderStatus[o.id] || o.status }));
+const allContacts = () => DATA.contacts.concat(store.contacts).map(c => Object.assign({}, c, { status: store.contactStatus[c.id] || c.status }));
+const allLog      = () => DATA.emailLog.concat(store.emailLog);
+const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const eur = n => "€" + Number(n||0).toLocaleString("de-DE");
 
+/* ---------------- render ---------------- */
 function render(){
-  // KPIs
-  const drafts = allDrafts();
-  const pending = drafts.filter(x => draftState(x.d).status === "entwurf").length;
-  const approved = drafts.filter(x => draftState(x.d).status === "freigegeben").length;
-  const sent = drafts.filter(x => x.d.sent).length;
-  const replies = drafts.filter(x => x.d.replied).length;
-  const kpis = [
-    ["Leads", DATA.leads.length, false],
-    ["Wartet auf Freigabe", pending, pending > 0],
-    ["Freigegeben", approved, false],
-    ["Gesendet", sent, false],
-    ["Antworten", replies, false],
-    ["Kunden", DATA.leads.filter(l => l.status === "kunde").length, false]
-  ];
-  document.getElementById("kpis").innerHTML = kpis.map(([l,v,att]) =>
-    `<div class="kpi${att ? " attention" : ""}"><div class="label">${l}</div><div class="value">${v}</div></div>`).join("");
+  const orders = allOrders(), contacts = allContacts(), log = allLog();
 
-  // Freigabe-Queue
-  const q = drafts.filter(x => ["entwurf","freigegeben","abgelehnt"].includes(draftState(x.d).status));
-  document.getElementById("p-approve").innerHTML = q.length === 0
-    ? `<div class="empty">Keine Entwürfe in der Queue. Neue Entwürfe entstehen nach der nächsten Recherche-Runde.</div>`
-    : q.map(({lead, d}) => {
-        const st = draftState(d);
-        return `<div class="card">
-          <h3>${esc(lead.name)} ${lead.demo ? '<span class="pill mut">DEMO</span>' : ""} <span class="pill ${DRAFT_PILL[st.status]}">${st.status}</span></h3>
-          <div class="meta">${esc(lead.type)} · ${esc(lead.market)} · Kontakt: ${esc(lead.contact)} · <a href="${esc(lead.url)}" target="_blank" rel="noopener">Listing</a></div>
-          <div class="draft-head"><span class="pill info">Variante: ${esc(d.variant)}</span><span class="pill mut">${esc(d.lang)}</span><span class="meta">${d.id}</span></div>
-          <div class="email"><div class="subj">Betreff: ${esc(d.subject)}</div>${esc(d.body)}</div>
-          <div class="actions">
-            <button class="btn approve" data-id="${d.id}" data-set="freigegeben">✓ Freigeben</button>
-            <button class="btn reject" data-id="${d.id}" data-set="abgelehnt">✕ Ablehnen</button>
-            <button class="btn" data-id="${d.id}" data-set="entwurf">Zurücksetzen</button>
-            <input class="note-in" data-note="${d.id}" placeholder="Kommentar (z. B. Änderungswunsch)…" value="${esc(st.note)}">
-          </div>
-        </div>`;
-      }).join("");
+  const inProd = orders.filter(o => o.status === "produktion");
+  const review = orders.filter(o => o.status === "freigabe");
+  const delivered = orders.filter(o => o.status === "geliefert");
+  document.getElementById("kpis").innerHTML = [
+    ["Anfragen", orders.filter(o => o.status === "anfrage").length, "", false],
+    ["In Produktion", inProd.length, eur(inProd.reduce((s,o)=>s+o.price,0)) + " im Bau", false],
+    ["Wartet auf Freigabe", review.length, review.length ? "fertige Videos prüfen!" : "", review.length > 0],
+    ["Ausgeliefert", delivered.length, "", false],
+    ["Umsatz geliefert", eur(delivered.reduce((s,o)=>s+o.price,0)), "", false],
+    ["Antwortrate", log.length ? Math.round(100*log.filter(l=>l.replied).length/log.length)+" %" : "—", log.length + " Emails raus", false]
+  ].map(([l,v,h,attn]) => `<div class="kpi${attn?" attn":""}${String(l).startsWith("Umsatz")?" gold":""}">
+      <div class="label">${l}</div><div class="value">${v}</div>${h?`<div class="hint">${h}</div>`:""}</div>`).join("");
 
-  // Pipeline
-  document.getElementById("p-pipeline").innerHTML = `<div class="tbl-wrap card" style="padding:0">
-    <table><thead><tr><th>Lead</th><th>Typ · Markt</th><th>Schwachstellen</th><th>Angebots-Idee</th><th>Priorität</th><th>Status</th></tr></thead><tbody>
-    ${DATA.leads.map(l => `<tr>
-      <td><strong>${esc(l.name)}</strong>${l.demo ? ' <span class="pill mut">DEMO</span>' : ""}<br><a class="meta" href="${esc(l.url)}" target="_blank" rel="noopener">Listing</a></td>
-      <td>${esc(l.type)}<br><span class="meta">${esc(l.market)}</span></td>
-      <td><div class="chips">${l.weaknesses.map(w => `<span class="chip">${esc(w)}</span>`).join("")}</div></td>
-      <td class="meta">${esc(l.pitch)}</td>
-      <td><span class="pill ${l.priority === "hoch" ? "warn" : "mut"}">${l.priority}</span></td>
-      <td><span class="pill ${STAGE_PILL[l.status]}">${l.status}</span></td>
-    </tr>`).join("")}
-    </tbody></table></div>
-    <p class="meta">Stufen: ${STAGES.join(" → ")}</p>`;
+  document.getElementById("nOrders").textContent = orders.filter(o=>o.status!=="geliefert").length;
+  document.getElementById("nContacts").textContent = contacts.length;
 
-  // Tracking
-  const sentDrafts = drafts.filter(x => x.d.sent);
-  if (sentDrafts.length === 0) {
-    document.getElementById("p-tracking").innerHTML =
-      `<div class="empty">Noch keine gesendeten Emails — Tracking startet mit dem ersten Versand.<br>
-      Erfasst wird pro Email: Variante (direkt / neugierig / frage), Objekttyp, Markt, Antwort ja/nein.</div>`;
-  } else {
-    const byVar = {};
-    sentDrafts.forEach(({d}) => {
-      byVar[d.variant] = byVar[d.variant] || { sent: 0, replied: 0 };
-      byVar[d.variant].sent++; if (d.replied) byVar[d.variant].replied++;
-    });
-    document.getElementById("p-tracking").innerHTML = `<div class="tbl-wrap card" style="padding:0">
-      <table><thead><tr><th>Variante</th><th class="num">Gesendet</th><th class="num">Antworten</th><th class="num">Antwortrate</th></tr></thead><tbody>
-      ${Object.entries(byVar).map(([v,s]) => `<tr><td>${esc(v)}</td><td class="num">${s.sent}</td><td class="num">${s.replied}</td><td class="num">${(100*s.replied/s.sent).toFixed(0)} %</td></tr>`).join("")}
-      </tbody></table></div>`;
-  }
+  /* board */
+  document.getElementById("board").innerHTML = STAGES.map(st => {
+    const items = orders.filter(o => o.status === st.key);
+    return `<div class="col"><h3><span class="dot" style="background:${st.dot}"></span>${st.label}<span class="cnt">${items.length}</span></h3>
+      ${items.map(o => `<div class="ocard${st.key==="freigabe"?" review":""}">
+        <h4>${esc(o.obj)}</h4>
+        <div class="cust">${esc(o.cust)}${o.demo?' · <span class="tag grey">DEMO</span>':""}</div>
+        <div class="svc">${esc(o.svc)} · <span class="price">${eur(o.price)}</span></div>
+        ${o.note?`<div class="due">${esc(o.note)}</div>`:""}
+        ${o.due?`<div class="due">Fällig: ${esc(o.due)}</div>`:""}
+        ${o.preview?`<div style="margin-top:6px"><a class="prev" href="${esc(o.preview)}" target="_blank" rel="noopener">▶ Video-Preview ansehen</a></div>`:""}
+        <div class="row">
+          ${st.next?`<button class="btn sm ${st.key==="freigabe"?"ok":""}" data-order="${o.id}" data-to="${st.next}">${st.nextLabel}</button>`:""}
+          ${st.key==="freigabe"?`<button class="btn sm bad" data-order="${o.id}" data-to="produktion">↩ Änderung</button>`:""}
+        </div>
+      </div>`).join("") || `<div class="due" style="color:var(--faint);padding:6px">leer</div>`}
+    </div>`;
+  }).join("");
+
+  /* contacts */
+  const f = (document.getElementById("contactFilter").value || "").toLowerCase();
+  const rows = contacts.filter(c => !f || [c.name,c.comp,c.market,c.type,c.status].join(" ").toLowerCase().includes(f));
+  document.getElementById("contactTable").innerHTML = `<table><thead>
+    <tr><th>Name / Firma</th><th>Typ</th><th>Markt</th><th>Email</th><th>Quelle</th><th>Status</th></tr></thead><tbody>
+    ${rows.map(c => `<tr>
+      <td><strong>${esc(c.name)}</strong>${c.demo?' <span class="tag grey">DEMO</span>':""}<br><span class="meta">${esc(c.comp)}</span></td>
+      <td>${esc(c.type)}</td><td>${esc(c.market)}</td><td class="meta">${esc(c.email)}</td><td class="meta">${esc(c.src)}</td>
+      <td><button class="tag ${CONTACT_STATUS[c.status]}" style="border:0;cursor:pointer" title="Klick = nächster Status" data-contact="${c.id}">${c.status}</button></td>
+    </tr>`).join("") || `<tr><td colspan="6" class="meta">Keine Treffer.</td></tr>`}
+  </tbody></table>`;
+
+  /* templates */
+  document.getElementById("tplGrid").innerHTML = DATA.templates.map(t =>
+    `<div class="tpl"><span class="tag amber">Variante: ${esc(t.variant)}</span>
+     <div class="subj">${esc(t.subject)}</div><pre>${esc(t.body)}</pre>
+     <button class="btn sm" data-copy="${esc(t.variant)}">In Zwischenablage kopieren</button></div>`).join("");
+
+  /* email log + form contact options */
+  document.getElementById("lf-contact").innerHTML =
+    contacts.map(c => `<option value="${c.id}">${esc(c.name)} — ${esc(c.comp)}</option>`).join("");
+  const cName = id => { const c = contacts.find(x => x.id === id); return c ? `${c.name} (${c.comp})` : id; };
+  document.getElementById("logTable").innerHTML = log.length === 0
+    ? `<div class="empty">Noch keine Emails geloggt.</div>`
+    : `<div class="tbl-wrap"><table><thead><tr><th>Datum</th><th>Kontakt</th><th>Variante</th><th>Antwort</th></tr></thead><tbody>
+      ${log.slice().sort((a,b)=>b.date<a.date?-1:1).map(l => `<tr>
+        <td class="meta">${esc(l.date)}</td><td>${esc(cName(l.contactId))}${l.demo?' <span class="tag grey">DEMO</span>':""}</td>
+        <td><span class="tag amber">${esc(l.variant)}</span></td>
+        <td>${l.replied?'<span class="tag green">Antwort ✓</span>':'<span class="tag grey">offen</span>'}</td>
+      </tr>`).join("")}</tbody></table></div>`;
+
+  /* tracking */
+  const byVar = {};
+  log.forEach(l => { const v = byVar[l.variant] = byVar[l.variant] || { sent:0, rep:0 }; v.sent++; if (l.replied) v.rep++; });
+  const vars = Object.entries(byVar);
+  document.getElementById("trackingBody").innerHTML = vars.length === 0
+    ? `<div class="empty">Tracking startet, sobald Emails im Versand-Log stehen.</div>`
+    : `<div class="tbl-wrap"><table><thead><tr><th>Variante</th><th class="num">Gesendet</th><th class="num">Antworten</th><th class="num">Rate</th><th>&nbsp;</th></tr></thead><tbody>
+      ${vars.map(([v,s]) => { const r = s.sent ? s.rep/s.sent : 0; return `<tr>
+        <td><span class="tag amber">${esc(v)}</span></td><td class="num">${s.sent}</td><td class="num">${s.rep}</td>
+        <td class="num">${Math.round(100*r)} %</td><td><div class="bar"><i style="width:${Math.max(3,100*r)}%"></i></div></td></tr>`; }).join("")}
+      </tbody></table></div>
+      <p class="meta" style="margin-top:12px">Wöchentlich: schwächste Variante gegen eine neue tauschen. Zusätzlich auf Objekttyp/Markt achten — was antwortet, wird priorisiert.</p>`;
 
   document.getElementById("stamp").textContent = DATA.generated;
 }
 
-document.addEventListener("click", e => {
-  const b = e.target.closest("button[data-set]");
-  if (!b) return;
-  const id = b.dataset.id;
-  const note = document.querySelector(`input[data-note="${id}"]`);
-  store[id] = { status: b.dataset.set, note: note ? note.value : "", ts: new Date().toISOString() };
-  saveStore(); render();
-});
-document.addEventListener("change", e => {
-  if (!e.target.matches("input[data-note]")) return;
-  const id = e.target.dataset.note;
-  store[id] = Object.assign({ status: draftState({ id, status: "entwurf" }).status }, store[id], { note: e.target.value });
-  saveStore();
-});
+/* ---------------- events ---------------- */
 document.getElementById("tabs").addEventListener("click", e => {
   const t = e.target.closest(".tab"); if (!t) return;
   document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x === t));
   document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === t.dataset.panel));
 });
+
+document.addEventListener("click", e => {
+  const mv = e.target.closest("button[data-order]");
+  if (mv) { store.orderStatus[mv.dataset.order] = mv.dataset.to; save(); render(); return; }
+  const cs = e.target.closest("button[data-contact]");
+  if (cs) {
+    const cur = allContacts().find(c => c.id === cs.dataset.contact).status;
+    store.contactStatus[cs.dataset.contact] = CONTACT_NEXT[cur]; save(); render(); return;
+  }
+  const cp = e.target.closest("button[data-copy]");
+  if (cp) {
+    const t = DATA.templates.find(x => x.variant === cp.dataset.copy);
+    navigator.clipboard.writeText("Subject: " + t.subject + "\n\n" + t.body)
+      .then(() => { cp.textContent = "✓ Kopiert"; setTimeout(() => render(), 1200); });
+  }
+});
+
+document.getElementById("of-add").addEventListener("click", () => {
+  const v = id => document.getElementById(id).value.trim();
+  if (!v("of-cust") || !v("of-obj")) return;
+  store.orders.push({ id:"A-"+Date.now(), cust:v("of-cust"), obj:v("of-obj"), svc:v("of-svc"),
+    price:+v("of-price")||0, due:v("of-due"), note:v("of-note"), status:"anfrage" });
+  save(); document.getElementById("orderForm").querySelectorAll("input").forEach(i => i.value=""); render();
+});
+document.getElementById("cf-add").addEventListener("click", () => {
+  const v = id => document.getElementById(id).value.trim();
+  if (!v("cf-name")) return;
+  store.contacts.push({ id:"C-"+Date.now(), name:v("cf-name"), comp:v("cf-comp"), type:v("cf-type"),
+    market:v("cf-market"), email:v("cf-email"), src:v("cf-src"), status:"lead" });
+  save(); document.getElementById("contactForm").querySelectorAll("input").forEach(i => i.value=""); render();
+});
+document.getElementById("lf-add").addEventListener("click", () => {
+  store.emailLog.push({ id:"E-"+Date.now(), contactId:document.getElementById("lf-contact").value,
+    variant:document.getElementById("lf-variant").value,
+    date:document.getElementById("lf-date").value || new Date().toISOString().slice(0,10),
+    replied:document.getElementById("lf-replied").value === "1" });
+  save(); render();
+});
+document.getElementById("contactFilter").addEventListener("input", render);
 document.getElementById("exportBtn").addEventListener("click", () => {
-  const out = JSON.parse(JSON.stringify(DATA));
-  out.leads.forEach(l => l.drafts.forEach(d => {
-    const st = draftState(d); d.status = st.status; if (st.note) d.note = st.note;
-  }));
-  out.exportedAt = new Date().toISOString();
+  const out = { exportedAt:new Date().toISOString(), orders:allOrders(), contacts:allContacts(), emailLog:allLog(), templates:DATA.templates };
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], { type: "application/json" }));
-  a.download = "approval-export.json"; a.click(); URL.revokeObjectURL(a.href);
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], { type:"application/json" }));
+  a.download = "walkthrough-studio-export.json"; a.click(); URL.revokeObjectURL(a.href);
 });
 
 render();

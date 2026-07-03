@@ -1,7 +1,9 @@
-# AI Listing Media — Business-Konzept v2
+# Walkthrough Studio — Business-Konzept v3
 
-KI-gestützte Listing-Medien für Ferienwohnungen & Immobilien: Texte + Videos aus
-vorhandenen Fotos. 100 % remote, Lieferung digital, daher weltweit anbietbar.
+**Produkt: AI Website-Walkthroughs.** 60–90-Sekunden-Videos aus vorhandenen
+Listing-Fotos, ausgelegt für die Objektseite auf Websites und Portalen (16:9).
+Ein 9:16-Export für Social ist kostenlose Zugabe — Social ist nicht das
+Kernprodukt. 100 % remote, Lieferung digital, daher weltweit anbietbar.
 
 ---
 
@@ -30,25 +32,25 @@ vorhandenen Fotos. 100 % remote, Lieferung digital, daher weltweit anbietbar.
 
 ---
 
-## 2. Services v2 (ehrlich verkaufbar)
+## 2. Services v3 (Walkthrough im Zentrum, ehrlich bepreist)
 
-Das alte "Monthly Content €199/Monat" ist gestrichen: Ein einzelner Host braucht
-keinen monatlichen Content, ohne neue Fotos gibt es kein glaubwürdiges
-Liefer-Versprechen, und Retainer verkauft man erst nach bewiesenem Ergebnis.
-Ersetzt durch Volumen-Pakete für Verwalter (die haben wiederkehrenden Bedarf über
-*mehrere Objekte*, nicht über die Zeit).
+Das alte "Monthly Content €199/Monat" ist gestrichen (kein glaubwürdiger
+monatlicher Bedarf beim Einzelkunden). Die Preise wurden gegenüber v2 gesenkt:
+Ein Foto-zu-Video-Walkthrough ist technisch replizierbar (Fiverr-Slideshows ab
+~$30) — verkauft wird "fertig ohne eigenen Aufwand", nicht Technik. Also:
+Einstieg im Impulskauf-Bereich, Marge über Volumen-Pakete, Preise erst mit
+Portfolio/Bewertungen anheben.
 
 | # | Service | Preis | Was geliefert wird |
 |---|---|---|---|
-| S1 | **Listing-Text-Boost** | **€79** (Launch: €59 für die ersten 5 Kunden gegen Referenz/Bewertung) | Neuer Titel + komplette Beschreibung (DE+EN bzw. EN), SEO-Keywords, Foto-Untertitel. 48 h Lieferung, 1 Korrekturrunde |
-| S2 | **Foto-zu-Video Reel** | **€99** | 30–60 s vertikales Video aus 8–15 vorhandenen Fotos (Higgsfield AI Motion), Musik + Text-Overlays, Export 9:16 (Reels/TikTok) + 16:9 (Website/YouTube) |
-| S3 | **Bundle S1+S2** | **€139** | Beides, 72 h Lieferung |
-| S4 | **Portfolio-Paket** (Property Manager / Makler) | **3 Objekte €249 · 5 Objekte €379 · 10 Objekte €690** | Bundle pro Objekt, pro-Objekt-Rabatt statt Monats-Abo |
-| S5 | **Saison-Refresh** (Bestandskunden) | **€49/Objekt** | Text-Update + neues Cover-Reel-Schnittbild, 2×/Jahr angeboten (Sommer/Winter) |
+| S1 | **Website-Walkthrough** | **€59** (Launch: erstes Video pro Kunde −50 % = €29 gegen Testimonial) | 60–90 s Video aus vorhandenen Listing-Fotos (Higgsfield AI Motion), 16:9 für Objektseite/Portal, 9:16 gratis dazu, 48 h, 1 Korrekturrunde |
+| S2 | **Text-Add-on** | **€39** (nur mit S1) | Titel + Objektbeschreibung neu (EN bzw. DE+EN), SEO-Keywords |
+| S3 | **Bundle S1+S2** | **€89** | Beides, 72 h Lieferung |
+| S4 | **Portfolio-Paket** (Makler / Property Manager) | **5 Objekte €249 · 10 Objekte €449** | Walkthroughs pro Objekt (€49,80 / €44,90) — hier liegt der eigentliche Umsatz: ein Deal statt zehn |
 
-**Ehrliches Wording (wichtig für Vertrauen):** Das Video ist ein *AI-Motion-Reel
-aus vorhandenen Fotos* — kein gedrehter Rundgang. Genau so benennen. Wer
-Drohnen-Footage erwartet und ein Foto-Reel bekommt, gibt eine schlechte Bewertung.
+**Ehrliches Wording (wichtig für Vertrauen):** Es ist ein *AI-Walkthrough aus
+vorhandenen Fotos* — kein gedrehter Rundgang, kein Drohnen-Footage. Genau so
+benennen, sonst kosten falsche Erwartungen Bewertungen.
 
 **Zahlung:** Stripe Payment Link oder PayPal-Rechnung, 50 % bei Beauftragung ab
 Portfolio-Paket, sonst 100 % vorab (Kleinbeträge).
@@ -69,7 +71,7 @@ Ohne Portfolio konvertiert kein Outreach. Vor der ersten Email:
 - **Zielkunden priorisiert:** (a) US/UK Property Manager & Vacation-Rental-Agenturen (5–50 Objekte, ein Deal = Portfolio-Paket), (b) US/UK Makler ohne Video auf den Listings, (c) einzelne Hosts nur als Beifang.
 - **Recherche-Quellen (ToS-konform):** Google Maps/Business-Einträge, Makler-Websites, Instagram-Business-Profile, öffentliche Verzeichnisse (NAR, VRMA-Mitglieder). Kein Airbnb-Scraping.
 - **3 Email-Varianten im A/B/C-Test:** direkt / neugierig / Frage-basiert (Templates im Dashboard). Max. 120 Wörter, jede Email referenziert das konkrete Objekt, Opt-out-Zeile im Footer.
-- **Jede Email geht erst nach Freigabe im Dashboard raus. Keine Ausnahmen.**
+- **Emails gehen direkt raus** (Templates sind einmal freigegeben) — jede gesendete Email wird im Versand-Log erfasst. **Die Freigabe-Schleife gilt stattdessen für die fertigen Walkthroughs:** kein Video verlässt das Haus, bevor es im Dashboard in „Zur Freigabe" abgenickt wurde.
 - **Tracking:** Variante, Objekttyp, Markt, Antwort → wöchentlich auswerten, schwächste Variante ersetzen.
 
 **Realistische Erwartung:** 50 personalisierte Emails/Woche → 5–10 % Antworten →
