@@ -4112,5 +4112,181 @@
     "evidence_no_video": "Service-fokussierte Positionierung, keine Virtual-Tour-Technologie erwähnt.",
     "source_url": "https://www.pinnaclecabinrentals.com/property-management-services/",
     "region_cluster": "Wisconsin / North Georgia"
+  },
+  {
+    "company": "Woods to Water Vacation Homes",
+    "market": "USA · Brainerd, MN",
+    "type": "Property Manager",
+    "email": "info@woodstowatermn.com",
+    "phone": "218-961-1005",
+    "website": "https://www.woodstowatermn.com/property-management.php",
+    "evidence_no_video": "Nur Foto-basiertes Marketing, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://www.woodstowatermn.com/property-management.php",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Northland Cabin Care",
+    "market": "USA · Brainerd, MN",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 218-824-1626",
+    "phone": "218-824-1626",
+    "website": "https://www.northlandcabincare.com/property-management",
+    "evidence_no_video": "Keine Video-Tour, Drohne oder 3D-Tour-Angebot erwähnt.",
+    "source_url": "https://www.northlandcabincare.com/property-management",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Property One Source",
+    "market": "USA · Brainerd, MN",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (218) 297-2132",
+    "phone": "(218) 297-2132",
+    "website": "https://www.propertyonesource.com/",
+    "evidence_no_video": "25+ Jahre in Brainerd Lakes, keine Video-/Drohnen-/Matterport-Werbung.",
+    "source_url": "https://www.propertyonesource.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Above & Beyond Homes (Stay on the Chain)",
+    "market": "USA · Crosslake, MN",
+    "type": "Property Manager",
+    "email": "admin@stayonthechain.com",
+    "phone": "(218) 656-0613",
+    "website": "https://www.stayonthechain.com/home",
+    "evidence_no_video": "Nur statische Listing-Fotos, keine Virtual-/Drohnen-Touren.",
+    "source_url": "https://www.stayonthechain.com/home",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Gull Lake Beach Resorts",
+    "market": "USA · Nisswa, MN",
+    "type": "Property Manager",
+    "email": "info@gulllakebeachresorts.com",
+    "phone": "218-656-6965",
+    "website": "https://www.gulllakebeachresorts.com/vacation-rentals/nisswa-vacation-rentals/",
+    "evidence_no_video": "~18-20 Objekte, nur Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.gulllakebeachresorts.com/vacation-rentals/nisswa-vacation-rentals/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Crosslake Cabins",
+    "market": "USA · Crosslake, MN",
+    "type": "Solo-Host",
+    "email": "crosslakecabins@gmail.com",
+    "phone": "",
+    "website": "https://www.crosslakecabins.com",
+    "evidence_no_video": "Eigentümergeführte Seite für 2 Hütten, nur statische Bilder, kein Video-Content.",
+    "source_url": "https://www.crosslakecabins.com",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Gull Lake Vacation Rentals (The Cottages on Gull Lake)",
+    "market": "USA · Brainerd (East Gull Lake), MN",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 218-820-7386",
+    "phone": "218-820-7386",
+    "website": "https://gulllakevacationrentals.com/",
+    "evidence_no_video": "Boutique 2-Cottage-Komplex, familiengeführt, kein Video/Drohne/Matterport.",
+    "source_url": "https://gulllakevacationrentals.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Wild Rivers Property Management",
+    "market": "USA · Minocqua, WI",
+    "type": "Property Manager",
+    "email": "Staff@WildRiversPM.com",
+    "phone": "(715) 999-8726",
+    "website": "https://www.wildriverspm.com/",
+    "evidence_no_video": "58 Objekte, nur statische Fotos, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.wildriverspm.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Northwoods Navigator Vacations (Lakeland Rental Management)",
+    "market": "USA · Woodruff, WI",
+    "type": "Property Manager",
+    "email": "info@lakelandrental.net",
+    "phone": "715-356-3178",
+    "website": "https://www.northwoodsnavigator.com/",
+    "evidence_no_video": "20 Jahre Erfahrung, kein Video-/Drohnen-/Matterport-Content.",
+    "source_url": "https://www.northwoodsnavigator.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Lakeview Vacation Homes",
+    "market": "USA · Eagle River, WI",
+    "type": "Property Manager",
+    "email": "info@lakeviewcabinrentals.com",
+    "phone": "715-891-4810",
+    "website": "https://lakeviewcabinrentals.com/",
+    "evidence_no_video": "16 Objekte, keine Video-Tour-Funktionen erwähnt.",
+    "source_url": "https://lakeviewcabinrentals.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Eagle's Nest On The Chain",
+    "market": "USA · Eagle River, WI",
+    "type": "Solo-Host",
+    "email": "eaglesnest.chain@wi.rr.com",
+    "phone": "(414) 218-6856",
+    "website": "https://www.eaglesnestonthechain.com/",
+    "evidence_no_video": "Zwei-Objekte-Wasserfront-Vermietung durch Eigentümer-LLC, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://www.eaglesnestonthechain.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Timberlane Resort",
+    "market": "USA · Eagle River, WI",
+    "type": "Solo-Host",
+    "email": "info@timberlane-resort.com",
+    "phone": "715.891.5827",
+    "website": "https://www.timberlane-resort.com/",
+    "evidence_no_video": "Familiengeführtes 4-Hütten-Seenresort, keine Video-Touren oder Drohnenaufnahmen.",
+    "source_url": "https://www.timberlane-resort.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "The Hideaway On Little Carr",
+    "market": "USA · Lake Tomahawk, WI",
+    "type": "Solo-Host",
+    "email": "hideaway@3RNorth.com",
+    "phone": "608-501-5440",
+    "website": "https://www.thehideawayonlittlecarr.com/",
+    "evidence_no_video": "Familiengeführt, 6 Hütten auf eigener Buchungsseite, kein Video/Matterport-Content.",
+    "source_url": "https://www.thehideawayonlittlecarr.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "White Pines Cabin",
+    "market": "USA · Three Lakes, WI",
+    "type": "Solo-Host",
+    "email": "info@whitepinescabin.com",
+    "phone": "630-402-1113",
+    "website": "https://whitepinescabin.com/",
+    "evidence_no_video": "Einzelne familiengeführte Hütte, kein Video, Drohne oder 3D-Tour erwähnt.",
+    "source_url": "https://whitepinescabin.com/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Tabbert's Lost Lake Cabin",
+    "market": "USA · St. Germain, WI",
+    "type": "Solo-Host",
+    "email": "LostLakeCabin@tabbert.net",
+    "phone": "262-737-1279",
+    "website": "https://www.tabbert.net/",
+    "evidence_no_video": "Einzelne familiengeführte Hütte, nur Foto-Galerie („Take A Tour“), kein Video/Drohne/3D.",
+    "source_url": "https://www.tabbert.net/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
+  },
+  {
+    "company": "Rustlewood Resort",
+    "market": "USA · Three Lakes, WI",
+    "type": "Solo-Host",
+    "email": "ckorth77@gmail.com",
+    "phone": "715-891-3093",
+    "website": "https://www.rustlewoodresort.net/",
+    "evidence_no_video": "Familienbetrieb, vermietet 4 von 8 Hütten, kein Video-/Drohnen-/Matterport-Content.",
+    "source_url": "https://www.rustlewoodresort.net/",
+    "region_cluster": "Minnesota / Wisconsin Northwoods"
   }
 ]
