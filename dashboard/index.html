@@ -1,0 +1,357 @@
+<title>Approval Cockpit — AI Listing Media</title>
+<style>
+  :root {
+    --bg: #F4F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #ECF0EF;
+    --ink: #17222B;
+    --muted: #5C6B77;
+    --line: #DFE6E6;
+    --accent: #0E7467;
+    --accent-soft: #E0F0ED;
+    --on-accent: #FFFFFF;
+    --ok: #1D7A3E;      --ok-bg: #E2F3E7;
+    --warn: #9A5B00;    --warn-bg: #FBF0DC;
+    --bad: #B3372E;     --bad-bg: #FBE7E4;
+    --info: #2456B3;    --info-bg: #E5EDFB;
+    --shadow: 0 1px 3px rgba(23,34,43,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10161A; --surface: #1A2328; --surface-2: #141C21;
+      --ink: #E6EDF0; --muted: #8FA0AB; --line: #2A3740;
+      --accent: #3FBFAE; --accent-soft: #12332F; --on-accent: #071614;
+      --ok: #57C97C; --ok-bg: #123420; --warn: #E0A54A; --warn-bg: #33270F;
+      --bad: #EF8A80; --bad-bg: #391613; --info: #7FA8EF; --info-bg: #14243F;
+      --shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10161A; --surface: #1A2328; --surface-2: #141C21;
+    --ink: #E6EDF0; --muted: #8FA0AB; --line: #2A3740;
+    --accent: #3FBFAE; --accent-soft: #12332F; --on-accent: #071614;
+    --ok: #57C97C; --ok-bg: #123420; --warn: #E0A54A; --warn-bg: #33270F;
+    --bad: #EF8A80; --bad-bg: #391613; --info: #7FA8EF; --info-bg: #14243F;
+    --shadow: 0 1px 3px rgba(0,0,0,.4);
+  }
+  :root[data-theme="light"] {
+    --bg: #F4F6F5; --surface: #FFFFFF; --surface-2: #ECF0EF;
+    --ink: #17222B; --muted: #5C6B77; --line: #DFE6E6;
+    --accent: #0E7467; --accent-soft: #E0F0ED; --on-accent: #FFFFFF;
+    --ok: #1D7A3E; --ok-bg: #E2F3E7; --warn: #9A5B00; --warn-bg: #FBF0DC;
+    --bad: #B3372E; --bad-bg: #FBE7E4; --info: #2456B3; --info-bg: #E5EDFB;
+    --shadow: 0 1px 3px rgba(23,34,43,.08);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 "Seravek", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  }
+  a { color: var(--accent); }
+  button { font: inherit; cursor: pointer; }
+
+  header {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: 14px 24px; display: flex; align-items: center; gap: 16px;
+  }
+  header h1 { font-size: 17px; font-weight: 650; letter-spacing: -.01em; margin: 0; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  header .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 8px; padding: 7px 14px; font-size: 13.5px; font-weight: 550;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn:focus-visible, .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .btn.approve { background: var(--ok-bg); border-color: transparent; color: var(--ok); }
+  .btn.reject  { background: var(--bad-bg); border-color: transparent; color: var(--bad); }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 24px 80px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .kpi .label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+  .kpi .value { font-size: 28px; font-weight: 650; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .kpi.attention .value { color: var(--warn); }
+
+  nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 22px; overflow-x: auto; }
+  .tab {
+    border: 0; background: none; color: var(--muted); padding: 9px 14px 11px;
+    font-size: 14px; font-weight: 550; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  .tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+  section.panel { display: none; }
+  section.panel.active { display: block; }
+
+  .banner {
+    background: var(--warn-bg); color: var(--warn); border-radius: 10px;
+    padding: 12px 16px; font-size: 13.5px; margin-bottom: 20px;
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .card h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 650; }
+  .meta { color: var(--muted); font-size: 13px; }
+
+  .pill {
+    display: inline-block; padding: 2px 10px; border-radius: 99px;
+    font-size: 12px; font-weight: 600; vertical-align: middle;
+  }
+  .pill.ok   { background: var(--ok-bg);   color: var(--ok); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.bad  { background: var(--bad-bg);  color: var(--bad); }
+  .pill.info { background: var(--info-bg); color: var(--info); }
+  .pill.mut  { background: var(--surface-2); color: var(--muted); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+  .chip { background: var(--surface-2); color: var(--muted); border-radius: 6px; padding: 2px 8px; font-size: 12px; }
+
+  .email {
+    background: var(--surface-2); border-radius: 10px; padding: 14px 16px;
+    margin-top: 12px; font-size: 14px; white-space: pre-wrap;
+  }
+  .email .subj { font-weight: 650; margin-bottom: 8px; }
+  .draft-head { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+  .note-in {
+    flex: 1; min-width: 180px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface); color: var(--ink); padding: 7px 10px; font: inherit; font-size: 13.5px;
+  }
+
+  .tbl-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+
+  .empty { color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 28px; text-align: center; font-size: 14px; }
+  .price { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  h2.sec { font-size: 13px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 26px 0 12px; }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 40px; }
+</style>
+
+<header>
+  <div>
+    <h1>Approval Cockpit</h1>
+    <div class="sub">AI Listing Media — Prospecting · Freigabe · Tracking</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="exportBtn" title="Aktuellen Stand inkl. deiner Entscheidungen als JSON herunterladen">Export JSON</button>
+</header>
+
+<main>
+  <div class="banner"><strong>Demo-Modus:</strong> Die 3 Leads unten sind Beispieldaten, um den Freigabe-Workflow zu zeigen — keine echten Personen.
+  Echte Recherche (USA/UK) startet, sobald du die Strategie in <code>BUSINESS.md</code> freigibst.</div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-panel="p-approve">Freigabe-Queue</button>
+    <button class="tab" data-panel="p-pipeline">Pipeline</button>
+    <button class="tab" data-panel="p-tracking">Tracking</button>
+    <button class="tab" data-panel="p-services">Services &amp; Preise</button>
+    <button class="tab" data-panel="p-legal">Recht-Checkliste</button>
+  </nav>
+
+  <section class="panel active" id="p-approve"></section>
+  <section class="panel" id="p-pipeline"></section>
+  <section class="panel" id="p-tracking"></section>
+
+  <section class="panel" id="p-services">
+    <div class="card"><h3>S1 · Listing-Text-Boost <span class="price">€79</span> <span class="pill info">Launch: €59 für die ersten 5 Kunden</span></h3>
+      <p class="meta">Neuer Titel + komplette Beschreibung (DE+EN bzw. EN), SEO-Keywords, Foto-Untertitel. 48 h Lieferung, 1 Korrekturrunde.</p></div>
+    <div class="card"><h3>S2 · Foto-zu-Video Reel <span class="price">€99</span></h3>
+      <p class="meta">30–60 s vertikales Video aus 8–15 vorhandenen Fotos (Higgsfield AI Motion), Musik + Text-Overlays, Export 9:16 + 16:9. Ehrliches Wording: AI-Motion-Reel aus Fotos, kein gedrehter Rundgang.</p></div>
+    <div class="card"><h3>S3 · Bundle S1 + S2 <span class="price">€139</span></h3>
+      <p class="meta">Beides zusammen, 72 h Lieferung.</p></div>
+    <div class="card"><h3>S4 · Portfolio-Paket <span class="price">3 Objekte €249 · 5 Objekte €379 · 10 Objekte €690</span></h3>
+      <p class="meta">Für Property Manager &amp; Makler: Bundle pro Objekt mit Volumen-Rabatt. Ersetzt das gestrichene Monats-Abo — Verwalter haben Bedarf über <em>mehrere Objekte</em>, nicht über die Zeit.</p></div>
+    <div class="card"><h3>S5 · Saison-Refresh <span class="price">€49/Objekt</span></h3>
+      <p class="meta">Nur Bestandskunden: Text-Update + neues Cover, 2×/Jahr aktiv angeboten (Sommer/Winter).</p></div>
+  </section>
+
+  <section class="panel" id="p-legal">
+    <div class="card"><h3>Cold-Email erlaubt <span class="pill ok">USA · UK</span></h3>
+      <p class="meta"><strong>USA (CAN-SPAM):</strong> Opt-out-Link, echte Absenderangaben, keine irreführende Betreffzeile, Postadresse im Footer.<br>
+      <strong>UK (PECR):</strong> nur an Firmen-Postfächer (Ltd/Agentur), nicht an Einzelunternehmer.</p></div>
+    <div class="card"><h3>Keine Kalt-Emails <span class="pill bad">DE · AT · Kanada</span></h3>
+      <p class="meta"><strong>DE/AT:</strong> §7 Abs. 2 UWG — auch B2B ohne Einwilligung unzulässig, Abmahnrisiko. DACH läuft nur über Inbound (Content, Empfehlungen, Marktplätze).<br>
+      <strong>Kanada (CASL):</strong> sehr streng, hohe Bußgelder — meiden.</p></div>
+    <div class="card"><h3>Plattform-Regeln <span class="pill warn">Airbnb</span></h3>
+      <p class="meta">Hosts nie über die Airbnb-Nachrichtenfunktion für Services anschreiben, kein Scraping — verstößt gegen die ToS. Kontakt nur über öffentliche Kanäle außerhalb: eigene Website, Instagram-Business-Profil, Google-Eintrag.</p></div>
+    <div class="card"><h3>Vor der ersten Rechnung <span class="pill warn">Gewerbe</span></h3>
+      <p class="meta">Gewerbeanmeldung (Kleinunternehmerregelung §19 UStG). Unter 18: Einwilligung der Eltern + Genehmigung des Familiengerichts (§112 BGB) nötig.</p></div>
+    <div class="card"><h3>Jede Email: Pflicht-Check vor Versand</h3>
+      <p class="meta">① Markt erlaubt (USA/UK)? ② Firmen-Adresse, keine Privatperson? ③ Objekt konkret referenziert? ④ Opt-out-Zeile im Footer? ⑤ Im Dashboard freigegeben? — erst dann senden.</p></div>
+  </section>
+
+  <footer>Stand: <span id="stamp"></span> · Freigaben werden lokal im Browser gespeichert (localStorage) — „Export JSON" sichert sie dauerhaft.</footer>
+</main>
+
+<script>
+const DATA = {
+  generated: "2026-07-03",
+  leads: [
+    {
+      id: "L-001", demo: true,
+      name: "Hill Country Cabin (Beispiel-Host)", type: "Airbnb-Host", market: "USA · Austin, TX",
+      url: "https://example.com/listing-demo-1", contact: "Instagram-Business-Profil (Beispiel)",
+      status: "entwurf", priority: "hoch",
+      weaknesses: ["Kein Video", "Beschreibung nur 3 Zeilen", "Titel generisch (\"Cozy cabin\")"],
+      pitch: "S3 Bundle €139: neuer SEO-Titel + Beschreibung EN, dazu 45s-Reel aus den vorhandenen 14 Fotos.",
+      drafts: [
+        { id: "D-001a", variant: "direkt", lang: "EN", status: "entwurf", sent: false, replied: false,
+          subject: "Your Hill Country cabin — 2 quick wins",
+          body: "Hi [Name],\n\nI came across your cabin listing — great photos, but the title (\"Cozy cabin\") and the 3-line description don't do the place justice, and there's no video for guests scrolling on mobile.\n\nI turn existing photos into a 45-second reel (Instagram/TikTok-ready) and rewrite title + description with the search terms guests actually use. Package: €139, delivered in 72h.\n\nWant me to send a free before/after sample of your title?\n\n[Signatur + Adresse + Opt-out-Zeile]" },
+        { id: "D-001b", variant: "frage", lang: "EN", status: "entwurf", sent: false, replied: false,
+          subject: "Quick question about your cabin listing",
+          body: "Hi [Name],\n\nquick question: is the cabin's booking rate where you want it in the shoulder season?\n\nI ask because the listing has strong photos but no video and a very short description — the two things that most affect click-through from search. I fix exactly that (photo-to-video reel + rewritten copy, €139, 72h).\n\nHappy to send a free sample rewrite of your title if useful.\n\n[Signatur + Adresse + Opt-out-Zeile]" }
+      ]
+    },
+    {
+      id: "L-002", demo: true,
+      name: "Northern Quarter Estates (Beispiel-Makler)", type: "Immobilienmakler", market: "UK · Manchester",
+      url: "https://example.com/agency-demo-2", contact: "info@… (Firmen-Postfach, PECR-konform)",
+      status: "analysiert", priority: "hoch",
+      weaknesses: ["Keine Video-Touren auf Listings", "Kein Instagram-Reel-Content", "12 aktive Objekte"],
+      pitch: "S4 Portfolio: 5 Objekte €379 — Reels für die Top-Listings, Rest nach Ergebnis.",
+      drafts: [
+        { id: "D-002a", variant: "neugierig", lang: "EN", status: "entwurf", sent: false, replied: false,
+          subject: "Video tours for your 12 listings — without a videographer",
+          body: "Hi [Name],\n\nyour 12 active listings all have professional photos but none have video — and listings with video get roughly double the engagement on portals and Instagram.\n\nI turn your existing photos into 45–60s video tours (AI motion, music, captions), ready for Rightmove, your site and Reels. 5 listings: €379, delivered within a week.\n\nWant to see one of your current listings as a finished sample first?\n\n[Signatur + Adresse + Opt-out-Zeile]" }
+      ]
+    },
+    {
+      id: "L-003", demo: true,
+      name: "Gulf Coast Stays (Beispiel-Verwalter)", type: "Property Manager", market: "USA · Florida",
+      url: "https://example.com/pm-demo-3", contact: "hello@… (Firmen-Postfach)",
+      status: "neu", priority: "mittel",
+      weaknesses: ["23 Objekte, uneinheitliche Beschreibungen", "Kein Social-Content"],
+      pitch: "S4 Portfolio 10 Objekte €690, Start mit 3er-Paket €249 als Test.",
+      drafts: []
+    }
+  ]
+};
+
+const STAGES = ["neu","analysiert","entwurf","freigegeben","gesendet","antwort","kunde"];
+const STAGE_PILL = { neu:"mut", analysiert:"info", entwurf:"warn", freigegeben:"ok", gesendet:"info", antwort:"ok", kunde:"ok" };
+const DRAFT_PILL = { entwurf:"warn", freigegeben:"ok", abgelehnt:"bad", gesendet:"info" };
+const LS_KEY = "alm-decisions-v1";
+
+const store = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+function saveStore(){ localStorage.setItem(LS_KEY, JSON.stringify(store)); }
+function draftState(d){ return Object.assign({ status: d.status, note: "" }, store[d.id] || {}); }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function allDrafts(){ return DATA.leads.flatMap(l => l.drafts.map(d => ({ lead: l, d }))); }
+
+function render(){
+  // KPIs
+  const drafts = allDrafts();
+  const pending = drafts.filter(x => draftState(x.d).status === "entwurf").length;
+  const approved = drafts.filter(x => draftState(x.d).status === "freigegeben").length;
+  const sent = drafts.filter(x => x.d.sent).length;
+  const replies = drafts.filter(x => x.d.replied).length;
+  const kpis = [
+    ["Leads", DATA.leads.length, false],
+    ["Wartet auf Freigabe", pending, pending > 0],
+    ["Freigegeben", approved, false],
+    ["Gesendet", sent, false],
+    ["Antworten", replies, false],
+    ["Kunden", DATA.leads.filter(l => l.status === "kunde").length, false]
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(([l,v,att]) =>
+    `<div class="kpi${att ? " attention" : ""}"><div class="label">${l}</div><div class="value">${v}</div></div>`).join("");
+
+  // Freigabe-Queue
+  const q = drafts.filter(x => ["entwurf","freigegeben","abgelehnt"].includes(draftState(x.d).status));
+  document.getElementById("p-approve").innerHTML = q.length === 0
+    ? `<div class="empty">Keine Entwürfe in der Queue. Neue Entwürfe entstehen nach der nächsten Recherche-Runde.</div>`
+    : q.map(({lead, d}) => {
+        const st = draftState(d);
+        return `<div class="card">
+          <h3>${esc(lead.name)} ${lead.demo ? '<span class="pill mut">DEMO</span>' : ""} <span class="pill ${DRAFT_PILL[st.status]}">${st.status}</span></h3>
+          <div class="meta">${esc(lead.type)} · ${esc(lead.market)} · Kontakt: ${esc(lead.contact)} · <a href="${esc(lead.url)}" target="_blank" rel="noopener">Listing</a></div>
+          <div class="draft-head"><span class="pill info">Variante: ${esc(d.variant)}</span><span class="pill mut">${esc(d.lang)}</span><span class="meta">${d.id}</span></div>
+          <div class="email"><div class="subj">Betreff: ${esc(d.subject)}</div>${esc(d.body)}</div>
+          <div class="actions">
+            <button class="btn approve" data-id="${d.id}" data-set="freigegeben">✓ Freigeben</button>
+            <button class="btn reject" data-id="${d.id}" data-set="abgelehnt">✕ Ablehnen</button>
+            <button class="btn" data-id="${d.id}" data-set="entwurf">Zurücksetzen</button>
+            <input class="note-in" data-note="${d.id}" placeholder="Kommentar (z. B. Änderungswunsch)…" value="${esc(st.note)}">
+          </div>
+        </div>`;
+      }).join("");
+
+  // Pipeline
+  document.getElementById("p-pipeline").innerHTML = `<div class="tbl-wrap card" style="padding:0">
+    <table><thead><tr><th>Lead</th><th>Typ · Markt</th><th>Schwachstellen</th><th>Angebots-Idee</th><th>Priorität</th><th>Status</th></tr></thead><tbody>
+    ${DATA.leads.map(l => `<tr>
+      <td><strong>${esc(l.name)}</strong>${l.demo ? ' <span class="pill mut">DEMO</span>' : ""}<br><a class="meta" href="${esc(l.url)}" target="_blank" rel="noopener">Listing</a></td>
+      <td>${esc(l.type)}<br><span class="meta">${esc(l.market)}</span></td>
+      <td><div class="chips">${l.weaknesses.map(w => `<span class="chip">${esc(w)}</span>`).join("")}</div></td>
+      <td class="meta">${esc(l.pitch)}</td>
+      <td><span class="pill ${l.priority === "hoch" ? "warn" : "mut"}">${l.priority}</span></td>
+      <td><span class="pill ${STAGE_PILL[l.status]}">${l.status}</span></td>
+    </tr>`).join("")}
+    </tbody></table></div>
+    <p class="meta">Stufen: ${STAGES.join(" → ")}</p>`;
+
+  // Tracking
+  const sentDrafts = drafts.filter(x => x.d.sent);
+  if (sentDrafts.length === 0) {
+    document.getElementById("p-tracking").innerHTML =
+      `<div class="empty">Noch keine gesendeten Emails — Tracking startet mit dem ersten Versand.<br>
+      Erfasst wird pro Email: Variante (direkt / neugierig / frage), Objekttyp, Markt, Antwort ja/nein.</div>`;
+  } else {
+    const byVar = {};
+    sentDrafts.forEach(({d}) => {
+      byVar[d.variant] = byVar[d.variant] || { sent: 0, replied: 0 };
+      byVar[d.variant].sent++; if (d.replied) byVar[d.variant].replied++;
+    });
+    document.getElementById("p-tracking").innerHTML = `<div class="tbl-wrap card" style="padding:0">
+      <table><thead><tr><th>Variante</th><th class="num">Gesendet</th><th class="num">Antworten</th><th class="num">Antwortrate</th></tr></thead><tbody>
+      ${Object.entries(byVar).map(([v,s]) => `<tr><td>${esc(v)}</td><td class="num">${s.sent}</td><td class="num">${s.replied}</td><td class="num">${(100*s.replied/s.sent).toFixed(0)} %</td></tr>`).join("")}
+      </tbody></table></div>`;
+  }
+
+  document.getElementById("stamp").textContent = DATA.generated;
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button[data-set]");
+  if (!b) return;
+  const id = b.dataset.id;
+  const note = document.querySelector(`input[data-note="${id}"]`);
+  store[id] = { status: b.dataset.set, note: note ? note.value : "", ts: new Date().toISOString() };
+  saveStore(); render();
+});
+document.addEventListener("change", e => {
+  if (!e.target.matches("input[data-note]")) return;
+  const id = e.target.dataset.note;
+  store[id] = Object.assign({ status: draftState({ id, status: "entwurf" }).status }, store[id], { note: e.target.value });
+  saveStore();
+});
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab"); if (!t) return;
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x === t));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === t.dataset.panel));
+});
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const out = JSON.parse(JSON.stringify(DATA));
+  out.leads.forEach(l => l.drafts.forEach(d => {
+    const st = draftState(d); d.status = st.status; if (st.note) d.note = st.note;
+  }));
+  out.exportedAt = new Date().toISOString();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 2)], { type: "application/json" }));
+  a.download = "approval-export.json"; a.click(); URL.revokeObjectURL(a.href);
+});
+
+render();
+</script>
