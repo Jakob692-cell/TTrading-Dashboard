@@ -6543,5 +6543,192 @@
     "evidence_no_video": "Einzelnes Cottage, nur statische Foto-Galerien, kein Video-/3D-/Matterport-Tour.",
     "source_url": "https://rockcottagebarn.weebly.com/",
     "region_cluster": "Ceredigion / Gower Peninsula Wales"
+  },
+  {
+    "company": "Yankee Pedlar Realtors",
+    "market": "USA · Wolfeboro, NH",
+    "type": "Property Manager",
+    "email": "info@yankeepedlarrealtors.com",
+    "phone": "603-569-1000",
+    "website": "https://winnire.com/rent-your-home",
+    "evidence_no_video": "Nur Fotos, keine Erwähnung von Video-Touren, Drohnenaufnahmen oder Matterport.",
+    "source_url": "https://winnire.com/rent-your-home",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Maxfield Vacation Properties",
+    "market": "USA · Wolfeboro, NH",
+    "type": "Property Manager",
+    "email": "rentals@maxfieldvacationproperties.com",
+    "phone": "603-569-7714",
+    "website": "https://www.maxfieldvacationproperties.com/",
+    "evidence_no_video": "Seit 1954, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.maxfieldvacationproperties.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "At The Lake Vacation Rentals, LLC (Lakes Region Rentals)",
+    "market": "USA · Moultonborough, NH",
+    "type": "Property Manager",
+    "email": "Experts@LakesRegionRentals.com",
+    "phone": "+1 (603) 253-9871",
+    "website": "https://www.lakesregionrentals.com/about-us",
+    "evidence_no_video": "100+ Objekte, keine Referenz auf Video-Touren, Drohnen oder Matterport.",
+    "source_url": "https://www.lakesregionrentals.com/about-us",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Oliver Lodge",
+    "market": "USA · Meredith, NH",
+    "type": "Property Manager",
+    "email": "reservations@oliverlodge.com",
+    "phone": "(860) 912-1986",
+    "website": "https://www.oliverlodge.com/",
+    "evidence_no_video": "6-Hütten-Seite, nur Standbildfotografie, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.oliverlodge.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Meredith Bay Vacation Rental",
+    "market": "USA · Meredith, NH",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: (603) 279-9991",
+    "phone": "(603) 279-9991",
+    "website": "https://meredithbay.com/",
+    "evidence_no_video": "Einzelobjekt-Solo-Host-Seite, nur Foto-Galerie, kein Video-Tour oder Drohnenaufnahme.",
+    "source_url": "https://meredithbay.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Squam Lake Rentals LLC",
+    "market": "USA · Holderness, NH (Lakes Region)",
+    "type": "Property Manager",
+    "email": "info@squamlakerentals.com",
+    "phone": "603-254-7159",
+    "website": "https://squamlakerentals.com/",
+    "evidence_no_video": "Kleine Agentur, kein Video/Drohne/Matterport auf der Seite erwähnt.",
+    "source_url": "https://squamlakerentals.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "NH Vacation Cottages",
+    "market": "USA · Wolfeboro, NH",
+    "type": "Solo-Host",
+    "email": "jtfergus@nhvacationcottages.com",
+    "phone": "603-828-7606",
+    "website": "https://www.nhvacationcottages.com/",
+    "evidence_no_video": "Kleine Einzel-Cottage-Host-Seite, nur statische Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.nhvacationcottages.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Vacanza NH",
+    "market": "USA · Alton Bay, NH",
+    "type": "Property Manager",
+    "email": "info@vacanzanh.com",
+    "phone": "1-585-822-2692",
+    "website": "https://www.vacanzanh.com/",
+    "evidence_no_video": "Familienbetrieb mit ~15 Objekten, nur Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.vacanzanh.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Stay-NH",
+    "market": "USA · Moultonborough, NH",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 603-677-2565",
+    "phone": "603-677-2565",
+    "website": "https://stay-nh.com/vacation-homes/",
+    "evidence_no_video": "Boutique-Vermietungsagentur, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://stay-nh.com/vacation-homes/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Bayside Rentals Management",
+    "market": "USA · Meredith, NH",
+    "type": "Property Manager",
+    "email": "info@baysiderentalsmgt.com",
+    "phone": "603-527-8133",
+    "website": "https://baysiderentalsmgt.com/",
+    "evidence_no_video": "Beschreibt Services, keine Video-/Drohnen-/Matterport-Erwähnung.",
+    "source_url": "https://baysiderentalsmgt.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Rock Garden Rentals",
+    "market": "USA · East Burke, VT",
+    "type": "Property Manager",
+    "email": "contact@rockgardenrentals.com",
+    "phone": "802-535-1591",
+    "website": "https://www.rockgardenrentals.com/",
+    "evidence_no_video": "9-Hütten-Seite, interaktive Karte, aber keine Video-Touren, Drohne oder Matterport.",
+    "source_url": "https://www.rockgardenrentals.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "East Burke Rentals",
+    "market": "USA · East Burke, VT",
+    "type": "Property Manager",
+    "email": "Robin@Eastburkerentals.com",
+    "phone": "802-751-5953",
+    "website": "https://www.eastburkerentals.com/",
+    "evidence_no_video": "Eigentümergeführte 6-Einheiten-Seite, kein Video/Drohne/Matterport-Content.",
+    "source_url": "https://www.eastburkerentals.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Hawk Rock Cabins",
+    "market": "USA · near East Burke, VT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 802-730-5207",
+    "phone": "802-730-5207",
+    "website": "https://hawkrockvt.com/",
+    "evidence_no_video": "5-Hütten-Waldgrundstück, keine Video-Touren, Drohnenaufnahmen oder Matterport-Touren beworben.",
+    "source_url": "https://hawkrockvt.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Harvey's Lake Cabins",
+    "market": "USA · West Burke, VT",
+    "type": "Solo-Host",
+    "email": "info@harveyslakecabins.com",
+    "phone": "802-633-2213",
+    "website": "https://harveyslakecabins.com/",
+    "evidence_no_video": "Kleine eigentümergeführte 2-Hütten-Seite, nur Standbildfotografie.",
+    "source_url": "https://harveyslakecabins.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Mountain Lake Cottages",
+    "market": "USA · Westmore, VT (Lake Willoughby, NEK)",
+    "type": "Property Manager",
+    "email": "gm@vermontmountainlakecottages.com",
+    "phone": "(802) 525-3072",
+    "website": "https://www.vermontmountainlakecottages.com/",
+    "evidence_no_video": "10-Cottage-professionell verwaltetes Objekt, nur Foto-Galerie, kein Video/Drohne/Matterport-Tour.",
+    "source_url": "https://www.vermontmountainlakecottages.com/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Lake Willoughby Beach Cottage (Kent Cottage)",
+    "market": "USA · Westmore, VT",
+    "type": "Solo-Host",
+    "email": "Kentcottagevt@gmail.com",
+    "phone": "1-435-772-5351",
+    "website": "https://www.lakewilloughbycottage.com/contact-and-location.html",
+    "evidence_no_video": "Einzelobjekt, familiengeführt, nur Foto-Galerie, kein Video-Tour oder Drohnenaufnahme.",
+    "source_url": "https://www.lakewilloughbycottage.com/contact-and-location.html",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
+  },
+  {
+    "company": "Peter D. Watson Agency",
+    "market": "USA · Craftsbury, VT",
+    "type": "Makler",
+    "email": "wags@together.net",
+    "phone": "802-533-7077",
+    "website": "https://northernvtrealestate.com/vacation-rentals/",
+    "evidence_no_video": "Verwaltet 11 NEK-Ferienobjekte, keine Video-/Drohnen-/Matterport-Touren vorhanden.",
+    "source_url": "https://northernvtrealestate.com/vacation-rentals/",
+    "region_cluster": "New Hampshire Seen / Vermont NEK"
   }
 ]
