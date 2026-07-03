@@ -3793,5 +3793,60 @@
     "evidence_no_video": "Mehrere South-Devon-Standorte, keine Video-/Walkthrough-/3D-Matterport-Tour in Marketing-Texten gefunden.",
     "source_url": "https://www.fineststays.co.uk/contact",
     "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Rowes Retreats",
+    "market": "UK · Falmouth, Cornwall",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01326 459042",
+    "phone": "01326 459042",
+    "website": "https://www.rowesretreats.com/contact",
+    "evidence_no_video": "Boutique-Familienagentur, keine aktiven Video-/360-/Matterport-Touren gefunden (nur generisches Wix-App-Metadatum).",
+    "source_url": "https://www.rowesretreats.com/contact",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "CRW Holidays",
+    "market": "UK · Padstow/Rock, Cornwall",
+    "type": "Property Manager",
+    "email": "holidays@crw.co.uk",
+    "phone": "01841 533962",
+    "website": "https://crwholidays.co.uk/contact/",
+    "evidence_no_video": "4 Büros in Nord-Cornwall, keine Video-/Walkthrough-/3D-Matterport-Tour erwähnt.",
+    "source_url": "https://crwholidays.co.uk/contact/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Cornish Collection",
+    "market": "UK · Looe, Cornwall",
+    "type": "Property Manager",
+    "email": "enquiries@cornishcollection.co.uk",
+    "phone": "01503 262736",
+    "website": "https://www.cornishcollection.co.uk/",
+    "evidence_no_video": "Kleine unabhängige Agentur, keine Video-/Walkthrough-/3D-Matterport-Tour gefunden.",
+    "source_url": "https://www.cornishcollection.co.uk/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Forever Cornwall",
+    "market": "UK · Falmouth/Gwithian, Cornwall",
+    "type": "Property Manager",
+    "email": "info@forevercornwall.co.uk",
+    "phone": "01326 567838",
+    "website": "https://www.forevercornwall.co.uk/",
+    "evidence_no_video": "Kleine bis mittlere unabhängige Agentur, keine Video-/Walkthrough-/3D-Matterport-Tour gefunden.",
+    "source_url": "https://www.forevercornwall.co.uk/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
+  },
+  {
+    "company": "Cornish Holiday Cottage",
+    "market": "UK · Cornwall",
+    "type": "Property Manager",
+    "email": "hello@cornishholidaycottage.com",
+    "phone": "01841 550 998",
+    "website": "https://www.cornishholidaycottage.com/",
+    "evidence_no_video": "~62 Objekte, unabhängige Agentur, keine Video-/Walkthrough-/3D-Matterport-Tour gefunden.",
+    "source_url": "https://www.cornishholidaycottage.com/",
+    "region_cluster": "Cornwall/Devon / Scottish Highlands"
   }
 ]
