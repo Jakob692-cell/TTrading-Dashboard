@@ -273,5 +273,203 @@
     "evidence_no_video": "Kleine 11-Cottage-Agentur, Email spam-geschützt, kein Video-Content auf Listings.",
     "source_url": "https://www.conistoncottages.co.uk/contact-us/",
     "region_cluster": "UK Cotswolds / Lake District"
+  },
+  {
+    "company": "Premiere Properties Vacation Rentals & Property Management",
+    "market": "USA · Taos, NM",
+    "type": "Property Manager",
+    "email": "premiere@newmex.com",
+    "phone": "1-800-987-8423",
+    "website": "https://www.taosvacationhomes.com/",
+    "evidence_no_video": "Nur statische Foto-Slider-Galerie, kein Video/Drohnen/3D-Tour-Content.",
+    "source_url": "https://www.taosvacationhomes.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Abode Vacation Rentals",
+    "market": "USA · Taos, NM",
+    "type": "Property Manager",
+    "email": "reservations@abodevacation.com",
+    "phone": "575-224-6032",
+    "website": "https://www.abodevacation.com/",
+    "evidence_no_video": "Lokal geführt, keine Erwähnung von Video-, Drohnen- oder 3D-Tour-Technologie.",
+    "source_url": "https://www.abodevacation.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "M Vacation Properties & Resorts",
+    "market": "USA · Red River / Taos, NM",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 800-453-3498",
+    "phone": "800-453-3498",
+    "website": "https://mvacationproperties.com/",
+    "evidence_no_video": "35 Jahre alte PM-Firma, nur statisches Foto-Karussell, kein Video/Drohne/Matterport.",
+    "source_url": "https://mvacationproperties.com/rrre/property-management-services",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Rio Ruidoso Company (mgr. of Hummingbird Cabins)",
+    "market": "USA · Ruidoso, NM",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (575) 258-3888",
+    "phone": "(575) 258-3888",
+    "website": "https://www.rioruidosocompany.com/property-management",
+    "evidence_no_video": "Kabinen-/Condo-Vermietung ohne Video-, Drohnen- oder 3D-Tour-Angebot.",
+    "source_url": "https://www.rioruidosocompany.com/property-management",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Mountain Air Cabins",
+    "market": "USA · Ruidoso, NM",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 866-630-9073",
+    "phone": "866-630-9073",
+    "website": "https://www.mountainaircabins.com/",
+    "evidence_no_video": "Kleiner Kabinen-Vermieter, kein Video/Drohne/3D-Tour-Content.",
+    "source_url": "https://www.mountainaircabins.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Cozy Cabins Ruidoso",
+    "market": "USA · Ruidoso, NM",
+    "type": "Property Manager",
+    "email": "cabins@cozycabinsruidoso.com",
+    "phone": "575-802-0207",
+    "website": "https://www.cozycabinsruidoso.com/",
+    "evidence_no_video": "25 Jahre lokaler Betreiber, nur Fotos/Testimonials, kein Video-Content.",
+    "source_url": "https://www.cozycabinsruidoso.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "The Lora Company",
+    "market": "USA · Taos, NM",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: (575) 758-3275",
+    "phone": "(575) 758-3275",
+    "website": "https://theloraco.com/",
+    "evidence_no_video": "Boutique-Maklerbüro, verweist auf Zillow/Realtor.com statt eigenem Video/Drohne/3D-Tour.",
+    "source_url": "https://theloraco.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Taos Properties",
+    "market": "USA · Taos, NM",
+    "type": "Makler",
+    "email": "info@taosproperties.com",
+    "phone": "(575) 758-9500",
+    "website": "https://taosproperties.com/",
+    "evidence_no_video": "Boutique-Maklerbüro, nur Ad-hoc-FaceTime-Rundgänge, kein produziertes Video/Drohne/3D-Tour.",
+    "source_url": "https://taosproperties.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Dreamcatcher Real Estate Co.",
+    "market": "USA · Taos, NM",
+    "type": "Makler",
+    "email": "dream@taosnewmexico.com",
+    "phone": "(575) 758-3606",
+    "website": "http://www.taosnewmexico.com/about",
+    "evidence_no_video": "Boutique-Firma, keine Erwähnung von Video-, Drohnen- oder 3D-Tour-Technologie.",
+    "source_url": "http://www.taosnewmexico.com/about",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Destiny Real Estate & Development",
+    "market": "USA · Ruidoso, NM",
+    "type": "Makler",
+    "email": "rhonda@rhondaromack.com",
+    "phone": "+1 (575) 257-3000",
+    "website": "https://ruidoso-nm.com/",
+    "evidence_no_video": "Inhabergeführte Boutique-Agentur, kein Video/Drohne/3D-Tour beworben.",
+    "source_url": "https://ruidoso-nm.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Trailhound Cabin Co.",
+    "market": "USA · Custer & Hill City, SD",
+    "type": "Property Manager",
+    "email": "travel@trailhoundcabins.com",
+    "phone": "(605) 388-2002",
+    "website": "https://www.trailhoundcabins.com/",
+    "evidence_no_video": "Lokale Black-Hills-PM-Firma, kein Video/Drohne/3D-Tour-Content gefunden.",
+    "source_url": "https://www.trailhoundcabins.com/black-hills-property-management/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Black Hills Adventure Lodging",
+    "market": "USA · Deadwood, SD (Custer/Hill City)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (605) 490-9944",
+    "phone": "(605) 490-9944",
+    "website": "https://www.blackhillsadventurelodging.com/about-us",
+    "evidence_no_video": "Privat geführte PM-Firma, 130+ Objekte, keine Video/Drohne/3D-Tour-Erwähnung.",
+    "source_url": "https://www.blackhillsadventurelodging.com/about-us",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Stay in the Black Hills",
+    "market": "USA · Custer / Hill City / Keystone, SD",
+    "type": "Property Manager",
+    "email": "info@stayintheblackhills.com",
+    "phone": "605.593.1832",
+    "website": "https://stayintheblackhills.com/",
+    "evidence_no_video": "Boutique-PM, wirbt mit Innendesign/Fotografie, aber kein Video/Drohne/3D-Tour-Service.",
+    "source_url": "https://stayintheblackhills.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Black Hills Retreats LLC",
+    "market": "USA · Custer, SD",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 605-673-1400",
+    "phone": "605-673-1400",
+    "website": "https://www.blackhillsretreats.com/property-management-services/",
+    "evidence_no_video": "Unabhängige lokale PM-Firma, kein Video/Drohne/3D-Tour-Angebot.",
+    "source_url": "https://www.blackhillsretreats.com/property-management-services/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Black Hills Rentals (JPF Vacations, LLC)",
+    "market": "USA · Hill City, SD",
+    "type": "Property Manager",
+    "email": "jvacat9571@aol.com",
+    "phone": "1-605-209-3771",
+    "website": "https://blackhillsrentals.com/",
+    "evidence_no_video": "Familienbetrieb seit 1994, nur statische Foto-Galerien, kein Video-Content.",
+    "source_url": "https://blackhillsrentals.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Aspen + Pine Realty",
+    "market": "USA · Custer, SD",
+    "type": "Makler",
+    "email": "andrea@aspenandpinerealty.com",
+    "phone": "(605) 517-1130",
+    "website": "https://www.aspenandpine.realestate/",
+    "evidence_no_video": "Inhaber-Makler-Boutique, keine Video/Drohne/3D-Tour-Technologie auf Listings.",
+    "source_url": "https://www.aspenandpine.realestate/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Integrity Realty",
+    "market": "USA · Hill City, SD",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: 605-391-8373",
+    "phone": "605-391-8373",
+    "website": "https://www.landlotshomes.com/",
+    "evidence_no_video": "17 Jahre lokale Ehepaar-Agentur, nur interaktive Kartensuche, kein Video-Content.",
+    "source_url": "https://www.landlotshomes.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
+  },
+  {
+    "company": "Lewis Realty / Destination Black Hills",
+    "market": "USA · Custer, SD",
+    "type": "Makler",
+    "email": "faith@faithlewisrealty.com",
+    "phone": "(605) 863-0725",
+    "website": "https://www.destinationblackhills.com/",
+    "evidence_no_video": "Solo-Makler-Boutique-Agentur, kein spezifischer Video/Drohne/3D-Tour-Service.",
+    "source_url": "https://www.destinationblackhills.com/",
+    "region_cluster": "New Mexico / Black Hills SD"
   }
 ]
