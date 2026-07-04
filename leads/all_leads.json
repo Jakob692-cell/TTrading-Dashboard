@@ -7643,5 +7643,203 @@
     "evidence_no_video": "Nur ein erklärendes Whiteboard-Video über den Betrieb, keine Objekt-Video-/3D-Touren.",
     "source_url": "https://southpadretrips.com/south-padre-property-management-services/",
     "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Keepers Cottages",
+    "market": "UK · Kent (Whitstable/Broadstairs)",
+    "type": "Property Manager",
+    "email": "enquiries@keeperscottages.co.uk",
+    "phone": "01304 382044",
+    "website": "https://www.keeperscottages.co.uk/broadstairs-cottages/",
+    "evidence_no_video": "Nur Fotos/Ausstattung, kein Walkthrough-Video, 3D- oder Matterport-Einbettung.",
+    "source_url": "https://www.keeperscottages.co.uk/broadstairs-cottages/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Rockstone Holiday Homes",
+    "market": "UK · Kent (Whitstable)",
+    "type": "Property Manager",
+    "email": "info@rockstoneholidayhomes.co.uk",
+    "phone": "07754 068280",
+    "website": "https://www.rockstoneholidayhomes.co.uk/",
+    "evidence_no_video": "Nur Foto-Galerien, kein Video-/Virtual-Tour erwähnt.",
+    "source_url": "https://www.rockstoneholidayhomes.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "My Seaside Luxury",
+    "market": "UK · Kent (Broadstairs/Ramsgate)",
+    "type": "Property Manager",
+    "email": "bookings@myseasideluxury.co.uk",
+    "phone": "",
+    "website": "https://www.myseasideluxury.co.uk/contact",
+    "evidence_no_video": "~30 Listings nur mit Fotos, kein Video/3D-Tour-Content.",
+    "source_url": "https://www.myseasideluxury.co.uk/contact",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Whitstable Holiday Homes",
+    "market": "UK · Kent (Whitstable)",
+    "type": "Property Manager",
+    "email": "enquiries@whitstableholidayhomes.co.uk",
+    "phone": "01227 200602",
+    "website": "https://www.whitstableholidayhomes.co.uk/",
+    "evidence_no_video": "6 Cottages nur mit statischen Bildern, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.whitstableholidayhomes.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Whitstable Holidays",
+    "market": "UK · Kent (Whitstable)",
+    "type": "Solo-Host",
+    "email": "info@whitstable-holidays.co.uk",
+    "phone": "07769 822977",
+    "website": "https://www.whitstable-holidays.co.uk/",
+    "evidence_no_video": "Familienbetrieb, nur Fotos, kein Video-Tour.",
+    "source_url": "https://www.whitstable-holidays.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Whitstable Seaside Holiday Lets",
+    "market": "UK · Kent (Whitstable)",
+    "type": "Property Manager",
+    "email": "office@whitstable-seaside.co.uk",
+    "phone": "01227 656995",
+    "website": "https://whitstableseaside.co.uk/",
+    "evidence_no_video": "~36 Selbstversorger-Listings, keine Video-/3D-/Virtual-Tour- oder Matterport-Referenz.",
+    "source_url": "https://whitstableseaside.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Holiday Lets Broadstairs",
+    "market": "UK · Kent (Broadstairs)",
+    "type": "Solo-Host",
+    "email": "info@holidayletsbroadstairs.co.uk",
+    "phone": "01843 600443",
+    "website": "https://www.holidayletsbroadstairs.co.uk/contact.php",
+    "evidence_no_video": "Familienbetriebene Einzelobjekt-Seite, kein Video/3D/Matterport-Tour angeboten.",
+    "source_url": "https://www.holidayletsbroadstairs.co.uk/contact.php",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "The Fishermen's Cottages",
+    "market": "UK · Kent (Broadstairs)",
+    "type": "Property Manager",
+    "email": "thefishermenscottages@hotmail.co.uk",
+    "phone": "07977 715221",
+    "website": "https://www.holiday-cottages-broadstairs.co.uk/",
+    "evidence_no_video": "10 Themen-Cottages nur mit Fotos, keine Video-Tour oder Matterport-Fähigkeit erwähnt.",
+    "source_url": "https://www.holiday-cottages-broadstairs.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Broadstairs Apartments",
+    "market": "UK · Kent (Broadstairs)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01843 601483",
+    "phone": "01843 601483",
+    "website": "https://www.broadstairsapartments.co.uk/",
+    "evidence_no_video": "4 Apartments nur mit Standbildern, kein Video/3D/Virtual-Tour.",
+    "source_url": "https://www.broadstairsapartments.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Places to Stay in Whitstable",
+    "market": "UK · Kent (Whitstable)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01227 272998",
+    "phone": "01227 272998",
+    "website": "https://www.placestostayinwhitstable.co.uk/",
+    "evidence_no_video": "Kleine kuratierte Cottage-Auswahl, nur Foto-Galerien, kein Video/3D-Tour.",
+    "source_url": "https://www.placestostayinwhitstable.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Camber Holiday Cottages",
+    "market": "UK · East Sussex (Rye/Camber/Winchelsea)",
+    "type": "Property Manager",
+    "email": "info@camberholidaycottages.co.uk",
+    "phone": "07946 532130",
+    "website": "https://www.camberholidaycottages.co.uk/",
+    "evidence_no_video": "~30 Objekte, nur statische Fotos, keine Virtual-Tour-Technologie erwähnt.",
+    "source_url": "https://www.camberholidaycottages.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Rye and Beyond Holiday Cottages",
+    "market": "UK · East Sussex (Rye)",
+    "type": "Property Manager",
+    "email": "admin@ryeandbeyond.co.uk",
+    "phone": "+44 7854 586448",
+    "website": "https://ryeandbeyondcottages.co.uk/",
+    "evidence_no_video": "Handverlesene Cottage-Sammlung, nur Foto-Karussells, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://ryeandbeyondcottages.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Cadborough Farm Cottages",
+    "market": "UK · East Sussex (Rye)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: +44 7714 455634",
+    "phone": "+44 7714 455634",
+    "website": "https://cadborough.co.uk/",
+    "evidence_no_video": "4 Hof-Cottages eines einzelnen Eigentümers, nur Fotos, kein Video-Tour (persönliche Email ausgeschlossen).",
+    "source_url": "https://cadborough.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Marsh View Cottage",
+    "market": "UK · East Sussex (Camber Sands/Rye)",
+    "type": "Solo-Host",
+    "email": "marshviewcottage@gmail.com",
+    "phone": "01737 217873",
+    "website": "https://www.marshviewcottage.co.uk/",
+    "evidence_no_video": "Einzelnes eigentümergeführtes Cottage, nur Fotos, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.marshviewcottage.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Camber Beach Holiday Homes",
+    "market": "UK · East Sussex (Camber Sands)",
+    "type": "Property Manager",
+    "email": "camberbeach@btconnect.com",
+    "phone": "07779 474332",
+    "website": "https://www.camberbeach.co.uk/",
+    "evidence_no_video": "11 Strandobjekte, nur Foto-Listings, kein Video/3D/Virtual-Tour gefunden.",
+    "source_url": "https://www.camberbeach.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Exclusively Eastbourne (St Leonards/Hastings desk)",
+    "market": "UK · East Sussex (Hastings/St Leonards)",
+    "type": "Property Manager",
+    "email": "info@exclusivelyeastbourne.co.uk",
+    "phone": "+44 (0)1323 406090",
+    "website": "https://www.exclusivelyeastbourne.co.uk/sussex/st-leonards-hastings/",
+    "evidence_no_video": "Nur Fotos, kein Video/3D/Matterport-Tour erwähnt.",
+    "source_url": "https://www.exclusivelyeastbourne.co.uk/sussex/st-leonards-hastings/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Park Farm Country Cottages",
+    "market": "UK · East Sussex (near St Leonards/Battle)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01424 852505",
+    "phone": "01424 852505",
+    "website": "https://www.parkfarmcountrycottages.co.uk/",
+    "evidence_no_video": "4 Cottages, eigentümergeführt, nur statische Fotobeschreibungen, kein Video/3D-Tour.",
+    "source_url": "https://www.parkfarmcountrycottages.co.uk/",
+    "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "Beside the Sea Holidays",
+    "market": "UK · East Sussex (Camber Sands)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01797 227308",
+    "phone": "01797 227308",
+    "website": "https://www.besidetheseaholidays.com/",
+    "evidence_no_video": "Kleine Familienagentur seit 2009, nur Foto-basierte Listings, kein Video/3D/Matterport-Tour (persönliche Email ausgeschlossen).",
+    "source_url": "https://www.besidetheseaholidays.com/",
+    "region_cluster": "Kent Küste / East Sussex"
   }
 ]
