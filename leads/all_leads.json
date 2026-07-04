@@ -7841,5 +7841,181 @@
     "evidence_no_video": "Kleine Familienagentur seit 2009, nur Foto-basierte Listings, kein Video/3D/Matterport-Tour (persönliche Email ausgeschlossen).",
     "source_url": "https://www.besidetheseaholidays.com/",
     "region_cluster": "Kent Küste / East Sussex"
+  },
+  {
+    "company": "LaFave (LaFave Luxury Rentals at Zion)",
+    "market": "USA · Springdale, UT",
+    "type": "Property Manager",
+    "email": "info@lafavezion.com",
+    "phone": "(435) 632-3667",
+    "website": "https://lafavezion.com/contact/",
+    "evidence_no_video": "Nur professionelle Foto-Galerien, kein Drohnen-/Walkthrough-Video/Matterport-Tour.",
+    "source_url": "https://lafavezion.com/contact/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "St George Rentals (St. George Vacation Rentals)",
+    "market": "USA · St. George, UT",
+    "type": "Property Manager",
+    "email": "memories@stgeorgerentals.com",
+    "phone": "435-275-4419",
+    "website": "http://stgeorgevacationrentals.com/property-management/",
+    "evidence_no_video": "Nur „professionelle Fotos“ erwähnt, kein Video-/Drohnen-/3D-Tour-Service.",
+    "source_url": "http://stgeorgevacationrentals.com/property-management/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Southern Utah Luxury (SULUX)",
+    "market": "USA · Washington/St. George, UT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 435-313-6657",
+    "phone": "435-313-6657",
+    "website": "https://utluxury.com/",
+    "evidence_no_video": "Marketing-Services erwähnen „Content Creation“, aber kein Drohnen-/Video-/Matterport-Tour.",
+    "source_url": "https://utluxury.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Red Sands Vacations",
+    "market": "USA · St. George, UT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (435) 688-7263",
+    "phone": "(435) 688-7263",
+    "website": "https://www.redsandsvacations.com/property-management-services",
+    "evidence_no_video": "Keine Referenz auf Video-Touren, Drohnenaufnahmen oder Matterport.",
+    "source_url": "https://www.redsandsvacations.com/property-management-services",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Zion Stays",
+    "market": "USA · Kanab, UT",
+    "type": "Property Manager",
+    "email": "guestservices@zionstays.com",
+    "phone": "+1 (435) 295-3088",
+    "website": "https://www.zionstays.com/escalante",
+    "evidence_no_video": "Nur statische Foto-Galerien, kein Video/Drohne/Matterport gefunden.",
+    "source_url": "https://www.zionstays.com/escalante",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Zion Hummingbird Villa",
+    "market": "USA · Springdale, UT",
+    "type": "Solo-Host",
+    "email": "reservations@zionhummingbirdvilla.com",
+    "phone": "(435) 359-0126",
+    "website": "https://www.zionhummingbirdvilla.com/",
+    "evidence_no_video": "Nur statische Bilder, kein eingebettetes Video oder 3D-Tour.",
+    "source_url": "https://www.zionhummingbirdvilla.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Zion Canyon Casitas",
+    "market": "USA · Springdale, UT",
+    "type": "Solo-Host",
+    "email": "info@zioncanyoncasitas.com",
+    "phone": "(435) 216-0761",
+    "website": "https://www.zioncanyoncasitas.com/",
+    "evidence_no_video": "Galerien nur mit statischen Fotos, kein Video oder Matterport-Tour vorhanden.",
+    "source_url": "https://www.zioncanyoncasitas.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Zion Vacation Home LLC",
+    "market": "USA · Springdale, UT",
+    "type": "Solo-Host",
+    "email": "zionvacationhome@gmail.com",
+    "phone": "",
+    "website": "https://www.zionvacationhome.net/contact.html",
+    "evidence_no_video": "YouTube-Kanal verlinkt, aber kein Walkthrough-/Drohnenmaterial der Immobilie gefunden, nur Fotos.",
+    "source_url": "https://www.zionvacationhome.net/contact.html",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Bryce Canyon Log Cabins",
+    "market": "USA · Tropic, UT",
+    "type": "Solo-Host",
+    "email": "HappyTrailsBryceCanyon@gmail.com",
+    "phone": "+1-385-223-0269",
+    "website": "https://www.brycelogcabins.com/contact",
+    "evidence_no_video": "Nur Standbildfotografie von Hütten und Innenräumen, kein Video oder 3D-Tour.",
+    "source_url": "https://www.brycelogcabins.com/contact",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Bryce Country Cabins",
+    "market": "USA · Tropic, UT",
+    "type": "Property Manager",
+    "email": "brycecountrycabin@gmail.com",
+    "phone": "1-888-679-8643",
+    "website": "https://www.brycecountrycabins.com/Sites/",
+    "evidence_no_video": "Nur Preise und statische Bilder, kein Video-, Drohnen- oder Matterport-Content.",
+    "source_url": "https://www.brycecountrycabins.com/Sites/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Bryce Canyon Villas",
+    "market": "USA · Cannonville, UT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 435-679-8106",
+    "phone": "435-679-8106",
+    "website": "https://www.brycecanyonvillas.com/",
+    "evidence_no_video": "Nur statische Bild-Platzhalter, kein Video oder 3D-Tour der 5 Hütten.",
+    "source_url": "https://www.brycecanyonvillas.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Family Time Vacation Rentals",
+    "market": "USA · Bryce Canyon City / Panguitch, UT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 877-632-7007",
+    "phone": "877-632-7007",
+    "website": "https://www.familytimevacationrentals.com/panguitch-cabin-rentals",
+    "evidence_no_video": "Nur Foto-Karussells, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://www.familytimevacationrentals.com/panguitch-cabin-rentals",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Blue Springs Lodge",
+    "market": "USA · Panguitch Lake, UT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (435) 676-2277",
+    "phone": "(435) 676-2277",
+    "website": "https://bluespringslodge.com/",
+    "evidence_no_video": "Familienbetriebene Lodge seit 31+ Jahren, nur einfache Foto-Galerie, keine Virtual-Tour-Technologie.",
+    "source_url": "https://bluespringslodge.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Duck Creek Retreats",
+    "market": "USA · Duck Creek Village, UT",
+    "type": "Property Manager",
+    "email": "duckcreekretreats@gmail.com",
+    "phone": "435-772-5627",
+    "website": "https://www.duckcreekretreats.com/",
+    "evidence_no_video": "11 handverlesene Retreats, nur Foto-Galerien, kein Video-/Drohnen-/Matterport-Tour.",
+    "source_url": "https://www.duckcreekretreats.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Lazy Bear Cottage (Brian Head Cozy Cottage)",
+    "market": "USA · Brian Head, UT",
+    "type": "Solo-Host",
+    "email": "lazybearcottage@gmail.com",
+    "phone": "",
+    "website": "https://www.brianheadcozycottage.com/",
+    "evidence_no_video": "Nur statische Bilder auf eigener „Cabin Photos“-Seite, kein Video/3D-Tour.",
+    "source_url": "https://www.brianheadcozycottage.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Inn at 37 Main",
+    "market": "USA · Rockville, UT",
+    "type": "Solo-Host",
+    "email": "The37main@gmail.com",
+    "phone": "435-632-1469",
+    "website": "https://www.the37main.com/",
+    "evidence_no_video": "Nur statische Bilder und Textbeschreibungen, kein Video-, Drohnen- oder Matterport-Tour.",
+    "source_url": "https://www.the37main.com/",
+    "region_cluster": "Utah St George/Zion / Bryce Canyon"
   }
 ]
