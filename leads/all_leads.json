@@ -8501,5 +8501,93 @@
     "evidence_no_video": "Kein Video-Tour, Matterport oder 3D-Walkthrough bei den 6 Cottages gefunden.",
     "source_url": "https://www.wetheral-cottages.co.uk/",
     "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Shorecrest Property Management",
+    "market": "USA · Southold, NY",
+    "type": "Property Manager",
+    "email": "rentals@shorecrestbedandbreakfast.com",
+    "phone": "631-765-1570",
+    "website": "https://www.shorecrestpm.com/",
+    "evidence_no_video": "7 Objekte, nur statische Fotos und Buchungs-Widget, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.shorecrestpm.com/",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "Property Angels",
+    "market": "USA · Cutchogue, NY",
+    "type": "Property Manager",
+    "email": "hello@propertyangels.com",
+    "phone": "631-252-5653",
+    "website": "https://www.propertyangels.com/",
+    "evidence_no_video": "Full-Service-Verwaltung, kein Video-Tour, Drohne oder Matterport-Feature.",
+    "source_url": "https://www.propertyangels.com/",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "North Fork Luxury Rentals",
+    "market": "USA · New Suffolk / Mattituck, NY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (631) 213-5621",
+    "phone": "(631) 213-5621",
+    "website": "https://northforkluxuryrentals.com/",
+    "evidence_no_video": "4-Objekte-Portfolio, nur statische Fotos mit Anfrageformular, kein Video/Drohne/Matterport.",
+    "source_url": "https://northforkluxuryrentals.com/",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "North Fork Professional Services",
+    "market": "USA · Mattituck, NY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (631) 298-4222",
+    "phone": "(631) 298-4222",
+    "website": "https://business.northforkchamber.org/list/member/north-fork-professional-services-117",
+    "evidence_no_video": "Bietet „Airbnb-Services“ an, kein Video-, Drohnen- oder Virtual-Tour-Marketing im Profil erwähnt.",
+    "source_url": "https://business.northforkchamber.org/list/member/north-fork-professional-services-117",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "PMI Eastern Long Island",
+    "market": "USA · Southold, NY",
+    "type": "Property Manager",
+    "email": "marc@pmieli.com",
+    "phone": "631.765.5114",
+    "website": "https://www.longislandvacationmanagement.com/north-fork-vacation-property-management",
+    "evidence_no_video": "Beschreibt Buchungs-/Wechsel-/Inspektionsservices, nur Foto-Listings, kein Video/Drohne/Matterport (lokales PMI-Franchise, Unabhängigkeit vor Pitch prüfen).",
+    "source_url": "https://www.longislandvacationmanagement.com/north-fork-vacation-property-management",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "The Saltbox Greenport",
+    "market": "USA · Greenport, NY",
+    "type": "Solo-Host",
+    "email": "KAS2Enterprises@gmail.com",
+    "phone": "",
+    "website": "https://www.thesaltboxgreenport.com/",
+    "evidence_no_video": "Einzelobjekt-eigene Domain, nur Foto-Galerie, kein Video/Drohne/Matterport-Tour.",
+    "source_url": "https://www.thesaltboxgreenport.com/",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "Terrace Cottage Colony",
+    "market": "USA · Southold, NY",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 631-765-2388",
+    "phone": "631-765-2388",
+    "website": "https://terracecottagecolony.com/",
+    "evidence_no_video": "Kleine eigentümergeführte Wasserfront-Cottage-Kolonie, nur Fotos und Kontaktformular, kein Video/Drohne/Matterport.",
+    "source_url": "https://terracecottagecolony.com/",
+    "region_cluster": "Long Island North Fork NY"
+  },
+  {
+    "company": "Peconic Retreat",
+    "market": "USA · Cutchogue, NY",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: (516) 885-9138",
+    "phone": "(516) 885-9138",
+    "website": "https://business.northforkchamber.org/list/member/peconic-retreat-132",
+    "evidence_no_video": "Einzelnes 6-Schlafzimmer-Ferienhaus über Chamber-Verzeichnis gelistet, keine Video- oder Virtual-Tour-Technologie gefunden.",
+    "source_url": "https://business.northforkchamber.org/list/member/peconic-retreat-132",
+    "region_cluster": "Long Island North Fork NY"
   }
 ]
