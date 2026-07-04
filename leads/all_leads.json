@@ -9128,5 +9128,170 @@
     "evidence_no_video": "Nur Gmail-Kontaktadresse gefunden, statisches Foto-Karussell, kein interaktiver/Video-Tour.",
     "source_url": "https://www.goetreholidaycottages.co.uk/",
     "region_cluster": "Brecon Beacons / Powys Wales"
+  },
+  {
+    "company": "Rangeley Vacation Rentals",
+    "market": "USA · Rangeley, ME",
+    "type": "Property Manager",
+    "email": "info@rangeleyvacationrentals.com",
+    "phone": "",
+    "website": "https://rangeleyvacationrentals.com/",
+    "evidence_no_video": "Kein Matterport/3D-Tour/Drohnen/Video-Tour-Sprache, nur statische Foto-Galerien.",
+    "source_url": "https://rangeleyvacationrentals.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Meadowood Cabin / Rangeley Lakefront Cabin (Shaun)",
+    "market": "USA · Rangeley, ME",
+    "type": "Solo-Host",
+    "email": "shaun@fishrangeley.com",
+    "phone": "207-649-3542",
+    "website": "https://www.rangeleycabin.com/",
+    "evidence_no_video": "2-Hütten-Solo-Betrieb, nur Standbildgalerie, kein Video/3D-Tour.",
+    "source_url": "https://www.rangeleycabin.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Bald Mountain Camps Resort",
+    "market": "USA · Oquossoc, ME (Rangeley Lakes)",
+    "type": "Property Manager",
+    "email": "info@baldmountaincamps.com",
+    "phone": "(207) 864-3671",
+    "website": "https://baldmountaincamps.com/contact.html",
+    "evidence_no_video": "Nur Webcam- und YouTube-Kanal-Link, kein Hütten-Walkthrough/3D-Tour-Content.",
+    "source_url": "https://baldmountaincamps.com/contact.html",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Mooselookmeguntic House Cabin Rentals",
+    "market": "USA · Oquossoc, ME (Rangeley Lakes)",
+    "type": "Solo-Host",
+    "email": "Cmooselookhouse@aol.com",
+    "phone": "(207) 864-2962",
+    "website": "https://www.etravelmaine.com/mooselookhouse/",
+    "evidence_no_video": "Legacy-Seite seit 2000, nur Standbilder, kein Video-Content.",
+    "source_url": "https://www.etravelmaine.com/mooselookhouse/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Moosehead Property Rentals",
+    "market": "USA · Greenville, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "mooseheadpropertyrentals@gmail.com",
+    "phone": "(207) 280-0280",
+    "website": "https://www.mooseheadpropertyrentals.com/luxury-rentals/",
+    "evidence_no_video": "Keine Matterport/3D-Tour/Drohnen/Video-Tour-Referenzen im HTML.",
+    "source_url": "https://www.mooseheadpropertyrentals.com/luxury-rentals/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Pine Tree Stays",
+    "market": "USA · Moosehead Lake, ME",
+    "type": "Property Manager",
+    "email": "info@PineTreeStays.com",
+    "phone": "(207) 291-6846",
+    "website": "https://pinetreestays.com/properties",
+    "evidence_no_video": "~7 Objekte, nur Fotos und Details, keine Video-/Drohnen-/Matterport-Tour-Referenzen.",
+    "source_url": "https://pinetreestays.com/properties",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Rockwood Cottages",
+    "market": "USA · Rockwood, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "adventure@rockwoodcottages.com",
+    "phone": "207-910-0211",
+    "website": "https://www.rockwoodcottages.com/",
+    "evidence_no_video": "7 Wasserfront-Cottages, nur Standard-Fotografie und Instagram-Einbettungen, keine immersive/Video-Tour-Technologie.",
+    "source_url": "https://www.rockwoodcottages.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Tomhegan Wilderness Cabins",
+    "market": "USA · Moosehead Lake, ME",
+    "type": "Property Manager",
+    "email": "info@tomhegan.com",
+    "phone": "(207) 534-7712",
+    "website": "https://tomhegan.com/",
+    "evidence_no_video": "Nur Standbild-Foto-Galerie, keine Erwähnung von Video-Touren, Drohnenaufnahmen oder 3D-/Virtual-Touren.",
+    "source_url": "https://tomhegan.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Gray Ghost Camps",
+    "market": "USA · Rockwood, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "Amy@grayghostcamps.com",
+    "phone": "207-534-7362",
+    "website": "https://grayghostcamps.com/",
+    "evidence_no_video": "~13 Hütten, explizit keine Video-Touren, Drohnenaufnahmen oder Matterport-Content.",
+    "source_url": "https://grayghostcamps.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Wilsons on Moosehead Lake",
+    "market": "USA · Greenville Junction, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "wilsonscamps@yahoo.com",
+    "phone": "(207) 695-2549",
+    "website": "https://wilsonsonmooseheadlake.com/cottages",
+    "evidence_no_video": "Kein Matterport/3D-Tour/Drohnen/Video-Tour-Keyword im HTML, nur „Webcams“-Navpunkt.",
+    "source_url": "https://wilsonsonmooseheadlake.com/cottages",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Lawrence's Lakeside Cabins",
+    "market": "USA · Rockwood, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "info@lawrenceslakesidecabins.com",
+    "phone": "",
+    "website": "https://lawrenceslakesidecabins.com/",
+    "evidence_no_video": "5-Hütten-Familienbetrieb, nur Fotos referenziert, kein Video- oder 3D-Tour-Content.",
+    "source_url": "https://lawrenceslakesidecabins.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Greenville Maine Cabin Rental (Josh & Ashley Clifford)",
+    "market": "USA · Greenville, ME (Moosehead Lake)",
+    "type": "Solo-Host",
+    "email": "greenvillemainecabin@gmail.com",
+    "phone": "",
+    "website": "https://www.greenvillemainecabin.com/",
+    "evidence_no_video": "Einzelhütten-Solo-Host, nur statische Foto-Galerie, kein Video-/Drohnen-/3D-Tour.",
+    "source_url": "https://www.greenvillemainecabin.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Moosehead Cottage Resort",
+    "market": "USA · Greenville, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "manager@mooseheadcottageresort.com",
+    "phone": "207-695-2112",
+    "website": "https://www.mooseheadcottageresort.biz/rentals",
+    "evidence_no_video": "Listet Hüttenkonfigurationen ohne Video-Touren, Drohnenaufnahmen oder 3D-/Virtual-Touren.",
+    "source_url": "https://www.mooseheadcottageresort.biz/rentals",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Spencer Pond Camps",
+    "market": "USA · Beaver Cove, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "coyoteridgeguide@gmail.com",
+    "phone": "1-207-745-1599",
+    "website": "https://spencerpond.com/",
+    "evidence_no_video": "6 abgelegene Blockhütten, nur allgemeiner YouTube-Kanal-Link, kein produzierter Walkthrough/3D-Tour.",
+    "source_url": "https://spencerpond.com/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Kokadjo Camps & Trading Post",
+    "market": "USA · Greenville, ME (Moosehead Lake)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (207) 695-3993",
+    "phone": "(207) 695-3993",
+    "website": "https://destinationmooseheadlake.com/places/kokadjo-cabins-trading-post/",
+    "evidence_no_video": "Regionaler Verzeichnis-Eintrag bestätigt keine Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren.",
+    "source_url": "https://destinationmooseheadlake.com/places/kokadjo-cabins-trading-post/",
+    "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
   }
 ]
