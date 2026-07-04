@@ -8017,5 +8017,192 @@
     "evidence_no_video": "Nur statische Bilder und Textbeschreibungen, kein Video-, Drohnen- oder Matterport-Tour.",
     "source_url": "https://www.the37main.com/",
     "region_cluster": "Utah St George/Zion / Bryce Canyon"
+  },
+  {
+    "company": "Anglesey Holiday Lettings",
+    "market": "UK · Anglesey (Rhosneigr, Beaumaris, Benllech)",
+    "type": "Property Manager",
+    "email": "bookingshelp@anglesey-hl.co.uk",
+    "phone": "0333 050 7487",
+    "website": "https://anglesey-holiday-lettings.com/contact/",
+    "evidence_no_video": "Nur Foto-Galerien, keine Video-/3D-/Matterport-Tour-Einbettungen gefunden.",
+    "source_url": "https://anglesey-holiday-lettings.com/contact/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Coastal Holidays",
+    "market": "UK · Anglesey / Snowdonia / Llyn (Beaumaris)",
+    "type": "Property Manager",
+    "email": "info@coastalholidays.net",
+    "phone": "01248 430190",
+    "website": "https://coastalholidays.net/contact-us/",
+    "evidence_no_video": "50+ Cottage-Listings nur mit statischen Fotos, keine Video-/3D-Tour-Technologie festgestellt.",
+    "source_url": "https://coastalholidays.net/contact-us/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Gadlys Coastal Cottages",
+    "market": "UK · Anglesey (Church Bay)",
+    "type": "Property Manager",
+    "email": "info@anglesey-holidays-cottages.co.uk",
+    "phone": "07786 547361",
+    "website": "https://www.anglesey-holidays-cottages.co.uk/",
+    "evidence_no_video": "Familienbetrieb mit 6 selbstverwalteten Cottages, kein Video-/Tour-Content.",
+    "source_url": "https://www.anglesey-holidays-cottages.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Trearddur Bay Holiday Homes",
+    "market": "UK · Anglesey (Trearddur Bay)",
+    "type": "Property Manager",
+    "email": "enquiries@sandownproperties.co.uk",
+    "phone": "",
+    "website": "https://www.trearddurbayholidayhomes.com/contact",
+    "evidence_no_video": "~10 lokale Objekte nur mit Foto-Galerien, kein Video/3D/Matterport-Tour gefunden.",
+    "source_url": "https://www.trearddurbayholidayhomes.com/contact",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Menai Cottages",
+    "market": "UK · Anglesey (Beaumaris, Menai Bridge)",
+    "type": "Property Manager",
+    "email": "info@menaicottages.com",
+    "phone": "0800 731 6651",
+    "website": "https://menaicottages.com/",
+    "evidence_no_video": "Luxus-Cottage-Listings nur mit statischen Bildergalerien, kein Video- oder Virtual-Tour-Markup.",
+    "source_url": "https://menaicottages.com/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Rhosneigr Beach",
+    "market": "UK · Anglesey (Rhosneigr)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07768 072011",
+    "phone": "07768 072011",
+    "website": "https://rhosneigrbeach.co.uk/",
+    "evidence_no_video": "Einzelne Luxus-Strandvermietung, keine Email gelistet, kein Video/3D-Tour, nur Fotos.",
+    "source_url": "https://rhosneigrbeach.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Holiday House Wales (Trewyn Isaf / Trewyn Bach)",
+    "market": "UK · Anglesey (Rhosneigr)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01732 750364",
+    "phone": "01732 750364",
+    "website": "https://www.holidayhousewales.co.uk/",
+    "evidence_no_video": "2 Strandhäuser, nur persönliche Namensadresse gefunden (ausgeschlossen), nur statische Fotos.",
+    "source_url": "https://www.holidayhousewales.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Summer Hill Self Catering Apartments",
+    "market": "UK · Conwy Valley (Llandudno)",
+    "type": "Solo-Host",
+    "email": "info@summer-hill.org.uk",
+    "phone": "",
+    "website": "http://summer-hill.org.uk/",
+    "evidence_no_video": "Eigentümergeführte Apartments, nur Foto-Listings, kein Video/3D-Tour-Markup.",
+    "source_url": "http://summer-hill.org.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Hamilton Llandudno",
+    "market": "UK · Conwy Valley (Llandudno)",
+    "type": "Solo-Host",
+    "email": "info@hamiltonllandudno.co.uk",
+    "phone": "07310 871742",
+    "website": "https://www.hamiltonllandudno.co.uk/",
+    "evidence_no_video": "4-Sterne-Selbstversorger-Apartments, nur Foto-Galerie, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.hamiltonllandudno.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Number 9",
+    "market": "UK · Conwy Valley (Llandudno)",
+    "type": "Solo-Host",
+    "email": "stay@no9.wales",
+    "phone": "",
+    "website": "https://no9.wales/",
+    "evidence_no_video": "Promenade-Apartments, nur Fotos, keine Video- oder Virtual-Tour-Einbettung.",
+    "source_url": "https://no9.wales/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Seashells Holiday Apartments",
+    "market": "UK · Conwy Valley (Llandudno, West Shore)",
+    "type": "Solo-Host",
+    "email": "info@llandudnoholiday.com",
+    "phone": "",
+    "website": "https://www.llandudnoholiday.com/",
+    "evidence_no_video": "Kleines 2-Schlafzimmer-Objekt, nur statische Bilder, kein Video/3D-Tour.",
+    "source_url": "https://www.llandudnoholiday.com/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Seaside Llandudno",
+    "market": "UK · Conwy Valley (Llandudno)",
+    "type": "Solo-Host",
+    "email": "seasidellandudno@gmail.com",
+    "phone": "07718 205755",
+    "website": "https://www.seasidellandudno.com/",
+    "evidence_no_video": "Von zwei Paaren gemeinsam betrieben, nur Foto-Galerien, kein Video/Tour-Einbettung gefunden.",
+    "source_url": "https://www.seasidellandudno.com/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Claremont House Holiday Apartments",
+    "market": "UK · Conwy Valley (Llandudno)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01492 879721",
+    "phone": "01492 879721",
+    "website": "http://www.llandudno-accommodation.co.uk/",
+    "evidence_no_video": "3 Apartments, nur Anfrageformular, kein Video/Tour-Content.",
+    "source_url": "http://www.llandudno-accommodation.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Betws Cottages",
+    "market": "UK · Conwy Valley (Betws-y-Coed)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07944 613932",
+    "phone": "07944 613932",
+    "website": "https://www.betwscottages.co.uk/contact",
+    "evidence_no_video": "Lokaler Familienbetrieb, nur Foto-Listings, kein Video/3D/Matterport-Tour gefunden.",
+    "source_url": "https://www.betwscottages.co.uk/contact",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Llannerch Goch Luxury Holiday Cottages",
+    "market": "UK · Conwy Valley (Betws-y-Coed)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07939 810005",
+    "phone": "07939 810005",
+    "website": "https://www.betwsycoed.co.uk/",
+    "evidence_no_video": "Luxus-Cottages im Snowdonia-Nationalpark, nur statische Bildergalerien.",
+    "source_url": "https://www.betwsycoed.co.uk/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Moel yr Iwrch Holiday Cottages",
+    "market": "UK · Conwy Valley (Betws-y-Coed)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07742 437793",
+    "phone": "07742 437793",
+    "website": "https://www.moelyriwrch.co.uk/about-moel-yr-iwrch-holiday-cottages/",
+    "evidence_no_video": "Kleiner Snowdonia-Nationalpark-Cottage-Betrieb, kein Video/3D/Matterport-Tour gefunden.",
+    "source_url": "https://www.moelyriwrch.co.uk/about-moel-yr-iwrch-holiday-cottages/",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Bron-Nant",
+    "market": "UK · Conwy Valley (Betws-y-Coed)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07887 835682",
+    "phone": "07887 835682",
+    "website": "https://www.bron-nant.co.uk/contact",
+    "evidence_no_video": "Einzelnes historisches Steinhaus (1750er), nur Fotografie, kein Video oder Virtual-Tour.",
+    "source_url": "https://www.bron-nant.co.uk/contact",
+    "region_cluster": "Anglesey / Conwy Valley Wales"
   }
 ]
