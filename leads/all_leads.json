@@ -9293,5 +9293,203 @@
     "evidence_no_video": "Regionaler Verzeichnis-Eintrag bestätigt keine Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren.",
     "source_url": "https://destinationmooseheadlake.com/places/kokadjo-cabins-trading-post/",
     "region_cluster": "Maine Inland-Seen (Rangeley/Moosehead)"
+  },
+  {
+    "company": "Skye Getaways",
+    "market": "UK · Isle of Skye (Dunvegan)",
+    "type": "Solo-Host",
+    "email": "info@skyegetaways.co.uk",
+    "phone": "+44 07956 102226",
+    "website": "https://www.skyegetaways.co.uk/",
+    "evidence_no_video": "Nur statische Fotos von Apartment und Hütte, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.skyegetaways.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Dunvegan Castle Holiday Cottages",
+    "market": "UK · Isle of Skye (Dunvegan)",
+    "type": "Property Manager",
+    "email": "cottages@dunvegancastle.com",
+    "phone": "+44 (0)1470 521206",
+    "website": "https://www.dunvegancastle.com/holiday-cottages/",
+    "evidence_no_video": "5-Cottage-Anwesens-Listing nur mit Foto-Galerien und Textbeschreibungen, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.dunvegancastle.com/holiday-cottages/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Glendale Self Catering",
+    "market": "UK · Isle of Skye (Minginish/Portnalong)",
+    "type": "Solo-Host",
+    "email": "bookings@glendalesc.co.uk",
+    "phone": "01478 640765",
+    "website": "https://www.glendalesc.co.uk/",
+    "evidence_no_video": "Nur Bildergalerien von Cottage und Studio, keine Video-/3D-Tour-Referenzen.",
+    "source_url": "https://www.glendalesc.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Self Catering Cottages (Skye)",
+    "market": "UK · Isle of Skye (Portree/South Skye)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 07810226658",
+    "phone": "07810226658",
+    "website": "https://www.self-catering-skye.com/contact",
+    "evidence_no_video": "Nur Anfrageformular und Fotos für 5 Cottages, keine Tour-/Video-/Matterport-Erwähnung.",
+    "source_url": "https://www.self-catering-skye.com/contact",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Auld Mission Cottage",
+    "market": "UK · Isle of Skye (Waternish, near Dunvegan)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01470 592 313",
+    "phone": "01470 592 313",
+    "website": "https://www.auld-mission-cottage.co.uk/",
+    "evidence_no_video": "Nur persönliche iCloud-Adresse gefunden, kein Video-/Tour-Content auf der Seite.",
+    "source_url": "https://www.auld-mission-cottage.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Stay Skye",
+    "market": "UK · Isle of Skye (Portree)",
+    "type": "Solo-Host",
+    "email": "info@stay-skye.co.uk",
+    "phone": "07787905906",
+    "website": "https://www.stay-skye.co.uk/",
+    "evidence_no_video": "Apartment nur über Foto-Galerie beworben, kein Video-, 360- oder Matterport-Tour im Seitencode gefunden.",
+    "source_url": "https://www.stay-skye.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Eagle Bay Cottages",
+    "market": "UK · Outer Hebrides (Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "stay@eaglebaycottages.co.uk",
+    "phone": "01851 830491",
+    "website": "https://www.eaglebaycottages.co.uk/",
+    "evidence_no_video": "Einfache statische Seite nur mit Fotos, keine Video-/3D-/Matterport-Tour-Keywords im Quellcode.",
+    "source_url": "https://www.eaglebaycottages.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Reasort Estates",
+    "market": "UK · Outer Hebrides (Isle of Harris / Lewis)",
+    "type": "Solo-Host",
+    "email": "info@reasortestates.co.uk",
+    "phone": "01859 560 263",
+    "website": "https://reasortestates.co.uk/cottages/",
+    "evidence_no_video": "3-Cottage-Listing-Seite nur mit Fotos, kein Tour-/Video-Content gefunden.",
+    "source_url": "https://reasortestates.co.uk/cottages/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Hebridean Holiday Cabins",
+    "market": "UK · Outer Hebrides (Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "stay@hebrideanholidaycabins.co.uk",
+    "phone": "01851 621 397",
+    "website": "https://hebrideanholidaycabins.co.uk/",
+    "evidence_no_video": "Zwei-Pod-Listing nur mit Foto-Galerien, keine Video-/3D-Tour-Referenzen im Quellcode.",
+    "source_url": "https://hebrideanholidaycabins.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Stornoway Holiday Apartments",
+    "market": "UK · Outer Hebrides (Stornoway, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "info@stornoway-holiday-apartments.co.uk",
+    "phone": "01851 702752",
+    "website": "http://www.stornoway-holiday-apartments.co.uk/contact.html",
+    "evidence_no_video": "Ältere statische Seite mit reinen Textbeschreibungen, keine Tour-Technologie vorhanden.",
+    "source_url": "http://www.stornoway-holiday-apartments.co.uk/contact.html",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Tarbert Harris Self Catering Properties",
+    "market": "UK · Outer Hebrides (Isle of Harris)",
+    "type": "Solo-Host",
+    "email": "enquiries@tarbertharrisselfcatering.com",
+    "phone": "",
+    "website": "https://tarbertharrisselfcatering.com/contact/",
+    "evidence_no_video": "Ladenumbau-Cottages aus dem 19. Jh. nur über Foto-Galerie gezeigt, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://tarbertharrisselfcatering.com/contact/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Lewis Cottages",
+    "market": "UK · Outer Hebrides (Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "info@lewiscottages.com",
+    "phone": "01851 612288",
+    "website": "https://lewiscottages.com/",
+    "evidence_no_video": "3-Objekte-Portfolio, 4-Sterne-VisitScotland-bewertet, nur Fotos, keine Video-/Tour-Erwähnung.",
+    "source_url": "https://lewiscottages.com/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Pabbay House",
+    "market": "UK · Outer Hebrides (Back, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "info@pabbayhouse.com",
+    "phone": "+44 (0)7400 115516",
+    "website": "https://www.pabbayhouse.com",
+    "evidence_no_video": "Nur allgemeines YouTube-Destinationsvideo eingebettet, kein Objekt-Walkthrough der Zimmer/des Hauses.",
+    "source_url": "https://www.pabbayhouse.com",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Isle of Harris Holiday",
+    "market": "UK · Outer Hebrides (Isle of Harris)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07715 311919",
+    "phone": "07715 311919",
+    "website": "https://www.isleofharrisholiday.com/",
+    "evidence_no_video": "Nur persönliche Hotmail-Adresse gefunden, „Video“-Codeverweise sind nur Wix-CSS-Variablen, kein echtes Objektvideo.",
+    "source_url": "https://www.isleofharrisholiday.com/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "HebHideaways (\"Mo Eilean\")",
+    "market": "UK · Outer Hebrides (Stornoway, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: +44 7857221576",
+    "phone": "+44 7857221576",
+    "website": "https://www.hebhideaways.com/",
+    "evidence_no_video": "Nur persönliche Yahoo-Adresse gefunden, „Video“-Referenzen sind ungenutztes Wix-Framework-Boilerplate.",
+    "source_url": "https://www.hebhideaways.com/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Macleod Self Catering",
+    "market": "UK · Outer Hebrides (Stornoway, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01851 702458",
+    "phone": "01851 702458",
+    "website": "https://www.macleodselfcatering.co.uk/contact.shtml",
+    "evidence_no_video": "Nur persönliche live.co.uk-Adresse gefunden, statische 3-Häuser-Seite ohne Video-/Tour-Content.",
+    "source_url": "https://www.macleodselfcatering.co.uk/contact.shtml",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Vancouver House (Stornoway Self Catering)",
+    "market": "UK · Outer Hebrides (Stornoway, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01851 612347",
+    "phone": "01851 612347",
+    "website": "https://www.stornowayselfcatering.co.uk/",
+    "evidence_no_video": "Nur persönliche Adresse (nicht auf eigener Domain) gefunden, kein Video/3D/Matterport-Tour erwähnt.",
+    "source_url": "https://www.stornowayselfcatering.co.uk/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "An Airigh",
+    "market": "UK · Outer Hebrides (Stornoway, Isle of Lewis)",
+    "type": "Solo-Host",
+    "email": "info@anairigh.com",
+    "phone": "01851 705 283",
+    "website": "https://www.anairigh.com/",
+    "evidence_no_video": "WordPress-Mediengalerie nur mit Fotos, kein Walkthrough-Video, 360- oder Matterport-Tour gefunden.",
+    "source_url": "https://www.anairigh.com/",
+    "region_cluster": "Isle of Skye / Outer Hebrides"
   }
 ]
