@@ -10536,5 +10536,159 @@
     "evidence_no_video": "Familiengeführte Farm-B&B/Self-Catering-Hütten-Seite zeigt keinen Video- oder virtuellen Tour-Content.",
     "source_url": "https://pardlestonefarm.co.uk/",
     "region_cluster": "UK Cornwall & Devon / Scottish Highlands"
+  },
+  {
+    "company": "Mountain View Vacations",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (802) 333-0824",
+    "phone": "(802) 333-0824",
+    "website": "https://stowerentalhomes.com/",
+    "evidence_no_video": "Startseite und Objektlistings zeigen nur statische Fotogalerien; kein Video-, Drohnen- oder Matterport/3D-Tour irgendwo auf der Seite gefunden.",
+    "source_url": "https://stowerentalhomes.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Ashley Management Group",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "info@ashleymanagementgrp.com",
+    "phone": "kein öffentliches Telefon gefunden",
+    "website": "https://www.ashleymanagementgrp.com/",
+    "evidence_no_video": "Seite listet 18 Mietobjekte nur mit Fotogalerien; keine Erwähnung von Video-Touren, Drohnenaufnahmen oder 3D-/Matterport-Touren.",
+    "source_url": "https://www.ashleymanagementgrp.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Stowe Mountain Rentals",
+    "market": "USA · Stowe, VT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 802-798-3142",
+    "phone": "802-798-3142",
+    "website": "https://stowemountainrentals.com/",
+    "evidence_no_video": "Durchsuchbare Datenbank mit ~60 benannten Einheiten nutzt nur statische Fotogalerien; keine Video-Touren, Drohnenaufnahmen oder 3D-/Matterport-Touren gefunden.",
+    "source_url": "https://stowemountainrentals.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "The Cabin at Killington",
+    "market": "USA · Killington, VT",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: (802) 736-7467",
+    "phone": "(802) 736-7467",
+    "website": "https://killingtoncabin.com/",
+    "evidence_no_video": "Einzelnes Doppelhaus-Objekt (eine oder beide Seiten mietbar); Seite enthält nur Standbilder, kein Video, Drohne oder Matterport/3D-Tour.",
+    "source_url": "https://killingtoncabin.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Mad River Valley Rental Management (MRVRM)",
+    "market": "USA · Mad River Valley (Fayston), VT",
+    "type": "Property Manager",
+    "email": "Support@mrvrm.com",
+    "phone": "802-659-3959",
+    "website": "https://www.mrvrm.com/",
+    "evidence_no_video": "Größter eigenständiger Hausvermieter im Mad River Valley; Seite zeigt nur Foto-Listings, keine Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren.",
+    "source_url": "https://www.mrvrm.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Sugarbush Village Condominiums",
+    "market": "USA · Mad River Valley (Warren), VT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (802) 233-2282",
+    "phone": "(802) 233-2282",
+    "website": "https://www.sugarbushvillage.com/",
+    "evidence_no_video": "40 Jahre alter lokaler Condo-Vermieter; Seite beschreibt 1-4-Schlafzimmer-Einheiten ohne Video-, Drohnen- oder Matterport/3D-Tour-Erwähnung.",
+    "source_url": "https://www.sugarbushvillage.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Lincoln Peak Properties, LLC",
+    "market": "USA · Mad River Valley (Waitsfield), VT",
+    "type": "Property Manager",
+    "email": "info@lppvt.com",
+    "phone": "802-496-2328",
+    "website": "https://www.lincolnpeakproperties.com/",
+    "evidence_no_video": "Full-Service-Verwalter für Condo-Gemeinschaften und private Ferienhäuser; keine Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren auf Seite oder Kontaktseite gefunden.",
+    "source_url": "https://www.lincolnpeakproperties.com/contact-us",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Select Real Estate",
+    "market": "USA · North Conway/Mount Washington Valley, NH",
+    "type": "Property Manager",
+    "email": "select@selectrealestate.com",
+    "phone": "603.447.3813",
+    "website": "https://selectrealestate.com/",
+    "evidence_no_video": "Verwaltet seit 30+ Jahren ~50 Objekte im Mount Washington Valley; Seite gibt an, nur 'hochauflösende Profifotos' zu nutzen, kein Video-/3D-/Matterport-Tour erwähnt.",
+    "source_url": "https://selectrealestate.com/vacation/vacation-rental-management-what-we-do-for-you/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "North Conway Property Management",
+    "market": "USA · Bartlett/North Conway, NH",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (413) 348-5105",
+    "phone": "(413) 348-5105",
+    "website": "https://northconwaypropertymanagement.com/",
+    "evidence_no_video": "Kleiner familiengeführter Verwalter (eigene Reinigung/Wartung); Listings nach Belegung mit nur Fotos organisiert, kein Video, Drohne oder 3D-/Matterport-Tour-Content.",
+    "source_url": "https://northconwaypropertymanagement.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Lincoln Log Cabins",
+    "market": "USA · Lincoln, NH (White Mountains)",
+    "type": "Solo-Host",
+    "email": "parischristina95@gmail.com",
+    "phone": "603-560-5612",
+    "website": "https://lincolnlogcabins.com/",
+    "evidence_no_video": "Familiengeführter Solo-Betrieb mit 3 Hütten ('Momma Bear', 'Papa Bear', 'Baby Bear'); Seite zeigt nur statische Fotos, kein Video-/Drohnen-/Matterport-Tour.",
+    "source_url": "https://lincolnlogcabins.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Montaup Cabins",
+    "market": "USA · North Woodstock/Lincoln, NH (White Mountains)",
+    "type": "Property Manager",
+    "email": "montaupcabins@gmail.com",
+    "phone": "1-603-745-5615",
+    "website": "https://montaupcabins.com/",
+    "evidence_no_video": "Kleiner Anbieter mit ~11 Hütten-/RV-Einheiten; Seite zeigt nur Foto-Listings, keine Video-Touren, Drohnenaufnahmen oder Matterport/3D-Touren gefunden.",
+    "source_url": "https://montaupcabins.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Pemi Cabins",
+    "market": "USA · Lincoln, NH (White Mountains)",
+    "type": "Property Manager",
+    "email": "pemi@stayatourhaus.com",
+    "phone": "603-803-6478",
+    "website": "https://www.pemicabins.com/",
+    "evidence_no_video": "Fluss-Hütten-Anbieter seit 1944 mit ~4 Hüttentypen; Seiteninhalt ist nur fotogaleriebasiert, kein Video-, Drohnen- oder Matterport/3D-Tour-Verweis gefunden.",
+    "source_url": "https://www.pemicabins.com/contact-us",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Yankee Pedlar Realtors",
+    "market": "USA · Wolfeboro, Lake Winnipesaukee, NH",
+    "type": "Property Manager",
+    "email": "michelle@yankeepedlarrealtors.com",
+    "phone": "603-569-1000",
+    "website": "https://winnire.com/",
+    "evidence_no_video": "Unabhängiger Full-Service-Vermieter mit angeblich größter Seefront-Sammlung der Region; Listings zeigen nur Standbilder, kein Video-/Drohnen-/Matterport-Tour-Content.",
+    "source_url": "https://winnire.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
+  },
+  {
+    "company": "Maxfield Vacation Properties",
+    "market": "USA · Lake Winnipesaukee, NH",
+    "type": "Property Manager",
+    "email": "rentals@maxfieldvacationproperties.com",
+    "phone": "603-569-7714",
+    "website": "https://www.maxfieldvacationproperties.com/",
+    "evidence_no_video": "Auf Hauseigentümer fokussierter lokaler Verwalter; Seiteninhalt erwähnt nirgends Video-Touren, Walkthroughs, Drohnenaufnahmen oder Matterport/3D-Touren.",
+    "source_url": "https://www.maxfieldvacationproperties.com/",
+    "region_cluster": "USA — Erstrecherche (Batch 01)"
   }
 ]
