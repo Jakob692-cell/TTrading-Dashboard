@@ -9667,5 +9667,192 @@
     "evidence_no_video": "Individuell geführter 2-Objekte-Betrieb, einfache persönliche Seite mit Fotos, kein Video/Drohne/Matterport.",
     "source_url": "http://redlodgemt.homestead.com/",
     "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Baytown Holiday Cottages",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Property Manager",
+    "email": "info@baytownholidaycottages.co.uk",
+    "phone": "07703 457229",
+    "website": "https://baytownholidaycottages.co.uk/",
+    "evidence_no_video": "35 Cottages, nur statische Foto-Galerien, keine Tour-Technologie.",
+    "source_url": "https://baytownholidaycottages.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Robin Hoods Bay Cottages",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Property Manager",
+    "email": "hello@robinhoodsbaycottages.co.uk",
+    "phone": "07772 682387",
+    "website": "https://robinhoodsbaycottages.co.uk/contact",
+    "evidence_no_video": "~29 Objekte, nur statische Bilder, kein Video/Matterport-Tour gefunden.",
+    "source_url": "https://robinhoodsbaycottages.co.uk/contact",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Whitby Holiday Cottages",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Property Manager",
+    "email": "enquiries@whitbyholidaycottages.net",
+    "phone": "01947 603010",
+    "website": "https://www.whitby-cottages.net/",
+    "evidence_no_video": "Nur statische Bilder/Icons, keine eingebettete Video- oder 3D-Tour-Technologie.",
+    "source_url": "https://www.whitby-cottages.net/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "North Yorkshire Cottage Holidays",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Property Manager",
+    "email": "info@northyorkshirecottageholidays.com",
+    "phone": "01439 788649",
+    "website": "https://northyorkshirecottageholidays.com/contact/",
+    "evidence_no_video": "Keine Video-Einbettungen, YouTube-Links oder Virtual-Tour-Referenzen.",
+    "source_url": "https://northyorkshirecottageholidays.com/contact/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "5leys Holiday Accommodation",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "info@5leys.co.uk",
+    "phone": "07702 262509",
+    "website": "https://www.fileyholidayaccommodation.co.uk/",
+    "evidence_no_video": "77 Objekte, nur Foto-Galerie, kein Video-Tour-Format erwähnt.",
+    "source_url": "https://www.fileyholidayaccommodation.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Filey Bay Direct",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "office@fileybaydirect.com",
+    "phone": "07962 150258",
+    "website": "https://www.fileybaydirect.com/",
+    "evidence_no_video": "44 Objekte, nur statische Bilder, kein Video/Matterport-Content.",
+    "source_url": "https://www.fileybaydirect.com/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Filey Holiday Cottages",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "info@fileyholidaycottages.co.uk",
+    "phone": "01723 892180",
+    "website": "https://www.fileyholidaycottages.co.uk/",
+    "evidence_no_video": "14 Cottages nur mit Text und statischen Bildern beschrieben, keine Tour-Technologie.",
+    "source_url": "https://www.fileyholidaycottages.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Five Star Stays",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "info@fivestarstays.co.uk",
+    "phone": "01723 362622",
+    "website": "https://fivestarstays.co.uk/",
+    "evidence_no_video": "16 Cottages, nur statische Bilder, keine Video-Touren gefunden.",
+    "source_url": "https://fivestarstays.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Wrea Head Country Cottages",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "info@wreahead.co.uk",
+    "phone": "01723 375844",
+    "website": "https://wreahead.co.uk/",
+    "evidence_no_video": "9 Cottages, kein Video, YouTube oder Matterport/3D-Tour-Content.",
+    "source_url": "https://wreahead.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Low Moor Cottages",
+    "market": "UK · Scarborough/Filey",
+    "type": "Property Manager",
+    "email": "info@lowmoorcottages.co.uk",
+    "phone": "01723 871644",
+    "website": "https://lowmoorcottages.co.uk/contact/",
+    "evidence_no_video": "6 Cottages, nur statische „Take a peek inside“-Foto-Galerie, kein Video/3D-Tour.",
+    "source_url": "https://lowmoorcottages.co.uk/contact/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Whitby Railway Cottages",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Solo-Host",
+    "email": "info@whitbyrailwaycottages.co.uk",
+    "phone": "01947 863793",
+    "website": "https://www.whitbyrailwaycottages.co.uk/",
+    "evidence_no_video": "Eigentümergeführt, 3 Cottages, nur Standardfotografien, kein Video/3D-Tour.",
+    "source_url": "https://www.whitbyrailwaycottages.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "The Beach Filey (Hope Cottages)",
+    "market": "UK · Scarborough/Filey",
+    "type": "Solo-Host",
+    "email": "enquiries@thebeachfiley.co.uk",
+    "phone": "01262 603098",
+    "website": "https://thebeachfiley.co.uk/contact-us",
+    "evidence_no_video": "Familiengeführt, 2 Cottages, nur statische Bilder, kein Video-/Tour-Technologie.",
+    "source_url": "https://thebeachfiley.co.uk/contact-us",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "SNG Yorkshire Cottages",
+    "market": "UK · Scarborough/Filey",
+    "type": "Solo-Host",
+    "email": "info@sngyorkshirecottages.co.uk",
+    "phone": "07793 225255",
+    "website": "https://sngyorkshirecottages.co.uk/",
+    "evidence_no_video": "Junge Familie führt 3 Objekte nahe Filey, nur Foto-Galerien, keine Tour-Technologie erwähnt.",
+    "source_url": "https://sngyorkshirecottages.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Meadowside Holiday Cottages",
+    "market": "UK · Scarborough/Filey",
+    "type": "Solo-Host",
+    "email": "enquiries@meadowsidefiley.co.uk",
+    "phone": "07854 962855",
+    "website": "https://meadowsidefiley.co.uk/",
+    "evidence_no_video": "Einzelnes 4-Schlafzimmer-Cottage, nur statische Bilder-Galerie, kein Video/3D-Tour.",
+    "source_url": "https://meadowsidefiley.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Wynd Cottage (idostuff.org)",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Solo-Host",
+    "email": "wynd@idostuff.org",
+    "phone": "",
+    "website": "https://www.idostuff.org/whitby-cottage/",
+    "evidence_no_video": "Einzelnes eigentümergeführtes Cottage, nur JPG-Bilder referenziert, kein Video/Tour-Technologie.",
+    "source_url": "https://www.idostuff.org/whitby-cottage/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Whitby Cottages (John & Jean Tingle)",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07966 395120",
+    "phone": "07966 395120",
+    "website": "https://whitbycottages.co.uk/contact/",
+    "evidence_no_video": "4 eigentümergeführte Cottages, nur statische Bilder, kein Video/Tour (nur persönliche Gmail-Adresse gefunden, ausgeschlossen).",
+    "source_url": "https://whitbycottages.co.uk/contact/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
+  },
+  {
+    "company": "Dock Cottage Robin Hoods Bay",
+    "market": "UK · Whitby/Robin Hood's Bay",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07961719996",
+    "phone": "07961719996",
+    "website": "https://www.dockcottagerobinhoodsbay.co.uk/",
+    "evidence_no_video": "2 Objekte, statische Innen-/Außenbilder, kein Video/3D-Tour (nur persönliche Gmail-Adresse gefunden).",
+    "source_url": "https://www.dockcottagerobinhoodsbay.co.uk/",
+    "region_cluster": "Yorkshire Küste Whitby/Scarborough"
   }
 ]
