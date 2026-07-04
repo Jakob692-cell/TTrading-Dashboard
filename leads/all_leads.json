@@ -8204,5 +8204,137 @@
     "evidence_no_video": "Einzelnes historisches Steinhaus (1750er), nur Fotografie, kein Video oder Virtual-Tour.",
     "source_url": "https://www.bron-nant.co.uk/contact",
     "region_cluster": "Anglesey / Conwy Valley Wales"
+  },
+  {
+    "company": "Jackson Hole Property Management (JHPM)",
+    "market": "USA · Jackson, WY",
+    "type": "Property Manager",
+    "email": "info@jacksonholepm.com",
+    "phone": "307-201-1914",
+    "website": "https://jacksonholepm.com/",
+    "evidence_no_video": "Nur statische Fotografie, kein Video/Drohne/Matterport-Tour.",
+    "source_url": "https://jacksonholepm.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Rendezvous Mountain Rentals",
+    "market": "USA · Wilson, WY (Jackson Hole)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (888) 739-2565",
+    "phone": "(888) 739-2565",
+    "website": "https://www.rmrentals.com/",
+    "evidence_no_video": "Matterport-Tour-Felder in eigenen Listing-Daten leer, kein aktiver Video-/Drohnen-Content.",
+    "source_url": "https://www.rmrentals.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Outpost Jackson Hole",
+    "market": "USA · Jackson, WY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 307-690-4790",
+    "phone": "307-690-4790",
+    "website": "https://www.outpostjh.com/",
+    "evidence_no_video": "Nur statische Fotografie, kein Video-, Drohnen- oder 3D-/Matterport-Content.",
+    "source_url": "https://www.outpostjh.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Western Property Management (WPM)",
+    "market": "USA · Jackson, WY & Victor, ID",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 307-201-1861",
+    "phone": "307-201-1861",
+    "website": "https://wpmjacksonhole.com/",
+    "evidence_no_video": "Nur statische Bilder, keine Video-/Drohnen-/Matterport-Referenzen gefunden.",
+    "source_url": "https://wpmjacksonhole.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Apex Jackson",
+    "market": "USA · Jackson, WY",
+    "type": "Property Manager",
+    "email": "info@apexjackson.com",
+    "phone": "+1 (307) 732-0943",
+    "website": "https://apexjackson.com/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Tour-Content auf der Seite gefunden.",
+    "source_url": "https://apexjackson.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Jackson Hole RBO (Rentals by Mountain Vacation Lodging)",
+    "market": "USA · Jackson, WY",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 800-499-3309",
+    "phone": "800-499-3309",
+    "website": "https://www.jacksonholerbo.com/",
+    "evidence_no_video": "Nur statische „Fotos jedes Zimmers“, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://www.jacksonholerbo.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Jackson Hole Reservations",
+    "market": "USA · Jackson, WY",
+    "type": "Property Manager",
+    "email": "reservations@jacksonhole.net",
+    "phone": "(307) 733-6331",
+    "website": "https://www.jacksonhole.net/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Content gefunden; Objektanzahl vor Versand gegenprüfen.",
+    "source_url": "https://www.jacksonhole.net/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Teton Valley Vacation Rentals",
+    "market": "USA · Driggs, ID (Teton Valley)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (208) 354-3431",
+    "phone": "(208) 354-3431",
+    "website": "https://tetonvalleyvacationrentals.com/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Tour-Content gefunden.",
+    "source_url": "https://tetonvalleyvacationrentals.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Teton Valley Realty Management (TVRManagement)",
+    "market": "USA · Driggs, ID (Teton Valley)",
+    "type": "Property Manager",
+    "email": "mail@tvrmanagement.com",
+    "phone": "(208) 354-3431",
+    "website": "https://www.tetonvalleypropertymanagement.com/contact-us/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Tour-Content gefunden.",
+    "source_url": "https://www.tetonvalleypropertymanagement.com/contact-us/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Wydaho Properties",
+    "market": "USA · Driggs/Victor, ID (Teton Valley)",
+    "type": "Property Manager",
+    "email": "support@wydahoproperties.com",
+    "phone": "208-999-3387",
+    "website": "https://wydahoproperties.com/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Tour-Content gefunden.",
+    "source_url": "https://wydahoproperties.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Teton Homestead",
+    "market": "USA · Driggs, ID (Teton Valley)",
+    "type": "Property Manager",
+    "email": "mail@tetonhomestead.com",
+    "phone": "(800) 746-5518",
+    "website": "https://www.tetonhomestead.com/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder Matterport-Tour-Content gefunden.",
+    "source_url": "https://www.tetonhomestead.com/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Basecamp Stays",
+    "market": "USA · Teton Valley, ID",
+    "type": "Property Manager",
+    "email": "info@basecampstays.com",
+    "phone": "844-442-0017",
+    "website": "https://basecampstays.com/property-management/",
+    "evidence_no_video": "Wirbt mit „digitalem Marketing“, aber kein Video-, Drohnen- oder Matterport-Tour erwähnt.",
+    "source_url": "https://basecampstays.com/property-management/",
+    "region_cluster": "Jackson Hole WY / Teton Valley ID"
   }
 ]
