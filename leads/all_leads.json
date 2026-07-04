@@ -8798,5 +8798,170 @@
     "evidence_no_video": "Einzeleigentümer mit eigener Ein-Hütten-Seite, nur statische Fotos, keine Tour-Technologie.",
     "source_url": "https://www.southforkrental.com",
     "region_cluster": "Colorado Telluride/Ouray / Durango"
+  },
+  {
+    "company": "Mackinac Resorts",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Property Manager",
+    "email": "info@mackinacresorts.com",
+    "phone": "906-847-8077",
+    "website": "https://www.mackinacresorts.com/",
+    "evidence_no_video": "8-Cottage-/Condo-Portfolio, nur statische Foto-Galerien, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.mackinacresorts.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "DeLanglade Condominiums",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Solo-Host",
+    "email": "mackinacislandcondos@gmail.com",
+    "phone": "888-899-3811",
+    "website": "https://www.mackinacislandcondos.com/",
+    "evidence_no_video": "Eigentümergeführte Wasserfront-Condo-Seite, nur Standbilder, kein Virtual-/Video-Tour.",
+    "source_url": "https://www.mackinacislandcondos.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Northern Michigan Vacation Rentals",
+    "market": "USA · St. Ignace, MI",
+    "type": "Property Manager",
+    "email": "Info@northernmichiganvr.com",
+    "phone": "906-451-5438",
+    "website": "https://northernmichiganvr.com/",
+    "evidence_no_video": "Nur Drohnen-Foto-Banner (Standbilder), kein interaktives Video oder Matterport-Tour.",
+    "source_url": "https://northernmichiganvr.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Pine Cottage Bed & Breakfast",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Solo-Host",
+    "email": "info@pinecottagemackinac.com",
+    "phone": "906-847-3820",
+    "website": "https://pinecottagemackinac.com/",
+    "evidence_no_video": "Nur Standbildfotografie, kein Video oder Virtual-Tour gefunden.",
+    "source_url": "https://pinecottagemackinac.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Small Point Bed & Breakfast",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Solo-Host",
+    "email": "smallpointbb@gmail.com",
+    "phone": "",
+    "website": "http://www.smallpointmackinac.com/home",
+    "evidence_no_video": "Nur statische Bildergalerie, kein Video-/Virtual-Tour.",
+    "source_url": "http://www.smallpointmackinac.com/home",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Cottage Inn of Mackinac",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: (906) 847-4000",
+    "phone": "(906) 847-4000",
+    "website": "https://www.cottageinnofmackinac.com/contact-us/contact-us.html",
+    "evidence_no_video": "Viktorianisches B&B, nur Fotos, kein Video-Tour, Drohne oder Matterport gefunden.",
+    "source_url": "https://www.cottageinnofmackinac.com/contact-us/contact-us.html",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Above Mackinac Condos",
+    "market": "USA · Mackinac Island, MI",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 906-847-3911",
+    "phone": "906-847-3911",
+    "website": "https://www.abovemackinaccondos.com/",
+    "evidence_no_video": "3-Einheiten-Listing nur mit statischen „View“-Foto-Buttons, keine Tour-Technologie.",
+    "source_url": "https://www.abovemackinaccondos.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Mill Pond Realty & Vacation Rentals",
+    "market": "USA · Saugatuck, MI",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 269-857-1477",
+    "phone": "269-857-1477",
+    "website": "https://www.millpondrealty.com/property-management-services/",
+    "evidence_no_video": "200+ Objekte, nur Fotografie erwähnt, keine Virtual-/Video-Touren.",
+    "source_url": "https://www.millpondrealty.com/property-management-services/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Saugatuck Vacation Rentals",
+    "market": "USA · Saugatuck, MI",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: (269) 235-9675",
+    "phone": "(269) 235-9675",
+    "website": "https://www.saugatuckvacationrentals.com/about-us",
+    "evidence_no_video": "Familiengeführte 2-Objekte-Direktbuchungsseite, nur Foto-Galerien, kein Video/Virtual-Tour.",
+    "source_url": "https://www.saugatuckvacationrentals.com/about-us",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Shores Vacation Rentals",
+    "market": "USA · South Haven, MI",
+    "type": "Property Manager",
+    "email": "reservations@shoresofsouthhaven.com",
+    "phone": "269-637-8770",
+    "website": "https://staywithshores.com/",
+    "evidence_no_video": "75+ Objekte-Portfolio, nur statische Foto-Listings, kein Video/Matterport-Tour gefunden.",
+    "source_url": "https://staywithshores.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "South Haven MI Properties",
+    "market": "USA · South Haven, MI",
+    "type": "Property Manager",
+    "email": "info@southhavenmi.properties",
+    "phone": "(815) 922-1007",
+    "website": "https://southhavenmi.properties/about-us/",
+    "evidence_no_video": "Beschreibt Vermietungs-/Immobilien-/PM-Services nur mit Fotos, kein Video-Tour erwähnt.",
+    "source_url": "https://southhavenmi.properties/about-us/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Anchor Point Vacations",
+    "market": "USA · South Haven, MI",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 269-762-4100",
+    "phone": "269-762-4100",
+    "website": "https://www.anchorpointvacations.com/partner-with-us",
+    "evidence_no_video": "Familienbetrieb mit ~38 Objekten, keine Video-, Drohnen- oder Matterport-Referenzen.",
+    "source_url": "https://www.anchorpointvacations.com/partner-with-us",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Sunshine Cottage",
+    "market": "USA · South Haven, MI",
+    "type": "Solo-Host",
+    "email": "bookings@sunshinecottagesh.com",
+    "phone": "872-215-1792",
+    "website": "https://sunshinecottagesh.com/",
+    "evidence_no_video": "Einzelnes Familien-Cottage im Harbor Club, nur Foto-Galerie, kein Video/Virtual-Tour.",
+    "source_url": "https://sunshinecottagesh.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Bluewater Vacation Rentals",
+    "market": "USA · South Haven, MI",
+    "type": "Property Manager",
+    "email": "frontdesk@bluewatervaca.com",
+    "phone": "(855) 255-6017",
+    "website": "https://www.bluewatervaca.com/",
+    "evidence_no_video": "~16 Objekte, nur Fotos auf der Startseite, keine Video-/Tour-Technologie.",
+    "source_url": "https://www.bluewatervaca.com/",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
+  },
+  {
+    "company": "Juniper Holiday + Home",
+    "market": "USA · South Haven, MI",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (269) 442-1237",
+    "phone": "(269) 442-1237",
+    "website": "https://www.juniperholidayandhome.com/michigan-vacation-rentals/south-haven",
+    "evidence_no_video": "100+ Objekte-Verwalter, betont Design/Komfort-Texte und Fotos, keine Virtual-Tour-Technologie gefunden.",
+    "source_url": "https://www.juniperholidayandhome.com/michigan-vacation-rentals/south-haven",
+    "region_cluster": "Michigan Mackinac Island / Saugatuck"
   }
 ]
