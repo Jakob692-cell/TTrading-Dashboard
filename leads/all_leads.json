@@ -7478,5 +7478,170 @@
     "evidence_no_video": "Einzelvermieterin mit 3 Objekten, nur statische Foto-Galerie, kein Video/Drohne/Matterport.",
     "source_url": "https://spacesoftheheart.com/old-saybrook-cottage-rental/",
     "region_cluster": "Rhode Island / Connecticut Küste"
+  },
+  {
+    "company": "Sand 'N Sea Properties",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 409.797.5500",
+    "phone": "409.797.5500",
+    "website": "https://www.sandnsea.com/rentals",
+    "evidence_no_video": "191 Objekte, nur statische Foto-Karussells, kein Video/Matterport.",
+    "source_url": "https://www.sandnsea.com/rentals",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "BeachBox (StayBeachBox)",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "customerservice@staybeachbox.com",
+    "phone": "+1-409-761-1228",
+    "website": "https://staybeachbox.com/property-management",
+    "evidence_no_video": "Nur professionelle Fotografie erwähnt, kein Video/3D-Tour.",
+    "source_url": "https://staybeachbox.com/property-management",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "PMI Galveston Bay",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "sales@pmigalvestonbay.com",
+    "phone": "409.800.6500",
+    "website": "https://www.galvestonpropertymanagementinc.com/galveston-vacation-property-management",
+    "evidence_no_video": "Keine Referenz auf Video, Drohne oder Virtual-Tour-Content.",
+    "source_url": "https://www.galvestonpropertymanagementinc.com/galveston-vacation-property-management",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Best of the West Galveston",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "marketing@bestofthewestgalveston.com",
+    "phone": "832-544-5261",
+    "website": "https://bestofthewestgalveston.com/",
+    "evidence_no_video": "Nur statische Bilder, keine Tour-Technologie erwähnt.",
+    "source_url": "https://bestofthewestgalveston.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "AB Sea Sales & Rentals",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 409-740-1245",
+    "phone": "409-740-1245",
+    "website": "https://absearesorts.com/",
+    "evidence_no_video": "Nur Bilder referenziert, keine Video-/Virtual-Tour-Erwähnung.",
+    "source_url": "https://absearesorts.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Galveston Bungalows (Bungalow Beach)",
+    "market": "USA · Galveston, TX",
+    "type": "Property Manager",
+    "email": "info@galvestonbungalows.com",
+    "phone": "409-770-3872",
+    "website": "https://www.galvestonbungalows.com/",
+    "evidence_no_video": "Boutique 10-Acre-Bungalow-Gemeinschaft, keine Video/Matterport-Inhalte.",
+    "source_url": "https://www.galvestonbungalows.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Galveston Rentals By Owner (Gary & Anna)",
+    "market": "USA · Galveston, TX",
+    "type": "Solo-Host",
+    "email": "galvestonvacation@hotmail.com",
+    "phone": "+1 936 499 6001",
+    "website": "https://galvestonrentalsbyowner.com/",
+    "evidence_no_video": "Solo-Host mit 3 Einheiten, nur ein statisches Luftbild, keine Video-Touren.",
+    "source_url": "https://galvestonrentalsbyowner.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Beach House Rentals Galveston (Jom & Monica)",
+    "market": "USA · Galveston, TX",
+    "type": "Solo-Host",
+    "email": "vacation@beachhouserentalgalvestontx.com",
+    "phone": "(409) 223-7710",
+    "website": "https://www.beachhouserentalgalvestontx.com/",
+    "evidence_no_video": "Eigentümergeführt seit 2016, nur statische Fotos, kein Video-/Virtual-Tour-Content.",
+    "source_url": "https://www.beachhouserentalgalvestontx.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Sand Key Vacation Rentals",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "hello@sandkeyvacationrentals.com",
+    "phone": "+1 (361) 749-4255",
+    "website": "https://www.sandkeyvacationrentals.com/management/south-padre-island",
+    "evidence_no_video": "Betont nur Reinigung/Fotos, keine Video-/Drohnen-/3D-Tour-Referenz.",
+    "source_url": "https://www.sandkeyvacationrentals.com/management/south-padre-island",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "ISLA-SPI Rentals LLC",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "islarealtor@gmail.com",
+    "phone": "956-761-1066",
+    "website": "https://islarentalsspi.com/",
+    "evidence_no_video": "Kleiner lokaler Vermietungsbetrieb, keine Video- oder Virtual-Tour-Erwähnung.",
+    "source_url": "https://islarentalsspi.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Padre Island Rentals (PI Rentals)",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 956-761-5512",
+    "phone": "956-761-5512",
+    "website": "https://www.pirentals.com/vacation-rental-management/",
+    "evidence_no_video": "190+ Einheiten, keine Video-/3D-Tour-Referenzen, nur Fotos.",
+    "source_url": "https://www.pirentals.com/vacation-rental-management/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "Franke Rentals",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 956-761-2606",
+    "phone": "956-761-2606",
+    "website": "https://frankerentals.com/",
+    "evidence_no_video": "50+ Einheiten, nur Gäste-Bewertungs-Fotolinks, keine Video-Tour-Technologie.",
+    "source_url": "https://frankerentals.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "SPI Rentals",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (956) 572-6656",
+    "phone": "(956) 572-6656",
+    "website": "https://spirentals.com/",
+    "evidence_no_video": "200+ Objekte-Portfolio, keine Video-/Drohnen-/Matterport-Tour-Funktionalität gefunden.",
+    "source_url": "https://spirentals.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "EZBook Vacation Homes",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 956-300-1325",
+    "phone": "956-300-1325",
+    "website": "https://www.ezbookvacationhomes.com/",
+    "evidence_no_video": "Mehr-Objekte-Vermietungsseite, keine Erwähnung von Video- oder Virtual-Touren.",
+    "source_url": "https://www.ezbookvacationhomes.com/",
+    "region_cluster": "Texas Golfküste"
+  },
+  {
+    "company": "South Padre Trips",
+    "market": "USA · South Padre Island, TX",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (956) 242-0904",
+    "phone": "(956) 242-0904",
+    "website": "https://southpadretrips.com/south-padre-property-management-services/",
+    "evidence_no_video": "Nur ein erklärendes Whiteboard-Video über den Betrieb, keine Objekt-Video-/3D-Touren.",
+    "source_url": "https://southpadretrips.com/south-padre-property-management-services/",
+    "region_cluster": "Texas Golfküste"
   }
 ]
