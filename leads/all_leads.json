@@ -9491,5 +9491,181 @@
     "evidence_no_video": "WordPress-Mediengalerie nur mit Fotos, kein Walkthrough-Video, 360- oder Matterport-Tour gefunden.",
     "source_url": "https://www.anairigh.com/",
     "region_cluster": "Isle of Skye / Outer Hebrides"
+  },
+  {
+    "company": "Two Pines Properties",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 406-995-2299",
+    "phone": "406-995-2299",
+    "website": "https://www.twopinesvacationrentals.com/",
+    "evidence_no_video": "Nur statische Foto-Galerien, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.twopinesvacationrentals.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Elkhorn Home Management (EHM)",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "info@ehmmt.com",
+    "phone": "(406) 995-7917",
+    "website": "https://www.ehmmt.com/",
+    "evidence_no_video": "Nur Rabatte/Ausstattung mit Fotos beworben, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.ehmmt.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "High Altitude Property Management (HAPM)",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "info@hapm.us",
+    "phone": "406.995.3380",
+    "website": "https://hapm.us/",
+    "evidence_no_video": "Kein Video-, Drohnen- oder 3D-Tour-Content auf der Seite.",
+    "source_url": "https://hapm.us/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Alpine Property Management",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "dave@alpinebigsky.com",
+    "phone": "406.209.6161",
+    "website": "https://rentals-alpinebigsky.com/about/",
+    "evidence_no_video": "Veteranen-geführter lokaler Verwalter, keine Video-/Drohnen-/Matterport-Referenzen.",
+    "source_url": "https://rentals-alpinebigsky.com/about/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Travel Big Sky (Blackstone Property Management, Inc.)",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "info@travelbigsky.com",
+    "phone": "(406) 226-2301",
+    "website": "https://www.travelbigsky.com/property-management",
+    "evidence_no_video": "Nur 4 Listings mit statischen Fotos, kein Video-/Drohnen-/Matterport-Tour erwähnt.",
+    "source_url": "https://www.travelbigsky.com/property-management",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Wilson Peak Properties",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "reservations@wilsonpeakproperties.com",
+    "phone": "406-298-5828",
+    "website": "https://www.wilsonpeakproperties.com/",
+    "evidence_no_video": "~30 Objekte, nur gelistete Fotos, keine Virtual-/Video-Tour-Technologie erwähnt.",
+    "source_url": "https://www.wilsonpeakproperties.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Moonlight Vacation Rentals",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 406-600-4705",
+    "phone": "406-600-4705",
+    "website": "https://www.vacationmoonlight.com/about",
+    "evidence_no_video": "Familienbetrieb mit ~14 Häusern, nur Platzhalter-/statische Bilder, kein Video oder Matterport.",
+    "source_url": "https://www.vacationmoonlight.com/about",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Big Sky Vacation Rentals (Book Big Sky)",
+    "market": "USA · Big Sky, MT",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 888-915-2787",
+    "phone": "888-915-2787",
+    "website": "https://www.bookbigsky.com/Property-Management-Big-Sky",
+    "evidence_no_video": "125-150+ Häuser, kein Video-, Drohnen- oder 3D-Tour-Content.",
+    "source_url": "https://www.bookbigsky.com/Property-Management-Big-Sky",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Big Sky Earthship",
+    "market": "USA · Big Sky, MT",
+    "type": "Solo-Host",
+    "email": "jeffbigsky@gmail.com",
+    "phone": "",
+    "website": "https://bigskyearthship.com/",
+    "evidence_no_video": "Einzelnes Off-Grid-Objekt, Seite noch im Aufbau, nur Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://bigskyearthship.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "AAA Red Lodge Rentals",
+    "market": "USA · Red Lodge, MT",
+    "type": "Property Manager",
+    "email": "stay@aaaredlodgerentals.com",
+    "phone": "+1 (406) 425-2125",
+    "website": "https://www.aaaredlodgerentals.com/",
+    "evidence_no_video": "Familienbetrieb in sechster Generation, nur statische Foto-Galerien, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.aaaredlodgerentals.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Basin Property Management",
+    "market": "USA · Red Lodge, MT",
+    "type": "Property Manager",
+    "email": "info@basinpropertymt.com",
+    "phone": "(406) 579-4245",
+    "website": "https://www.basinpropertymt.com/",
+    "evidence_no_video": "Solo-Betreiberin mit 3 Häusern, nur statische Fotografien, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.basinpropertymt.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Red Lodge Reservations",
+    "market": "USA · Red Lodge, MT",
+    "type": "Property Manager",
+    "email": "reservations@redlodgereservations.com",
+    "phone": "406-446-3603",
+    "website": "https://www.redlodgereservations.com/",
+    "evidence_no_video": "36 Objekte, nur Textbeschreibungen und statische Bilder, kein Video/Drohne/Matterport.",
+    "source_url": "https://www.redlodgereservations.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Red Lodge Rentals",
+    "market": "USA · Red Lodge, MT",
+    "type": "Property Manager",
+    "email": "rentals@redlodgeland.com",
+    "phone": "(406) 446-2123",
+    "website": "https://www.redlodgerentals.com/",
+    "evidence_no_video": "Objektkarten nur mit Name/Preis/Foto, kein Video-/Drohnen-/Matterport-Tour.",
+    "source_url": "https://www.redlodgerentals.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Blue Sky Cabins",
+    "market": "USA · Red Lodge, MT",
+    "type": "Solo-Host",
+    "email": "blueskycabins@att.net",
+    "phone": "406-446-0186",
+    "website": "https://blueskycabins.com/",
+    "evidence_no_video": "Einzelvermieter mit 5 Hütten, nur Standardfotografien, keine immersive Video-/Drohnen-/Matterport-Tour.",
+    "source_url": "https://blueskycabins.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Beartooth Bungalow",
+    "market": "USA · Red Lodge, MT",
+    "type": "Solo-Host",
+    "email": "beartoothbungalow@gmail.com",
+    "phone": "",
+    "website": "https://www.beartoothbungalow.com/",
+    "evidence_no_video": "Einzelobjekt-Listing eines Paares, nur Foto-Galerie, kein Video-Tour, Drohne oder Matterport.",
+    "source_url": "https://www.beartoothbungalow.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
+  },
+  {
+    "company": "Absaroka Vacation Properties",
+    "market": "USA · Red Lodge, MT",
+    "type": "Solo-Host",
+    "email": "magnumracing@charter.net",
+    "phone": "651-335-5549",
+    "website": "http://redlodgemt.homestead.com/",
+    "evidence_no_video": "Individuell geführter 2-Objekte-Betrieb, einfache persönliche Seite mit Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "http://redlodgemt.homestead.com/",
+    "region_cluster": "Montana Big Sky / Red Lodge"
   }
 ]
