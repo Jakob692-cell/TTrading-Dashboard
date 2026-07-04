@@ -8336,5 +8336,170 @@
     "evidence_no_video": "Wirbt mit „digitalem Marketing“, aber kein Video-, Drohnen- oder Matterport-Tour erwähnt.",
     "source_url": "https://basecampstays.com/property-management/",
     "region_cluster": "Jackson Hole WY / Teton Valley ID"
+  },
+  {
+    "company": "Self Catering Silloth (Spindrift & Rose Cottage)",
+    "market": "UK · Solway Coast Cumbria",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07760 475157",
+    "phone": "07760 475157",
+    "website": "https://selfcatering-silloth.co.uk/",
+    "evidence_no_video": "Nur statische Foto-Galerien der zwei Cottages, kein Video oder Virtual-Tour.",
+    "source_url": "https://selfcatering-silloth.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Allonby Self Catering (Maid's Cottage)",
+    "market": "UK · Solway Coast Cumbria",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 07979354714",
+    "phone": "07979354714",
+    "website": "https://allonbyselfcatering.co.uk/",
+    "evidence_no_video": "Nur Standard-Foto-Galerie, kein Video/Matterport/3D-Tour (persönliche Email ausgeschlossen).",
+    "source_url": "https://allonbyselfcatering.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Dickinson Place Holiday Cottages",
+    "market": "UK · Solway Coast Cumbria (Allonby)",
+    "type": "Property Manager",
+    "email": "holidays@dickinsonplace.co.uk",
+    "phone": "01900 881440",
+    "website": "https://www.dickinsonplace.co.uk/holidaycottages/",
+    "evidence_no_video": "6-Cottage-Hofanlage, nur Standard-Fotografie, kein Virtual-/Video-Tour gefunden.",
+    "source_url": "https://www.dickinsonplace.co.uk/holidaycottages/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Spring Lea Holiday Centre",
+    "market": "UK · Solway Coast Cumbria (Allonby/Maryport)",
+    "type": "Property Manager",
+    "email": "mail@springlea.co.uk",
+    "phone": "01900 881331",
+    "website": "https://springlea.co.uk/",
+    "evidence_no_video": "Nur Text-/Foto-Listings, kein Video- oder 3D-Tour erwähnt.",
+    "source_url": "https://springlea.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Church House Barn",
+    "market": "UK · Solway Coast Cumbria (Newton Arlosh)",
+    "type": "Solo-Host",
+    "email": "info@churchhousebarn.co.uk",
+    "phone": "07810 224735",
+    "website": "https://www.churchhousebarn.co.uk/",
+    "evidence_no_video": "Nur Foto-Karussell-Galerie, kein Video-Tour, Matterport oder 3D-Walkthrough.",
+    "source_url": "https://www.churchhousebarn.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "A Corner of Eden",
+    "market": "UK · Eden Valley Cumbria (Ravenstonedale/Kirkby Stephen)",
+    "type": "Solo-Host",
+    "email": "enquiries@acornerofeden.co.uk",
+    "phone": "07759 469059",
+    "website": "https://www.acornerofeden.co.uk/",
+    "evidence_no_video": "Nur Instagram-Fotos und statische Bilder für alle 3 Cottages, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.acornerofeden.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Holiday Cottages Alston (Alston Art Apartments)",
+    "market": "UK · Eden Valley Cumbria (Alston)",
+    "type": "Solo-Host",
+    "email": "enquiries@holidaycottagesalston.co.uk",
+    "phone": "+44 (0)1434 382975",
+    "website": "https://www.holidaycottagesalston.co.uk/",
+    "evidence_no_video": "Kein Video-/Virtual-Tour-Content für die 3 Apartments gefunden.",
+    "source_url": "https://www.holidaycottagesalston.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Alston Self Catering (Ghyll Burn Cottage & Barn End)",
+    "market": "UK · Eden Valley Cumbria (Alston)",
+    "type": "Solo-Host",
+    "email": "ghyllburn@plantswithaltitude.co.uk",
+    "phone": "01434 381372",
+    "website": "https://alstonselfcatering.co.uk/",
+    "evidence_no_video": "Nur Karussell-Foto-Galerien für beide Cottages, keine immersive Tour-Technologie.",
+    "source_url": "https://alstonselfcatering.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Harbut Law Cottages",
+    "market": "UK · Eden Valley Cumbria (Alston)",
+    "type": "Solo-Host",
+    "email": "info@harbutlawcottages.co.uk",
+    "phone": "+44 (0)1434 381950",
+    "website": "https://harbutlawcottages.co.uk/contact/",
+    "evidence_no_video": "Kein Video-Tour oder Matterport-Referenz für die 3 Cottages gefunden.",
+    "source_url": "https://harbutlawcottages.co.uk/contact/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Pennine Ways Holiday Cottages",
+    "market": "UK · Eden Valley Cumbria (Alston/North Pennines)",
+    "type": "Property Manager",
+    "email": "bookings@pennine-ways.co.uk",
+    "phone": "01434 381808",
+    "website": "https://penninewaysholidaycottages.co.uk/property/pennine-pathway-holiday-cottage-dufton/",
+    "evidence_no_video": "Nur Standard-Foto-Galerie, kein Video- oder 3D-Tour.",
+    "source_url": "https://penninewaysholidaycottages.co.uk/property/pennine-pathway-holiday-cottage-dufton/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Milburn Grange Holiday Cottages",
+    "market": "UK · Eden Valley Cumbria (Milburn, near Appleby)",
+    "type": "Property Manager",
+    "email": "holidays@milburngrange.co.uk",
+    "phone": "07352 323531",
+    "website": "https://www.milburngrange.co.uk/",
+    "evidence_no_video": "Kein Video/Virtual-Tour/Matterport bei den 7 Cottages erwähnt.",
+    "source_url": "https://www.milburngrange.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Howscales Holiday Cottages",
+    "market": "UK · Eden Valley Cumbria (Kirkoswald)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01768 898666",
+    "phone": "01768 898666",
+    "website": "https://howscales.co.uk/",
+    "evidence_no_video": "Nur Fotos für die 4 Cottages, keine Tour-Technologie.",
+    "source_url": "https://howscales.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Dufton Barn Holidays",
+    "market": "UK · Eden Valley Cumbria (Dufton, near Appleby)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: +44 (0)1768 352167",
+    "phone": "+44 (0)1768 352167",
+    "website": "https://duftonbarnholidays.co.uk/",
+    "evidence_no_video": "Umfangreiche statische Foto-Galerie, keine Hinweise auf Video, Matterport oder 3D-Walkthroughs.",
+    "source_url": "https://duftonbarnholidays.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "The Hollies Appleby (Holly Lodge)",
+    "market": "UK · Eden Valley Cumbria (Appleby)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01768 352553",
+    "phone": "01768 352553",
+    "website": "https://theholliesappleby.co.uk/self-catering-cottage.php",
+    "evidence_no_video": "Nur statische Zimmer-/Außenfotos, kein Virtual-Tour.",
+    "source_url": "https://theholliesappleby.co.uk/self-catering-cottage.php",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
+  },
+  {
+    "company": "Wetheral Cottages",
+    "market": "UK · Eden Valley Cumbria (Great Salkeld)",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 01768 898779",
+    "phone": "01768 898779",
+    "website": "https://www.wetheral-cottages.co.uk/",
+    "evidence_no_video": "Kein Video-Tour, Matterport oder 3D-Walkthrough bei den 6 Cottages gefunden.",
+    "source_url": "https://www.wetheral-cottages.co.uk/",
+    "region_cluster": "Cumbria Solway Coast / Eden Valley"
   }
 ]
