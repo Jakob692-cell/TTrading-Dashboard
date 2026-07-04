@@ -7093,5 +7093,181 @@
     "evidence_no_video": "200+ Objekte, keine Erwähnung von Video, Drohne oder Matterport-Touren.",
     "source_url": "https://ocvacations.com/owner-info",
     "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "West Coast Cottages",
+    "market": "UK · Argyll (Oban)",
+    "type": "Property Manager",
+    "email": "info@west-coast-cottages.co.uk",
+    "phone": "",
+    "website": "https://west-coast-cottages.co.uk/",
+    "evidence_no_video": "Nur Social-Media-Icon-Links, kein eingebetteter Walkthrough/3D/Matterport-Tour auf Listings.",
+    "source_url": "https://west-coast-cottages.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Argyll Holiday Cottage",
+    "market": "UK · Argyll (Oban)",
+    "type": "Solo-Host",
+    "email": "holiday@argyllholidaycottage.co.uk",
+    "phone": "01852 200263",
+    "website": "https://argyllholidaycottage.co.uk/",
+    "evidence_no_video": "Einzel-Cottage-Seite, nur statische Fotos, kein Video/Virtual/3D-Tour.",
+    "source_url": "https://argyllholidaycottage.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Bonawe House",
+    "market": "UK · Argyll (Oban)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01866 822309",
+    "phone": "01866 822309",
+    "website": "https://bonawehouse.co.uk/",
+    "evidence_no_video": "Nur Kontaktformular, kein Video/3D/Matterport-Content gefunden.",
+    "source_url": "https://bonawehouse.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Oban Holiday Lets",
+    "market": "UK · Argyll (Oban)",
+    "type": "Property Manager",
+    "email": "office@obanholidaylets.com",
+    "phone": "",
+    "website": "https://www.obanholidaylets.com/",
+    "evidence_no_video": "Lokale Vermietungs-Verwaltung, keine Video-/Virtual-/3D-/Matterport-Tour-Referenzen.",
+    "source_url": "https://www.obanholidaylets.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Appin Holiday Homes",
+    "market": "UK · Argyll (Oban/Appin)",
+    "type": "Property Manager",
+    "email": "info@appinholidayhomes.co.uk",
+    "phone": "01631 730287",
+    "website": "https://appinholidayhomes.com/",
+    "evidence_no_video": "Familienbetrieb mit Lodges/Bothies/Eisenbahnwaggon, kein Video/3D/Matterport-Tour gefunden.",
+    "source_url": "https://appinholidayhomes.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Treshnish Holiday Cottages",
+    "market": "UK · Isle of Mull",
+    "type": "Property Manager",
+    "email": "enquiries@treshnish.co.uk",
+    "phone": "",
+    "website": "https://treshnish.co.uk/",
+    "evidence_no_video": "Anwesen bei Calgary Beach, keine Youtube-/Vimeo-/Matterport-/Virtual-Tour-Keywords gefunden.",
+    "source_url": "https://treshnish.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Killiechronan Estate (Self Catering Holidays Mull)",
+    "market": "UK · Isle of Mull",
+    "type": "Property Manager",
+    "email": "stay@selfcateringholidaysmull.co.uk",
+    "phone": "",
+    "website": "http://www.selfcateringholidaysmull.co.uk/",
+    "evidence_no_video": "8 umgebaute Hofgebäude-Cottages auf einem Anwesen, kein Video/3D/Matterport-Tour-Content.",
+    "source_url": "http://www.selfcateringholidaysmull.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Argyll Self-Catering Holidays",
+    "market": "UK · Argyll & Bute",
+    "type": "Property Manager",
+    "email": "info@argyllselfcateringholidays.co.uk",
+    "phone": "",
+    "website": "https://argyllselfcateringholidays.co.uk/",
+    "evidence_no_video": "Kleine handverlesene Agentur, keine Video-/Virtual-/3D-/Matterport-Tour-Referenzen.",
+    "source_url": "https://argyllselfcateringholidays.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Mull Self Catering",
+    "market": "UK · Isle of Mull (Tobermory)",
+    "type": "Solo-Host",
+    "email": "info@mullselfcatering.co.uk",
+    "phone": "01688 302288",
+    "website": "https://www.mullselfcatering.co.uk/",
+    "evidence_no_video": "Nur 3 Objekte von einer Basis aus verwaltet, keine Youtube-/Vimeo-/Matterport-Keywords.",
+    "source_url": "https://www.mullselfcatering.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Auchendennan Farm Cottages",
+    "market": "UK · Loch Lomond & Trossachs",
+    "type": "Property Manager",
+    "email": "info@auchendennanfarm.co.uk",
+    "phone": "01389 710000",
+    "website": "https://www.auchendennanfarm.co.uk/",
+    "evidence_no_video": "16 Cottages/Apartments auf einem Hof, keine Video-/Virtual-/3D-/Matterport-Tour-Erwähnung.",
+    "source_url": "https://www.auchendennanfarm.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Leny Estate",
+    "market": "UK · Loch Lomond & Trossachs (Callander)",
+    "type": "Property Manager",
+    "email": "res@lenyestate.com",
+    "phone": "01877 331078",
+    "website": "https://lenyestate.com/",
+    "evidence_no_video": "Blockhütten und viktorianische Cottages auf einem Anwesen, kein Video/Virtual/3D/Matterport-Tour-Content.",
+    "source_url": "https://lenyestate.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Foxglove Cottages",
+    "market": "UK · Loch Lomond & Trossachs (Drymen)",
+    "type": "Solo-Host",
+    "email": "info@foxglovecottages.co.uk",
+    "phone": "",
+    "website": "https://www.foxglovecottages.com/",
+    "evidence_no_video": "Kleiner eigentümergeführter Betrieb, nur statische Foto-Galerien, kein Video/3D/Matterport-Tour.",
+    "source_url": "https://www.foxglovecottages.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Almardon",
+    "market": "UK · Loch Lomond & Trossachs (Callander)",
+    "type": "Solo-Host",
+    "email": "kein öffentliches Email — Tel: 01877 331597",
+    "phone": "01877 331597",
+    "website": "https://www.almardon.co.uk/",
+    "evidence_no_video": "Einzelne Selbstversorger-Unterkunft, nur Kontaktformular, keine Video-/Virtual-/3D-/Matterport-Tour-Keywords.",
+    "source_url": "https://www.almardon.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Forth Cottages",
+    "market": "UK · Loch Lomond & Trossachs (Kippen/Aberfoyle/Port of Menteith)",
+    "type": "Property Manager",
+    "email": "info@forthcottages.com",
+    "phone": "01786 871197",
+    "website": "http://www.forthcottages.com/",
+    "evidence_no_video": "Kleiner Mehr-Cottage-Vermietungsbetrieb, keine Video-/Virtual-/3D-/Matterport-Tour-Referenzen.",
+    "source_url": "http://www.forthcottages.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Loch Lomond Farm Cottages",
+    "market": "UK · Loch Lomond & Trossachs",
+    "type": "Solo-Host",
+    "email": "enquiries@lochlomond-farmcottages.com",
+    "phone": "",
+    "website": "https://www.lochlomond-farmcottages.com/",
+    "evidence_no_video": "Nur 2 Cottages von einem Eigentümer vermietet, kein Video/3D/Matterport-Tour gefunden.",
+    "source_url": "https://www.lochlomond-farmcottages.com/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
+  },
+  {
+    "company": "Blairhosh Cottage",
+    "market": "UK · Loch Lomond & Trossachs",
+    "type": "Solo-Host",
+    "email": "info@blairhoshcottage.co.uk",
+    "phone": "",
+    "website": "https://www.blairhoshcottage.co.uk/",
+    "evidence_no_video": "Einzelnes Selbstversorger-Cottage, kein Video-/Virtual-/3D-/Matterport-Tour-Content gefunden.",
+    "source_url": "https://www.blairhoshcottage.co.uk/",
+    "region_cluster": "Argyll / Loch Lomond Scotland"
   }
 ]
