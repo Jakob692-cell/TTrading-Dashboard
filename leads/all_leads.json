@@ -6906,5 +6906,192 @@
     "evidence_no_video": "Einzelvermieterin mit 2 Objekten, kein Video/Drohne/Matterport erwähnt.",
     "source_url": "http://www.westvirginiacottagerentals.com/",
     "region_cluster": "Blue Ridge Parkway VA / Berkeley Springs WV"
+  },
+  {
+    "company": "Blue Heron Property Management",
+    "market": "USA · Rehoboth Beach/Ocean City area, DE & MD",
+    "type": "Property Manager",
+    "email": "info@blueheronpm.com",
+    "phone": "302-339-1148",
+    "website": "https://blueheronpm.com/",
+    "evidence_no_video": "Nur statische Objektfotos, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://blueheronpm.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "John F. Kleinstuber & Associates (Kleinstuber Realty)",
+    "market": "USA · Fenwick Island, DE",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: (302) 539-4081",
+    "phone": "(302) 539-4081",
+    "website": "https://www.fenwickisland.com/contact-us",
+    "evidence_no_video": "100+ Listings nur mit Diashow-Fotos, keine Virtual-Tour- oder Drohnen-Technologie.",
+    "source_url": "https://www.fenwickisland.com/contact-us",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Sandcastle Realty",
+    "market": "USA · South Bethany Beach, DE",
+    "type": "Makler",
+    "email": "kein öffentliches Email — Tel: 302-539-0525",
+    "phone": "302-539-0525",
+    "website": "https://sandcastlerealty.com/rentals/oceanfront/",
+    "evidence_no_video": "16 Oceanfront-Listings, nur statische Thumbnail-Bilder, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://sandcastlerealty.com/rentals/oceanfront/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "DEL302 Management",
+    "market": "USA · Lewes to Fenwick Island, DE",
+    "type": "Property Manager",
+    "email": "del302mgnt@gmail.com",
+    "phone": "(302) 930-3302",
+    "website": "https://www.del302management.com/about",
+    "evidence_no_video": "~40 Objekte, nur Standard-Fotografie, keine Video-Touren/Drohnen/Matterport.",
+    "source_url": "https://www.del302management.com/about",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Tansey-Warner Realty",
+    "market": "USA · Bethany Beach (Sea Colony), DE",
+    "type": "Makler",
+    "email": "rentals@tanseywarner.com",
+    "phone": "(302) 539-3001",
+    "website": "https://www.tanseywarner.com/",
+    "evidence_no_video": "80+ Sea-Colony-Einheiten, nur statische Foto-Galerie, keine Virtual-Tour-Technologie.",
+    "source_url": "https://www.tanseywarner.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Bethany Area Realty",
+    "market": "USA · Bethany Beach, DE",
+    "type": "Makler",
+    "email": "beachrentals@bethanyarearealty.com",
+    "phone": "",
+    "website": "https://vacationrentals-bethanyarearealty.com/",
+    "evidence_no_video": "Kleine unabhängige Firma, nur statische JPG-Fotos, kein Video/Drohne/Matterport.",
+    "source_url": "https://vacationrentals-bethanyarearealty.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Rodney Dunes Pier 12 Beach Apartments (Dewey Rental)",
+    "market": "USA · Dewey Beach, DE",
+    "type": "Solo-Host",
+    "email": "beachlady@deweyrental.com",
+    "phone": "302-270-2894",
+    "website": "https://www.deweyrental.com/",
+    "evidence_no_video": "Eigentümergeführtes 3-Apartment-Gebäude, nur statische Fotos, kein Video-/Drohnen-Content.",
+    "source_url": "https://www.deweyrental.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Coastal Life Vacations",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 410-746-2668",
+    "phone": "410-746-2668",
+    "website": "https://www.coastallifevacations.com/contact-us",
+    "evidence_no_video": "Nur statische Bilder, Email Cloudflare-verschleiert, keine Video-Tour-Technologie.",
+    "source_url": "https://www.coastallifevacations.com/contact-us",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Shore Management, Inc.",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "shoremgt@gmail.com",
+    "phone": "410-524-5760",
+    "website": "https://shoremanagementinc.com/",
+    "evidence_no_video": "Verwaltet Condos/Townhomes/HOAs, keine Erwähnung von Virtual-Touren, Drohnen oder Matterport.",
+    "source_url": "https://shoremanagementinc.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "VacationinOC",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "Rentals@vacationinoc.com",
+    "phone": "410-260-0326",
+    "website": "https://vacationinoc.com/about-us/",
+    "evidence_no_video": "Familienbetrieb mit 25+ Einheiten, nur textbasierte „Brief Property Tours“, kein Video/Drohne/Matterport.",
+    "source_url": "https://vacationinoc.com/about-us/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "GoodTimesInOC",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (410) 340-0008",
+    "phone": "(410) 340-0008",
+    "website": "https://goodtimesinoc.com/",
+    "evidence_no_video": "15+ Objekte, nur statische Foto-Thumbnails, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://goodtimesinoc.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "OCMD Vacation Rentals",
+    "market": "USA · Ocean City, MD",
+    "type": "Solo-Host",
+    "email": "gambits3@ptd.net",
+    "phone": "",
+    "website": "https://www.ocmdvacationrentals.com/",
+    "evidence_no_video": "Kleiner Familienbetrieb mit 5 Einheiten, nur statische Bilder, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://www.ocmdvacationrentals.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "ShoreRent (D3Corp)",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "support@d3corp.com",
+    "phone": "410-213-2400",
+    "website": "https://shorerent.com/",
+    "evidence_no_video": "Lokaler Aggregator für unabhängige Eigentümer, nur statische Thumbnail-Fotos, keine Virtual-Tour-Technologie.",
+    "source_url": "https://shorerent.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "OC Beachfront Rentals",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "reservations@ocbeachfrontrentals.com",
+    "phone": "",
+    "website": "https://www.ocbeachfrontrentals.com/contact",
+    "evidence_no_video": "Familienbetrieb seit 50+ Jahren, nur statische Fotos, kein Video/Drohne/Matterport erwähnt.",
+    "source_url": "https://www.ocbeachfrontrentals.com/contact",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Best of OC Condo Rentals",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: (410) 715-1011",
+    "phone": "(410) 715-1011",
+    "website": "https://bestoceancondos.com/",
+    "evidence_no_video": "Kleine Firma, besitzt 8 von 37 Einheiten, nur Foto-Galerien, kein Video/Drohne/3D-Tour.",
+    "source_url": "https://bestoceancondos.com/",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "Ocean City Resort Rentals",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "kein öffentliches Email — Tel: 410-723-2111",
+    "phone": "410-723-2111",
+    "website": "https://www.oceancityresortrentals.com/contact",
+    "evidence_no_video": "60+ Objekte, nur Standard-Fotos, keine Virtual-Tour-Technologie, Email Cloudflare-verschleiert.",
+    "source_url": "https://www.oceancityresortrentals.com/contact",
+    "region_cluster": "Delaware / Maryland Küste"
+  },
+  {
+    "company": "OC Vacations (Resort Rentals, LLC)",
+    "market": "USA · Ocean City, MD",
+    "type": "Property Manager",
+    "email": "info@ocvacations.com",
+    "phone": "1-800-348-2101",
+    "website": "https://ocvacations.com/owner-info",
+    "evidence_no_video": "200+ Objekte, keine Erwähnung von Video, Drohne oder Matterport-Touren.",
+    "source_url": "https://ocvacations.com/owner-info",
+    "region_cluster": "Delaware / Maryland Küste"
   }
 ]
