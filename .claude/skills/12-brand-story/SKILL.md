@@ -110,12 +110,6 @@ Full parameter table: [references/model-specs.md](references/model-specs.md).
    review and refinement before any generation call. The user must approve the prompt
    text, model, aspect ratio, and duration.
 
-5. **Always plan the outro before generating** — a wordless/no-dialogue story film needs
-   a product+logo outro appended in post (zero extra credits, built with ffmpeg, never
-   another `generate_video` call). See
-   [references/outro-recipe.md](references/outro-recipe.md). Source the brand's actual
-   wordmark/lockup logo now, not after the story clips are already generated.
-
 ---
 
 ## Opt-in generation
@@ -146,4 +140,3 @@ T2V is the default path. When the user provides a reference image, run the
 | [references/narrative-craft.md](references/narrative-craft.md) | Brand storytelling philosophy, 10+ narrative arc structures, industry-specific approaches, emotional register guide, visual metaphor library, camera/lighting/color guidance, voiceover techniques, sound design, and effectiveness checklist |
 | [references/hooks.md](references/hooks.md) | 12 essential brand story hooks, hook-stacking techniques, platform-specific hook guidance, and hook-to-narrative-arc matching table |
 | [references/examples.md](references/examples.md) | Master template for brand story prompts, 5 production-ready worked example prompts by brand type (tech startup, artisan food, fashion manifesto, health/wellness, creative agency), brand story brief template, and platform deployment guide |
-| [references/outro-recipe.md](references/outro-recipe.md) | The product-insert + logo-card outro pattern for wordless/no-dialogue story films: zero-credit ffmpeg recipe, how to source a proper logo lockup (not an icon-only mark), and the concat-demuxer approach that avoids the xfade+looped-image hang |
