@@ -1,4 +1,4 @@
-# The Corner-Logo Watermark (zero extra Higgsfield credits)
+# The Centered-Logo Watermark (zero extra Higgsfield credits)
 
 A wordless brand-story film (see [narrative-craft.md](narrative-craft.md)) intentionally
 never shows a legible product or brand name mid-story — that is correct craft, the
@@ -7,9 +7,11 @@ render a crisp, on-brand, legible logo inside a generated shot is unreliable —
 fine logo detail are exactly what these models render least consistently. Fix this in
 post, not in the prompt, and keep the fix minimal.
 
-**The pattern: fade the brand's logo in as a small corner watermark over the final ~2–3
-seconds of the existing footage — like a TV network bug — with zero change to the
-video's length or content.** Built entirely with ffmpeg's `overlay` + `fade` filters.
+**The pattern: fade the brand's logo in, CENTERED in frame, over the final ~2–3 seconds
+of the existing footage, with zero change to the video's length or content.** Client
+feedback across iterations: a small top-corner watermark read as too subtle/incidental
+("like a TV bug"); a centered fade-in reads as the deliberate closing brand statement
+and is the default to reach for. Built entirely with ffmpeg's `overlay` + `fade` filters.
 No additional `generate_video` call, no additional credits.
 
 ## What NOT to do (tried and rejected)
@@ -60,8 +62,8 @@ D=16.275692                       # exact duration from ffprobe
 START=$(echo "$D - 2.5" | bc)     # fade-in begins 2.5s before the end
 
 ffmpeg -y -i video.mp4 -loop 1 -i lockup.png -filter_complex \
-  "[1:v]scale=260:-1,format=rgba,fade=t=in:st=${START}:d=1:alpha=1[logo]; \
-   [0:v][logo]overlay=W-w-50:50:shortest=1,format=yuv420p[v]" \
+  "[1:v]scale=420:-1,format=rgba,fade=t=in:st=${START}:d=1:alpha=1[logo]; \
+   [0:v][logo]overlay=(W-w)/2:(H-h)/2:shortest=1,format=yuv420p[v]" \
   -map "[v]" -map 0:a -c:v libx264 -preset slow -crf 18 -c:a copy video-watermark.mp4
 ```
 
@@ -69,19 +71,31 @@ Notes on the filter:
 - `fade=...:alpha=1` fades the logo's own alpha channel from 0→1 — before `START` the
   logo is fully transparent, so `overlay` can run for the entire video without showing
   anything early. No `enable=` gating needed.
-- `overlay=W-w-50:50` positions top-right with a 50px margin — swap to `50:50` for
-  top-left. Keep it in a top corner (out of the way of centered subjects); avoid bottom
-  corners where generated text overlays or subtitles conventionally sit.
+- `overlay=(W-w)/2:(H-h)/2` centers the logo — the default position. A centered logo can
+  run larger than a corner watermark (~350–480px wide on a 1920px-wide 1080p frame)
+  since it's meant to read as a deliberate final statement, not an unobtrusive mark.
 - `-c:a copy` — the audio track is untouched, so copy it instead of re-encoding.
 - `shortest=1` on overlay guards against the looped image input running longer than the
   main video.
-- Logo width ~200–300px on a 1920px-wide 1080p frame reads as a watermark, not a slide.
+
+**Check for collision with on-screen text/subject before finalizing.** If the story's
+final frame already has a centered subject with its own text (e.g. a product package
+that itself reads "BRAND NAME" in the frame), a dead-center logo overlay will stack
+directly on top of it and both become unreadable. Extract the frame at `START + 1.5` and
+look — if there's a collision, shift the logo to an open area in the same frame (e.g.
+lower-third below the subject) rather than forcing dead-center or falling back to a
+corner:
+```bash
+[0:v][logo]overlay=(W-w)/2:H-h-70:shortest=1,format=yuv420p[v]   # centered, lower third
+```
+Keep it horizontally centered even when shifted vertically — only move it off-center as
+a last resort if the whole lower and upper thirds are both occupied.
 
 **QA before delivering**: extract a frame from inside the fade window
 (`ffmpeg -ss <t> -i video-watermark.mp4 -frames:v 1 check.jpg` at roughly
-`START + 1.5`) and confirm the logo is legible against whatever footage happens to be
-behind it at that moment — a busy or same-color background at that exact timestamp can
-wash out the mark even though the filter graph is correct.
+`START + 1.5`) and confirm the logo is legible and not overlapping other text — a busy
+background or a centered product shot at that exact timestamp can defeat the filter
+graph even when the command ran without error.
 
 ---
 
