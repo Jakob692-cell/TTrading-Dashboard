@@ -103,8 +103,9 @@ progress{width:100%;height:8px}
 <div class="controls">
   <div><label>Account-Größe</label><select id="pSize"><option value="50" selected>$50K</option><option value="100">$100K</option><option value="150">$150K</option></select></div>
   <div><label>Markt (Zufallspfad)</label><select id="pMarket"><option value="NQ" selected>NQ (Tick $5)</option><option value="ES">ES (Tick $12.50)</option><option value="MNQ">MNQ (Tick $0.50)</option></select></div>
-  <div><label>Take-Profit (Ticks im Plus)</label><input id="pTP" type="number" value="4" min="1" max="100"></div>
-  <div><label>Stop-Loss (Ticks)</label><input id="pSL" type="number" value="32" min="2" max="400"></div>
+  <div><label>Take-Profit (Ticks im Plus)</label><input id="pTP" type="number" value="16" min="1" max="100"></div>
+  <div><label>Stop-Loss-Modus</label><select id="pSLmode"><option value="account" selected>Ganzer Account (läuft bis DLL/MLL)</option><option value="fixed">Fester Stop (Ticks)</option></select></div>
+  <div><label>Fester Stop (Ticks, falls gewählt)</label><input id="pSL" type="number" value="32" min="2" max="400"></div>
   <div><label>Trades pro Tag (Ø, 15:30-Fenster)</label><input id="pTrades" type="number" value="5" min="1" max="30"></div>
   <div><label>Slippage (Ticks, round-trip)</label><input id="pSlip" type="number" value="2" min="0" max="10" step="0.5"></div>
   <div><label>Kommission $/Kontrakt (RT)</label><input id="pComm" type="number" value="4" min="0" max="20" step="0.1"></div>
@@ -124,7 +125,7 @@ progress{width:100%;height:8px}
 </div>
 
 <h2>3) Beispiel-Handelstag (Tick-Simulation, 15:30 Uhr)</h2>
-<p class="small">Zufallspfad in Sekundenauflösung mit Volatilitätsspitze zur US-Eröffnung. Einstieg, wenn der Markt in 3&nbsp;s impulsiv ≥ 3 Punkte in eine Richtung läuft und die laufende 5-s-Kerze keinen Docht gegen die Richtung hat. Voller Hebel (max. Kontrakte). Ausstieg beim ersten Erreichen des Take-Profits, sonst Stop-Loss.</p>
+<p class="small">Zufallspfad in Sekundenauflösung mit Volatilitätsspitze zur US-Eröffnung. Einstieg, wenn der Markt in 3&nbsp;s impulsiv ≥ 3 Punkte in eine Richtung läuft und die laufende 5-s-Kerze keinen Docht gegen die Richtung hat. Voller Hebel (max. Kontrakte). Ausstieg beim ersten Erreichen des Take-Profits; im Modus „Ganzer Account“ gibt es keinen festen Stop – die Position läuft, bis das Daily Loss Limit sie zwangsliquidiert.</p>
 <div class="chartwrap"><canvas id="cvDay" width="1060" height="360"></canvas><div class="tooltip" id="ttDay"></div></div>
 <div class="legend"><span style="--c:var(--good)">Kerze aufwärts</span><span style="--c:var(--critical)">Kerze abwärts</span><span style="--c:var(--s-blue)">Einstieg ▲/▼</span><span style="--c:var(--s-violet)">Ausstieg ✕</span></div>
 <div class="grid2">
@@ -159,7 +160,8 @@ progress{width:100%;height:8px}
 <h2>6) Fazit &amp; wie man die Strategie „perfektioniert“</h2>
 <div class="card" id="conclusion">
 <h3 style="margin-top:0">Das mathematische Kernproblem</h3>
-<p>Auf einem <b>rein zufälligen Markt</b> ist der Kurs ein Martingal: egal wo du einsteigst (impulsive Kerze, kein Docht, viel „Speed“ – alles egal, denn ein Zufallspfad hat kein Gedächtnis), ist der Erwartungswert jeder Position <b>exakt 0 minus Kosten</b>. Der „sofort im Plus raus“-Exit erzeugt zwar eine sehr hohe Winrate – mit TP=4 und SL=32 Ticks gewinnt man 32/36 ≈ 89&nbsp;% der Trades – aber die seltenen Verluste sind exakt so groß, dass sie alle Gewinne auffressen. Übrig bleibt pro Trade: <b>−(Slippage + Kommission) × Kontrakte</b>. Full-Port multipliziert diese Kosten mit der maximalen Kontraktzahl.</p>
+<p>Auf einem <b>rein zufälligen Markt</b> ist der Kurs ein Martingal: egal wo du einsteigst (impulsive Kerze, kein Docht, viel „Speed“ – alles egal, denn ein Zufallspfad hat kein Gedächtnis), ist der Erwartungswert jeder Position <b>exakt 0 minus Kosten</b>. Der „sofort im Plus raus“-Exit erzeugt zwar eine sehr hohe Winrate – aber die seltenen Verluste sind exakt so groß, dass sie alle Gewinne auffressen. Übrig bleibt pro Trade: <b>−(Slippage + Kommission) × Kontrakte</b>. Full-Port multipliziert diese Kosten mit der maximalen Kontraktzahl.</p>
+<p><b>Auch das „Wahrscheinlichkeits-Argument“ rettet es nicht:</b> Ja, es ist viel wahrscheinlicher, dass der Markt in den nächsten Sekunden noch einmal kurz hochtickt (+$400), als dass er sofort $2.000 durchfällt. Aber auf einem Zufallsmarkt ist diese Wahrscheinlichkeit <i>exakt</i> im Verhältnis der Beträge höher: P(erst +$400) = 2000/2400 ≈ 83&nbsp;%, P(erst −$2.000) ≈ 17&nbsp;% → 0,83 × 400 = 0,17 × 2.000. Hohe Winrate × kleiner Gewinn = kleine Bustrate × Riesenverlust. Zwei gute Tage in Folge haben mit ~69&nbsp;% Wahrscheinlichkeit genau so stattgefunden – der Bust-Tag ist statistisch nur noch nicht dran gewesen. Der Modus „Ganzer Account als Stop“ oben simuliert exakt diese Variante.</p>
 <p>Der „Edge“ über billige Accounts ($49–50/Monat) ist in Wahrheit eine <b>Lotterielos-Struktur</b>: begrenzter Einsatz, kleiner Chance auf Auszahlung. Das ändert den Erwartungswert nicht – es verteilt ihn nur um. Die Passrate ist ohne Kosten maximal MLL/(MLL+Ziel) = 2000/5000 = 40&nbsp;% (50K); jede Gebühr, jeder Tick Slippage drückt sie darunter, und im Funded Account (Start bei $0!) stirbt ein Zufalls-Trader meist vor der 5-Gewinntage-Hürde.</p>
 <h3>Kann man das machen?</h3>
 <ul>
@@ -199,6 +201,7 @@ function readParams(){
   const g=id=>parseFloat(document.getElementById(id).value)||0;
   return {...s,...m,
     tp:Math.max(1,Math.round(g("pTP"))), sl:Math.max(2,Math.round(g("pSL"))),
+    slMode:document.getElementById("pSLmode").value,
     tradesPerDay:g("pTrades"), slipRT:g("pSlip"), commRT:g("pComm"),
     monthlyFee:g("pFee"), actFee:g("pAct"), edge:g("pEdge")/100,
     nAcc:Math.max(100,Math.round(g("pN"))), seed:Math.max(1,Math.round(g("pSeed"))),
@@ -213,13 +216,20 @@ function tradeNet(P,contracts){
   return {net:(ticks-P.slipRT)*P.tickVal*contracts - P.commRT*contracts, win};
 }
 function costPerTrade(P,contracts){return (P.slipRT*P.tickVal+P.commRT)*contracts}
+/* SL in Ticks: fest, oder "ganzer Account" = Restweg bis DLL/MLL-Liquidation */
+function effSL(P,contracts,roomUSD){
+  if(P.slMode!=="account")return P.sl;
+  return Math.max(2,Math.round(roomUSD/(P.tickVal*contracts)));
+}
 
 /* ---------- Ein Handelstag (analytisch) ---------- */
 function simDay(P,contracts,roomToMLL){
   const n=poisson(P.tradesPerDay); let day=0,bust=false,trades=0;
   for(let i=0;i<n;i++){
     trades++;
-    const t=tradeNet(P,contracts); const net=t.net;
+    const roomUSD=Math.max(0,Math.min(P.dll+day,roomToMLL+day));
+    const Q={...P,sl:effSL(P,contracts,roomUSD)};
+    const t=tradeNet(Q,contracts); const net=t.net;
     /* Topstep liquidiert offene Positionen, sobald MLL bzw. DLL intraday erreicht ist */
     if(day+net<=-roomToMLL){day=-roomToMLL;bust=true;break}
     if(day+net<=-P.dll){day=-P.dll;break} /* DLL: geflattet, Tag vorbei */
@@ -334,8 +344,8 @@ function simExampleDay(P){
       if(day+unreal<=-P.dll){ /* DLL intraday: Zwangsliquidation */
         day=-P.dll;trades.push({...pos,exitT:t,exit:p,net:unreal,forced:true});pos=null;dllHit=true;break;
       }
-      if(mv>=P.tp+P.slipRT||mv<=-P.sl){
-        const ticks=(mv>=P.tp+P.slipRT?P.tp:-P.sl);
+      if(mv>=P.tp+P.slipRT||mv<=-pos.slT){
+        const ticks=(mv>=P.tp+P.slipRT?P.tp:-pos.slT);
         const net=(ticks-P.slipRT)*P.tickVal*P.contracts-P.commRT*P.contracts;
         day+=net;trades.push({...pos,exitT:t,exit:p,net});pos=null;cool=t+20;
         if(day<=-P.dll){dllHit=true;break}
@@ -346,7 +356,7 @@ function simExampleDay(P){
       if(Math.abs(m3)>=3){
         const dir=m3>0?1:-1;
         const noWick=dir>0?(c.h-Math.max(c.o,c.c)<P.tickSize):(Math.min(c.o,c.c)-c.l<P.tickSize);
-        if(noWick)pos={entryT:t,entry:p+dir*P.slipRT/2*P.tickSize,dir,worst:0};
+        if(noWick)pos={entryT:t,entry:p+dir*P.slipRT/2*P.tickSize,dir,worst:0,slT:effSL(P,P.contracts,Math.max(0,P.dll+day))};
       }
     }
   }
@@ -432,13 +442,14 @@ function renderTiles(P,r){
   const avgPaid=r.payoutAccounts?r.totalPaid/r.payoutAccounts:0;
   const fd=stats(r.fundedDays), winAcc=r.nets.filter(x=>x>0).length/r.n;
   const cpt=costPerTrade(P,P.contracts);
+  const P0={...P,sl:effSL(P,P.contracts,P.dll)};
   document.getElementById("tiles").innerHTML=[
     ["Combine-Passrate",fmtP(passRate),`theoretisches Maximum ohne Kosten: ${fmtP(P.mll/(P.mll+P.target))}`],
     ["P(≥1 Auszahlung) je Funded-Acc.",fmtP(payoutRate),`Ø Auszahlung wenn ja: ${fmt$(avgPaid)}`],
     ["EV pro Account-Versuch",`<span class="${ev>=0?"pos":"neg"}">${fmt$(ev)}</span>`,`Median: ${fmt$(stats(r.nets).med)}`],
     ["Anteil profitabler Versuche",fmtP(winAcc),`${r.n} simulierte Accounts`],
     ["Ø Lebensdauer Funded",`${fd.mean?fd.mean.toFixed(0):0} Tage`,`Median ${fd.med||0} Tage (max. ${P.maxFundedDays})`],
-    ["Kosten pro Trade (Full-Port)",fmt$(cpt),`Winrate/Trade: ${fmtP(pWin(P))} · EV/Trade: ${fmt$(P.edge*(P.tp+P.sl)*P.tickVal*P.contracts-cpt)}`],
+    ["Kosten pro Trade (Full-Port)",fmt$(cpt),`Winrate/Trade: ${fmtP(pWin(P0))}${P.slMode==="account"?" (SL = Tagesrest)":""} · EV/Trade: ${fmt$(P.edge*(P0.tp+P0.sl)*P.tickVal*P.contracts-cpt)}`],
   ].map(([k,v,d])=>`<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
 }
 function renderVerdict(P,r){
@@ -452,7 +463,7 @@ function renderVerdict(P,r){
   document.getElementById("dynamicConclusion").innerHTML=
     `<b>Zahlen-Fazit zu deinen Parametern:</b> Passrate ${fmtP(r.pass/r.n)}, davon erreichen ${fmtP(r.pass?r.payoutAccounts/r.pass:0)} mind. eine Auszahlung. `+
     `Über ${r.n} Versuche: Gesamtkosten ${fmt$(r.fees+r.pass*P.actFee)}, Gesamtauszahlungen ${fmt$(r.totalPaid)} → EV ${fmt$(stats(r.nets).mean)} pro Versuch. `+
-    `Break-even bräuchte ca. <b>+${((costPerTrade(P,P.contracts))/((P.tp+P.sl)*P.tickVal*P.contracts)*100).toFixed(1)} %-Punkte echte Winrate über Zufall</b> – nur um die Trade-Kosten zu decken, noch ohne Gebühren.`;
+    `Break-even bräuchte ca. <b>+${((costPerTrade(P,P.contracts))/((P.tp+effSL(P,P.contracts,P.dll))*P.tickVal*P.contracts)*100).toFixed(1)} %-Punkte echte Winrate über Zufall</b> – nur um die Trade-Kosten zu decken, noch ohne Gebühren.`;
 }
 function renderHist(P,r){
   const cv=document.getElementById("cvHist"),{ctx,W,H}=setupCanvas(cv);
@@ -527,7 +538,7 @@ function runSweep(){
     if(i>=tps.length){prog.style.display="none";btn.disabled=false;renderSweep(P,out);return}
     const tp=tps[i];rng=mulberry32(P.seed+tp*101);
     const Q={...P,tp};
-    const r=runMC(Q,Math.min(400,P.nAcc),false);
+    const r=runMC(Q,Math.min(1000,P.nAcc),false);
     out.push({tp,ev:stats(r.nets).mean,pass:r.pass/r.n,pay:r.pass?r.payoutAccounts/r.pass:0});
     i++;prog.value=100*i/tps.length;setTimeout(step,0);
   };step();
@@ -567,7 +578,8 @@ function renderSweep(P,out){
   const anyPos=out.some(p=>p.ev>0);
   document.getElementById("sweepSummary").innerHTML=
     `<b>Ergebnis:</b> Das „beste“ Take-Profit-Level liegt bei <b>${best.tp} Ticks</b> = ${fmt$(best.tp*posVal)} pro Full-Port-Position = <b>${(best.tp*posVal/P.startBal*100).toFixed(2)} % des Kontos</b> (EV dort: <span class="${best.ev>=0?"pos":"neg"}">${fmt$(best.ev)}</span> pro Versuch). `+
-    (anyPos?`Mit dem eingestellten Edge gibt es TP-Bereiche mit positivem EV.`
+    (anyPos?(P.edge>0?`Mit dem eingestellten Edge gibt es TP-Bereiche mit positivem EV.`
+      :`<b>Achtung:</b> Einzelne Punkte über null sind Monte-Carlo-Rauschen (seltene große Auszahlungen streuen stark). Ohne echten Edge ist der wahre EV mathematisch höchstens −(erwartete Gebühren) + Optionswert der Auszahlungsstruktur – über viele Wiederholungen negativ, sonst würde Topstep draufzahlen.`)
       :`<b>Aber:</b> Der EV ist über den gesamten Bereich negativ – die Exit-Schwelle ändert auf einem Zufallsmarkt nur, <i>wie</i> man verliert (oft &amp; klein vs. selten &amp; groß), nicht <i>ob</i>. Ein „optimales Plus-Prozent“ existiert nur als am-wenigsten-schlechtes.`);
 }
 
