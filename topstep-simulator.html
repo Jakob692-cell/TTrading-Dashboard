@@ -90,9 +90,9 @@ progress{width:100%;height:8px}
 </table>
 <ul class="small">
 <li><b>MLL</b> ist die einzige harte Regel: wird in Echtzeit inkl. offener Positionen überwacht, zieht am Tagesende mit dem Kontostand nach oben und friert ein, sobald sie den Startsaldo erreicht. Verletzung = Account weg.</li>
-<li><b>DLL:</b> bei Erreichen ist nur der Handelstag beendet, nicht der Account.</li>
+<li><b>DLL:</b> in Combine und XFA <b>optional</b> (Personal Daily Loss Limit, jederzeit abschaltbar) – nur im Live Funded Account automatisch. Bei Erreichen ist nur der Handelstag beendet, nicht der Account.</li>
 <li><b>Konsistenzregel:</b> Der beste Einzeltag darf max. 50&nbsp;% des Profit-Ziels ausmachen – sonst steigt das Ziel (Ziel = 2 × bester Tag).</li>
-<li><b>Express Funded Account (XFA):</b> startet bei $0 (MLL = −$2.000 beim 50K, friert bei $0 ein), einmalige Aktivierungsgebühr $149, keine Monatsgebühr mehr. Auszahlung: 5 Gewinntage à ≥ $150, dann max. 50&nbsp;% des Kontostands (Cap $5.000 pro Auszahlung), Gewinnsplit 90/10 (erste $10.000 zu 100&nbsp;% beim Trader).</li>
+<li><b>Express Funded Account (XFA):</b> startet bei $0 (MLL = −$2.000 beim 50K, friert bei $0 ein), einmalige Aktivierungsgebühr $149, keine Monatsgebühr mehr. Auszahlung: 5 Gewinntage à ≥ $150, dann max. 50&nbsp;% des Kontostands (Cap $5.000 pro Auszahlung), Gewinnsplit 90/10 ab dem ersten Dollar (Bestandskunden vor 12.01.2026: erste $10.000 zu 100&nbsp;%).</li>
 <li><b>Scaling Plan</b> im XFA: volle Kontraktzahl erst ab höherem Kontostand (hier näherungsweise modelliert).</li>
 </ul>
 <p class="small muted">Quellen: <a href="https://help.topstep.com/en/articles/8284197-trading-combine-parameters">Combine-Parameter</a> · <a href="https://help.topstep.com/en/articles/8284204-what-is-the-maximum-loss-limit">Maximum Loss Limit</a> · <a href="https://help.topstep.com/en/articles/10490293-daily-loss-limit-in-the-trading-combine-and-express-funded-account">Daily Loss Limit</a> · <a href="https://help.topstep.com/en/articles/8284215-express-funded-account-parameters">XFA-Parameter</a> · <a href="https://help.topstep.com/en/articles/8284233-topstep-payout-policy">Payout Policy</a> · <a href="https://help.topstep.com/en/articles/8284208-consistency-at-topstep">Konsistenzregel</a></p>
@@ -103,9 +103,13 @@ progress{width:100%;height:8px}
 <div class="controls">
   <div><label>Account-Größe</label><select id="pSize"><option value="50" selected>$50K</option><option value="100">$100K</option><option value="150">$150K</option></select></div>
   <div><label>Markt (Zufallspfad)</label><select id="pMarket"><option value="NQ" selected>NQ (Tick $5)</option><option value="ES">ES (Tick $12.50)</option><option value="MNQ">MNQ (Tick $0.50)</option></select></div>
-  <div><label>Take-Profit (Ticks im Plus)</label><input id="pTP" type="number" value="16" min="1" max="100"></div>
+  <div><label>Strategie</label><select id="pPlan"><option value="scalp">Scalping (viele kleine TPs)</option><option value="flip" selected>1:1-Flip-Plan (wenige große Trades)</option></select></div>
+  <div><label>Flip-Größe $ (Flip-Plan)</label><input id="pFlip" type="number" value="1500" min="100" max="5000" step="50"></div>
+  <div><label>Grind-Tagesziel $ (Flip-Plan, Funded)</label><input id="pGrind" type="number" value="200" min="150" max="1000" step="10"></div>
+  <div><label>Take-Profit (Ticks, Scalping)</label><input id="pTP" type="number" value="16" min="1" max="100"></div>
   <div><label>Stop-Loss-Modus</label><select id="pSLmode"><option value="account" selected>Ganzer Account (läuft bis DLL/MLL)</option><option value="fixed">Fester Stop (Ticks)</option></select></div>
   <div><label>Fester Stop (Ticks, falls gewählt)</label><input id="pSL" type="number" value="32" min="2" max="400"></div>
+  <div><label>Daily Loss Limit</label><select id="pDLL"><option value="off" selected>aus (optional – heutiger Standard)</option><option value="on">an (offizieller Wert)</option></select></div>
   <div><label>Trades pro Tag (Ø, 15:30-Fenster)</label><input id="pTrades" type="number" value="5" min="1" max="30"></div>
   <div><label>Slippage (Ticks, round-trip)</label><input id="pSlip" type="number" value="2" min="0" max="10" step="0.5"></div>
   <div><label>Kommission $/Kontrakt (RT)</label><input id="pComm" type="number" value="4" min="0" max="20" step="0.1"></div>
@@ -119,7 +123,7 @@ progress{width:100%;height:8px}
 <div class="btnrow">
   <button class="primary" id="btnMC">▶ Monte-Carlo starten</button>
   <button id="btnDay">Beispiel-Tag ansehen (15:28–16:15)</button>
-  <button id="btnSweep">TP-Optimierung berechnen (1–24 Ticks)</button>
+  <button id="btnSweep">Optimierung berechnen (TP bzw. Flip-Größe)</button>
 </div>
 <progress id="prog" max="100" value="0" style="display:none;margin-top:10px"></progress>
 </div>
@@ -135,6 +139,7 @@ progress{width:100%;height:8px}
 
 <h2>4) Monte-Carlo: viele Accounts, kompletter Lebenszyklus</h2>
 <p class="small">Jeder simulierte „Account-Versuch“ durchläuft: Combine (max. 6 Monate, Monatsgebühren) → bei Bestehen Aktivierung + Express Funded Account (max. 250 Handelstage) → Auszahlungen nach Topstep-Regeln (5 Gewinntage ≥ $150, 50-%-Cap, Split). Der Trade-Kernel ist mathematisch identisch zur Tick-Simulation: auf einem symmetrischen Zufallspfad ist P(Take-Profit vor Stop-Loss) = SL/(TP+SL).</p>
+<p class="small"><b>Strategie „1:1-Flip-Plan“:</b> pro Tag genau ein großer Trade. Combine: TP = Flip-Größe (bzw. Rest bis zum Ziel, um Kosten hochgerechnet), SL = Flip-Größe – gekappt durch das verbleibende MLL-Polster und, falls aktiviert, das (heute optionale) Daily Loss Limit. Ohne DLL ist ein ±$1.500-Flip fast ein Münzwurf (Kosten drücken die Gewinnseite leicht unter 50&nbsp;%). Funded: erst auf die Flip-Größe hochflippen, dann mit kleiner Positionsgröße 5 Gewinntage à Grind-Tagesziel sammeln (Konsistenz-freundlich), Auszahlung anfordern (max. 50&nbsp;% des Kontos, Cap $5.000), wiederholen.</p>
 <div class="tiles" id="tiles"></div>
 <div id="verdictBox"></div>
 <div class="grid2">
@@ -151,7 +156,7 @@ progress{width:100%;height:8px}
 <div class="card"><h3 style="margin-top:0">Ergebnistabelle</h3><div id="mcTable"><span class="muted">Noch nicht simuliert.</span></div></div>
 
 <h2>5) Bei wie viel Prozent Plus sollte man rausgehen?</h2>
-<p class="small">Sweep über Take-Profit = 1…24 Ticks (alles andere konstant). Oben: erwartetes Netto-Ergebnis pro Account-Versuch. Unten: Combine-Passrate und Wahrscheinlichkeit, mindestens eine Auszahlung zu sehen. (Bewusst zwei getrennte Charts – unterschiedliche Einheiten.)</p>
+<p class="small">Sweep über die Exit-Größe (Scalping: Take-Profit 1…24 Ticks · Flip-Plan: Flip-Größe $250…$3.000), alles andere konstant. Oben: erwartetes Netto-Ergebnis pro Account-Versuch. Unten: Combine-Passrate und Wahrscheinlichkeit, mindestens eine Auszahlung zu sehen. (Bewusst zwei getrennte Charts – unterschiedliche Einheiten.)</p>
 <div class="chartwrap"><canvas id="cvSweep1" width="1060" height="260"></canvas><div class="tooltip" id="ttS1"></div></div>
 <div class="chartwrap"><canvas id="cvSweep2" width="1060" height="260"></canvas><div class="tooltip" id="ttS2"></div></div>
 <div class="legend"><span style="--c:var(--s-blue)">EV pro Versuch ($)</span><span style="--c:var(--s-aqua)">Combine-Passrate (%)</span><span style="--c:var(--s-violet)">P(≥1 Auszahlung) (%)</span></div>
@@ -161,8 +166,8 @@ progress{width:100%;height:8px}
 <div class="card" id="conclusion">
 <h3 style="margin-top:0">Das mathematische Kernproblem</h3>
 <p>Auf einem <b>rein zufälligen Markt</b> ist der Kurs ein Martingal: egal wo du einsteigst (impulsive Kerze, kein Docht, viel „Speed“ – alles egal, denn ein Zufallspfad hat kein Gedächtnis), ist der Erwartungswert jeder Position <b>exakt 0 minus Kosten</b>. Der „sofort im Plus raus“-Exit erzeugt zwar eine sehr hohe Winrate – aber die seltenen Verluste sind exakt so groß, dass sie alle Gewinne auffressen. Übrig bleibt pro Trade: <b>−(Slippage + Kommission) × Kontrakte</b>. Full-Port multipliziert diese Kosten mit der maximalen Kontraktzahl.</p>
-<p><b>Auch das „Wahrscheinlichkeits-Argument“ rettet es nicht:</b> Ja, es ist viel wahrscheinlicher, dass der Markt in den nächsten Sekunden noch einmal kurz hochtickt (+$400), als dass er sofort $2.000 durchfällt. Aber auf einem Zufallsmarkt ist diese Wahrscheinlichkeit <i>exakt</i> im Verhältnis der Beträge höher: P(erst +$400) = 2000/2400 ≈ 83&nbsp;%, P(erst −$2.000) ≈ 17&nbsp;% → 0,83 × 400 = 0,17 × 2.000. Hohe Winrate × kleiner Gewinn = kleine Bustrate × Riesenverlust. Zwei gute Tage in Folge haben mit ~69&nbsp;% Wahrscheinlichkeit genau so stattgefunden – der Bust-Tag ist statistisch nur noch nicht dran gewesen. Der Modus „Ganzer Account als Stop“ oben simuliert exakt diese Variante.</p>
-<p>Der „Edge“ über billige Accounts ($49–50/Monat) ist in Wahrheit eine <b>Lotterielos-Struktur</b>: begrenzter Einsatz, kleiner Chance auf Auszahlung. Das ändert den Erwartungswert nicht – es verteilt ihn nur um. Die Passrate ist ohne Kosten maximal MLL/(MLL+Ziel) = 2000/5000 = 40&nbsp;% (50K); jede Gebühr, jeder Tick Slippage drückt sie darunter, und im Funded Account (Start bei $0!) stirbt ein Zufalls-Trader meist vor der 5-Gewinntage-Hürde.</p>
+<p><b>Das „Wahrscheinlichkeits-Argument“ stimmt – hilft aber nicht pro Trade:</b> Ja, es ist viel wahrscheinlicher, dass der Markt in den nächsten Sekunden noch einmal kurz hochtickt (+$400), als dass er $2.000 durchfällt. Aber auf einem Zufallsmarkt ist diese Wahrscheinlichkeit <i>exakt</i> im Verhältnis der Beträge höher: P(erst +$400) ≈ 83&nbsp;%, P(erst −$2.000) ≈ 17&nbsp;% → 0,83 × 400 = 0,17 × 2.000. Hohe Winrate × kleiner Gewinn = kleine Bustrate × Riesenverlust. Auf Trade-Ebene lässt sich daraus kein Vorteil pressen – jeder Sim-Dollar hat Erwartungswert 0 minus Kosten.</p>
+<p><b>Die eigentliche Überraschung – die Lotterielos-Struktur kann im Regel-Modell aufgehen:</b> Sim-Geld ist nicht Real-Geld. Real riskierst du nur Gebühren, ausgezahlt wird aus Sim-Gewinnen – die Auszahlungsregeln wirken wie eine <b>Option</b>, und der Wert einer Option steigt mit Varianz. Der „1:1-Flip-Plan“ (ein großer Trade pro Tag statt vieler kleiner) maximiert die Varianz und minimiert die Kostenreibung – und kommt in der Simulation ohne jeden Edge auf ~30&nbsp;% Passrate (theoretisches Maximum: MLL/(MLL+Ziel) = 40&nbsp;%) und einen <i>positiven</i> Modell-EV. Das viel kleinteiligere Scalping („sofort im Plus raus“) verbrennt denselben Optionswert dagegen in Slippage und Kommissionen: klar negativer EV. <b>Warum das trotzdem kein Geldautomat ist:</b> Der Schnitt hängt an seltenen Ausreißern (Median negativ, nur ~13&nbsp;% der Versuche im Plus), reale Stop-Fills bei Impuls-Moves sind schlechter als der ideale Zufallspfad, und vor allem ist genau dieses All-in-Flipping das, was Topstep als „Gambling“ einstuft – Auszahlungen können verweigert, Accounts geschlossen, Regeln nachgeschärft werden. Prop-Firmen leben davon, diese Lücke aktiv zu schließen.</p>
 <h3>Kann man das machen?</h3>
 <ul>
 <li><b>Regeltechnisch (harte Regeln):</b> Ja – Scalping ohne Mindesthaltedauer ist bei Topstep erlaubt, Full-Size ebenso, solange MLL/DLL nicht reißen.</li>
@@ -170,7 +175,7 @@ progress{width:100%;height:8px}
 </ul>
 <h3>Perfektionieren – was wirklich hilft (und was nicht)</h3>
 <ul>
-<li><b>Exit-Prozent tunen hilft nicht:</b> Der Sweep unten zeigt es – der EV bleibt für jeden TP-Wert negativ, weil TP/SL auf einem Zufallsmarkt nur die Varianz verschiebt, nie den Erwartungswert. Es gibt ein „am wenigsten schlechtes“ TP, aber kein profitables.</li>
+<li><b>Der Hebel ist nicht das Exit-Prozent, sondern die Struktur:</b> Innerhalb des Scalpings bleibt der EV für jeden TP-Wert negativ – TP/SL verschiebt auf einem Zufallsmarkt nur die Varianz. Was den Modell-EV wirklich dreht, ist weniger Trades + größere Flips (siehe Sweep: EV steigt mit der Flip-Größe, bis das MLL-Polster sie kappt). Genau diese Struktur ist aber auch am leichtesten als Gambling zu erkennen.</li>
 <li><b>Der einzige Hebel ist echter Entry-Edge:</b> Stell den „Echter Edge“-Regler auf 1–3&nbsp;%-Punkte und sieh, ab wann der EV positiv wird. Genau so viel besser als der Zufall müssten deine 15:30-Impulseinstiege real sein – das ist der Punkt, den man mit Daten (echten NQ-Ticks, nicht Zufall) belegen müsste, bevor man einen Cent ausgibt.</li>
 <li><b>Kosten senken:</b> Slippage ist bei impulsiven Markteinstiegen zur Eröffnung der größte Fresser. Weniger Kontrakte in den ersten Sekunden, Limit-Orders, Micros statt Minis reduzieren die Blutung – machen aus 0-Edge aber kein Plus.</li>
 <li><b>Konsistenzregel respektieren:</b> Statt einem $1.500+-Tag lieber viele Tage ≤ 50&nbsp;% des Ziels – sonst verlängert sich die Combine und die Monatsgebühren stapeln sich.</li>
@@ -199,13 +204,17 @@ const MARKETS={NQ:{tickVal:5,tickSize:.25,label:"NQ"},ES:{tickVal:12.5,tickSize:
 function readParams(){
   const s=SIZES[document.getElementById("pSize").value], m=MARKETS[document.getElementById("pMarket").value];
   const g=id=>parseFloat(document.getElementById(id).value)||0;
+  const dllOn=document.getElementById("pDLL").value==="on";
   return {...s,...m,
+    dll:dllOn?s.dll:Infinity,
     tp:Math.max(1,Math.round(g("pTP"))), sl:Math.max(2,Math.round(g("pSL"))),
     slMode:document.getElementById("pSLmode").value,
+    plan:document.getElementById("pPlan").value,
+    flipSize:Math.max(100,g("pFlip")), grind:Math.max(150,g("pGrind")),
     tradesPerDay:g("pTrades"), slipRT:g("pSlip"), commRT:g("pComm"),
     monthlyFee:g("pFee"), actFee:g("pAct"), edge:g("pEdge")/100,
     nAcc:Math.max(100,Math.round(g("pN"))), seed:Math.max(1,Math.round(g("pSeed"))),
-    payoutCap:5000, maxCombineDays:120, maxFundedDays:250, minPayout:250, splitFree:10000, split:0.9};
+    payoutCap:5000, maxCombineDays:120, maxFundedDays:250, minPayout:250, splitFree:0, split:0.9};
 }
 
 /* ---------- Trade-Kernel (identisch zum Zufallspfad: first passage) ---------- */
@@ -237,13 +246,29 @@ function simDay(P,contracts,roomToMLL){
   }
   return {day,bust,trades};
 }
+/* Ein Tag im Flip-Plan: genau EIN Trade mit TP tp$ / SL sl$ (DLL kappt die Verlustseite) */
+function flipDay(P,contracts,tpUSD,slUSD,roomToMLL){
+  const tv=P.tickVal*contracts;
+  /* TP um Kosten hochrechnen: der Trader zielt netto auf tpUSD */
+  const a=Math.max(1,Math.ceil((tpUSD+P.commRT*contracts)/tv+P.slipRT));
+  const b=Math.max(2,Math.round(slUSD/tv));
+  const t=tradeNet({...P,tp:a,sl:b},contracts); const net=t.net;
+  if(net<=-roomToMLL)return{day:-roomToMLL,bust:true,trades:1};
+  if(net<=-P.dll)return{day:-P.dll,bust:false,trades:1};
+  return{day:net,bust:false,trades:1};
+}
 
 /* ---------- Combine ---------- */
 function simCombine(P){
   let bal=P.startBal, mll=P.startBal-P.mll, best=0, target=P.target, fees=P.monthlyFee, days=0;
   while(days<P.maxCombineDays){
     days++; if(days>1&&days%20===1)fees+=P.monthlyFee;
-    const r=simDay(P,P.contracts,bal-mll); bal+=r.day;
+    const r=P.plan==="flip"
+      ? flipDay(P,P.contracts,
+          Math.max(50,Math.min(P.flipSize,P.startBal+target-bal)),
+          Math.min(P.flipSize,Math.min(P.dll,bal-mll)), bal-mll)
+      : simDay(P,P.contracts,bal-mll);
+    bal+=r.day;
     if(r.bust||bal<=mll)return{passed:false,fees,days};
     best=Math.max(best,r.day); target=Math.max(P.target,2*best); /* Konsistenzregel */
     mll=Math.min(P.startBal,Math.max(mll,bal-P.mll));
@@ -262,7 +287,18 @@ function simFunded(P,track){
   const curve=track?[0]:null;
   while(days<P.maxFundedDays){
     days++;
-    const r=simDay(P,xfaContracts(P,bal),bal-mll); bal+=r.day;
+    let r;
+    if(P.plan==="flip"){
+      if(bal<P.flipSize){ /* Phase 1: hochflippen */
+        r=flipDay(P,xfaContracts(P,bal),
+          Math.max(50,P.flipSize-Math.max(0,bal)),
+          Math.min(P.flipSize,P.dll,bal-mll), bal-mll);
+      }else{ /* Phase 2: 5 Gewinntage grinden (kleine Größe) */
+        const c=Math.max(1,Math.round(P.contracts/5));
+        r=flipDay(P,c,P.grind,Math.min(P.grind,Math.min(P.dll,bal-mll)),bal-mll);
+      }
+    }else r=simDay(P,xfaContracts(P,bal),bal-mll);
+    bal+=r.day;
     if(curve)curve.push(bal);
     if(r.bust||bal<=mll)return{paid,days,dead:true,curve};
     if(r.day>=150)win++;
@@ -341,8 +377,9 @@ function simExampleDay(P){
       const mv=(p-pos.entry)*pos.dir/P.tickSize; /* Ticks */
       pos.worst=Math.min(pos.worst,mv);
       const unreal=(mv-P.slipRT)*P.tickVal*P.contracts-P.commRT*P.contracts;
-      if(day+unreal<=-P.dll){ /* DLL intraday: Zwangsliquidation */
-        day=-P.dll;trades.push({...pos,exitT:t,exit:p,net:unreal,forced:true});pos=null;dllHit=true;break;
+      const lim=Math.min(P.dll,P.mll); /* DLL (falls aktiv) bzw. MLL liquidiert intraday */
+      if(day+unreal<=-lim){
+        day=-lim;trades.push({...pos,exitT:t,exit:p,net:unreal,forced:true});pos=null;dllHit=true;break;
       }
       if(mv>=P.tp+P.slipRT||mv<=-pos.slT){
         const ticks=(mv>=P.tp+P.slipRT?P.tp:-pos.slT);
@@ -356,7 +393,7 @@ function simExampleDay(P){
       if(Math.abs(m3)>=3){
         const dir=m3>0?1:-1;
         const noWick=dir>0?(c.h-Math.max(c.o,c.c)<P.tickSize):(Math.min(c.o,c.c)-c.l<P.tickSize);
-        if(noWick)pos={entryT:t,entry:p+dir*P.slipRT/2*P.tickSize,dir,worst:0,slT:effSL(P,P.contracts,Math.max(0,P.dll+day))};
+        if(noWick)pos={entryT:t,entry:p+dir*P.slipRT/2*P.tickSize,dir,worst:0,slT:effSL(P,P.contracts,Math.max(0,Math.min(P.dll,P.mll)+day))};
       }
     }
   }
@@ -420,7 +457,7 @@ function renderDayInfo(){
   const wins=trades.filter(t=>t.net>0).length;
   document.getElementById("dayStats").innerHTML=
     `<div>Trades: <b>${trades.length}</b> · Gewinner: <b>${wins}</b> · Ø Haltedauer: <b>${trades.length?Math.round(trades.reduce((a,t)=>a+t.exitT-t.entryT,0)/trades.length):0}s</b></div>
-     <div>Tagesergebnis: <b class="${day>=0?"pos":"neg"}">${fmt$(day)}</b> ${dllHit?'<span class="neg">→ Daily Loss Limit gerissen, Tag beendet.</span>':""}</div>
+     <div>Tagesergebnis: <b class="${day>=0?"pos":"neg"}">${fmt$(day)}</b> ${dllHit?'<span class="neg">→ Loss-Limit erreicht, Zwangsliquidation, Tag beendet.</span>':""}</div>
      <div class="muted">Kosten dieses Tages (Slippage+Kommission): ${fmt$(trades.length*costPerTrade(P,P.contracts))}</div>`;
 }
 
@@ -449,21 +486,34 @@ function renderTiles(P,r){
     ["EV pro Account-Versuch",`<span class="${ev>=0?"pos":"neg"}">${fmt$(ev)}</span>`,`Median: ${fmt$(stats(r.nets).med)}`],
     ["Anteil profitabler Versuche",fmtP(winAcc),`${r.n} simulierte Accounts`],
     ["Ø Lebensdauer Funded",`${fd.mean?fd.mean.toFixed(0):0} Tage`,`Median ${fd.med||0} Tage (max. ${P.maxFundedDays})`],
-    ["Kosten pro Trade (Full-Port)",fmt$(cpt),`Winrate/Trade: ${fmtP(pWin(P0))}${P.slMode==="account"?" (SL = Tagesrest)":""} · EV/Trade: ${fmt$(P.edge*(P0.tp+P0.sl)*P.tickVal*P.contracts-cpt)}`],
+    P.plan==="flip"
+      ?(()=>{const tv=P.tickVal*P.contracts,sl0=Math.min(P.dll,P.flipSize,P.mll),
+          a=Math.ceil((P.flipSize+P.commRT*P.contracts)/tv+P.slipRT),b=Math.round(sl0/tv);
+        return["Flip-Gewinnchance (Tag 1)",fmtP(Math.min(.995,b/(a+b)+P.edge)),`TP +${fmt$(P.flipSize)} vs. SL −${fmt$(sl0)}${sl0<P.flipSize?" (Limit kappt die Verlustseite)":""} – inkl. Kosten, daher unter 50/50`]})()
+      :["Kosten pro Trade (Full-Port)",fmt$(cpt),`Winrate/Trade: ${fmtP(pWin(P0))}${P.slMode==="account"?" (SL = Tagesrest)":""} · EV/Trade: ${fmt$(P.edge*(P0.tp+P0.sl)*P.tickVal*P.contracts-cpt)}`],
   ].map(([k,v,d])=>`<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
 }
 function renderVerdict(P,r){
-  const ev=stats(r.nets).mean, profitable=ev>0;
+  const s=stats(r.nets), ev=s.mean, profitable=ev>0, winShare=r.nets.filter(x=>x>0).length/r.n;
   const el=document.getElementById("verdictBox");
-  el.innerHTML=`<div class="verdict ${profitable?"good":"bad"}">
-    <div class="big">${profitable?"⚠️ In dieser Konfiguration rechnerisch profitabel – aber nur wegen des eingestellten Edge-Reglers":"❌ NICHT profitabel"}</div>
-    <p style="margin:8px 0 0">${profitable
-      ?`Mit dem eingestellten Edge von ${(P.edge*100).toFixed(1)} %-Punkten ergibt sich ein EV von ${fmt$(ev)} pro Versuch. Auf einem <b>rein zufälligen</b> Markt (Edge = 0) ist der EV zwingend negativ – dieser Gewinn setzt voraus, dass deine Einstiege real besser als Zufall sind, was erst mit echten Marktdaten zu beweisen wäre.`
-      :`Erwarteter Verlust: <b>${fmt$(ev)} pro Account-Versuch</b> (${fmtP(r.nets.filter(x=>x>0).length/r.n)} der Versuche enden im Plus). Das günstige Account-Risiko („nur $${P.monthlyFee}“) senkt den Einsatz pro Los, dreht aber den Erwartungswert nicht: auf einem Zufallsmarkt ist jeder Trade EV = 0 minus ${fmt$(costPerTrade(P,P.contracts))} Kosten – und Gebühren + Aktivierung kommen obendrauf.`}</p></div>`;
+  let head,body;
+  if(!profitable){
+    head="❌ NICHT profitabel";
+    body=`Erwarteter Verlust: <b>${fmt$(ev)} pro Account-Versuch</b> (${fmtP(winShare)} der Versuche enden im Plus). Das günstige Account-Risiko („nur $${P.monthlyFee}“) senkt den Einsatz pro Los, dreht aber den Erwartungswert nicht: die erwarteten Auszahlungen bleiben unter den erwarteten Gebühren.`;
+  }else if(P.edge>0){
+    head="⚠️ Rechnerisch profitabel – aber wegen des eingestellten Edge-Reglers";
+    body=`Mit dem eingestellten Edge von ${(P.edge*100).toFixed(1)} %-Punkten ergibt sich ein EV von ${fmt$(ev)} pro Versuch. Dieser Gewinn setzt voraus, dass deine Einstiege real besser als Zufall sind – das wäre erst mit echten Marktdaten zu belegen.`;
+  }else{
+    head="⚠️ Im reinen Regel-Modell positiver EV – aber lies die Fußnoten";
+    body=`EV <b>${fmt$(ev)} pro Versuch</b> bei null Edge: Die Auszahlungsstruktur wirkt wie eine Option – begrenzter realer Einsatz, Auszahlung aus Sim-Geld – und Varianz-Maximierung (wenige große Flips, kaum Kostenreibung) treibt ihren Wert hier über die Gebühren. <b>Aber:</b> Der Median ist ${fmt$(s.med)} und nur ${fmtP(winShare)} der Versuche enden im Plus – der Schnitt hängt an seltenen Ausreißern, man braucht also viele Versuche und Durchhaltevermögen. Und in der Realität steht genau dieses Muster in Topsteps Fadenkreuz: All-in-Flipping gilt als „Gambling“, Auszahlungen können verweigert und Accounts geschlossen werden, Regeln werden regelmäßig nachgeschärft (z.&nbsp;B. Payout-Caps), und echte Märkte füllen Stops bei Impuls-Moves schlechter als ein idealer Zufallspfad (asymmetrische Slippage gegen dich). Das Modell zeigt die Obergrenze im Idealfall, nicht das erwartbare Ergebnis.`;
+  }
+  el.innerHTML=`<div class="verdict ${profitable?"good":"bad"}"><div class="big">${head}</div><p style="margin:8px 0 0">${body}</p></div>`;
+  const flip=P.plan==="flip";
   document.getElementById("dynamicConclusion").innerHTML=
     `<b>Zahlen-Fazit zu deinen Parametern:</b> Passrate ${fmtP(r.pass/r.n)}, davon erreichen ${fmtP(r.pass?r.payoutAccounts/r.pass:0)} mind. eine Auszahlung. `+
-    `Über ${r.n} Versuche: Gesamtkosten ${fmt$(r.fees+r.pass*P.actFee)}, Gesamtauszahlungen ${fmt$(r.totalPaid)} → EV ${fmt$(stats(r.nets).mean)} pro Versuch. `+
-    `Break-even bräuchte ca. <b>+${((costPerTrade(P,P.contracts))/((P.tp+effSL(P,P.contracts,P.dll))*P.tickVal*P.contracts)*100).toFixed(1)} %-Punkte echte Winrate über Zufall</b> – nur um die Trade-Kosten zu decken, noch ohne Gebühren.`;
+    `Über ${r.n} Versuche: Gesamtkosten ${fmt$(r.fees+r.pass*P.actFee)}, Gesamtauszahlungen ${fmt$(r.totalPaid)} → EV ${fmt$(ev)} pro Versuch. `+
+    (flip?`Der Flip-Plan minimiert die Kostenreibung (1 Trade/Tag statt ${P.tradesPerDay}) und maximiert die Varianz – genau das macht die Auszahlungs-Option wertvoll, und genau das fällt bei einer Payout-Prüfung als Gambling auf.`
+        :`Break-even bräuchte ca. <b>+${((costPerTrade(P,P.contracts))/((P.tp+effSL(P,P.contracts,Math.min(P.dll,P.mll)))*P.tickVal*P.contracts)*100).toFixed(1)} %-Punkte echte Winrate über Zufall</b> – nur um die Trade-Kosten zu decken, noch ohne Gebühren.`);
 }
 function renderHist(P,r){
   const cv=document.getElementById("cvHist"),{ctx,W,H}=setupCanvas(cv);
@@ -532,15 +582,17 @@ function renderTable(P,r){
 function runSweep(){
   const P=readParams();const btn=document.getElementById("btnSweep");btn.disabled=true;
   const prog=document.getElementById("prog");prog.style.display="block";prog.value=0;
-  const tps=[];for(let t=1;t<=24;t++)tps.push(t);
+  const xs=[];
+  if(P.plan==="flip"){for(let v=250;v<=3000;v+=250)xs.push(v)}
+  else{for(let t=1;t<=24;t++)xs.push(t)}
   const out=[];let i=0;
   const step=()=>{
-    if(i>=tps.length){prog.style.display="none";btn.disabled=false;renderSweep(P,out);return}
-    const tp=tps[i];rng=mulberry32(P.seed+tp*101);
-    const Q={...P,tp};
+    if(i>=xs.length){prog.style.display="none";btn.disabled=false;renderSweep(P,out);return}
+    const x=xs[i];rng=mulberry32(P.seed+x*101);
+    const Q=P.plan==="flip"?{...P,flipSize:x}:{...P,tp:x};
     const r=runMC(Q,Math.min(1000,P.nAcc),false);
-    out.push({tp,ev:stats(r.nets).mean,pass:r.pass/r.n,pay:r.pass?r.payoutAccounts/r.pass:0});
-    i++;prog.value=100*i/tps.length;setTimeout(step,0);
+    out.push({x,ev:stats(r.nets).mean,pass:r.pass/r.n,pay:r.pass?r.payoutAccounts/r.pass:0});
+    i++;prog.value=100*i/xs.length;setTimeout(step,0);
   };step();
 }
 function lineChart(cvId,ttId,pts,series,fmtY,fmtX){
@@ -565,21 +617,25 @@ function lineChart(cvId,ttId,pts,series,fmtY,fmtX){
     if(x<pl||x>pl+pw)return null;
     const i=Math.max(0,Math.min(pts.length-1,Math.round((x-pl)/pw*(pts.length-1))));
     const p=pts[i];
-    return{html:`<b>${fmtX(p)} Ticks TP</b><br>`+series.map(s=>`${s.name}: ${fmtY(s.get(p))}`).join("<br>")};
+    return{html:`<b>${fmtX(p)}</b><br>`+series.map(s=>`${s.name}: ${fmtY(s.get(p))}`).join("<br>")};
   });
 }
 function renderSweep(P,out){
   const posVal=P.tickVal*P.contracts;
-  lineChart("cvSweep1","ttS1",out,[{name:"EV pro Versuch",get:p=>p.ev,color:"--s-blue",zeroLine:true}],v=>fmt$(v),p=>p.tp);
+  const flip=P.plan==="flip";
+  const fx=flip?(p=>fmt$(p.x)):(p=>p.x+" T");
+  lineChart("cvSweep1","ttS1",out,[{name:"EV pro Versuch",get:p=>p.ev,color:"--s-blue",zeroLine:true}],v=>fmt$(v),fx);
   lineChart("cvSweep2","ttS2",out,[
     {name:"Combine-Passrate",get:p=>100*p.pass,color:"--s-aqua"},
-    {name:"P(≥1 Auszahlung)",get:p=>100*p.pay,color:"--s-violet"}],v=>v.toFixed(0)+" %",p=>p.tp);
+    {name:"P(≥1 Auszahlung)",get:p=>100*p.pay,color:"--s-violet"}],v=>v.toFixed(0)+" %",fx);
   const best=out.reduce((a,b)=>b.ev>a.ev?b:a);
   const anyPos=out.some(p=>p.ev>0);
   document.getElementById("sweepSummary").innerHTML=
-    `<b>Ergebnis:</b> Das „beste“ Take-Profit-Level liegt bei <b>${best.tp} Ticks</b> = ${fmt$(best.tp*posVal)} pro Full-Port-Position = <b>${(best.tp*posVal/P.startBal*100).toFixed(2)} % des Kontos</b> (EV dort: <span class="${best.ev>=0?"pos":"neg"}">${fmt$(best.ev)}</span> pro Versuch). `+
-    (anyPos?(P.edge>0?`Mit dem eingestellten Edge gibt es TP-Bereiche mit positivem EV.`
-      :`<b>Achtung:</b> Einzelne Punkte über null sind Monte-Carlo-Rauschen (seltene große Auszahlungen streuen stark). Ohne echten Edge ist der wahre EV mathematisch höchstens −(erwartete Gebühren) + Optionswert der Auszahlungsstruktur – über viele Wiederholungen negativ, sonst würde Topstep draufzahlen.`)
+    `<b>Ergebnis:</b> `+(flip
+      ?`Die „beste“ Flip-Größe liegt bei <b>${fmt$(best.x)}</b> = <b>${(best.x/P.startBal*100).toFixed(2)} % des Kontos</b> (EV dort: <span class="${best.ev>=0?"pos":"neg"}">${fmt$(best.ev)}</span> pro Versuch). `
+      :`Das „beste“ Take-Profit-Level liegt bei <b>${best.x} Ticks</b> = ${fmt$(best.x*posVal)} pro Full-Port-Position = <b>${(best.x*posVal/P.startBal*100).toFixed(2)} % des Kontos</b> (EV dort: <span class="${best.ev>=0?"pos":"neg"}">${fmt$(best.ev)}</span> pro Versuch). `)+
+    (anyPos?(P.edge>0?`Mit dem eingestellten Edge gibt es Bereiche mit positivem EV.`
+      :`<b>Einordnung:</b> Positive Werte entstehen aus dem Optionswert der Auszahlungsstruktur (je größer die Flips, desto mehr Varianz und desto weniger Kostenreibung – bis das MLL-Polster die Flip-Größe kappt). Beachte die Monte-Carlo-Streuung (seltene große Auszahlungen ⇒ ±$30–60 pro Punkt) und die realen Gegenkräfte: Payout-Verweigerung bei Gambling-Verhalten, asymmetrische Slippage in echten Märkten, laufende Regel-Nachschärfungen.`)
       :`<b>Aber:</b> Der EV ist über den gesamten Bereich negativ – die Exit-Schwelle ändert auf einem Zufallsmarkt nur, <i>wie</i> man verliert (oft &amp; klein vs. selten &amp; groß), nicht <i>ob</i>. Ein „optimales Plus-Prozent“ existiert nur als am-wenigsten-schlechtes.`);
 }
 
