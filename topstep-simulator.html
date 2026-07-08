@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topstep Full-Port-Scalping Simulator</title>
+<style>
+:root{
+  --surface-1:#fcfcfb; --page:#f9f9f7;
+  --ink-1:#0b0b0b; --ink-2:#52514e; --ink-3:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10);
+  --s-blue:#2a78d6; --s-aqua:#1baf7a; --s-violet:#4a3aa7;
+  --good:#0ca30c; --good-text:#006300; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --surface-1:#1a1a19; --page:#0d0d0d;
+    --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10);
+    --s-blue:#3987e5; --s-aqua:#199e70; --s-violet:#9085e9;
+    --good:#0ca30c; --good-text:#0ca30c;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink-1);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:19px;margin:34px 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+.sub{color:var(--ink-2);margin:0 0 18px}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:14px 0}
+.notice{border-left:4px solid var(--warning)}
+.small{font-size:13px;color:var(--ink-2)}
+.muted{color:var(--ink-3)}
+a{color:var(--s-blue)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--grid)}
+th{color:var(--ink-2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.controls{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.controls label{display:block;font-size:12.5px;color:var(--ink-2);margin-bottom:3px}
+.controls input,.controls select{width:100%;padding:7px 9px;border:1px solid var(--axis);border-radius:8px;background:var(--surface-1);color:var(--ink-1);font:inherit}
+button{padding:9px 16px;border-radius:9px;border:1px solid var(--axis);background:var(--surface-1);color:var(--ink-1);font:inherit;font-weight:600;cursor:pointer}
+button.primary{background:var(--s-blue);border-color:var(--s-blue);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:14px 0}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.tile .k{font-size:12px;color:var(--ink-2)}
+.tile .v{font-size:23px;font-weight:700;margin-top:2px}
+.tile .d{font-size:12px;color:var(--ink-3);margin-top:2px}
+.pos{color:var(--good-text)} .neg{color:var(--critical)}
+canvas{width:100%;height:auto;display:block;background:var(--surface-1);border:1px solid var(--border);border-radius:12px}
+.chartwrap{position:relative;margin:10px 0}
+.tooltip{position:absolute;pointer-events:none;background:var(--surface-1);border:1px solid var(--axis);border-radius:8px;padding:6px 9px;font-size:12.5px;box-shadow:0 3px 10px rgba(0,0,0,.15);display:none;white-space:nowrap;z-index:5}
+.verdict{border-radius:12px;padding:18px 20px;margin:14px 0;border:1px solid var(--border)}
+.verdict.bad{background:color-mix(in srgb,var(--critical) 9%,var(--surface-1));border-left:5px solid var(--critical)}
+.verdict.good{background:color-mix(in srgb,var(--good) 9%,var(--surface-1));border-left:5px solid var(--good)}
+.verdict .big{font-size:21px;font-weight:800}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin:6px 2px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+ul{margin:6px 0 6px 20px;padding:0}
+li{margin:4px 0}
+code{background:color-mix(in srgb,var(--ink-1) 7%,transparent);padding:1px 5px;border-radius:5px;font-size:.92em}
+.log{max-height:220px;overflow:auto;font-size:12.5px;font-variant-numeric:tabular-nums}
+progress{width:100%;height:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Topstep „Full-Port 15:30“ – Strategie-Simulator</h1>
+<p class="sub">Simuliert deine Strategie (voller Hebel, impulsive Kerzen ohne Docht zur US-Eröffnung 15:30, sofortiger Ausstieg im Plus, Stop-Loss sonst) auf einem <b>rein zufälligen Markt</b> – über den kompletten Topstep-Lebenszyklus: Trading Combine → Express Funded Account → Auszahlungen. Und beantwortet: <b>Ist das profitabel? Kann man das machen?</b></p>
+
+<div class="card notice small">
+  <b>Wichtige Hinweise:</b> Keine Anlageberatung, nur ein mathematisches Modell. Topstep-Regeln recherchiert am 08.07.2026 (Quellen unten) – Regeln ändern sich häufig, prüfe sie vor echtem Einsatz selbst. Topstep verlangt in seinen AGB ein <b>Mindestalter von 18 Jahren</b>. Außerdem behält sich Topstep vor, Auszahlungen bei „nicht professionellem“ Verhalten (z.&nbsp;B. reines All-in-Gambling) zu verweigern – die harten Regeln einzuhalten reicht dafür nicht automatisch.
+</div>
+
+<h2>1) Die recherchierten Topstep-Regeln (Stand Juli 2026)</h2>
+<div class="card">
+<table>
+<tr><th>Parameter</th><th class="num">$50K</th><th class="num">$100K</th><th class="num">$150K</th></tr>
+<tr><td>Profit-Ziel (Combine)</td><td class="num">$3.000</td><td class="num">$6.000</td><td class="num">$9.000</td></tr>
+<tr><td>Maximum Loss Limit (MLL, trailing)</td><td class="num">$2.000</td><td class="num">$3.000</td><td class="num">$4.500</td></tr>
+<tr><td>Daily Loss Limit (DLL, „Tag vorbei“)</td><td class="num">$1.000</td><td class="num">$2.000</td><td class="num">$3.000</td></tr>
+<tr><td>Max. Kontrakte (Minis)</td><td class="num">5</td><td class="num">10</td><td class="num">15</td></tr>
+<tr><td>Monatsgebühr Combine</td><td class="num">$49</td><td class="num">$99</td><td class="num">$149</td></tr>
+</table>
+<ul class="small">
+<li><b>MLL</b> ist die einzige harte Regel: wird in Echtzeit inkl. offener Positionen überwacht, zieht am Tagesende mit dem Kontostand nach oben und friert ein, sobald sie den Startsaldo erreicht. Verletzung = Account weg.</li>
+<li><b>DLL:</b> bei Erreichen ist nur der Handelstag beendet, nicht der Account.</li>
+<li><b>Konsistenzregel:</b> Der beste Einzeltag darf max. 50&nbsp;% des Profit-Ziels ausmachen – sonst steigt das Ziel (Ziel = 2 × bester Tag).</li>
+<li><b>Express Funded Account (XFA):</b> startet bei $0 (MLL = −$2.000 beim 50K, friert bei $0 ein), einmalige Aktivierungsgebühr $149, keine Monatsgebühr mehr. Auszahlung: 5 Gewinntage à ≥ $150, dann max. 50&nbsp;% des Kontostands (Cap $5.000 pro Auszahlung), Gewinnsplit 90/10 (erste $10.000 zu 100&nbsp;% beim Trader).</li>
+<li><b>Scaling Plan</b> im XFA: volle Kontraktzahl erst ab höherem Kontostand (hier näherungsweise modelliert).</li>
+</ul>
+<p class="small muted">Quellen: <a href="https://help.topstep.com/en/articles/8284197-trading-combine-parameters">Combine-Parameter</a> · <a href="https://help.topstep.com/en/articles/8284204-what-is-the-maximum-loss-limit">Maximum Loss Limit</a> · <a href="https://help.topstep.com/en/articles/10490293-daily-loss-limit-in-the-trading-combine-and-express-funded-account">Daily Loss Limit</a> · <a href="https://help.topstep.com/en/articles/8284215-express-funded-account-parameters">XFA-Parameter</a> · <a href="https://help.topstep.com/en/articles/8284233-topstep-payout-policy">Payout Policy</a> · <a href="https://help.topstep.com/en/articles/8284208-consistency-at-topstep">Konsistenzregel</a></p>
+</div>
+
+<h2>2) Parameter</h2>
+<div class="card">
+<div class="controls">
+  <div><label>Account-Größe</label><select id="pSize"><option value="50" selected>$50K</option><option value="100">$100K</option><option value="150">$150K</option></select></div>
+  <div><label>Markt (Zufallspfad)</label><select id="pMarket"><option value="NQ" selected>NQ (Tick $5)</option><option value="ES">ES (Tick $12.50)</option><option value="MNQ">MNQ (Tick $0.50)</option></select></div>
+  <div><label>Take-Profit (Ticks im Plus)</label><input id="pTP" type="number" value="4" min="1" max="100"></div>
+  <div><label>Stop-Loss (Ticks)</label><input id="pSL" type="number" value="32" min="2" max="400"></div>
+  <div><label>Trades pro Tag (Ø, 15:30-Fenster)</label><input id="pTrades" type="number" value="5" min="1" max="30"></div>
+  <div><label>Slippage (Ticks, round-trip)</label><input id="pSlip" type="number" value="2" min="0" max="10" step="0.5"></div>
+  <div><label>Kommission $/Kontrakt (RT)</label><input id="pComm" type="number" value="4" min="0" max="20" step="0.1"></div>
+  <div><label>Combine-Preis $/Monat (Aktion: $50)</label><input id="pFee" type="number" value="49" min="0" max="500"></div>
+  <div><label>Aktivierungsgebühr $</label><input id="pAct" type="number" value="149" min="0" max="500"></div>
+  <div><label>Echter Edge (+%-Punkte Winrate)</label><input id="pEdge" type="number" value="0" min="-10" max="15" step="0.5"></div>
+  <div><label>Anzahl simulierte Accounts</label><input id="pN" type="number" value="1000" min="100" max="20000" step="100"></div>
+  <div><label>Zufalls-Seed</label><input id="pSeed" type="number" value="42" min="1" max="999999"></div>
+</div>
+<p class="small muted" style="margin-bottom:0">„Echter Edge“ = wie viele Prozentpunkte deine Einstiege die faire Gewinnwahrscheinlichkeit übertreffen. Auf einem rein zufälligen Markt ist das per Definition 0 – der Regler zeigt dir, wie viel Edge du bräuchtest, damit die Strategie kippt.</p>
+<div class="btnrow">
+  <button class="primary" id="btnMC">▶ Monte-Carlo starten</button>
+  <button id="btnDay">Beispiel-Tag ansehen (15:28–16:15)</button>
+  <button id="btnSweep">TP-Optimierung berechnen (1–24 Ticks)</button>
+</div>
+<progress id="prog" max="100" value="0" style="display:none;margin-top:10px"></progress>
+</div>
+
+<h2>3) Beispiel-Handelstag (Tick-Simulation, 15:30 Uhr)</h2>
+<p class="small">Zufallspfad in Sekundenauflösung mit Volatilitätsspitze zur US-Eröffnung. Einstieg, wenn der Markt in 3&nbsp;s impulsiv ≥ 3 Punkte in eine Richtung läuft und die laufende 5-s-Kerze keinen Docht gegen die Richtung hat. Voller Hebel (max. Kontrakte). Ausstieg beim ersten Erreichen des Take-Profits, sonst Stop-Loss.</p>
+<div class="chartwrap"><canvas id="cvDay" width="1060" height="360"></canvas><div class="tooltip" id="ttDay"></div></div>
+<div class="legend"><span style="--c:var(--good)">Kerze aufwärts</span><span style="--c:var(--critical)">Kerze abwärts</span><span style="--c:var(--s-blue)">Einstieg ▲/▼</span><span style="--c:var(--s-violet)">Ausstieg ✕</span></div>
+<div class="grid2">
+  <div class="card"><h3 style="margin-top:0">Trades des Tages</h3><div class="log" id="dayLog"><span class="muted">Noch nicht simuliert.</span></div></div>
+  <div class="card"><h3 style="margin-top:0">Tagesergebnis</h3><div id="dayStats" class="small"><span class="muted">Noch nicht simuliert.</span></div></div>
+</div>
+
+<h2>4) Monte-Carlo: viele Accounts, kompletter Lebenszyklus</h2>
+<p class="small">Jeder simulierte „Account-Versuch“ durchläuft: Combine (max. 6 Monate, Monatsgebühren) → bei Bestehen Aktivierung + Express Funded Account (max. 250 Handelstage) → Auszahlungen nach Topstep-Regeln (5 Gewinntage ≥ $150, 50-%-Cap, Split). Der Trade-Kernel ist mathematisch identisch zur Tick-Simulation: auf einem symmetrischen Zufallspfad ist P(Take-Profit vor Stop-Loss) = SL/(TP+SL).</p>
+<div class="tiles" id="tiles"></div>
+<div id="verdictBox"></div>
+<div class="grid2">
+  <div>
+    <h3>Verteilung: Netto-Ergebnis pro Account-Versuch</h3>
+    <div class="chartwrap"><canvas id="cvHist" width="520" height="300"></canvas><div class="tooltip" id="ttHist"></div></div>
+  </div>
+  <div>
+    <h3>Beispiel-Verläufe: Kontostand im Funded Account</h3>
+    <div class="chartwrap"><canvas id="cvEq" width="520" height="300"></canvas><div class="tooltip" id="ttEq"></div></div>
+    <div class="legend" id="eqLegend"></div>
+  </div>
+</div>
+<div class="card"><h3 style="margin-top:0">Ergebnistabelle</h3><div id="mcTable"><span class="muted">Noch nicht simuliert.</span></div></div>
+
+<h2>5) Bei wie viel Prozent Plus sollte man rausgehen?</h2>
+<p class="small">Sweep über Take-Profit = 1…24 Ticks (alles andere konstant). Oben: erwartetes Netto-Ergebnis pro Account-Versuch. Unten: Combine-Passrate und Wahrscheinlichkeit, mindestens eine Auszahlung zu sehen. (Bewusst zwei getrennte Charts – unterschiedliche Einheiten.)</p>
+<div class="chartwrap"><canvas id="cvSweep1" width="1060" height="260"></canvas><div class="tooltip" id="ttS1"></div></div>
+<div class="chartwrap"><canvas id="cvSweep2" width="1060" height="260"></canvas><div class="tooltip" id="ttS2"></div></div>
+<div class="legend"><span style="--c:var(--s-blue)">EV pro Versuch ($)</span><span style="--c:var(--s-aqua)">Combine-Passrate (%)</span><span style="--c:var(--s-violet)">P(≥1 Auszahlung) (%)</span></div>
+<div class="card small" id="sweepSummary"><span class="muted">Noch nicht berechnet.</span></div>
+
+<h2>6) Fazit &amp; wie man die Strategie „perfektioniert“</h2>
+<div class="card" id="conclusion">
+<h3 style="margin-top:0">Das mathematische Kernproblem</h3>
+<p>Auf einem <b>rein zufälligen Markt</b> ist der Kurs ein Martingal: egal wo du einsteigst (impulsive Kerze, kein Docht, viel „Speed“ – alles egal, denn ein Zufallspfad hat kein Gedächtnis), ist der Erwartungswert jeder Position <b>exakt 0 minus Kosten</b>. Der „sofort im Plus raus“-Exit erzeugt zwar eine sehr hohe Winrate – mit TP=4 und SL=32 Ticks gewinnt man 32/36 ≈ 89&nbsp;% der Trades – aber die seltenen Verluste sind exakt so groß, dass sie alle Gewinne auffressen. Übrig bleibt pro Trade: <b>−(Slippage + Kommission) × Kontrakte</b>. Full-Port multipliziert diese Kosten mit der maximalen Kontraktzahl.</p>
+<p>Der „Edge“ über billige Accounts ($49–50/Monat) ist in Wahrheit eine <b>Lotterielos-Struktur</b>: begrenzter Einsatz, kleiner Chance auf Auszahlung. Das ändert den Erwartungswert nicht – es verteilt ihn nur um. Die Passrate ist ohne Kosten maximal MLL/(MLL+Ziel) = 2000/5000 = 40&nbsp;% (50K); jede Gebühr, jeder Tick Slippage drückt sie darunter, und im Funded Account (Start bei $0!) stirbt ein Zufalls-Trader meist vor der 5-Gewinntage-Hürde.</p>
+<h3>Kann man das machen?</h3>
+<ul>
+<li><b>Regeltechnisch (harte Regeln):</b> Ja – Scalping ohne Mindesthaltedauer ist bei Topstep erlaubt, Full-Size ebenso, solange MLL/DLL nicht reißen.</li>
+<li><b>Praktisch:</b> Riskant. Topstep prüft vor Auszahlungen das Verhalten; reines All-in-Gambling kann als „nicht professionell“ eingestuft und die Auszahlung verweigert werden. Die Konsistenzregel bestraft genau die Riesen-Tage, die Full-Port erzeugt (Ziel steigt auf 2 × bester Tag). Und: <b>18+ ist Pflicht.</b></li>
+</ul>
+<h3>Perfektionieren – was wirklich hilft (und was nicht)</h3>
+<ul>
+<li><b>Exit-Prozent tunen hilft nicht:</b> Der Sweep unten zeigt es – der EV bleibt für jeden TP-Wert negativ, weil TP/SL auf einem Zufallsmarkt nur die Varianz verschiebt, nie den Erwartungswert. Es gibt ein „am wenigsten schlechtes“ TP, aber kein profitables.</li>
+<li><b>Der einzige Hebel ist echter Entry-Edge:</b> Stell den „Echter Edge“-Regler auf 1–3&nbsp;%-Punkte und sieh, ab wann der EV positiv wird. Genau so viel besser als der Zufall müssten deine 15:30-Impulseinstiege real sein – das ist der Punkt, den man mit Daten (echten NQ-Ticks, nicht Zufall) belegen müsste, bevor man einen Cent ausgibt.</li>
+<li><b>Kosten senken:</b> Slippage ist bei impulsiven Markteinstiegen zur Eröffnung der größte Fresser. Weniger Kontrakte in den ersten Sekunden, Limit-Orders, Micros statt Minis reduzieren die Blutung – machen aus 0-Edge aber kein Plus.</li>
+<li><b>Konsistenzregel respektieren:</b> Statt einem $1.500+-Tag lieber viele Tage ≤ 50&nbsp;% des Ziels – sonst verlängert sich die Combine und die Monatsgebühren stapeln sich.</li>
+<li><b>Risiko pro Trade &lt; DLL:</b> Ein SL, der fast die DLL frisst, beendet den Tag nach einem Verlust – weniger Trades, gleiche Kosten pro Chance.</li>
+</ul>
+<p id="dynamicConclusion" class="small muted">Starte die Monte-Carlo-Simulation für das Zahlen-Fazit zu deinen Parametern.</p>
+</div>
+
+</div>
+<script>
+"use strict";
+/* ---------- RNG ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let rng=mulberry32(42);
+function gauss(){let u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function poisson(l){const L=Math.exp(-l);let k=0,p=1;do{k++;p*=rng()}while(p>L);return k-1}
+const fmt$=x=>(x<0?"−$":"$")+Math.abs(x).toLocaleString("de-DE",{maximumFractionDigits:0});
+const fmtP=x=>(100*x).toLocaleString("de-DE",{maximumFractionDigits:1})+" %";
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- Parameter ---------- */
+const SIZES={50:{startBal:50000,target:3000,mll:2000,dll:1000,contracts:5},
+             100:{startBal:100000,target:6000,mll:3000,dll:2000,contracts:10},
+             150:{startBal:150000,target:9000,mll:4500,dll:3000,contracts:15}};
+const MARKETS={NQ:{tickVal:5,tickSize:.25,label:"NQ"},ES:{tickVal:12.5,tickSize:.25,label:"ES"},MNQ:{tickVal:.5,tickSize:.25,label:"MNQ"}};
+function readParams(){
+  const s=SIZES[document.getElementById("pSize").value], m=MARKETS[document.getElementById("pMarket").value];
+  const g=id=>parseFloat(document.getElementById(id).value)||0;
+  return {...s,...m,
+    tp:Math.max(1,Math.round(g("pTP"))), sl:Math.max(2,Math.round(g("pSL"))),
+    tradesPerDay:g("pTrades"), slipRT:g("pSlip"), commRT:g("pComm"),
+    monthlyFee:g("pFee"), actFee:g("pAct"), edge:g("pEdge")/100,
+    nAcc:Math.max(100,Math.round(g("pN"))), seed:Math.max(1,Math.round(g("pSeed"))),
+    payoutCap:5000, maxCombineDays:120, maxFundedDays:250, minPayout:250, splitFree:10000, split:0.9};
+}
+
+/* ---------- Trade-Kernel (identisch zum Zufallspfad: first passage) ---------- */
+function pWin(P){return Math.min(.995,Math.max(.005, P.sl/(P.tp+P.sl)+P.edge))}
+function tradeNet(P,contracts){
+  const win=rng()<pWin(P);
+  const ticks=win?P.tp:-P.sl;
+  return {net:(ticks-P.slipRT)*P.tickVal*contracts - P.commRT*contracts, win};
+}
+function costPerTrade(P,contracts){return (P.slipRT*P.tickVal+P.commRT)*contracts}
+
+/* ---------- Ein Handelstag (analytisch) ---------- */
+function simDay(P,contracts,roomToMLL){
+  const n=poisson(P.tradesPerDay); let day=0,bust=false,trades=0;
+  for(let i=0;i<n;i++){
+    trades++;
+    const t=tradeNet(P,contracts); const net=t.net;
+    /* Topstep liquidiert offene Positionen, sobald MLL bzw. DLL intraday erreicht ist */
+    if(day+net<=-roomToMLL){day=-roomToMLL;bust=true;break}
+    if(day+net<=-P.dll){day=-P.dll;break} /* DLL: geflattet, Tag vorbei */
+    day+=net;
+  }
+  return {day,bust,trades};
+}
+
+/* ---------- Combine ---------- */
+function simCombine(P){
+  let bal=P.startBal, mll=P.startBal-P.mll, best=0, target=P.target, fees=P.monthlyFee, days=0;
+  while(days<P.maxCombineDays){
+    days++; if(days>1&&days%20===1)fees+=P.monthlyFee;
+    const r=simDay(P,P.contracts,bal-mll); bal+=r.day;
+    if(r.bust||bal<=mll)return{passed:false,fees,days};
+    best=Math.max(best,r.day); target=Math.max(P.target,2*best); /* Konsistenzregel */
+    mll=Math.min(P.startBal,Math.max(mll,bal-P.mll));
+    if(bal>=P.startBal+target)return{passed:true,fees,days};
+  }
+  return{passed:false,fees,days,gaveUp:true};
+}
+
+/* ---------- Express Funded Account ---------- */
+function xfaContracts(P,bal){ /* Scaling Plan (Näherung) */
+  const frac=Math.max(.4,Math.min(1,.4+.6*bal/P.mll));
+  return Math.max(1,Math.floor(P.contracts*frac));
+}
+function simFunded(P,track){
+  let bal=0,mll=-P.mll,win=0,paid=0,gross=0,days=0;
+  const curve=track?[0]:null;
+  while(days<P.maxFundedDays){
+    days++;
+    const r=simDay(P,xfaContracts(P,bal),bal-mll); bal+=r.day;
+    if(curve)curve.push(bal);
+    if(r.bust||bal<=mll)return{paid,days,dead:true,curve};
+    if(r.day>=150)win++;
+    mll=Math.min(0,Math.max(mll,bal-P.mll));
+    if(win>=5){
+      const pay=Math.min(bal*.5,P.payoutCap);
+      if(pay>=P.minPayout){
+        const free=Math.max(0,P.splitFree-gross);
+        paid+=Math.min(pay,free)+Math.max(0,pay-free)*P.split;
+        gross+=pay; bal-=pay; win=0;
+      }
+    }
+  }
+  return{paid,days,dead:false,curve};
+}
+
+/* ---------- Monte Carlo ---------- */
+function runMC(P,n,trackCurves){
+  const res={n,pass:0,funded:[],nets:[],fees:0,payoutAccounts:0,totalPaid:0,curves:[],fundedDays:[],combineDays:[]};
+  for(let i=0;i<n;i++){
+    const c=simCombine(P); res.fees+=c.fees; res.combineDays.push(c.days);
+    let net=-c.fees;
+    if(c.passed){
+      res.pass++; net-=P.actFee;
+      const f=simFunded(P,trackCurves&&res.curves.length<6);
+      if(f.curve)res.curves.push(f.curve);
+      res.funded.push(f); res.fundedDays.push(f.days);
+      if(f.paid>0){res.payoutAccounts++;res.totalPaid+=f.paid}
+      net+=f.paid;
+    }
+    res.nets.push(net);
+  }
+  return res;
+}
+
+/* ---------- Charts (Canvas-Helfer) ---------- */
+function setupCanvas(cv){const dpr=window.devicePixelRatio||1,W=cv.width,H=cv.height;
+  if(!cv._scaled){cv.style.maxWidth=W+"px";cv.width=W*dpr;cv.height=H*dpr;cv._scaled=true}
+  const ctx=cv.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=css("--surface-1");ctx.fillRect(0,0,W,H);return{ctx,W,H}}
+function axes(ctx,pl,pt,pw,ph,yMin,yMax,fmt,nT=5){
+  ctx.strokeStyle=css("--grid");ctx.fillStyle=css("--ink-3");ctx.font="11px system-ui";ctx.lineWidth=1;
+  for(let i=0;i<=nT;i++){const v=yMin+(yMax-yMin)*i/nT,y=pt+ph-ph*i/nT;
+    ctx.beginPath();ctx.moveTo(pl,y+.5);ctx.lineTo(pl+pw,y+.5);ctx.stroke();
+    ctx.textAlign="right";ctx.fillText(fmt(v),pl-6,y+4)}
+}
+function attachTooltip(cv,tt,finder){
+  cv.onmousemove=e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*(cv.width/(window.devicePixelRatio||1))/r.width,y=(e.clientY-r.top)*(cv.height/(window.devicePixelRatio||1))/r.height;
+    const hit=finder(x,y);
+    if(hit){tt.style.display="block";tt.innerHTML=hit.html;
+      const w=tt.offsetWidth;let lx=e.clientX-r.left+14;if(lx+w>r.width)lx=e.clientX-r.left-w-14;
+      tt.style.left=lx+"px";tt.style.top=(e.clientY-r.top-10)+"px"}
+    else tt.style.display="none"};
+  cv.onmouseleave=()=>tt.style.display="none";
+}
+
+/* ---------- Beispiel-Tag (Tick-Simulation) ---------- */
+let dayState=null;
+function simExampleDay(P){
+  rng=mulberry32(P.seed*7919+Date.now()%100000);
+  const T=2820,open=120; /* 15:28 → 16:15, open bei t=120s */
+  const px=[23000];
+  for(let t=1;t<=T;t++){
+    const sig=t<open?.35:.35+1.9*Math.exp(-(t-open)/240);
+    px.push(px[t-1]+gauss()*sig);
+  }
+  /* 5s-Kerzen */
+  const candles=[];
+  for(let i=0;i<T;i+=5){const seg=px.slice(i,i+6);
+    candles.push({t:i,o:seg[0],c:seg[seg.length-1],h:Math.max(...seg),l:Math.min(...seg)})}
+  /* Strategie */
+  const trades=[];let pos=null,day=0,cool=0,dllHit=false;
+  for(let t=open;t<T;t++){
+    const p=px[t];
+    if(pos){
+      const mv=(p-pos.entry)*pos.dir/P.tickSize; /* Ticks */
+      pos.worst=Math.min(pos.worst,mv);
+      const unreal=(mv-P.slipRT)*P.tickVal*P.contracts-P.commRT*P.contracts;
+      if(day+unreal<=-P.dll){ /* DLL intraday: Zwangsliquidation */
+        day=-P.dll;trades.push({...pos,exitT:t,exit:p,net:unreal,forced:true});pos=null;dllHit=true;break;
+      }
+      if(mv>=P.tp+P.slipRT||mv<=-P.sl){
+        const ticks=(mv>=P.tp+P.slipRT?P.tp:-P.sl);
+        const net=(ticks-P.slipRT)*P.tickVal*P.contracts-P.commRT*P.contracts;
+        day+=net;trades.push({...pos,exitT:t,exit:p,net});pos=null;cool=t+20;
+        if(day<=-P.dll){dllHit=true;break}
+      }
+    } else if(t>cool&&t>=3){
+      const m3=px[t]-px[t-3];
+      const ci=Math.floor(t/5),c=candles[ci];
+      if(Math.abs(m3)>=3){
+        const dir=m3>0?1:-1;
+        const noWick=dir>0?(c.h-Math.max(c.o,c.c)<P.tickSize):(Math.min(c.o,c.c)-c.l<P.tickSize);
+        if(noWick)pos={entryT:t,entry:p+dir*P.slipRT/2*P.tickSize,dir,worst:0};
+      }
+    }
+  }
+  if(pos){const mv=(px[T]-pos.entry)*pos.dir/P.tickSize;
+    const net=(mv-P.slipRT)*P.tickVal*P.contracts-P.commRT*P.contracts;
+    day+=net;trades.push({...pos,exitT:T,exit:px[T],net,forced:true})}
+  dayState={px,candles,trades,day,dllHit,P,open};
+  drawDay();renderDayInfo();
+}
+function drawDay(){
+  if(!dayState)return;
+  const {candles,trades,P,open}=dayState;
+  const cv=document.getElementById("cvDay"),{ctx,W,H}=setupCanvas(cv);
+  const pl=64,pr=12,pt=14,pb=26,pw=W-pl-pr,ph=H-pt-pb;
+  let lo=Infinity,hi=-Infinity;candles.forEach(c=>{lo=Math.min(lo,c.l);hi=Math.max(hi,c.h)});
+  const pad=(hi-lo)*.06;lo-=pad;hi+=pad;
+  const X=t=>pl+pw*t/2820, Y=v=>pt+ph*(1-(v-lo)/(hi-lo));
+  axes(ctx,pl,pt,pw,ph,lo,hi,v=>v.toFixed(0),5);
+  /* Zeitachse */
+  ctx.fillStyle=css("--ink-3");ctx.textAlign="center";
+  [["15:28",0],["15:30",120],["15:45",1020],["16:00",1920],["16:15",2820]].forEach(([l,t])=>ctx.fillText(l,X(t),H-8));
+  ctx.strokeStyle=css("--axis");ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(X(open),pt);ctx.lineTo(X(open),pt+ph);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=css("--ink-3");ctx.textAlign="left";ctx.fillText("US-Open",X(open)+4,pt+12);
+  /* Kerzen */
+  const cw=Math.max(1,pw/candles.length-1);
+  candles.forEach(c=>{
+    const up=c.c>=c.o,col=up?css("--good"):css("--critical");
+    ctx.strokeStyle=col;ctx.fillStyle=col;
+    const x=X(c.t)+cw/2;
+    ctx.beginPath();ctx.moveTo(x,Y(c.h));ctx.lineTo(x,Y(c.l));ctx.stroke();
+    const y1=Y(Math.max(c.o,c.c)),y2=Y(Math.min(c.o,c.c));
+    ctx.fillRect(X(c.t),y1,cw,Math.max(1,y2-y1));
+  });
+  /* Trades */
+  trades.forEach(tr=>{
+    ctx.fillStyle=css("--s-blue");
+    const ex=X(tr.entryT),ey=Y(tr.entry);
+    ctx.beginPath();
+    if(tr.dir>0){ctx.moveTo(ex,ey+12);ctx.lineTo(ex-6,ey+22);ctx.lineTo(ex+6,ey+22)}
+    else{ctx.moveTo(ex,ey-12);ctx.lineTo(ex-6,ey-22);ctx.lineTo(ex+6,ey-22)}
+    ctx.closePath();ctx.fill();
+    ctx.strokeStyle=css("--s-violet");ctx.lineWidth=2;
+    const xx=X(tr.exitT),xy=Y(tr.exit);
+    ctx.beginPath();ctx.moveTo(xx-5,xy-5);ctx.lineTo(xx+5,xy+5);ctx.moveTo(xx+5,xy-5);ctx.lineTo(xx-5,xy+5);ctx.stroke();ctx.lineWidth=1;
+  });
+  attachTooltip(cv,document.getElementById("ttDay"),(x,y)=>{
+    const t=Math.max(0,Math.min(2819,(x-pl)/pw*2820));if(x<pl||x>pl+pw)return null;
+    const c=candles[Math.floor(t/5)];if(!c)return null;
+    const mm=Math.floor((928*60+c.t/60*60)/60); /* 15:28 + t */
+    const hh=Math.floor((15*60+28+c.t/60)/60),mi=Math.floor((15*60+28+c.t/60)%60);
+    return {html:`<b>${String(hh).padStart(2,"0")}:${String(mi).padStart(2,"0")}</b><br>O ${c.o.toFixed(2)} · H ${c.h.toFixed(2)}<br>L ${c.l.toFixed(2)} · C ${c.c.toFixed(2)}`};
+  });
+}
+function renderDayInfo(){
+  const {trades,day,dllHit,P}=dayState;
+  const log=document.getElementById("dayLog");
+  log.innerHTML=trades.length?trades.map((t,i)=>{
+    const secs=t.exitT-t.entryT;
+    return `<div>#${i+1} ${t.dir>0?"LONG":"SHORT"} ${P.contracts}× @${t.entry.toFixed(2)} → ${t.exit.toFixed(2)} (${secs}s${t.forced?", Zwangs-Exit":""}) <b class="${t.net>=0?"pos":"neg"}">${fmt$(t.net)}</b></div>`;
+  }).join(""):"<span class='muted'>Kein Signal an diesem Tag.</span>";
+  const wins=trades.filter(t=>t.net>0).length;
+  document.getElementById("dayStats").innerHTML=
+    `<div>Trades: <b>${trades.length}</b> · Gewinner: <b>${wins}</b> · Ø Haltedauer: <b>${trades.length?Math.round(trades.reduce((a,t)=>a+t.exitT-t.entryT,0)/trades.length):0}s</b></div>
+     <div>Tagesergebnis: <b class="${day>=0?"pos":"neg"}">${fmt$(day)}</b> ${dllHit?'<span class="neg">→ Daily Loss Limit gerissen, Tag beendet.</span>':""}</div>
+     <div class="muted">Kosten dieses Tages (Slippage+Kommission): ${fmt$(trades.length*costPerTrade(P,P.contracts))}</div>`;
+}
+
+/* ---------- Monte-Carlo Rendering ---------- */
+function runAndRenderMC(){
+  const P=readParams();rng=mulberry32(P.seed);
+  const btn=document.getElementById("btnMC");btn.disabled=true;
+  setTimeout(()=>{
+    const r=runMC(P,P.nAcc,true);
+    renderTiles(P,r);renderHist(P,r);renderEq(P,r);renderTable(P,r);renderVerdict(P,r);
+    btn.disabled=false;
+  },30);
+}
+function stats(a){if(!a.length)return{mean:0,med:0};const s=[...a].sort((x,y)=>x-y);
+  return{mean:a.reduce((x,y)=>x+y,0)/a.length,med:s[Math.floor(s.length/2)]}}
+function renderTiles(P,r){
+  const passRate=r.pass/r.n, ev=stats(r.nets).mean;
+  const payoutRate=r.pass?r.payoutAccounts/r.pass:0;
+  const avgPaid=r.payoutAccounts?r.totalPaid/r.payoutAccounts:0;
+  const fd=stats(r.fundedDays), winAcc=r.nets.filter(x=>x>0).length/r.n;
+  const cpt=costPerTrade(P,P.contracts);
+  document.getElementById("tiles").innerHTML=[
+    ["Combine-Passrate",fmtP(passRate),`theoretisches Maximum ohne Kosten: ${fmtP(P.mll/(P.mll+P.target))}`],
+    ["P(≥1 Auszahlung) je Funded-Acc.",fmtP(payoutRate),`Ø Auszahlung wenn ja: ${fmt$(avgPaid)}`],
+    ["EV pro Account-Versuch",`<span class="${ev>=0?"pos":"neg"}">${fmt$(ev)}</span>`,`Median: ${fmt$(stats(r.nets).med)}`],
+    ["Anteil profitabler Versuche",fmtP(winAcc),`${r.n} simulierte Accounts`],
+    ["Ø Lebensdauer Funded",`${fd.mean?fd.mean.toFixed(0):0} Tage`,`Median ${fd.med||0} Tage (max. ${P.maxFundedDays})`],
+    ["Kosten pro Trade (Full-Port)",fmt$(cpt),`Winrate/Trade: ${fmtP(pWin(P))} · EV/Trade: ${fmt$(P.edge*(P.tp+P.sl)*P.tickVal*P.contracts-cpt)}`],
+  ].map(([k,v,d])=>`<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+}
+function renderVerdict(P,r){
+  const ev=stats(r.nets).mean, profitable=ev>0;
+  const el=document.getElementById("verdictBox");
+  el.innerHTML=`<div class="verdict ${profitable?"good":"bad"}">
+    <div class="big">${profitable?"⚠️ In dieser Konfiguration rechnerisch profitabel – aber nur wegen des eingestellten Edge-Reglers":"❌ NICHT profitabel"}</div>
+    <p style="margin:8px 0 0">${profitable
+      ?`Mit dem eingestellten Edge von ${(P.edge*100).toFixed(1)} %-Punkten ergibt sich ein EV von ${fmt$(ev)} pro Versuch. Auf einem <b>rein zufälligen</b> Markt (Edge = 0) ist der EV zwingend negativ – dieser Gewinn setzt voraus, dass deine Einstiege real besser als Zufall sind, was erst mit echten Marktdaten zu beweisen wäre.`
+      :`Erwarteter Verlust: <b>${fmt$(ev)} pro Account-Versuch</b> (${fmtP(r.nets.filter(x=>x>0).length/r.n)} der Versuche enden im Plus). Das günstige Account-Risiko („nur $${P.monthlyFee}“) senkt den Einsatz pro Los, dreht aber den Erwartungswert nicht: auf einem Zufallsmarkt ist jeder Trade EV = 0 minus ${fmt$(costPerTrade(P,P.contracts))} Kosten – und Gebühren + Aktivierung kommen obendrauf.`}</p></div>`;
+  document.getElementById("dynamicConclusion").innerHTML=
+    `<b>Zahlen-Fazit zu deinen Parametern:</b> Passrate ${fmtP(r.pass/r.n)}, davon erreichen ${fmtP(r.pass?r.payoutAccounts/r.pass:0)} mind. eine Auszahlung. `+
+    `Über ${r.n} Versuche: Gesamtkosten ${fmt$(r.fees+r.pass*P.actFee)}, Gesamtauszahlungen ${fmt$(r.totalPaid)} → EV ${fmt$(stats(r.nets).mean)} pro Versuch. `+
+    `Break-even bräuchte ca. <b>+${((costPerTrade(P,P.contracts))/((P.tp+P.sl)*P.tickVal*P.contracts)*100).toFixed(1)} %-Punkte echte Winrate über Zufall</b> – nur um die Trade-Kosten zu decken, noch ohne Gebühren.`;
+}
+function renderHist(P,r){
+  const cv=document.getElementById("cvHist"),{ctx,W,H}=setupCanvas(cv);
+  const pl=52,pr=10,pt=12,pb=30,pw=W-pl-pr,ph=H-pt-pb;
+  const lo=Math.min(...r.nets),hi=Math.max(...r.nets,1);
+  const nb=24,bw=(hi-lo)/nb||1,bins=Array(nb).fill(0);
+  r.nets.forEach(v=>bins[Math.min(nb-1,Math.floor((v-lo)/bw))]++);
+  const mx=Math.max(...bins);
+  axes(ctx,pl,pt,pw,ph,0,mx,v=>v.toFixed(0),4);
+  const bars=[];
+  bins.forEach((b,i)=>{
+    const x0=lo+i*bw, up=x0+bw>0&&x0>=0?true:(x0+bw<=0?false:null);
+    ctx.fillStyle=(x0>=0)?css("--good"):(x0+bw<=0?css("--critical"):css("--ink-3"));
+    const x=pl+pw*i/nb+1,w=pw/nb-2,h=ph*b/mx,y=pt+ph-h;
+    ctx.beginPath();ctx.roundRect(x,y,Math.max(1,w),Math.max(0,h),[4,4,0,0]);ctx.fill();
+    bars.push({x,w,i,b,x0,x1:x0+bw});
+  });
+  ctx.fillStyle=css("--ink-3");ctx.textAlign="center";ctx.font="11px system-ui";
+  [lo,0,hi].forEach(v=>{const x=pl+pw*(v-lo)/(hi-lo);ctx.fillText(fmt$(v),Math.max(pl+18,Math.min(pl+pw-18,x)),H-8)});
+  attachTooltip(cv,document.getElementById("ttHist"),(x,y)=>{
+    const b=bars.find(b=>x>=b.x&&x<=b.x+b.w);if(!b)return null;
+    return{html:`${fmt$(b.x0)} bis ${fmt$(b.x1)}<br><b>${b.b} Accounts</b> (${fmtP(b.b/r.n)})`};
+  });
+}
+function renderEq(P,r){
+  const cv=document.getElementById("cvEq"),{ctx,W,H}=setupCanvas(cv);
+  const pl=56,pr=10,pt=12,pb=26,pw=W-pl-pr,ph=H-pt-pb;
+  const curves=r.curves;
+  document.getElementById("eqLegend").innerHTML=curves.length?`<span style="--c:var(--s-blue)">bis zu ${curves.length} Funded-Accounts (Kontostand ab $0)</span><span style="--c:var(--critical)">MLL-Startniveau −${fmt$(P.mll).slice(1)}</span>`:"";
+  if(!curves.length){ctx.fillStyle=css("--ink-3");ctx.textAlign="center";ctx.fillText("Kein Account hat die Combine bestanden.",W/2,H/2);return}
+  let lo=-P.mll*1.1,hi=100;curves.forEach(c=>c.forEach(v=>{hi=Math.max(hi,v)}));hi*=1.05;
+  const mxd=Math.max(...curves.map(c=>c.length));
+  const X=i=>pl+pw*i/(mxd-1||1),Y=v=>pt+ph*(1-(v-lo)/(hi-lo));
+  axes(ctx,pl,pt,pw,ph,lo,hi,v=>fmt$(v),5);
+  ctx.strokeStyle=css("--critical");ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(pl,Y(-P.mll));ctx.lineTo(pl+pw,Y(-P.mll));ctx.stroke();ctx.setLineDash([]);
+  const shades=["--s-blue","--s-aqua","--s-violet","--s-blue","--s-aqua","--s-violet"];
+  curves.forEach((c,ci)=>{
+    ctx.strokeStyle=css(shades[ci%shades.length]);ctx.globalAlpha=.85;ctx.lineWidth=2;ctx.beginPath();
+    c.forEach((v,i)=>{i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v))});ctx.stroke();ctx.globalAlpha=1;
+  });
+  ctx.fillStyle=css("--ink-3");ctx.textAlign="center";ctx.fillText("Handelstage →",pl+pw/2,H-8);
+  attachTooltip(cv,document.getElementById("ttEq"),(x,y)=>{
+    if(x<pl||x>pl+pw)return null;
+    const i=Math.round((x-pl)/pw*(mxd-1));
+    const vals=curves.filter(c=>c[i]!==undefined).map(c=>fmt$(c[i]));
+    return vals.length?{html:`Tag ${i}<br>${vals.join(" · ")}`}:null;
+  });
+}
+function renderTable(P,r){
+  const s=stats(r.nets);
+  const rows=[
+    ["Simulierte Account-Versuche",r.n.toLocaleString("de-DE")],
+    ["Combine bestanden",`${r.pass} (${fmtP(r.pass/r.n)})`],
+    ["Ø Combine-Dauer",`${stats(r.combineDays).mean.toFixed(1)} Handelstage`],
+    ["Summe Combine-Gebühren",fmt$(r.fees)],
+    ["Summe Aktivierungsgebühren",fmt$(r.pass*P.actFee)],
+    ["Funded-Accounts mit ≥1 Auszahlung",`${r.payoutAccounts} (${fmtP(r.pass?r.payoutAccounts/r.pass:0)} der Funded)`],
+    ["Summe Auszahlungen (nach Split)",fmt$(r.totalPaid)],
+    ["EV pro Versuch / Median",`${fmt$(s.mean)} / ${fmt$(s.med)}`],
+    ["Bestes / schlechtestes Einzelergebnis",`${fmt$(Math.max(...r.nets))} / ${fmt$(Math.min(...r.nets))}`],
+  ];
+  document.getElementById("mcTable").innerHTML=`<table>${rows.map(([k,v])=>`<tr><td>${k}</td><td class="num"><b>${v}</b></td></tr>`).join("")}</table>`;
+}
+
+/* ---------- TP-Sweep ---------- */
+function runSweep(){
+  const P=readParams();const btn=document.getElementById("btnSweep");btn.disabled=true;
+  const prog=document.getElementById("prog");prog.style.display="block";prog.value=0;
+  const tps=[];for(let t=1;t<=24;t++)tps.push(t);
+  const out=[];let i=0;
+  const step=()=>{
+    if(i>=tps.length){prog.style.display="none";btn.disabled=false;renderSweep(P,out);return}
+    const tp=tps[i];rng=mulberry32(P.seed+tp*101);
+    const Q={...P,tp};
+    const r=runMC(Q,Math.min(400,P.nAcc),false);
+    out.push({tp,ev:stats(r.nets).mean,pass:r.pass/r.n,pay:r.pass?r.payoutAccounts/r.pass:0});
+    i++;prog.value=100*i/tps.length;setTimeout(step,0);
+  };step();
+}
+function lineChart(cvId,ttId,pts,series,fmtY,fmtX){
+  const cv=document.getElementById(cvId),{ctx,W,H}=setupCanvas(cv);
+  const pl=64,pr=12,pt=14,pb=28,pw=W-pl-pr,ph=H-pt-pb;
+  let lo=Infinity,hi=-Infinity;
+  series.forEach(s=>pts.forEach(p=>{lo=Math.min(lo,s.get(p));hi=Math.max(hi,s.get(p))}));
+  if(lo===hi){lo-=1;hi+=1}const pad=(hi-lo)*.1;lo-=pad;hi+=pad;
+  if(series[0].zeroLine){lo=Math.min(lo,0);hi=Math.max(hi,0)}
+  const X=i=>pl+pw*i/(pts.length-1),Y=v=>pt+ph*(1-(v-lo)/(hi-lo));
+  axes(ctx,pl,pt,pw,ph,lo,hi,fmtY,5);
+  if(lo<0&&hi>0){ctx.strokeStyle=css("--axis");ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pl,Y(0));ctx.lineTo(pl+pw,Y(0));ctx.stroke();ctx.lineWidth=1}
+  ctx.fillStyle=css("--ink-3");ctx.textAlign="center";ctx.font="11px system-ui";
+  pts.forEach((p,i)=>{if(i%3===0)ctx.fillText(fmtX(p),X(i),H-8)});
+  series.forEach(s=>{
+    ctx.strokeStyle=css(s.color);ctx.lineWidth=2;ctx.beginPath();
+    pts.forEach((p,i)=>{const y=Y(s.get(p));i?ctx.lineTo(X(i),y):ctx.moveTo(X(i),y)});ctx.stroke();
+    ctx.fillStyle=css(s.color);
+    pts.forEach((p,i)=>{ctx.beginPath();ctx.arc(X(i),Y(s.get(p)),3,0,7);ctx.fill()});
+  });
+  attachTooltip(cv,document.getElementById(ttId),(x,y)=>{
+    if(x<pl||x>pl+pw)return null;
+    const i=Math.max(0,Math.min(pts.length-1,Math.round((x-pl)/pw*(pts.length-1))));
+    const p=pts[i];
+    return{html:`<b>${fmtX(p)} Ticks TP</b><br>`+series.map(s=>`${s.name}: ${fmtY(s.get(p))}`).join("<br>")};
+  });
+}
+function renderSweep(P,out){
+  const posVal=P.tickVal*P.contracts;
+  lineChart("cvSweep1","ttS1",out,[{name:"EV pro Versuch",get:p=>p.ev,color:"--s-blue",zeroLine:true}],v=>fmt$(v),p=>p.tp);
+  lineChart("cvSweep2","ttS2",out,[
+    {name:"Combine-Passrate",get:p=>100*p.pass,color:"--s-aqua"},
+    {name:"P(≥1 Auszahlung)",get:p=>100*p.pay,color:"--s-violet"}],v=>v.toFixed(0)+" %",p=>p.tp);
+  const best=out.reduce((a,b)=>b.ev>a.ev?b:a);
+  const anyPos=out.some(p=>p.ev>0);
+  document.getElementById("sweepSummary").innerHTML=
+    `<b>Ergebnis:</b> Das „beste“ Take-Profit-Level liegt bei <b>${best.tp} Ticks</b> = ${fmt$(best.tp*posVal)} pro Full-Port-Position = <b>${(best.tp*posVal/P.startBal*100).toFixed(2)} % des Kontos</b> (EV dort: <span class="${best.ev>=0?"pos":"neg"}">${fmt$(best.ev)}</span> pro Versuch). `+
+    (anyPos?`Mit dem eingestellten Edge gibt es TP-Bereiche mit positivem EV.`
+      :`<b>Aber:</b> Der EV ist über den gesamten Bereich negativ – die Exit-Schwelle ändert auf einem Zufallsmarkt nur, <i>wie</i> man verliert (oft &amp; klein vs. selten &amp; groß), nicht <i>ob</i>. Ein „optimales Plus-Prozent“ existiert nur als am-wenigsten-schlechtes.`);
+}
+
+/* ---------- Events ---------- */
+document.getElementById("btnMC").onclick=runAndRenderMC;
+document.getElementById("btnDay").onclick=()=>simExampleDay(readParams());
+document.getElementById("btnSweep").onclick=runSweep;
+window.addEventListener("load",()=>{simExampleDay(readParams());runAndRenderMC()});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(dayState)drawDay()});
+</script>
+</body>
+</html>
