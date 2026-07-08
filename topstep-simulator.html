@@ -162,7 +162,47 @@ progress{width:100%;height:8px}
 <div class="legend"><span style="--c:var(--s-blue)">EV pro Versuch ($)</span><span style="--c:var(--s-aqua)">Combine-Passrate (%)</span><span style="--c:var(--s-violet)">P(≥1 Auszahlung) (%)</span></div>
 <div class="card small" id="sweepSummary"><span class="muted">Noch nicht berechnet.</span></div>
 
-<h2>6) Fazit &amp; wie man die Strategie „perfektioniert“</h2>
+<h2>6) Das fertige Playbook: „Topstep Flip-Plan v1.0“</h2>
+<div class="card">
+<p class="small" style="margin-top:0"><b>Vorab, damit es klar ist:</b> Das ist die beste regelkonforme Umsetzung deiner Idee, die das Modell hergibt – kein Geldautomat. Der Modell-EV ist positiv (~+$90–130 pro Versuch bei Flip-Größe $1.500–2.000), aber der Median-Versuch verliert, nur ~13&nbsp;% der Versuche enden im Plus, und das Muster ist für Topstep als Gambling erkennbar (Auszahlung kann verweigert werden). 18+ ist Pflicht. Nie mehr Geld einsetzen, als der Serien-Plan unten vorsieht.</p>
+
+<h3>Schritt 0 – Setup</h3>
+<ul>
+<li><b>Account:</b> $50K Trading Combine ($49/Monat), Markt NQ, Daily Loss Limit <b>nicht</b> aktivieren.</li>
+<li><b>Ein Trade pro Tag.</b> Fenster 15:30–16:00 deutscher Zeit (US-Open). Bracket-Order (TP+SL) sofort mit dem Entry ins System – nicht manuell rausklicken.</li>
+</ul>
+<h3>Phase 1 – Combine (Ziel +$3.000, Polster −$2.000)</h3>
+<ul>
+<li><b>Entry:</b> impulsive Kerze ohne Gegendocht in Bewegungsrichtung (dein Setup). Die Daten unten zeigen: Timing ist ~50/50 – es schadet nicht, trägt aber nicht. Full-Port 5 Kontrakte.</li>
+<li><b>Bracket:</b> TP +$1.500 (+15 NQ-Punkte), SL −$1.500 (−15 Punkte). <i>Nicht</i> −$2.000: ein Tag-1-Bust wäre sofort das Account-Ende; so bleibt ein $500-Restpolster für einen Rettungsversuch. (Aggressive Variante laut Sweep: ±$2.000, minimal höherer Modell-EV, deutlich höhere Tag-1-Bustrate.)</li>
+<li><b>Pfad:</b> 2 Gewinntage in Folge = bestanden (Konsistenzregel bleibt erfüllt, da $1.500 ≈ 50&nbsp;% des Ziels). Nach Verlusttag: Rest-Polster als SL, Rest bis Ziel als TP – ein Rettungsflip, dann ist der Account durch oder tot.</li>
+</ul>
+<h3>Phase 2 – Express Funded Account (Start bei $0)</h3>
+<ul>
+<li><b>Hochflippen:</b> ein Full-Port-Flip TP +$1.500 / SL −$1.500 (durch Rest-Polster gekappt).</li>
+<li><b>Dann sofort klein werden:</b> 1 Kontrakt, Bracket ±$200 (±10 Punkte), ein Trade/Tag, bis 5 Gewinntage à ≥$150 netto voll sind. Das erfüllt die Payout-Bedingung und sieht im Review nach Trading statt Gambling aus – dein eigener „5 kleine Tage“-Gedanke, er ist korrekt.</li>
+<li><b>Auszahlung sofort anfordern,</b> sobald verfügbar (50&nbsp;% des Kontostands). Danach: wieder hochflippen → wieder 5 kleine Tage → nächste Auszahlung. Nicht warten, nicht „noch etwas draufpacken“ – jeder zusätzliche Tag ist Bust-Risiko auf nicht ausgezahltes Sim-Geld.</li>
+</ul>
+<h3>Serien-Plan &amp; Abbruchkriterien</h3>
+<ul>
+<li>Erwartung laut Simulation: ~30&nbsp;% Passrate, ~12–13&nbsp;% der Versuche erreichen eine Auszahlung, Ø ~$1.500 pro auszahlendem Account. Das heißt: <b>1 Auszahlung pro ~8 Versuche.</b></li>
+<li>Budgetiere eine feste Serie (z.&nbsp;B. 20 Versuche ≈ $1.000–1.700 inkl. Aktivierungen) <i>bevor</i> du anfängst. Serie durchziehen oder gar nicht anfangen – Abbrechen nach 5 Nieten ist der statistisch teuerste Move.</li>
+<li>Bis zu 5 Combines parallel sind erlaubt – das verkürzt die Serie zeitlich, ändert den EV nicht.</li>
+<li><b>Harte Stopps:</b> Auszahlung verweigert/Account-Review → sofort aufhören (der Kill-Switch ist gezogen). Regeländerung bei MLL/Payout-Caps → neu rechnen. Serie durch, Gesamtbilanz negativ → aufhören, nicht nachschießen.</li>
+</ul>
+<h3>Realdaten-Check: trägt dein Entry-Signal? (NQ, Yahoo Finance, Juli 2026)</h3>
+<p class="small">Getestet: nach einer impulsiven Kerze ohne Gegendocht (1m: Body ≥ 15 Pkt · 5m: ≥ 30 Pkt), Einstieg in Bewegungsrichtung, symmetrischer Barrier-Test „erst +T oder erst −T Punkte?“. Angegeben ist die Spanne pessimistisch..optimistisch (Bars, in denen beide Barrieren liegen, als Verlust bzw. Gewinn gezählt).</p>
+<table>
+<tr><th>Stichprobe</th><th class="num">±10 Pkt</th><th class="num">±20 Pkt (≈ ±$1.500 Flip)</th><th class="num">±40 Pkt (≈ ±$2.000+)</th><th class="num">n</th></tr>
+<tr><td>1m, nur US-Open (7 Tage)</td><td class="num">37..73&nbsp;%</td><td class="num">48..52&nbsp;%</td><td class="num">48&nbsp;%</td><td class="num">82</td></tr>
+<tr><td>1m, ganzer Tag (7 Tage)</td><td class="num">48..63&nbsp;%</td><td class="num">52..54&nbsp;%</td><td class="num">51&nbsp;%</td><td class="num">613</td></tr>
+<tr><td>5m, ganzer Tag (60 Tage)</td><td class="num">–</td><td class="num">41..61&nbsp;%</td><td class="num">49..53&nbsp;%</td><td class="num">1210</td></tr>
+<tr><td><b>Kontrolle: zufällige Entries</b></td><td class="num">49..54&nbsp;%</td><td class="num">48..49&nbsp;%</td><td class="num">52&nbsp;%</td><td class="num">800</td></tr>
+</table>
+<p class="small"><b>Befund:</b> Bei den für den Flip relevanten Größen (±20/±40 Punkte) ist das Signal von zufälligen Einstiegen statistisch nicht unterscheidbar (Konfidenz ±3–11&nbsp;%-Punkte). Die Sekundenskala (deine 30–40-s-Trades) lässt sich mit Minutendaten nicht testen – dafür bräuchte es Tickdaten. Bis dahin gilt: Entry-Timing als ~50/50 behandeln; was die Strategie trägt, ist die Auszahlungs-Struktur, nicht die Kerze.</p>
+</div>
+
+<h2>7) Fazit &amp; wie man die Strategie „perfektioniert“</h2>
 <div class="card" id="conclusion">
 <h3 style="margin-top:0">Das mathematische Kernproblem</h3>
 <p>Auf einem <b>rein zufälligen Markt</b> ist der Kurs ein Martingal: egal wo du einsteigst (impulsive Kerze, kein Docht, viel „Speed“ – alles egal, denn ein Zufallspfad hat kein Gedächtnis), ist der Erwartungswert jeder Position <b>exakt 0 minus Kosten</b>. Der „sofort im Plus raus“-Exit erzeugt zwar eine sehr hohe Winrate – aber die seltenen Verluste sind exakt so groß, dass sie alle Gewinne auffressen. Übrig bleibt pro Trade: <b>−(Slippage + Kommission) × Kontrakte</b>. Full-Port multipliziert diese Kosten mit der maximalen Kontraktzahl.</p>
