@@ -31,11 +31,11 @@ Generate one unique email per qualified lead.
 
 Rules:
 - 80–150 words.
-- Natural human tone — write like a real agency owner reaching out personally, not like an AI. No AI-style writing: no "I hope this email finds you well," no bullet-point lists, no overly polished marketing copy, no em-dash-heavy phrasing, no generic templated openers. Vary sentence structure and word choice between emails.
+- Follow the `humanize-writing` skill for tone — no AI-style phrasing, no clichéd transitions/closers, no "I hope this email finds you well," no bullet-point lists, no negation structures ("not just X, it's Y"), no em-dash-heavy phrasing, no generic templated openers. Vary sentence structure and word choice between emails.
 - Mention one genuine public observation about the company.
 - Mention one product or collection when possible.
 - Explain one realistic motion-video opportunity.
-- Include a portfolio reference: work the word "portfolio" naturally into the email body as a link to https://teammateapp.site/ (e.g. "you can check out my portfolio here: https://teammateapp.site/" or similar phrasing) so the recipient can see the quality of work produced. This must appear in every email.
+- Include a portfolio reference: the word "portfolio" (never the raw URL) must appear as a hyperlink to https://teammateapp.site/, written as an HTML anchor tag: `<a href="https://teammateapp.site/">portfolio</a>`. Never spell out the URL in visible text — the link text is always the word "portfolio" itself. This must appear in every email, exactly once.
 - Short call to action.
 - Avoid generic wording and unsupported claims.
 - Sign off with the sender's details:
@@ -58,6 +58,8 @@ Prefer publicly identifiable contacts in this order:
 7. Official company contact
 
 Avoid support contacts whenever a more relevant public business contact exists.
+
+Always research and fill in a real named contact_name/contact_role where one is publicly discoverable (company team/about pages, press coverage, LinkedIn, press releases) before falling back to a general company contact. Only leave contact_name blank if, after an actual search, no publicly identifiable person can be verified — never invent a name.
 
 ## Output Modes
 
