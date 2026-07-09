@@ -29,12 +29,20 @@ Generate one unique email per qualified lead.
 
 Rules:
 - 80–150 words.
-- Natural human tone.
+- Natural human tone — write like a real agency owner reaching out personally, not like an AI. No AI-style writing: no "I hope this email finds you well," no bullet-point lists, no overly polished marketing copy, no em-dash-heavy phrasing, no generic templated openers. Vary sentence structure and word choice between emails.
 - Mention one genuine public observation about the company.
 - Mention one product or collection when possible.
 - Explain one realistic motion-video opportunity.
+- Include a portfolio reference: work the word "portfolio" naturally into the email body as a link to https://teammateapp.site/ (e.g. "you can check out my portfolio here: https://teammateapp.site/" or similar phrasing) so the recipient can see the quality of work produced. This must appear in every email.
 - Short call to action.
 - Avoid generic wording and unsupported claims.
+- Sign off with the sender's details:
+  ```
+  Jakob Rösler
+  Albert-Einstein-Straße 47
+  02977 Hoyerswerda
+  Germany
+  ```
 
 ## Contact Priority
 
