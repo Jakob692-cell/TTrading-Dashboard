@@ -22,6 +22,8 @@ company,website,industry,source,product,contact_name,contact_role,public_contact
 Rules:
 - Use only publicly available information.
 - Never invent missing values — leave a field blank rather than guessing.
+- `lead_score` is always a number from 1-100 (never 1-10 or any other scale).
+- In Mode B/C/D, `email_subject` and `email_body` must never be left blank — every qualified lead gets a complete personalized email following the Email Personalization rules below.
 
 ## Email Personalization
 
