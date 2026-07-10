@@ -48,16 +48,15 @@ Rules:
 
 ## Contact Priority
 
-Prefer publicly identifiable contacts in this order:
-1. Marketing
-2. Brand
-3. Ecommerce
-4. Growth
-5. Founder
-6. CEO (small companies)
-7. Official company contact
+Always attempt to identify the CEO / Founder / Managing Director (Geschäftsführer) first — they are the preferred contact for every lead. Fall back to the rest of this order only when the CEO/Founder genuinely cannot be identified publicly:
+1. CEO / Founder / Managing Director
+2. Marketing
+3. Brand
+4. Ecommerce
+5. Growth
+6. Official company contact
 
-Avoid support contacts whenever a more relevant public business contact exists.
+Avoid support/customer-service contacts whenever a more relevant business contact exists.
 
 Always research and fill in a real named contact_name/contact_role where one is publicly discoverable (company team/about pages, press coverage, LinkedIn, press releases) before falling back to a general company contact. Only leave contact_name blank if, after an actual search, no publicly identifiable person can be verified — never invent a name.
 
