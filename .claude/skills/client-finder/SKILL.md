@@ -1,6 +1,6 @@
 ---
 name: client-finder
-description: Use when the user wants to find qualified sales leads/prospects and produce a CSV plus personalized cold-outreach emails for a motion-video / content offering. Triggers on requests like "find me leads", "build a prospect list", "generate outreach emails for these companies". Sources only publicly available information and never invents missing data.
+description: Use when the user wants to find qualified sales leads/prospects and produce a CSV plus personalized cold-outreach emails for a short-form Product Motion Video offering. Triggers on requests like "find me leads", "build a prospect list", "generate outreach emails for these companies". Sources only publicly available information and never invents missing data.
 ---
 
 # Client Finder — High-Volume Lead Pipeline
@@ -25,19 +25,29 @@ Rules:
 - `lead_score` is always a number from 1-100 (never 1-10 or any other scale).
 - In Mode B/C/D, `email_subject` and `email_body` must never be left blank — every qualified lead gets a complete personalized email following the Email Personalization rules below.
 
+## The Service (read before writing any email)
+
+Jakob writes and builds **short-form Product Motion Videos (10–20 seconds)**, built from existing product photos or product images the client supplies. This is the entire offer — nothing else.
+
+**Never claim, imply, or invent any of the following:**
+- An on-site shoot, filming, or visiting the company — do not imply a shoot is required unless the recipient explicitly asks for one.
+- Interviewing staff/founders on camera, capturing "real footage," time-lapses of physical processes, documentary-style pieces, factory-floor filming.
+- Prior work made *for* similar brands or *in* their specific industry — the portfolio is a generic reel that demonstrates general quality/style only, never framed as "similar work I made for X."
+
 ## Email Personalization
 
-Generate one unique email per qualified lead.
+Generate one unique email per qualified lead. Write as an elite B2B cold email writer specializing in Product Motion Videos — the only goal is to earn a reply, and every email must feel handcrafted after actually researching the company.
+
+**Research first** (website, about page, founder story, product pages, best sellers, new launches, materials, manufacturing, sustainability, reviews, social media) and mention one highly specific observation that could not be reused for another company.
 
 Rules:
-- 80–150 words.
-- Follow the `humanize-writing` skill for tone — no AI-style phrasing, no clichéd transitions/closers, no "I hope this email finds you well," no bullet-point lists, no negation structures ("not just X, it's Y"), no em-dash-heavy phrasing, no generic templated openers. Vary sentence structure and word choice between emails.
-- Mention one genuine public observation about the company.
+- 120–170 words.
+- Follow the `humanize-writing` skill for tone — natural English, no buzzwords, no statistics, no AI mentions, no generic compliments, no fake promises, no clichéd transitions/closers, no "I hope this email finds you well," no bullet-point lists, no negation structures ("not just X, it's Y"), no em-dash-heavy phrasing. Never sound like a template — vary sentence structure and word choice between emails.
+- Introduce the offer using wording similar to: "I create short form product motion videos for ecommerce brands."
+- Contain exactly one motion video idea, unique and tailored to that company, built from existing product photos/images — never framed as needing a shoot or site visit.
 - Mention one product or collection when possible.
-- Explain one realistic motion-video opportunity.
-- Include a portfolio reference: the word "portfolio" (never the raw URL) must appear as a hyperlink to https://teammateapp.site/, written as an HTML anchor tag: `<a href="https://teammateapp.site/">portfolio</a>`. Never spell out the URL in visible text — the link text is always the word "portfolio" itself. This must appear in every email, exactly once.
-- Short call to action.
-- Avoid generic wording and unsupported claims.
+- Include the portfolio reference exactly once, phrased like "Here's my portfolio: portfolio" — the word "portfolio" (never the raw URL) must be a hyperlink to https://teammateapp.site/, written as an HTML anchor tag: `<a href="https://teammateapp.site/">portfolio</a>`. Never spell out the URL in visible text.
+- End with one simple question CTA, e.g. "Would this be worth exploring?", "Does this sound interesting?", "Would love to hear your thoughts."
 - Sign off with the sender's details:
   ```
   Jakob Rösler
@@ -45,6 +55,14 @@ Rules:
   02977 Hoyerswerda
   Germany
   ```
+
+### Quality check before returning any email
+- Company research is specific — this line couldn't be pasted into an email for a different company.
+- Exactly one unique motion video concept, built from existing assets (never a shoot).
+- Human sounding, not a template.
+- 120–170 words.
+- Portfolio linked correctly, word "portfolio" only.
+- No AI mention, no buzzwords, no statistics, no generic sales language.
 
 ## Contact Priority
 
@@ -76,5 +94,6 @@ Before delivering results, confirm:
 - Physical products confirmed
 - Public contact selected
 - Personalization based on public information
-- Email concise
+- No shoot/filming/visit claims — motion video only, built from existing assets
+- Email 120–170 words
 - CSV complete
