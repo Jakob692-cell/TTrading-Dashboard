@@ -1,0 +1,5 @@
+# Python-Pakete fuer den Switch-Pro -> Xbox-360-Mapper
+# Installation:  pip install -r requirements.txt
+
+hidapi>=0.14.0
+vgamepad>=0.1.0
