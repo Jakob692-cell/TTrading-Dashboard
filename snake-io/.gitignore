@@ -1,0 +1,2 @@
+# Nur zum Bauen (npm i terser clean-css) – nicht Teil des Spiels.
+node_modules/

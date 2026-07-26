@@ -20,6 +20,18 @@ Optional mit Server:
 python3 -m http.server 8000   # dann http://localhost:8000/snake-io/
 ```
 
+### Einzeldatei-Variante
+
+`dist/index.html` ist derselbe Stand als **eine** Datei mit inline eingebettetem
+CSS und JavaScript (96 kB) — praktisch zum Verschicken oder Hochladen. Neu bauen:
+
+```bash
+npm i terser clean-css   # nur zum Bauen nötig
+node build.js            # schreibt dist/index.html
+```
+
+Entwickelt wird immer gegen die Quelldateien; `dist/` ist reines Artefakt.
+
 ## Steuerung
 
 | | PC | Handy / Tablet |
@@ -100,6 +112,8 @@ Rundenzahl.
 ```
 snake-io/
 ├── index.html            Struktur, HUD und alle Menüs
+├── build.js              baut dist/index.html (eine Datei, alles inline)
+├── dist/index.html       Build-Artefakt für Deploys
 ├── css/style.css         Neon-/Glassmorphism-Design, responsiv
 └── js/
     ├── utils.js          Mathe-Helfer, Spatial-Hashing, Objekt-Pool, Namen
