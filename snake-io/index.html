@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05070e">
+<meta name="description" content="Snake.io – modernes Neon-Schlangenspiel im Browser. Sammle Nahrung, werde laenger und ueberlebe gegen 30 KI-Schlangen.">
+<title>Snake.io — Neon Arena</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230b1020'/%3E%3Cpath d='M12 40c8-16 20 8 28-8' stroke='%232ff3c8' stroke-width='9' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ========================================================= Spielfläche -->
+<canvas id="game" aria-label="Spielfeld"></canvas>
+
+<!-- =============================================================== HUD -->
+<div id="hud">
+
+  <!-- oben links: Technik -->
+  <div class="panel hud-left">
+    <div class="stat small">
+      <span class="lbl">FPS</span>
+      <span class="val" id="fps">60</span>
+    </div>
+    <div class="stat small">
+      <span class="lbl">Schlangen</span>
+      <span class="val" id="aliveCount">0</span>
+    </div>
+  </div>
+
+  <!-- oben rechts: Score / Länge / Boost -->
+  <div class="panel hud-right">
+    <div class="stat">
+      <span class="lbl">Score</span>
+      <span class="val big" id="score">0</span>
+    </div>
+    <div class="stat">
+      <span class="lbl">Länge</span>
+      <span class="val" id="lengthVal">15</span>
+    </div>
+    <div class="stat">
+      <span class="lbl">Kills</span>
+      <span class="val" id="kills">0</span>
+    </div>
+    <div class="boost" id="boostWrap">
+      <span class="lbl">Boost</span>
+      <div class="bar"><i id="boostFill"></i></div>
+    </div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div class="panel leaderboard" id="leaderboard">
+    <h4>Leaderboard</h4>
+    <div id="lbList"></div>
+  </div>
+
+  <!-- Minimap -->
+  <div class="minimap-wrap" id="minimapWrap">
+    <canvas id="minimap" width="160" height="160"></canvas>
+  </div>
+
+  <!-- Pause (vor allem für Touch) -->
+  <button id="pauseBtn" class="round-btn ghost" title="Pause" aria-label="Pause">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1.5"/><rect x="13.5" y="5" width="4" height="14" rx="1.5"/></svg>
+  </button>
+
+  <!-- Event-Anzeige -->
+  <div id="eventChip"></div>
+
+  <!-- Steuerungshinweis -->
+  <div id="hint"></div>
+</div>
+
+<!-- ===================================================== Touch-Steuerung -->
+<div id="joystick">
+  <div id="joyBase"></div>
+  <div id="joyKnob"></div>
+</div>
+<button id="boostBtn" aria-label="Boost">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H10l-1 8.5 9.5-12H13l1.5-8z"/></svg>
+  <span>BOOST</span>
+</button>
+
+<!-- ========================================================== Countdown -->
+<div id="countdown"></div>
+
+<!-- ======================================================= Event-Banner -->
+<div id="eventBanner">
+  <div class="ev-inner">
+    <strong id="eventTitle">EVENT</strong>
+    <span id="eventSub"></span>
+  </div>
+</div>
+
+<!-- ============================================================= Menüs -->
+<div id="overlay">
+
+  <!-- ---------------------------------------------------------- Startmenü -->
+  <section class="screen" id="screen-menu">
+    <div class="glass card wide">
+      <div class="brand">
+        <h1>SNAKE<span>.io</span></h1>
+        <p class="tag">Neon Arena · 30 Gegner · unendliche Länge</p>
+      </div>
+
+      <label class="field">
+        <span>Spielername</span>
+        <input id="nameInput" type="text" maxlength="14" placeholder="Dein Name"
+               autocomplete="off" spellcheck="false">
+      </label>
+
+      <div class="field">
+        <span>Skin auswählen · <b id="skinName">Neon Aqua</b></span>
+        <div id="skinGrid" class="skin-grid"></div>
+      </div>
+
+      <div class="records">
+        <div><span class="lbl">Highscore</span><b id="menuHighscore">0</b></div>
+        <div><span class="lbl">Beste Länge</span><b id="menuBestLen">0</b></div>
+        <div><span class="lbl">Runden</span><b id="menuGames">0</b></div>
+      </div>
+
+      <div class="row">
+        <button id="playBtn" class="btn primary big">SPIELEN</button>
+        <button id="settingsBtn" class="btn ghost">Einstellungen</button>
+      </div>
+
+      <p class="foot">
+        <b>PC:</b> Maus lenkt · linke Maustaste boostet · Mausrad zoomt · P pausiert<br>
+        <b>Handy:</b> Ziehen lenkt · Boost-Button oder zweiter Finger boostet
+      </p>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------ Einstellungen -->
+  <section class="screen" id="screen-settings">
+    <div class="glass card">
+      <h2>Einstellungen</h2>
+
+      <button class="switch" id="setMusic">
+        <span class="sw-label">Musik</span><span class="sw-state">AN</span>
+      </button>
+      <button class="switch" id="setSfx">
+        <span class="sw-label">Soundeffekte</span><span class="sw-state">AN</span>
+      </button>
+      <button class="switch" id="fullscreenBtn">
+        <span class="sw-label">Vollbild</span><span class="sw-state">AUS</span>
+      </button>
+
+      <div class="opt">
+        <span class="sw-label">Grafikqualität</span>
+        <div class="segment" id="setQuality">
+          <button data-q="low">Niedrig</button>
+          <button data-q="medium">Mittel</button>
+          <button data-q="high">Hoch</button>
+        </div>
+      </div>
+
+      <div class="opt">
+        <span class="sw-label">Zoomstufe</span>
+        <div class="segment" id="setZoom">
+          <button data-z="0.8">Weit</button>
+          <button data-z="1">Normal</button>
+          <button data-z="1.2">Nah</button>
+          <button data-z="1.45">Sehr nah</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <button id="settingsBack" class="btn primary">Zurück</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- Pausemenü -->
+  <section class="screen" id="screen-pause">
+    <div class="glass card">
+      <h2>Pause</h2>
+      <p class="sub">Die Arena wartet auf dich.</p>
+      <div class="col">
+        <button id="resumeBtn" class="btn primary big">Weiter</button>
+        <button id="pauseSettingsBtn" class="btn ghost">Einstellungen</button>
+        <button id="quitBtn" class="btn danger">Zum Hauptmenü</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- Game Over -->
+  <section class="screen" id="screen-over">
+    <div class="glass card">
+      <h2 class="dead">Game Over</h2>
+      <p class="sub" id="overKiller"></p>
+      <div class="badge" id="overRecord">NEUER HIGHSCORE</div>
+
+      <div class="result">
+        <div><span class="lbl">Endscore</span><b id="overScore">0</b></div>
+        <div><span class="lbl">Größte Länge</span><b id="overLength">0</b></div>
+        <div><span class="lbl">Überlebenszeit</span><b id="overTime">0:00</b></div>
+        <div><span class="lbl">Platzierung</span><b id="overRank">#1</b></div>
+      </div>
+      <p class="best">Bester Score: <b id="overBest">0</b></p>
+
+      <div class="row">
+        <button id="retryBtn" class="btn primary big">Erneut spielen</button>
+        <button id="overMenuBtn" class="btn ghost">Hauptmenü</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="bootError"></div>
+
+<!-- ============================================================== Skripte
+     Klassische Skripte (keine Module) – damit läuft das Spiel auch direkt
+     per Doppelklick über file:// ohne lokalen Server.
+-->
+<script src="js/utils.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/skins.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/food.js"></script>
+<script src="js/snake.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/input.js"></script>
+<script src="js/events.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
