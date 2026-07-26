@@ -8,6 +8,11 @@
  *
  *  Fuer die Entwicklung wird das NICHT gebraucht: `index.html` laeuft direkt.
  *
+ *  Zusaetzlich entsteht `dist/fragment.html`: derselbe Inhalt, aber OHNE
+ *  Dokumentgeruest (kein <html>/<head>/<body>). Das brauchen Hosts, die die
+ *  Seite in ihr eigenes Geruest einsetzen. Die sonst im <head> stehenden
+ *  Angaben (Titel, Viewport, Favicon) setzt dort ein kurzes Skript nach.
+ *
  *  Aufruf:  node build.js
  *  Bedarf:  npm i terser clean-css   (nur zum Bauen)
  * ==========================================================================*/
@@ -94,9 +99,43 @@ function kb(str) {
   fs.mkdirSync(DIST, { recursive: true });
   fs.writeFileSync(path.join(DIST, 'index.html'), html);
 
-  console.log('JS  : ' + kb(String(rawJs ? ' '.repeat(rawJs) : '')) + ' -> ' + kb(js));
+  /* --- Fragment-Variante --------------------------------------------------
+     Nur der Rumpf: Style, Markup, Skript. Titel und Viewport werden per
+     Skript in den <head> des umgebenden Dokuments nachgetragen — ohne
+     Viewport skaliert die Seite auf Smartphones sonst falsch. */
+  const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/);
+  if (!bodyMatch) throw new Error('<body> in index.html nicht gefunden.');
+
+  const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/);
+  const title = titleMatch ? titleMatch[1].trim() : 'Snake.io';
+
+  const headPatch =
+    '<script>(function(d){' +
+    'd.title=' + JSON.stringify(title) + ';' +
+    'if(!d.querySelector(\'meta[name="viewport"]\')){' +
+    'var m=d.createElement("meta");m.name="viewport";' +
+    'm.content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover";' +
+    'd.head.appendChild(m);}' +
+    'var t=d.createElement("meta");t.name="theme-color";t.content="#05070e";d.head.appendChild(t);' +
+    // Das umgebende Dokument bringt eigene Grundstile mit; die Vollbild-
+    // Geometrie des Spiels muss trotzdem gelten.
+    'var s=d.createElement("style");' +
+    's.textContent="html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#05070e}";' +
+    'd.head.appendChild(s);' +
+    '})(document);<\/script>\n';
+
+  const fragment = headPatch + '<style>' + css + '</style>\n' +
+    bodyMatch[1].replace(/<style>[\s\S]*?<\/style>\n?/, '').trim() + '\n';
+
+  if (/<\/?(?:html|head|body|!DOCTYPE)/i.test(fragment)) {
+    throw new Error('Fragment enthaelt noch Dokument-Tags – Abbruch.');
+  }
+  fs.writeFileSync(path.join(DIST, 'fragment.html'), fragment);
+
+  console.log('JS  : ' + (rawJs / 1024).toFixed(1) + ' kB -> ' + kb(js));
   console.log('CSS : ' + kb(rawCss) + ' -> ' + kb(css));
-  console.log('dist/index.html: ' + kb(html));
+  console.log('dist/index.html   : ' + kb(html));
+  console.log('dist/fragment.html: ' + kb(fragment));
 })().catch(function (err) {
   console.error('Build fehlgeschlagen:', err && err.message ? err.message : err);
   process.exit(1);
