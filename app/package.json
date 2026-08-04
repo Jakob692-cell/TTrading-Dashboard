@@ -6,6 +6,8 @@
   "description": "Prop firm challenge training simulator — rule engine, replay, autopsy, readiness score",
   "scripts": {
     "test": "node --test test/*.test.js",
-    "dev": "python3 -m http.server 5173"
+    "dev": "python3 -m http.server 5173",
+    "build": "node build.mjs",
+    "smoke": "node test/smoke.mjs"
   }
 }

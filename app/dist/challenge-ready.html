@@ -1,0 +1,3195 @@
+<title>Challenge Ready — prop firm challenge simulator</title>
+<meta name="description" content="Practise a prop firm challenge under the exact rules before you pay for one. Simulated trading on synthetic data.">
+<meta name="color-scheme" content="dark">
+<style>
+/* Challenge Ready — V1
+   Colour note: P&L uses teal/red rather than green/red. ~8% of men have red-green colour
+   vision deficiency and this audience skews ~69% male, so the most safety-critical number
+   in the product must not depend on a red/green distinction. Every value also carries an
+   explicit +/- sign so colour is never the only channel. */
+
+:root {
+  --bg:      #0B0E11;
+  --panel:   #12171E;
+  --panel-2: #171E26;
+  --line:    #232C36;
+  --fg:      #E6EDF3;
+  --muted:   #8B99A6;
+  --dim:     #5D6B78;
+  --teal:    #00C9A7;
+  --red:     #FF4757;
+  --amber:   #FFB020;
+  --blue:    #4C8DFF;
+  --radius:  10px;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+button:disabled { cursor: not-allowed; opacity: .38; }
+input, select { font: inherit; color: inherit; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ── shell ─────────────────────────────────────────────────────────────── */
+#app { min-height: 100%; display: flex; flex-direction: column; }
+
+.topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 10px 18px; border-bottom: 1px solid var(--line);
+  background: var(--panel); flex-shrink: 0;
+}
+.logo { font-weight: 700; letter-spacing: -.02em; font-size: 15px; }
+.logo span { color: var(--teal); }
+.sim-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(255,176,32,.13); color: var(--amber);
+  border: 1px solid rgba(255,176,32,.32);
+}
+.topbar .spacer { flex: 1; }
+.topbar nav { display: flex; gap: 4px; }
+.topbar nav button {
+  padding: 6px 12px; border-radius: 7px; color: var(--muted); font-size: 13px;
+}
+.topbar nav button:hover { background: var(--panel-2); color: var(--fg); }
+.topbar nav button.on { background: var(--panel-2); color: var(--fg); }
+
+.lvl {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--muted);
+  padding: 4px 10px; border: 1px solid var(--line); border-radius: 20px;
+}
+.lvl b { color: var(--fg); font-weight: 600; }
+.lvl .bar { width: 54px; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.lvl .bar i { display: block; height: 100%; background: var(--teal); }
+
+main { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* ── generic bits ──────────────────────────────────────────────────────── */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; width: 100%; }
+.wrap.narrow { max-width: 720px; }
+h1 { font-size: 30px; font-weight: 700; letter-spacing: -.025em; line-height: 1.15; }
+h2 { font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin-bottom: 4px; }
+h3 { font-size: 13px; font-weight: 650; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+p  { color: var(--muted); line-height: 1.6; }
+
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 860px) { .g2, .g3 { grid-template-columns: 1fr; } }
+
+.btn {
+  padding: 11px 18px; border-radius: 8px; font-weight: 600; font-size: 14px;
+  background: var(--panel-2); border: 1px solid var(--line); transition: .12s;
+}
+.btn:hover:not(:disabled) { border-color: var(--dim); }
+.btn.primary { background: var(--teal); color: #04231D; border-color: var(--teal); }
+.btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.btn.danger  { background: rgba(255,71,87,.12); color: var(--red); border-color: rgba(255,71,87,.35); }
+.btn.big { padding: 14px 26px; font-size: 15px; }
+.btn.sm { padding: 7px 12px; font-size: 13px; }
+
+.pos { color: var(--teal); } .neg { color: var(--red); } .warn { color: var(--amber); }
+
+.pill { display:inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
+        background: var(--panel-2); color: var(--muted); border: 1px solid var(--line); }
+
+/* ── landing ───────────────────────────────────────────────────────────── */
+.hero { text-align: center; padding: 56px 0 34px; }
+.hero h1 { max-width: 700px; margin: 0 auto 14px; font-size: 38px; }
+.hero .sub { max-width: 560px; margin: 0 auto 26px; font-size: 16px; }
+.stat-row { display: flex; gap: 34px; justify-content: center; margin: 30px 0 8px; flex-wrap: wrap; }
+.stat-row div { text-align: center; }
+.stat-row b { display: block; font-size: 28px; font-family: var(--mono); font-weight: 600; }
+.stat-row small { color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; }
+.src { font-size: 11px; color: var(--dim); margin-top: 18px; }
+.src a { color: var(--dim); }
+
+/* ── setup ─────────────────────────────────────────────────────────────── */
+.firm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+@media (max-width: 760px) { .firm-grid { grid-template-columns: 1fr; } }
+.firm {
+  text-align: left; padding: 14px; border-radius: 9px;
+  background: var(--panel); border: 1px solid var(--line); transition: .12s;
+}
+.firm:hover { border-color: var(--dim); }
+.firm.on { border-color: var(--teal); background: rgba(0,201,167,.06); }
+.firm b { display: block; font-size: 14px; margin-bottom: 2px; }
+.firm small { color: var(--muted); font-size: 12px; }
+.firm .dd { margin-top: 8px; font-size: 11px; color: var(--dim); font-family: var(--mono); }
+
+.rules-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.rules-table td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.rules-table td:first-child { color: var(--muted); width: 46%; }
+.rules-table td:last-child { font-family: var(--mono); text-align: right; }
+.rules-table tr:last-child td { border-bottom: none; }
+
+.note { font-size: 12.5px; color: var(--muted); line-height: 1.55;
+        padding: 11px 13px; border-left: 2px solid var(--line); background: var(--panel-2);
+        border-radius: 0 6px 6px 0; }
+
+.field { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; }
+.field label { font-size: 13.5px; }
+.field small { display: block; color: var(--dim); font-size: 11.5px; margin-top: 2px; }
+.field input, .field select {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 7px;
+  padding: 7px 10px; width: 118px; font-family: var(--mono); font-size: 13px;
+}
+.field input[type=checkbox] { width: auto; accent-color: var(--teal); }
+
+/* ── trading screen ────────────────────────────────────────────────────── */
+.trade-shell { display: flex; flex-direction: column; height: calc(100vh - 49px); }
+
+.hud {
+  display: flex; align-items: stretch; gap: 1px; background: var(--line);
+  border-bottom: 1px solid var(--line); flex-shrink: 0;
+}
+.hud .cell { flex: 1; background: var(--panel); padding: 8px 13px; min-width: 0; }
+.hud .cell .k { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--dim); }
+.hud .cell .v { font-family: var(--mono); font-size: 17px; font-weight: 600; margin-top: 1px;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hud .cell .meter { height: 3px; background: var(--line); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.hud .cell .meter i { display: block; height: 100%; background: var(--teal); transition: width .2s, background .2s; }
+.hud .cell.amber .meter i { background: var(--amber); }
+.hud .cell.red   .meter i { background: var(--red); }
+.hud .cell.amber .v { color: var(--amber); }
+.hud .cell.red   .v { color: var(--red); }
+.hud .cell small { font-size: 10.5px; color: var(--dim); }
+
+.chart-area { flex: 1; position: relative; min-height: 0; background: var(--bg); }
+.chart-area canvas { display: block; width: 100%; height: 100%; }
+.chart-overlay {
+  position: absolute; top: 10px; left: 12px; font-size: 11.5px;
+  color: var(--muted); font-family: var(--mono); pointer-events: none; line-height: 1.6;
+}
+
+.ticker { position:absolute; top:10px; right:12px; text-align:right; font-family: var(--mono);
+          font-size: 11.5px; color: var(--muted); pointer-events:none; line-height:1.6; }
+
+.order-bar {
+  display: flex; align-items: center; gap: 8px; padding: 9px 13px;
+  border-top: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; flex-shrink: 0;
+}
+.order-bar .grp { display: flex; align-items: center; gap: 6px; }
+.order-bar label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; }
+.order-bar input, .order-bar select {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 6px 8px; width: 68px; font-family: var(--mono); font-size: 13px;
+}
+.order-bar .sep { width: 1px; height: 26px; background: var(--line); }
+.buy  { background: rgba(0,201,167,.14); color: var(--teal); border: 1px solid rgba(0,201,167,.4); }
+.sell { background: rgba(76,141,255,.14); color: var(--blue); border: 1px solid rgba(76,141,255,.4); }
+.flat { background: var(--panel-2); border: 1px solid var(--line); }
+
+.speed { display: flex; gap: 3px; }
+.speed button { padding: 5px 9px; border-radius: 5px; font-size: 12px; font-family: var(--mono);
+                background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
+.speed button.on { color: var(--teal); border-color: var(--teal); }
+
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 96px; z-index: 60;
+  padding: 12px 18px; border-radius: 9px; font-size: 13.5px; font-weight: 500;
+  background: var(--panel); border: 1px solid var(--line); box-shadow: 0 12px 34px rgba(0,0,0,.5);
+  max-width: 460px;
+}
+.toast.block { border-color: rgba(255,176,32,.45); color: var(--amber); }
+.toast.guard { border-color: rgba(0,201,167,.45); color: var(--teal); }
+
+.pos-strip { display:flex; align-items:center; gap:14px; padding: 7px 13px; background: var(--panel-2);
+             border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; flex-shrink:0; }
+
+/* ── autopsy ───────────────────────────────────────────────────────────── */
+.verdict { text-align: center; padding: 30px 0 22px; }
+.verdict .tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  padding: 5px 12px; border-radius: 5px; margin-bottom: 14px;
+}
+.verdict.fail .tag { background: rgba(255,71,87,.14); color: var(--red); border: 1px solid rgba(255,71,87,.4); }
+.verdict.pass .tag { background: rgba(0,201,167,.14); color: var(--teal); border: 1px solid rgba(0,201,167,.4); }
+.verdict h1 { font-size: 32px; margin-bottom: 8px; }
+
+.timeline { font-family: var(--mono); font-size: 12.5px; }
+.timeline .row { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(35,44,54,.55); }
+.timeline .row:last-child { border-bottom: none; }
+.timeline .t { color: var(--dim); width: 46px; flex-shrink: 0; }
+.timeline .row.loss .x, .timeline .row.breach .x { color: var(--red); }
+.timeline .row.win .x  { color: var(--teal); }
+.timeline .row.blocked .x, .timeline .row.floor .x { color: var(--amber); }
+.timeline .row.guard .x { color: var(--teal); }
+.timeline .row.pass .x  { color: var(--teal); font-weight: 600; }
+.timeline .row.breach   { background: rgba(255,71,87,.07); margin: 0 -8px; padding: 7px 8px; border-radius: 5px; }
+
+.finding { border-left: 3px solid var(--red); padding: 12px 0 12px 14px; margin-bottom: 14px; }
+.finding.sev2 { border-color: var(--amber); }
+.finding.sev1 { border-color: var(--dim); }
+.finding .code { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.finding h4 { font-size: 15.5px; font-weight: 650; margin: 2px 0 5px; }
+.finding .stat { font-family: var(--mono); font-size: 12.5px; color: var(--amber); margin-bottom: 6px; }
+.finding p { font-size: 13.5px; }
+.finding ul { list-style: none; margin-top: 8px; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+.finding li { padding: 3px 0 3px 12px; border-left: 1px solid var(--line); }
+
+/* ── score ─────────────────────────────────────────────────────────────── */
+.score-hero { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.dial { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.dial .g { position: absolute; inset: 0; display: flex; flex-direction: column;
+           align-items: center; justify-content: center; }
+.dial .g b { font-size: 40px; font-weight: 700; line-height: 1; font-family: var(--mono); }
+.dial .g small { font-size: 11px; color: var(--dim); letter-spacing: .1em; margin-top: 3px; }
+
+.comp { margin-bottom: 11px; }
+.comp .top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+.comp .top b { font-family: var(--mono); font-weight: 600; }
+.comp .track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
+.comp .track i { display: block; height: 100%; border-radius: 3px; }
+
+.rec { padding: 14px 16px; border-radius: 9px; font-size: 14px; line-height: 1.55; }
+.rec.stop  { background: rgba(255,71,87,.09);  border: 1px solid rgba(255,71,87,.3);  color: #FFB3BA; }
+.rec.wait  { background: rgba(255,176,32,.09); border: 1px solid rgba(255,176,32,.3); color: #FFD79A; }
+.rec.close { background: rgba(76,141,255,.09); border: 1px solid rgba(76,141,255,.3); color: #B7D0FF; }
+.rec.ready { background: rgba(0,201,167,.09);  border: 1px solid rgba(0,201,167,.3);  color: #9BEBD9; }
+.rec.unknown { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
+
+.drill { display: flex; gap: 13px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.drill:last-child { border-bottom: none; }
+.drill .n { width: 26px; height: 26px; border-radius: 7px; background: var(--panel-2);
+            display: grid; place-items: center; font-family: var(--mono); font-size: 12px;
+            color: var(--muted); flex-shrink: 0; }
+.drill b { font-size: 14px; }
+.drill .goal { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.drill .why  { font-size: 12.5px; color: var(--dim); margin-top: 5px; font-style: italic; }
+
+.empty { text-align: center; padding: 40px 20px; }
+.empty p { max-width: 380px; margin: 8px auto 16px; }
+
+.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hist th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+           color: var(--dim); padding: 8px 10px 8px 0; font-weight: 600; }
+.hist td { padding: 9px 10px 9px 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; }
+
+.share-card { border: 1px solid var(--line); border-radius: 9px; max-width: 100%; display: block; }
+
+footer { border-top: 1px solid var(--line); padding: 18px; text-align: center;
+         font-size: 11.5px; color: var(--dim); line-height: 1.7; }
+footer a { color: var(--dim); }
+
+/* The host page may supply its own body background; make sure ours wins. */
+html, body { background: #0B0E11 !important; color: #E6EDF3; }
+</style>
+
+<div id="app"></div>
+
+<script type="module">
+const __m = {};
+
+__m["src/engine/rulesets.js"] = (function () {
+
+/**
+ * Firm rule presets.
+ *
+ * IMPORTANT — these are MODELS of publicly documented evaluation formats, used for
+ * training. They are not affiliated with, endorsed by, or guaranteed to match any
+ * firm's current terms. Firms change rules. `verifiedOn` records when the preset was
+ * last checked against public documentation; `sourceUrl` is where to re-check.
+ *
+ * Every preset is versioned. A completed run stores the ruleset version it ran under,
+ * so results stay reproducible even after a preset is updated.
+ *
+ * @typedef {'static'|'trailing_intraday'|'trailing_eod'|'trailing_to_static'} DrawdownType
+ */
+
+/**
+ * @typedef {Object} RuleSet
+ * @property {string} id
+ * @property {number} version
+ * @property {string} firm            Display name of the modelled firm
+ * @property {string} label           Display name of the programme
+ * @property {string} assetClass      'futures' | 'fx'
+ * @property {number} accountSize     Starting balance in account currency
+ * @property {number} profitTarget    Absolute $ needed above start to pass
+ * @property {number} maxLoss         Absolute $ of total drawdown allowance
+ * @property {DrawdownType} maxLossType
+ * @property {number|null} trailingLockAt  For trailing_to_static: floor freezes once it
+ *                                          reaches accountSize + this offset.
+ * @property {number|null} dailyLoss  Absolute $ daily loss allowance (null = no rule)
+ * @property {'balance'|'equity'} dailyLossBasis  What the day-start anchor is measured on
+ * @property {boolean} equityBasedBreach  true = unrealized P&L can breach; false = realized only
+ * @property {number} minTradingDays
+ * @property {number|null} maxTradingDays  null = unlimited time
+ * @property {number|null} consistency  Best day must be <= this fraction of total profit
+ * @property {number} maxContracts    Max aggregate open position size
+ * @property {boolean} newsRestricted  Block entries inside high-impact news windows
+ * @property {number} newsWindowMin    Minutes either side of an event
+ * @property {number} dailyResetHour   Hour (exchange local, 0-23) the trading day rolls
+ * @property {string} sourceUrl
+ * @property {string} verifiedOn
+ * @property {string[]} notes
+ */
+
+const K = 1000;
+
+/** @type {Record<string, RuleSet>} */
+const RULESETS = {
+  'ftmo-100k-2step': {
+    id: 'ftmo-100k-2step',
+    version: 1,
+    firm: 'FTMO-style',
+    label: '2-Step Evaluation · $100k',
+    assetClass: 'fx',
+    accountSize: 100 * K,
+    profitTarget: 10 * K,          // 10% phase 1
+    maxLoss: 10 * K,               // 10% static
+    maxLossType: 'static',
+    trailingLockAt: null,
+    dailyLoss: 5 * K,              // 5%
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 4,
+    maxTradingDays: 30,
+    consistency: null,
+    maxContracts: 20,
+    newsRestricted: false,
+    newsWindowMin: 2,
+    dailyResetHour: 0,
+    sourceUrl: 'https://ftmo.com/en/trading-objectives/',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'Static max loss: the floor never moves from 90% of the starting balance.',
+      'Daily loss anchors to the balance at the daily reset, and unrealized P&L counts.',
+    ],
+  },
+
+  'topstep-50k-combine': {
+    id: 'topstep-50k-combine',
+    version: 1,
+    firm: 'Topstep-style',
+    label: 'Trading Combine · $50k',
+    assetClass: 'futures',
+    accountSize: 50 * K,
+    profitTarget: 3 * K,
+    maxLoss: 2 * K,
+    maxLossType: 'trailing_eod',   // trails on end-of-day balance
+    trailingLockAt: 0,             // stops trailing once floor reaches the start balance
+    dailyLoss: 1 * K,
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 2,
+    maxTradingDays: null,
+    consistency: 0.50,
+    maxContracts: 5,
+    newsRestricted: false,
+    newsWindowMin: 2,
+    dailyResetHour: 17,            // CME session roll, 17:00 ET
+    sourceUrl: 'https://www.topstep.com/our-program',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'End-of-day trailing: the floor only moves up at the session close, not intraday.',
+      'The floor stops trailing once it reaches your starting balance.',
+      'Consistency: your best day must not exceed 50% of total profit.',
+    ],
+  },
+
+  'apex-50k': {
+    id: 'apex-50k',
+    version: 1,
+    firm: 'Apex-style',
+    label: 'Evaluation · $50k',
+    assetClass: 'futures',
+    accountSize: 50 * K,
+    profitTarget: 3 * K,
+    maxLoss: 2.5 * K,
+    maxLossType: 'trailing_intraday',  // trails on unrealized peak, tick by tick
+    trailingLockAt: 100,
+    dailyLoss: null,                   // no daily loss limit
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 1,
+    maxTradingDays: null,
+    consistency: 0.30,
+    maxContracts: 10,
+    newsRestricted: false,
+    newsWindowMin: 2,
+    dailyResetHour: 17,
+    sourceUrl: 'https://apextraderfunding.com/',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'Intraday trailing is the harshest drawdown type: the floor follows your peak',
+      'UNREALIZED equity. Going +$800 then giving it back moves the floor up $800.',
+      'No daily loss limit — the trailing floor is the only thing protecting you.',
+    ],
+  },
+
+  'mff-50k-lock': {
+    id: 'mff-50k-lock',
+    version: 1,
+    firm: 'MyFundedFutures-style',
+    label: 'Starter · $50k',
+    assetClass: 'futures',
+    accountSize: 50 * K,
+    profitTarget: 3 * K,
+    maxLoss: 2 * K,
+    maxLossType: 'trailing_to_static',
+    trailingLockAt: 100,           // freezes at start + $100 once reached
+    dailyLoss: 1.25 * K,
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 1,
+    maxTradingDays: null,
+    consistency: 0.40,
+    maxContracts: 5,
+    newsRestricted: false,
+    newsWindowMin: 2,
+    dailyResetHour: 17,
+    sourceUrl: 'https://myfundedfutures.com/',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'Trails intraday until the floor reaches start + $100, then it locks permanently.',
+      'Once locked you can never breach on drawdown while above the start balance.',
+    ],
+  },
+
+  'fundednext-100k-1step': {
+    id: 'fundednext-100k-1step',
+    version: 1,
+    firm: 'FundedNext-style',
+    label: '1-Step Evaluation · $100k',
+    assetClass: 'fx',
+    accountSize: 100 * K,
+    profitTarget: 10 * K,
+    maxLoss: 6 * K,
+    maxLossType: 'static',
+    trailingLockAt: null,
+    dailyLoss: 3 * K,
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 5,
+    maxTradingDays: null,
+    consistency: null,
+    maxContracts: 20,
+    newsRestricted: true,
+    newsWindowMin: 2,
+    dailyResetHour: 0,
+    sourceUrl: 'https://fundednext.com/',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'One phase, but a tighter 6% max loss against a 10% target.',
+      'News restriction: entries blocked +/-2 minutes around high-impact releases.',
+    ],
+  },
+
+  'the5ers-hyper-20k': {
+    id: 'the5ers-hyper-20k',
+    version: 1,
+    firm: 'The5ers-style',
+    label: 'Hyper Growth · $20k',
+    assetClass: 'fx',
+    accountSize: 20 * K,
+    profitTarget: 1.2 * K,         // 6%
+    maxLoss: 1.2 * K,              // 6%
+    maxLossType: 'static',
+    trailingLockAt: null,
+    dailyLoss: 0.6 * K,            // 3%
+    dailyLossBasis: 'balance',
+    equityBasedBreach: true,
+    minTradingDays: 3,
+    maxTradingDays: null,
+    consistency: 0.50,
+    maxContracts: 10,
+    newsRestricted: false,
+    newsWindowMin: 2,
+    dailyResetHour: 0,
+    sourceUrl: 'https://the5ers.com/',
+    verifiedOn: '2026-08-04',
+    notes: [
+      'A 1:1 target-to-drawdown ratio. Mathematically the hardest ratio in this list.',
+    ],
+  },
+};
+
+const RULESET_LIST = Object.values(RULESETS);
+
+/** Clone a preset so a run can carry its own mutable copy. */
+function loadRuleSet(id) {
+  const rs = RULESETS[id];
+  if (!rs) throw new Error(`Unknown ruleset: ${id}`);
+  return structuredClone(rs);
+}
+
+/** Human-readable rule list for the challenge setup screen. */
+function describeRules(rs) {
+  const pct = (v) => `${((v / rs.accountSize) * 100).toFixed(1)}%`;
+  const ddNames = {
+    static: 'Static',
+    trailing_intraday: 'Trailing (intraday, unrealized)',
+    trailing_eod: 'Trailing (end of day)',
+    trailing_to_static: 'Trailing, then locks',
+  };
+  const out = [
+    { k: 'Profit target', v: `$${rs.profitTarget.toLocaleString()} (${pct(rs.profitTarget)})` },
+    { k: 'Max loss', v: `$${rs.maxLoss.toLocaleString()} (${pct(rs.maxLoss)}) — ${ddNames[rs.maxLossType]}` },
+    {
+      k: 'Daily loss',
+      v: rs.dailyLoss ? `$${rs.dailyLoss.toLocaleString()} (${pct(rs.dailyLoss)})` : 'No daily limit',
+    },
+    { k: 'Min trading days', v: String(rs.minTradingDays) },
+    { k: 'Time limit', v: rs.maxTradingDays ? `${rs.maxTradingDays} days` : 'Unlimited' },
+    { k: 'Consistency', v: rs.consistency ? `Best day <= ${rs.consistency * 100}% of total profit` : 'None' },
+    { k: 'Max position', v: `${rs.maxContracts} contracts` },
+    { k: 'News restriction', v: rs.newsRestricted ? `Blocked +/-${rs.newsWindowMin} min` : 'None' },
+  ];
+  return out;
+}
+
+return { RULESETS, RULESET_LIST, loadRuleSet, describeRules };
+})();
+
+__m["src/engine/account.js"] = (function () {
+
+/**
+ * The rule engine.
+ *
+ * Design contract (do not break these — the whole product's credibility rests on them):
+ *
+ *  1. DETERMINISTIC. Same ruleset + same bar sequence + same orders => same result, forever.
+ *     No Date.now(), no Math.random(), no floating-point accumulation across ticks.
+ *  2. EVENT SOURCED. Every state change appends to `timeline`. The autopsy, the evidence
+ *     export and the failure classifier all read the timeline, never a mutated summary.
+ *  3. PURE-ISH. Actions take a state and return a NEW state. Callers never mutate.
+ *  4. NO LOOKAHEAD. Within a bar we only ever use OHLC in a fixed, conservative order.
+ *
+ * Conservative intra-bar assumption: if a bar's range touches both the stop and the target
+ * of an open position, the STOP is assumed to fill first. This is the pessimistic choice and
+ * it is the honest one — the alternative flatters the trader and would corrupt the score.
+ */
+
+/** @typedef {import('./rulesets.js').RuleSet} RuleSet */
+
+const BREACH = {
+  DAILY_LOSS: 'DAILY_LOSS',
+  MAX_LOSS: 'MAX_LOSS',
+  TIME_LIMIT: 'TIME_LIMIT',
+};
+
+const REJECT = {
+  MAX_POSITION: 'MAX_POSITION',
+  NEWS_WINDOW: 'NEWS_WINDOW',
+  NOT_ACTIVE: 'NOT_ACTIVE',
+  GUARD_TRADE_CAP: 'GUARD_TRADE_CAP',
+  GUARD_COOLDOWN: 'GUARD_COOLDOWN',
+  GUARD_SESSION: 'GUARD_SESSION',
+  NO_POSITION: 'NO_POSITION',
+};
+
+const round2 = (n) => Math.round(n * 100) / 100;
+
+/**
+ * @param {RuleSet} rs
+ * @param {object} instrument  {symbol, pointValue, tickSize}
+ * @param {object} [guards]    user-set Ulysses contract, see guards.js
+ */
+function createAccount(rs, instrument, guards = null) {
+  const floor = initialFloor(rs);
+  return Object.freeze({
+    rs,
+    instrument,
+    guards,
+    startedAt: null,
+    ts: null,
+    dayKey: null,
+    dayIndex: 0,
+
+    balance: rs.accountSize,
+    equity: rs.accountSize,
+    peakEquity: rs.accountSize,
+    peakEodBalance: rs.accountSize,
+
+    floor,
+    floorLocked: false,
+    dayStartBalance: rs.accountSize,
+    dailyFloor: rs.dailyLoss ? rs.accountSize - rs.dailyLoss : null,
+
+    position: null,
+    pending: [],
+    trades: [],
+    dayPnL: {},
+    tradingDays: [],
+    tradesToday: 0,
+    cooldownUntil: null,
+
+    status: 'active',
+    breach: null,
+    passedAt: null,
+    warnings: [],
+    timeline: [],
+  });
+}
+
+function initialFloor(rs) {
+  // All four methodologies start at the same place; they differ in how the floor MOVES.
+  return rs.accountSize - rs.maxLoss;
+}
+
+// ── internal helpers ────────────────────────────────────────────────────────
+
+function log(state, type, payload) {
+  return { ...state, timeline: [...state.timeline, { t: state.ts, type, ...payload }] };
+}
+
+function unrealized(position, price, pointValue) {
+  if (!position) return 0;
+  const dir = position.side === 'long' ? 1 : -1;
+  return round2((price - position.entryPrice) * dir * position.size * pointValue);
+}
+
+function dayKeyOf(ts, resetHour) {
+  // Roll the calendar day at the ruleset's reset hour, so a 17:00 CME roll puts
+  // Monday 18:00 into Tuesday's trading day — the single most common source of
+  // "why did my daily loss reset then?" confusion.
+  const d = new Date(ts);
+  const shifted = new Date(ts - resetHour * 3600_000);
+  void d;
+  return shifted.toISOString().slice(0, 10);
+}
+
+/**
+ * Recompute derived values and evaluate every rule. This is the single place a breach
+ * can be declared, which is what makes the engine auditable.
+ */
+function evaluate(state, price) {
+  const { rs } = state;
+  if (state.status !== 'active') return state;
+
+  let s = state;
+  const upl = unrealized(s.position, price, s.instrument.pointValue);
+  const equity = round2(s.balance + upl);
+  s = { ...s, equity };
+
+  // ── floor movement ────────────────────────────────────────────────────────
+  let floor = s.floor;
+  let floorLocked = s.floorLocked;
+  let peakEquity = Math.max(s.peakEquity, rs.equityBasedBreach ? equity : s.balance);
+
+  if (!floorLocked) {
+    if (rs.maxLossType === 'trailing_intraday' || rs.maxLossType === 'trailing_to_static') {
+      floor = Math.max(floor, round2(peakEquity - rs.maxLoss));
+    }
+    // trailing_eod moves only in rollDay(); static never moves.
+
+    const lockTarget = rs.trailingLockAt === null ? null : rs.accountSize + rs.trailingLockAt;
+    if (lockTarget !== null && floor >= lockTarget) {
+      floor = lockTarget;
+      floorLocked = true;
+      s = log(s, 'floor_locked', { floor });
+    }
+  }
+  s = { ...s, floor, floorLocked, peakEquity };
+
+  // ── breach checks (order matters: daily is the tighter, more common one) ──
+  const measured = rs.equityBasedBreach ? equity : s.balance;
+
+  if (s.dailyFloor !== null && measured <= s.dailyFloor) {
+    return fail(s, BREACH.DAILY_LOSS, {
+      measured,
+      limit: s.dailyFloor,
+      detail: `Equity ${fmt(measured)} hit the daily floor of ${fmt(s.dailyFloor)}.`,
+    }, price);
+  }
+
+  if (measured <= s.floor) {
+    return fail(s, BREACH.MAX_LOSS, {
+      measured,
+      limit: s.floor,
+      detail: `Equity ${fmt(measured)} hit the max-loss floor of ${fmt(s.floor)}.`,
+    }, price);
+  }
+
+  if (rs.maxTradingDays !== null && s.dayIndex > rs.maxTradingDays) {
+    return fail(s, BREACH.TIME_LIMIT, {
+      measured: s.dayIndex,
+      limit: rs.maxTradingDays,
+      detail: `Ran out of time on day ${s.dayIndex} of ${rs.maxTradingDays}.`,
+    }, price);
+  }
+
+  // ── pass check ────────────────────────────────────────────────────────────
+  // Deliberately measured on BALANCE, not equity: an open winner is not a pass.
+  const profit = round2(s.balance - rs.accountSize);
+  if (profit >= rs.profitTarget && s.tradingDays.length >= rs.minTradingDays) {
+    if (!consistencyOk(s)) {
+      // Not a breach — a blocked pass. The trader keeps trading to dilute their best day.
+      if (!s.warnings.some((w) => w.code === 'CONSISTENCY_BLOCK')) {
+        s = log(s, 'consistency_block', { best: bestDay(s), profit });
+        s = {
+          ...s,
+          warnings: [...s.warnings, {
+            code: 'CONSISTENCY_BLOCK',
+            msg: `Target reached, but your best day is ${(bestDay(s) / profit * 100).toFixed(0)}% ` +
+                 `of total profit. The limit is ${rs.consistency * 100}%. Keep trading to dilute it.`,
+          }],
+        };
+      }
+      return s;
+    }
+    s = log(s, 'passed', { profit, days: s.tradingDays.length });
+    return { ...s, status: 'passed', passedAt: s.ts };
+  }
+
+  return withWarnings(s, measured);
+}
+
+function consistencyOk(s) {
+  if (!s.rs.consistency) return true;
+  const profit = s.balance - s.rs.accountSize;
+  if (profit <= 0) return true;
+  return bestDay(s) / profit <= s.rs.consistency + 1e-9;
+}
+
+function bestDay(s) {
+  const vals = Object.values(s.dayPnL);
+  return vals.length ? Math.max(...vals) : 0;
+}
+
+function withWarnings(s, measured) {
+  const warnings = [];
+  const dailyRoom = s.dailyFloor === null ? Infinity : measured - s.dailyFloor;
+  const maxRoom = measured - s.floor;
+
+  if (s.dailyFloor !== null && dailyRoom <= s.rs.dailyLoss * 0.3) {
+    warnings.push({ code: 'DAILY_NEAR', msg: `${fmt(dailyRoom)} from your daily limit.`, sev: dailyRoom <= s.rs.dailyLoss * 0.15 ? 2 : 1 });
+  }
+  if (maxRoom <= s.rs.maxLoss * 0.3) {
+    warnings.push({ code: 'MAXLOSS_NEAR', msg: `${fmt(maxRoom)} from your max-loss floor.`, sev: maxRoom <= s.rs.maxLoss * 0.15 ? 2 : 1 });
+  }
+  const keep = s.warnings.filter((w) => w.code === 'CONSISTENCY_BLOCK');
+  return { ...s, warnings: [...keep, ...warnings] };
+}
+
+function fail(state, code, info, price) {
+  let s = state;
+  if (s.position) s = closeAt(s, price, 'liquidated').state;
+  s = log(s, 'breach', { code, ...info });
+  return {
+    ...s,
+    status: 'failed',
+    breach: { code, at: s.ts, ...info },
+    position: null,
+    pending: [],
+  };
+}
+
+const fmt = (n) => `$${Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+
+// ── public actions ──────────────────────────────────────────────────────────
+
+/** Advance the clock by one bar. This is the only function that moves time. */
+function applyBar(state, bar) {
+  if (state.status !== 'active') return state;
+  let s = { ...state, ts: bar.t };
+  if (s.startedAt === null) s = { ...s, startedAt: bar.t, dayIndex: 1 };
+
+  const key = dayKeyOf(bar.t, s.rs.dailyResetHour);
+  if (s.dayKey === null) {
+    s = { ...s, dayKey: key, dayStartBalance: s.balance };
+  } else if (key !== s.dayKey) {
+    s = rollDay(s, key);
+    if (s.status !== 'active') return s;
+  }
+
+  // 1. resting entry orders, checked against the bar's range
+  s = fillPending(s, bar);
+  // 2. protective orders on the open position
+  s = checkProtective(s, bar);
+  // 3. mark to the close and evaluate every rule
+  return evaluate(s, bar.c);
+}
+
+function rollDay(s, newKey) {
+  let next = s;
+
+  if (next.rs.maxLossType === 'trailing_eod' && !next.floorLocked) {
+    const peak = Math.max(next.peakEodBalance, next.balance);
+    let floor = Math.max(next.floor, round2(peak - next.rs.maxLoss));
+    let locked = false;
+    const lockTarget = next.rs.trailingLockAt === null ? null : next.rs.accountSize + next.rs.trailingLockAt;
+    if (lockTarget !== null && floor >= lockTarget) { floor = lockTarget; locked = true; }
+    next = { ...next, peakEodBalance: peak, floor, floorLocked: locked };
+    next = log(next, 'eod_floor_move', { floor });
+  }
+
+  next = {
+    ...next,
+    dayKey: newKey,
+    dayIndex: next.dayIndex + 1,
+    dayStartBalance: next.balance,
+    dailyFloor: next.rs.dailyLoss ? round2(next.balance - next.rs.dailyLoss) : null,
+    tradesToday: 0,
+    cooldownUntil: null,
+  };
+  next = log(next, 'day_roll', { day: next.dayIndex, dailyFloor: next.dailyFloor });
+
+  if (next.rs.maxTradingDays !== null && next.dayIndex > next.rs.maxTradingDays) {
+    return fail(next, BREACH.TIME_LIMIT, {
+      measured: next.dayIndex,
+      limit: next.rs.maxTradingDays,
+      detail: `Ran out of time. Day ${next.dayIndex} of ${next.rs.maxTradingDays}.`,
+    }, next.position ? next.position.entryPrice : 0);
+  }
+  return next;
+}
+
+/**
+ * Submit an order. Returns {state, rejected}. Rejections are logged too — a blocked
+ * revenge trade is one of the most informative events in the whole timeline.
+ */
+function submitOrder(state, order, bar, ctx = {}) {
+  let s = state;
+  if (s.status !== 'active') return { state: s, rejected: REJECT.NOT_ACTIVE };
+
+  const reject = (code, msg) => {
+    const next = log({ ...s }, 'order_rejected', { code, msg, order });
+    return { state: next, rejected: code, message: msg };
+  };
+
+  // Guardrails first — these are the user's own pre-committed constraints.
+  const g = s.guards;
+  if (g) {
+    if (g.maxTradesPerDay && s.tradesToday >= g.maxTradesPerDay) {
+      return reject(REJECT.GUARD_TRADE_CAP, `Your own limit: ${g.maxTradesPerDay} trades per day. You are done for today.`);
+    }
+    if (s.cooldownUntil && bar.t < s.cooldownUntil) {
+      const mins = Math.ceil((s.cooldownUntil - bar.t) / 60000);
+      return reject(REJECT.GUARD_COOLDOWN, `Cooldown active for another ${mins} min. You set this.`);
+    }
+    if (g.sessionStartHour !== null && g.sessionEndHour !== null) {
+      const h = new Date(bar.t).getUTCHours();
+      if (h < g.sessionStartHour || h >= g.sessionEndHour) {
+        return reject(REJECT.GUARD_SESSION, `Outside your declared session (${g.sessionStartHour}:00-${g.sessionEndHour}:00 UTC).`);
+      }
+    }
+  }
+
+  if (s.rs.newsRestricted && ctx.inNewsWindow) {
+    return reject(REJECT.NEWS_WINDOW, `High-impact news window. Entries blocked +/-${s.rs.newsWindowMin} min.`);
+  }
+
+  const currentSize = s.position ? s.position.size : 0;
+  const sameSide = s.position && s.position.side === order.side;
+  const resulting = sameSide || !s.position ? currentSize + order.size : Math.abs(currentSize - order.size);
+  if (resulting > s.rs.maxContracts) {
+    return reject(REJECT.MAX_POSITION, `Max position is ${s.rs.maxContracts} contracts. That order would make ${resulting}.`);
+  }
+
+  if (order.type === 'market') {
+    s = log(s, 'order_submitted', { order });
+    return { state: fillEntry(s, order, bar.c, bar.t), rejected: null };
+  }
+  s = log(s, 'order_submitted', { order });
+  return { state: { ...s, pending: [...s.pending, { ...order, id: s.timeline.length }] }, rejected: null };
+}
+
+function fillPending(s, bar) {
+  if (!s.pending.length) return s;
+  let next = s;
+  const remaining = [];
+  for (const o of next.pending) {
+    const hit =
+      (o.type === 'limit' && (o.side === 'long' ? bar.l <= o.price : bar.h >= o.price)) ||
+      (o.type === 'stop' && (o.side === 'long' ? bar.h >= o.price : bar.l <= o.price));
+    if (hit) {
+      next = log(next, 'order_filled', { order: o, price: o.price });
+      next = fillEntry(next, o, o.price, bar.t);
+    } else {
+      remaining.push(o);
+    }
+  }
+  return { ...next, pending: remaining };
+}
+
+function fillEntry(s, order, price, t) {
+  let next = s;
+  if (next.position && next.position.side !== order.side) {
+    next = closeAt(next, price, 'reversed').state;
+  }
+  if (next.position) {
+    // scale in: volume-weighted average entry
+    const p = next.position;
+    const size = p.size + order.size;
+    const entryPrice = (p.entryPrice * p.size + price * order.size) / size;
+    next = { ...next, position: { ...p, size, entryPrice } };
+  } else {
+    next = {
+      ...next,
+      position: {
+        side: order.side,
+        size: order.size,
+        entryPrice: price,
+        entryTs: t,
+        stop: order.stop ?? null,
+        target: order.target ?? null,
+        tag: order.tag ?? null,
+      },
+    };
+  }
+  next = { ...next, tradesToday: next.tradesToday + 1 };
+  return log(next, 'entry', { side: order.side, size: order.size, price, tradesToday: next.tradesToday });
+}
+
+function checkProtective(s, bar) {
+  const p = s.position;
+  if (!p) return s;
+  // Conservative: stop is evaluated before target when a bar spans both.
+  if (p.stop !== null) {
+    const hit = p.side === 'long' ? bar.l <= p.stop : bar.h >= p.stop;
+    if (hit) return closeAt(s, p.stop, 'stop').state;
+  }
+  if (p.target !== null) {
+    const hit = p.side === 'long' ? bar.h >= p.target : bar.l <= p.target;
+    if (hit) return closeAt(s, p.target, 'target').state;
+  }
+  return s;
+}
+
+/** Close the open position at `price`. */
+function closePosition(state, price, reason = 'manual') {
+  if (!state.position) return { state, rejected: REJECT.NO_POSITION };
+  const r = closeAt(state, price, reason);
+  return { state: evaluate(r.state, price), rejected: null };
+}
+
+function closeAt(s, price, reason) {
+  const p = s.position;
+  const dir = p.side === 'long' ? 1 : -1;
+  const pnl = round2((price - p.entryPrice) * dir * p.size * s.instrument.pointValue);
+  const balance = round2(s.balance + pnl);
+
+  const trade = {
+    side: p.side,
+    size: p.size,
+    entryPrice: p.entryPrice,
+    exitPrice: price,
+    entryTs: p.entryTs,
+    exitTs: s.ts,
+    pnl,
+    reason,
+    dayKey: s.dayKey,
+    holdMs: s.ts - p.entryTs,
+    tag: p.tag,
+  };
+
+  const dayPnL = { ...s.dayPnL, [s.dayKey]: round2((s.dayPnL[s.dayKey] ?? 0) + pnl) };
+  const tradingDays = s.tradingDays.includes(s.dayKey) ? s.tradingDays : [...s.tradingDays, s.dayKey];
+
+  let next = { ...s, position: null, balance, trades: [...s.trades, trade], dayPnL, tradingDays };
+
+  // Guardrail: mandatory cooldown after N consecutive losses.
+  const g = s.guards;
+  if (g && g.cooldownAfterLosses) {
+    const recent = next.trades.slice(-g.cooldownAfterLosses);
+    if (recent.length === g.cooldownAfterLosses && recent.every((t) => t.pnl < 0)) {
+      next = {
+        ...next,
+        cooldownUntil: next.ts + (g.cooldownMinutes ?? 15) * 60000,
+      };
+      next = log(next, 'cooldown_started', { minutes: g.cooldownMinutes ?? 15, after: g.cooldownAfterLosses });
+    }
+  }
+
+  return { state: log(next, 'exit', { pnl, price, reason, side: p.side, size: p.size }) };
+}
+
+/** Derived read-model for the HUD. Never mutates. */
+function hud(state) {
+  const { rs } = state;
+  const measured = rs.equityBasedBreach ? state.equity : state.balance;
+  const profit = round2(state.balance - rs.accountSize);
+  return {
+    equity: state.equity,
+    balance: state.balance,
+    profit,
+    target: rs.profitTarget,
+    targetPct: Math.max(0, Math.min(1, profit / rs.profitTarget)),
+    floor: state.floor,
+    floorLocked: state.floorLocked,
+    floorRoom: round2(measured - state.floor),
+    floorPct: Math.max(0, Math.min(1, (measured - state.floor) / rs.maxLoss)),
+    dailyFloor: state.dailyFloor,
+    dailyRoom: state.dailyFloor === null ? null : round2(measured - state.dailyFloor),
+    dailyPct: state.dailyFloor === null ? null
+      : Math.max(0, Math.min(1, (measured - state.dailyFloor) / rs.dailyLoss)),
+    day: state.dayIndex,
+    maxDays: rs.maxTradingDays,
+    tradingDays: state.tradingDays.length,
+    minTradingDays: rs.minTradingDays,
+    tradesToday: state.tradesToday,
+    tradeCap: state.guards?.maxTradesPerDay ?? null,
+    bestDay: bestDay(state),
+    consistencyPct: rs.consistency && profit > 0 ? bestDay(state) / profit : null,
+    consistencyLimit: rs.consistency,
+    status: state.status,
+    warnings: state.warnings,
+    cooldownUntil: state.cooldownUntil,
+  };
+}
+
+return { BREACH, REJECT, createAccount, applyBar, submitOrder, closePosition, hud };
+})();
+
+__m["src/engine/classify.js"] = (function () {
+
+/**
+ * Failure-mode classification.
+ *
+ * Reads the event timeline and the closed trades of a finished run and produces
+ * evidence-backed findings. Deliberately rule-based rather than model-based:
+ *
+ *  - it is explainable, and a verdict about someone's discipline that cannot be
+ *    explained will be rejected by the user;
+ *  - it needs no training data, so it works on run #1;
+ *  - every finding carries the exact trades that triggered it, so the user can argue
+ *    with the evidence rather than with the label.
+ *
+ * The taxonomy (F1-F10) matches the drill catalogue in drills.js one-to-one.
+ */
+
+const MODES = {
+  F1:  { code: 'F1',  name: 'Revenge sizing',            blurb: 'You increase position size immediately after a loss.' },
+  F2:  { code: 'F2',  name: 'Target-line freeze',        blurb: 'Your trading stops or shrinks as you approach the profit target.' },
+  F3:  { code: 'F3',  name: 'Overtrading',               blurb: 'Trade frequency far above your own baseline.' },
+  F4:  { code: 'F4',  name: 'News-window blindness',     blurb: 'Entries inside restricted news windows.' },
+  F5:  { code: 'F5',  name: 'Correlation stacking',      blurb: 'Adding to an existing position so total exposure quietly multiplies.' },
+  F6:  { code: 'F6',  name: 'Drawdown-floor miscalc',    blurb: 'You breached while apparently believing you had headroom.' },
+  F7:  { code: 'F7',  name: 'Session drift',             blurb: 'Trading outside the hours you said you would trade.' },
+  F8:  { code: 'F8',  name: 'Consistency breach',        blurb: 'One day carries too much of your total profit.' },
+  F9:  { code: 'F9',  name: 'Sunk-cost escalation',      blurb: 'Risk rises as time runs out.' },
+  F10: { code: 'F10', name: 'Win-streak size creep',     blurb: 'Position size drifts up after consecutive wins.' },
+};
+
+const median = (xs) => {
+  if (!xs.length) return 0;
+  const s = [...xs].sort((a, b) => a - b);
+  const m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
+
+/**
+ * @param {object} state  a finished (or in-progress) account state
+ * @returns {{findings: Array, primary: object|null, metrics: object}}
+ */
+function classify(state) {
+  const trades = state.trades;
+  const rs = state.rs;
+  const findings = [];
+  const metrics = computeMetrics(state);
+
+  // ── F1 revenge sizing ─────────────────────────────────────────────────────
+  const afterLoss = [];
+  for (let i = 1; i < trades.length; i++) {
+    if (trades[i - 1].pnl < 0) {
+      afterLoss.push({ ratio: trades[i].size / Math.max(1, trades[i - 1].size), i, trade: trades[i] });
+    }
+  }
+  const escalations = afterLoss.filter((x) => x.ratio >= 1.5);
+  if (escalations.length >= 1 && metrics.sizeAfterLossRatio >= 1.25) {
+    findings.push({
+      ...MODES.F1,
+      severity: Math.min(5, 1 + escalations.length),
+      stat: `Size-after-loss ratio ${metrics.sizeAfterLossRatio.toFixed(2)}x`,
+      detail: `You increased size after a loss on ${escalations.length} occasion${escalations.length > 1 ? 's' : ''}. ` +
+              `Traders who keep this ratio below 1.1x survive runs far more often.`,
+      evidence: escalations.slice(0, 4).map((e) => ({
+        ts: e.trade.entryTs,
+        text: `Loss of ${money(trades[e.i - 1].pnl)} → re-entered ${e.ratio.toFixed(1)}x larger`,
+      })),
+    });
+  }
+
+  // ── F3 overtrading ────────────────────────────────────────────────────────
+  const byDay = groupBy(trades, (t) => t.dayKey);
+  const counts = Object.values(byDay).map((a) => a.length);
+  const med = median(counts);
+  const spikes = Object.entries(byDay).filter(([, a]) => a.length >= Math.max(6, med * 2.5));
+  if (spikes.length) {
+    findings.push({
+      ...MODES.F3,
+      severity: Math.min(5, 1 + spikes.length),
+      stat: `${Math.max(...counts)} trades in one day vs a median of ${med}`,
+      detail: `On ${spikes.length} day${spikes.length > 1 ? 's' : ''} your trade count was more than 2.5x your own median. ` +
+              `Frequency spikes are usually a symptom, not a strategy.`,
+      evidence: spikes.slice(0, 3).map(([day, a]) => ({ ts: a[0].entryTs, text: `${day}: ${a.length} trades` })),
+    });
+  }
+
+  // ── F10 / F1 rapid re-entry ───────────────────────────────────────────────
+  const rapid = [];
+  for (let i = 1; i < trades.length; i++) {
+    const gap = trades[i].entryTs - trades[i - 1].exitTs;
+    if (trades[i - 1].pnl < 0 && gap <= 120_000) rapid.push({ gap, trade: trades[i], prev: trades[i - 1] });
+  }
+  if (rapid.length >= 2) {
+    findings.push({
+      ...MODES.F1,
+      code: 'F1b',
+      name: 'Rapid re-entry after loss',
+      severity: Math.min(5, rapid.length),
+      stat: `${rapid.length} re-entries within 2 minutes of a losing exit`,
+      detail: 'The gap between a loss and the next entry is the single cleanest tell for tilt. ' +
+              'A mandatory cooldown removes the decision entirely.',
+      evidence: rapid.slice(0, 4).map((r) => ({
+        ts: r.trade.entryTs,
+        text: `Re-entered ${Math.round(r.gap / 1000)}s after a ${money(r.prev.pnl)} loss`,
+      })),
+    });
+  }
+
+  // ── F10 win-streak size creep ─────────────────────────────────────────────
+  let streak = 0; const creeps = [];
+  for (let i = 0; i < trades.length; i++) {
+    if (trades[i].pnl > 0) {
+      streak++;
+      if (streak >= 3 && i + 1 < trades.length && trades[i + 1].size > trades[i].size) {
+        creeps.push(trades[i + 1]);
+      }
+    } else streak = 0;
+  }
+  if (creeps.length) {
+    findings.push({
+      ...MODES.F10,
+      severity: Math.min(4, 1 + creeps.length),
+      stat: `${creeps.length} size increase${creeps.length > 1 ? 's' : ''} after a 3+ win streak`,
+      detail: 'Sizing up on a hot hand is the most expensive form of confidence. One oversized loss ' +
+              'undoes the whole streak and often the account.',
+      evidence: creeps.slice(0, 3).map((t) => ({ ts: t.entryTs, text: `Sized up to ${t.size} after a win streak` })),
+    });
+  }
+
+  // ── F6 drawdown-floor miscalculation ──────────────────────────────────────
+  if (state.breach?.code === 'MAX_LOSS' && rs.maxLossType !== 'static') {
+    const moves = state.timeline.filter((e) => e.type === 'eod_floor_move' || e.type === 'floor_locked');
+    findings.push({
+      ...MODES.F6,
+      severity: 4,
+      stat: `Floor had moved to ${money(state.floor)} from ${money(rs.accountSize - rs.maxLoss)}`,
+      detail: `This ruleset uses ${labelDD(rs.maxLossType)} drawdown. Your floor rose with your equity peak ` +
+              `of ${money(state.peakEquity)}. The room you thought you had was already spent.`,
+      evidence: moves.slice(-3).map((m) => ({ ts: m.t, text: `Floor moved to ${money(m.floor)}` })),
+    });
+  }
+
+  // ── F8 consistency ────────────────────────────────────────────────────────
+  if (rs.consistency) {
+    const profit = state.balance - rs.accountSize;
+    const best = Math.max(0, ...Object.values(state.dayPnL));
+    if (profit > 0 && best / profit > rs.consistency) {
+      findings.push({
+        ...MODES.F8,
+        severity: 3,
+        stat: `Best day = ${((best / profit) * 100).toFixed(0)}% of total profit (limit ${rs.consistency * 100}%)`,
+        detail: 'Even a passing balance does not pass with a lopsided profit distribution. ' +
+                'This rule is usually only enforced at payout, which is why it surprises people.',
+        evidence: [{ ts: null, text: `Best day ${money(best)} of ${money(profit)} total` }],
+      });
+    }
+  }
+
+  // ── F4 news window ────────────────────────────────────────────────────────
+  const newsRejects = state.timeline.filter((e) => e.type === 'order_rejected' && e.code === 'NEWS_WINDOW');
+  if (newsRejects.length) {
+    findings.push({
+      ...MODES.F4,
+      severity: 2,
+      stat: `${newsRejects.length} entr${newsRejects.length > 1 ? 'ies' : 'y'} attempted inside a news window`,
+      detail: 'The engine blocked these. A real firm may instead let the trade through and void the payout later.',
+      evidence: newsRejects.slice(0, 3).map((e) => ({ ts: e.t, text: 'Entry blocked: high-impact news window' })),
+    });
+  }
+
+  // ── F9 sunk-cost escalation ───────────────────────────────────────────────
+  if (rs.maxTradingDays && trades.length >= 6) {
+    const half = Math.floor(trades.length / 2);
+    const early = median(trades.slice(0, half).map((t) => t.size));
+    const late = median(trades.slice(half).map((t) => t.size));
+    if (late >= early * 1.5) {
+      findings.push({
+        ...MODES.F9,
+        severity: 3,
+        stat: `Median size rose from ${early} to ${late} in the second half of the run`,
+        detail: 'Risk rising as the clock runs down is time pressure making the decision, not you.',
+        evidence: [{ ts: trades[half].entryTs, text: `Second half median size ${late} vs ${early}` }],
+      });
+    }
+  }
+
+  // ── F2 target-line freeze ─────────────────────────────────────────────────
+  if (state.status === 'active' || state.status === 'failed') {
+    const nearTarget = trades.filter((t) => {
+      const runningProfit = t.pnl; void runningProfit;
+      return false;
+    });
+    void nearTarget;
+  }
+  const freeze = detectFreeze(state);
+  if (freeze) findings.push(freeze);
+
+  // ── F7 session drift ──────────────────────────────────────────────────────
+  const hours = trades.map((t) => new Date(t.entryTs).getUTCHours());
+  if (hours.length >= 5) {
+    const h = groupBy(hours, (x) => x);
+    const spread = Object.keys(h).length;
+    if (spread >= 8) {
+      findings.push({
+        ...MODES.F7,
+        severity: 2,
+        stat: `Entries spread across ${spread} different hours of the day`,
+        detail: 'A scattered session profile usually means you are trading availability, not setups.',
+        evidence: [{ ts: null, text: `Entries in ${spread} distinct hours` }],
+      });
+    }
+  }
+
+  findings.sort((a, b) => b.severity - a.severity);
+  return { findings, primary: findings[0] ?? null, metrics };
+}
+
+function detectFreeze(state) {
+  const rs = state.rs;
+  const trades = state.trades;
+  if (trades.length < 6) return null;
+  // Reconstruct the equity path and find the point where profit first exceeded 60% of target.
+  let running = 0; let idx = -1;
+  for (let i = 0; i < trades.length; i++) {
+    running += trades[i].pnl;
+    if (idx === -1 && running >= rs.profitTarget * 0.6) idx = i;
+  }
+  if (idx === -1 || idx >= trades.length - 2) return null;
+  const before = trades.slice(0, idx + 1);
+  const after = trades.slice(idx + 1);
+  const beforeRate = before.length / Math.max(1, uniq(before.map((t) => t.dayKey)).length);
+  const afterRate = after.length / Math.max(1, uniq(after.map((t) => t.dayKey)).length);
+  if (afterRate <= beforeRate * 0.4) {
+    return {
+      ...MODES.F2,
+      severity: 3,
+      stat: `Trade rate fell ${(100 - (afterRate / beforeRate) * 100).toFixed(0)}% after reaching 60% of target`,
+      detail: 'Freezing near the target is prospect theory doing its job. The fix is a written finish rule ' +
+              'decided before the run, not in the moment.',
+      evidence: [{ ts: after[0]?.entryTs ?? null, text: `${beforeRate.toFixed(1)} trades/day → ${afterRate.toFixed(1)} trades/day` }],
+    };
+  }
+  return null;
+}
+
+/** Behavioural metrics — these are the feature vector a future scoring model would use. */
+function computeMetrics(state) {
+  const trades = state.trades;
+  const sizes = trades.map((t) => t.size);
+  const medSize = median(sizes) || 1;
+
+  let afterLossSizes = [], afterWinSizes = [];
+  for (let i = 1; i < trades.length; i++) {
+    (trades[i - 1].pnl < 0 ? afterLossSizes : afterWinSizes).push(trades[i].size);
+  }
+
+  const gaps = [];
+  for (let i = 1; i < trades.length; i++) {
+    if (trades[i - 1].pnl < 0) gaps.push(trades[i].entryTs - trades[i - 1].exitTs);
+  }
+
+  const wins = trades.filter((t) => t.pnl > 0);
+  const losses = trades.filter((t) => t.pnl < 0);
+  const grossWin = wins.reduce((a, t) => a + t.pnl, 0);
+  const grossLoss = Math.abs(losses.reduce((a, t) => a + t.pnl, 0));
+
+  const stopped = trades.filter((t) => t.reason === 'stop').length;
+  const hadStop = trades.filter((t) => t.reason === 'stop' || t.reason === 'target' || t.reason === 'manual').length;
+
+  return {
+    trades: trades.length,
+    winRate: trades.length ? wins.length / trades.length : 0,
+    profitFactor: grossLoss > 0 ? grossWin / grossLoss : (grossWin > 0 ? Infinity : 0),
+    avgWin: wins.length ? grossWin / wins.length : 0,
+    avgLoss: losses.length ? grossLoss / losses.length : 0,
+    medianSize: medSize,
+    maxSize: sizes.length ? Math.max(...sizes) : 0,
+    sizeDispersion: sizes.length ? Math.max(...sizes) / medSize : 1,
+    sizeAfterLossRatio: afterLossSizes.length ? median(afterLossSizes) / medSize : 1,
+    sizeAfterWinRatio: afterWinSizes.length ? median(afterWinSizes) / medSize : 1,
+    medianReentryGapSec: gaps.length ? Math.round(median(gaps) / 1000) : null,
+    stopHonorRate: hadStop ? stopped / hadStop : null,
+    tradingDays: state.tradingDays.length,
+    tradesPerDay: state.tradingDays.length ? trades.length / state.tradingDays.length : 0,
+    bestDay: Math.max(0, ...Object.values(state.dayPnL), 0),
+    worstDay: Math.min(0, ...Object.values(state.dayPnL), 0),
+    closestToDailyFloor: state.rs.dailyLoss
+      ? Math.min(...state.timeline.filter((e) => e.type === 'exit').map(() => 1), 1)
+      : null,
+  };
+}
+
+const uniq = (a) => [...new Set(a)];
+const groupBy = (arr, fn) => arr.reduce((acc, x) => { const k = fn(x); (acc[k] ||= []).push(x); return acc; }, {});
+const money = (n) => `$${Math.round(Math.abs(n)).toLocaleString()}${n < 0 ? '' : ''}`;
+const labelDD = (t) => ({
+  static: 'static',
+  trailing_intraday: 'intraday trailing',
+  trailing_eod: 'end-of-day trailing',
+  trailing_to_static: 'trailing-then-locking',
+}[t]);
+
+/**
+ * Build the timestamped narrative shown on the autopsy screen.
+ * This is the emotional core of the product: the user's own behaviour, as a sequence.
+ */
+function narrative(state, limit = 12) {
+  const interesting = new Set([
+    'entry', 'exit', 'breach', 'order_rejected', 'cooldown_started',
+    'eod_floor_move', 'floor_locked', 'consistency_block', 'passed',
+  ]);
+  const events = state.timeline.filter((e) => interesting.has(e.type));
+  const tail = events.slice(-limit);
+  return tail.map((e) => {
+    const time = e.t ? new Date(e.t).toISOString().slice(11, 16) : '--:--';
+    switch (e.type) {
+      case 'entry':          return { time, kind: 'entry', text: `Entered ${e.side} ${e.size} @ mkt` };
+      case 'exit':           return { time, kind: e.pnl >= 0 ? 'win' : 'loss', text: `${e.reason === 'stop' ? 'Stopped out' : e.reason === 'target' ? 'Target hit' : 'Closed'} ${e.pnl >= 0 ? '+' : '-'}${money(e.pnl)}` };
+      case 'breach':         return { time, kind: 'breach', text: e.detail };
+      case 'order_rejected': return { time, kind: 'blocked', text: e.msg };
+      case 'cooldown_started': return { time, kind: 'guard', text: `Cooldown started after ${e.after} losses` };
+      case 'eod_floor_move': return { time, kind: 'floor', text: `Floor moved up to ${money(e.floor)}` };
+      case 'floor_locked':   return { time, kind: 'floor', text: `Floor locked at ${money(e.floor)}` };
+      case 'consistency_block': return { time, kind: 'blocked', text: 'Target reached but consistency rule blocks the pass' };
+      case 'passed':         return { time, kind: 'pass', text: `Passed with ${money(e.profit)} over ${e.days} days` };
+      default:               return { time, kind: 'info', text: e.type };
+    }
+  });
+}
+
+return { MODES, classify, computeMetrics, narrative };
+})();
+
+__m["src/engine/score.js"] = (function () {
+const { computeMetrics } = __m["src/engine/classify.js"];
+/**
+ * Readiness Score.
+ *
+ * HONESTY CONTRACT — do not remove:
+ * This score is computed entirely from SIMULATED runs. It has NOT been validated against
+ * real prop firm challenge outcomes, because that requires outcome-labelled data we do not
+ * have yet. The UI must therefore never render a sentence of the form "you have an X% chance
+ * of passing". It shows the components and says what the score is built from. When (and only
+ * when) real outcome data exists, `calibration` below gets replaced with fitted values and
+ * the disclosure text changes with it.
+ *
+ * Five components, each 0-100, weighted. Chosen because each one maps to a failure mode that
+ * has a drill attached — a score you cannot act on is just a number.
+ */
+
+
+const COMPONENTS = [
+  { key: 'risk',        label: 'Risk discipline',  weight: 0.30, blurb: 'Size stability, and what you do after a loss.' },
+  { key: 'compliance',  label: 'Rule compliance',  weight: 0.25, blurb: 'How close you run to the limits, and whether you breach.' },
+  { key: 'emotional',   label: 'Emotional control',weight: 0.20, blurb: 'Re-entry speed, trade-count spikes, tilt signature.' },
+  { key: 'consistency', label: 'Consistency',      weight: 0.15, blurb: 'Whether profit is spread across days or carried by one.' },
+  { key: 'edge',        label: 'Edge quality',     weight: 0.10, blurb: 'Profit factor and stop discipline. Weighted least on purpose.' },
+];
+
+const clamp = (v, lo = 0, hi = 100) => Math.max(lo, Math.min(hi, v));
+
+/**
+ * @param {object[]} runs  finished account states, oldest first
+ */
+function readinessScore(runs) {
+  // 'ended' = the trader stopped early or the session data ran out. Those runs still contain
+  // real behaviour, so they are scored — they are just not penalised as breaches.
+  const finished = runs.filter((r) => ['passed', 'failed', 'ended'].includes(r.status));
+  if (!finished.length) {
+    return {
+      score: null, grade: null, components: null, runs: 0,
+      disclosure: 'Not enough data. Complete a run to be scored.',
+    };
+  }
+
+  // Recency-weighted: the last 5 runs describe you better than your first.
+  const weights = finished.map((_, i) => Math.pow(1.35, i));
+  const wsum = weights.reduce((a, b) => a + b, 0);
+  const avg = (fn) => finished.reduce((a, r, i) => a + fn(r) * weights[i], 0) / wsum;
+
+  const risk = avg((r) => {
+    const m = computeMetrics(r);
+    let s = 100;
+    s -= clamp((m.sizeAfterLossRatio - 1) * 90, 0, 45);   // revenge sizing
+    s -= clamp((m.sizeDispersion - 1) * 18, 0, 30);        // erratic sizing
+    if (m.stopHonorRate !== null) s -= clamp((1 - m.stopHonorRate) * 25, 0, 25);
+    return clamp(s);
+  });
+
+  const compliance = avg((r) => {
+    let s = 100;
+    if (r.status === 'failed') s -= r.breach?.code === 'MAX_LOSS' ? 55 : 40;
+    const rejects = r.timeline.filter((e) => e.type === 'order_rejected' && e.code !== 'GUARD_TRADE_CAP' && e.code !== 'GUARD_COOLDOWN').length;
+    s -= clamp(rejects * 8, 0, 24);
+    if (r.tradingDays.length < r.rs.minTradingDays && r.status === 'passed') s -= 10;
+    return clamp(s);
+  });
+
+  const emotional = avg((r) => {
+    const m = computeMetrics(r);
+    let s = 100;
+    if (m.medianReentryGapSec !== null) {
+      if (m.medianReentryGapSec < 60) s -= 35;
+      else if (m.medianReentryGapSec < 180) s -= 20;
+      else if (m.medianReentryGapSec < 600) s -= 8;
+    }
+    const perDay = Object.values(groupCount(r.trades, (t) => t.dayKey));
+    if (perDay.length) {
+      const mx = Math.max(...perDay), md = med(perDay) || 1;
+      s -= clamp((mx / md - 1) * 14, 0, 30);
+    }
+    s -= clamp((m.sizeAfterWinRatio - 1) * 40, 0, 20);
+    return clamp(s);
+  });
+
+  const consistency = avg((r) => {
+    const profit = r.balance - r.rs.accountSize;
+    const days = Object.values(r.dayPnL);
+    if (profit <= 0 || days.length < 2) return 55;
+    const best = Math.max(...days);
+    const share = best / profit;
+    let s = clamp(115 - share * 130);
+    if (r.rs.consistency && share > r.rs.consistency) s -= 20;
+    return clamp(s);
+  });
+
+  const edge = avg((r) => {
+    const m = computeMetrics(r);
+    if (!m.trades) return 50;
+    const pf = m.profitFactor === Infinity ? 3 : m.profitFactor;
+    let s = clamp(30 + pf * 28);
+    if (m.stopHonorRate !== null) s += clamp(m.stopHonorRate * 12, 0, 12);
+    return clamp(s);
+  });
+
+  const components = { risk, compliance, emotional, consistency, edge };
+  const score = Math.round(
+    COMPONENTS.reduce((a, c) => a + components[c.key] * c.weight, 0)
+  );
+
+  return {
+    score,
+    grade: grade(score),
+    components,
+    runs: finished.length,
+    weakest: COMPONENTS.slice().sort((a, b) => components[a.key] - components[b.key])[0],
+    disclosure:
+      `Based on ${finished.length} simulated run${finished.length > 1 ? 's' : ''}. ` +
+      `This measures your behaviour in this simulator. It is not calibrated against ` +
+      `real challenge outcomes, and it does not predict what will happen at any firm.`,
+    calibration: null, // becomes a fitted mapping only when real outcome labels exist
+  };
+}
+
+function grade(score) {
+  if (score === null) return null;
+  if (score >= 85) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 62) return 'C';
+  if (score >= 45) return 'D';
+  return 'F';
+}
+
+/**
+ * The policy from the report that costs nothing and differentiates everything:
+ * below 40, the product tells you NOT to buy a challenge yet.
+ */
+/** Minimum scored runs before the product is willing to say "you're ready". */
+const MIN_RUNS_FOR_READY = 3;
+
+function recommendation(score, runs = Infinity) {
+  if (score === null) return { level: 'unknown', text: 'Run a challenge to get a recommendation.' };
+  // A high score off one or two runs is noise, not evidence. Telling someone to go spend
+  // $500 on that basis is the exact behaviour this product exists to argue against.
+  if (score >= 62 && runs < MIN_RUNS_FOR_READY) return {
+    level: 'wait',
+    text: `Promising, but this is only ${runs} scored run${runs === 1 ? '' : 's'}. ` +
+          `A score means nothing until it is stable — complete at least ${MIN_RUNS_FOR_READY} ` +
+          `before treating it as a signal about anything.`,
+  };
+  if (score < 40) return {
+    level: 'stop',
+    text: 'Do not buy a challenge yet. At this level the money is very likely to be lost on ' +
+          'behaviour you can fix for free. Work the prescribed drills first.',
+  };
+  if (score < 62) return {
+    level: 'wait',
+    text: 'Not yet. Your rule knowledge is getting there but your risk behaviour is still ' +
+          'unstable. Two more clean runs before you spend anything.',
+  };
+  if (score < 75) return {
+    level: 'close',
+    text: 'Close. Clear your weakest component and run three consecutive clean challenges.',
+  };
+  if (score < 85) return {
+    level: 'ready',
+    text: 'Challenge Ready. Your behaviour in the simulator is consistent with the rules you ' +
+          'would be trading under. Start with the smallest account size you can.',
+  };
+  return {
+    level: 'ready',
+    text: 'Challenge Ready, top band. Keep the guardrails switched on when you go live — ' +
+          'they matter more with real money, not less.',
+  };
+}
+
+const med = (xs) => {
+  if (!xs.length) return 0;
+  const s = [...xs].sort((a, b) => a - b), m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
+const groupCount = (arr, fn) => arr.reduce((a, x) => { const k = fn(x); a[k] = (a[k] || 0) + 1; return a; }, {});
+
+return { COMPONENTS, readinessScore, grade, MIN_RUNS_FOR_READY, recommendation };
+})();
+
+__m["src/engine/training.js"] = (function () {
+
+/**
+ * Guardrails ("Ulysses contracts") and the drill catalogue.
+ *
+ * Guardrails are the closest this product gets to solving the psychology problem: the user
+ * pre-commits, while calm, to a constraint the engine enforces later, while they are not.
+ * They are deliberately enforced in the engine (account.js) rather than in the UI, so they
+ * cannot be clicked away mid-session.
+ */
+
+const DEFAULT_GUARDS = {
+  maxTradesPerDay: null,     // number | null
+  cooldownAfterLosses: null, // number | null
+  cooldownMinutes: 15,
+  sessionStartHour: null,    // UTC hour | null
+  sessionEndHour: null,
+  bound: false,              // when true the UI refuses to loosen them mid-run
+};
+
+function normalizeGuards(g) {
+  const out = { ...DEFAULT_GUARDS, ...(g || {}) };
+  const n = (v) => (v === '' || v === null || v === undefined || Number.isNaN(Number(v)) ? null : Number(v));
+  out.maxTradesPerDay = n(out.maxTradesPerDay);
+  out.cooldownAfterLosses = n(out.cooldownAfterLosses);
+  out.cooldownMinutes = n(out.cooldownMinutes) ?? 15;
+  out.sessionStartHour = n(out.sessionStartHour);
+  out.sessionEndHour = n(out.sessionEndHour);
+  if (out.sessionStartHour === null || out.sessionEndHour === null) {
+    out.sessionStartHour = null; out.sessionEndHour = null;
+  }
+  return out;
+}
+
+/**
+ * Drills. Each one maps to a failure mode and applies a constraint on top of the ruleset,
+ * so the drill IS the guardrail, practised deliberately.
+ */
+const DRILLS = [
+  {
+    id: 'fixed-size',
+    forMode: 'F1',
+    name: 'Fixed size, no exceptions',
+    goal: 'Complete 15 trades without a single size change.',
+    why: 'Revenge sizing is the most common account-killer. Removing the size decision removes the failure.',
+    guards: { maxTradesPerDay: 15 },
+    lockSize: true,
+    target: { type: 'trades', n: 15 },
+    xp: 75,
+  },
+  {
+    id: 'cooldown',
+    forMode: 'F1b',
+    name: 'The 15-minute wall',
+    goal: 'Survive a session with a mandatory 15-minute cooldown after 2 losses.',
+    why: 'The gap between a loss and the next entry is the cleanest measurable tell for tilt.',
+    guards: { cooldownAfterLosses: 2, cooldownMinutes: 15 },
+    target: { type: 'session', n: 1 },
+    xp: 75,
+  },
+  {
+    id: 'three-trade-cap',
+    forMode: 'F3',
+    name: 'Three trades. That is all.',
+    goal: 'Finish a full trading day having taken no more than 3 trades.',
+    why: 'Overtrading is usually a symptom of needing to feel busy. Scarcity forces selection.',
+    guards: { maxTradesPerDay: 3 },
+    target: { type: 'day', n: 1 },
+    xp: 75,
+  },
+  {
+    id: 'sit-out',
+    forMode: 'F3',
+    name: 'The sit-out',
+    goal: 'Watch a full session and take zero trades. Log why you passed on three setups.',
+    why: 'The hardest and most valuable skill in the entire discipline is not trading. ' +
+         'This is the only drill here that most traders refuse to do.',
+    guards: { maxTradesPerDay: 0 },
+    target: { type: 'day', n: 1 },
+    xp: 100,
+  },
+  {
+    id: 'floor-math',
+    forMode: 'F6',
+    name: 'Read the floor',
+    goal: 'Predict your drawdown floor correctly 10 times in a row before the engine reveals it.',
+    why: 'If you cannot compute your floor in your head, you are trading on a number you do not know.',
+    guards: {},
+    hideFloor: true,
+    target: { type: 'predictions', n: 10 },
+    xp: 90,
+  },
+  {
+    id: 'stop-honor',
+    forMode: 'F1',
+    name: 'Iron hands',
+    goal: 'Ten consecutive trades where the stop is honoured and never widened.',
+    why: 'A stop you move is not a stop. It is a wish.',
+    guards: {},
+    forceStop: true,
+    target: { type: 'trades', n: 10 },
+    xp: 80,
+  },
+  {
+    id: 'session-lock',
+    forMode: 'F7',
+    name: 'Session lock',
+    goal: 'Trade only inside your declared 3-hour window for a full run.',
+    why: 'Availability is not a setup. Most scattered profiles are boredom, not opportunity.',
+    guards: { sessionStartHour: 13, sessionEndHour: 16 },
+    target: { type: 'session', n: 1 },
+    xp: 70,
+  },
+  {
+    id: 'throttle',
+    forMode: 'F8',
+    name: 'Profit throttle',
+    goal: 'Reach the target with no single day above 30% of total profit.',
+    why: 'Consistency rules are usually enforced at payout, when it is too late to fix.',
+    guards: {},
+    target: { type: 'consistency', n: 0.3 },
+    xp: 110,
+  },
+  {
+    id: 'finish-line',
+    forMode: 'F2',
+    name: 'Finish the run',
+    goal: 'From 60% of target, reach 100% without reducing your trade rate.',
+    why: 'Freezing near the target is prospect theory. A written finish rule beats willpower.',
+    guards: {},
+    target: { type: 'finish', n: 1 },
+    xp: 100,
+  },
+  {
+    id: 'streak-discipline',
+    forMode: 'F10',
+    name: 'Post-win discipline',
+    goal: 'Complete a 3+ win streak without increasing size on the next trade.',
+    why: 'Sizing up on a hot hand is the most expensive form of confidence.',
+    guards: {},
+    lockSize: true,
+    target: { type: 'streak', n: 3 },
+    xp: 85,
+  },
+  {
+    id: 'news-blackout',
+    forMode: 'F4',
+    name: 'News blackout',
+    goal: 'Trade a session containing two high-impact releases without entering a blocked window.',
+    why: 'Firms often let the trade through and void the payout later instead of blocking it.',
+    guards: {},
+    newsOn: true,
+    target: { type: 'session', n: 1 },
+    xp: 70,
+  },
+  {
+    id: 'time-pressure',
+    forMode: 'F9',
+    name: 'Clock discipline',
+    goal: 'Finish the last 5 days of a timed run without your median size increasing.',
+    why: 'Deadlines make the decision if you let them.',
+    guards: {},
+    lockSize: true,
+    target: { type: 'days', n: 5 },
+    xp: 95,
+  },
+];
+
+function drillsFor(findings) {
+  const codes = new Set(findings.map((f) => f.code));
+  const matched = DRILLS.filter((d) => codes.has(d.forMode));
+  if (matched.length >= 3) return matched.slice(0, 3);
+  const fallback = DRILLS.filter((d) => !matched.includes(d));
+  return [...matched, ...fallback].slice(0, 3);
+}
+
+// ── progression ─────────────────────────────────────────────────────────────
+
+const LEVELS = [
+  'Tourist', 'Rulebook', 'Survivor', 'Disciplined', 'Consistent', 'Risk Manager',
+  'Challenge Ready', 'Verified', 'Funded', 'Sustained', 'Scaled', 'Professional',
+];
+
+function levelFor(xp) {
+  // Deliberately steep at level 7 — "Challenge Ready" has to be hard or the badge is worthless.
+  const thresholds = [0, 150, 400, 800, 1400, 2200, 3200, 4600, 6500, 9000, 12500, 17000];
+  let lvl = 0;
+  for (let i = 0; i < thresholds.length; i++) if (xp >= thresholds[i]) lvl = i;
+  return {
+    level: lvl + 1,
+    name: LEVELS[lvl],
+    xp,
+    into: xp - thresholds[lvl],
+    need: (thresholds[lvl + 1] ?? thresholds[thresholds.length - 1]) - thresholds[lvl],
+    max: lvl + 1 >= LEVELS.length,
+  };
+}
+
+/**
+ * XP is awarded for PROCESS, never for profit. This is the single most important
+ * design rule in the gamification layer: rewarding P&L would train gambling.
+ */
+function xpForRun(state, findings) {
+  let xp = 0;
+  const notes = [];
+  const add = (n, why) => { xp += n; notes.push({ n, why }); };
+
+  add(60, 'Completed a run');
+  if (state.status === 'passed') add(120, 'Reached the target within the rules');
+  if (!state.breach) add(90, 'No rule breach');
+
+  const hasRevenge = findings.some((f) => f.code === 'F1' || f.code === 'F1b');
+  if (!hasRevenge && state.trades.length >= 5) add(80, 'No revenge sizing detected');
+
+  const cooldowns = state.timeline.filter((e) => e.type === 'cooldown_started').length;
+  if (cooldowns) add(40 * cooldowns, 'Took a cooldown after losses');
+
+  const guardStops = state.timeline.filter(
+    (e) => e.type === 'order_rejected' && (e.code === 'GUARD_TRADE_CAP' || e.code === 'GUARD_COOLDOWN')
+  ).length;
+  if (guardStops) add(25 * Math.min(guardStops, 4), 'Your own guardrails held');
+
+  const stops = state.trades.filter((t) => t.reason === 'stop').length;
+  if (stops >= 3) add(50, 'Honoured your stops');
+
+  return { xp, notes };
+}
+
+return { DEFAULT_GUARDS, normalizeGuards, DRILLS, drillsFor, LEVELS, levelFor, xpForRun };
+})();
+
+__m["src/data/market.js"] = (function () {
+
+/**
+ * Market data.
+ *
+ * V1 ships a DETERMINISTIC SYNTHETIC generator, not real exchange data. This is a
+ * deliberate decision, not a shortcut, for three reasons:
+ *
+ *  1. LEGAL. Redistributing exchange data to end users requires a distribution licence
+ *     (CME charges per-subscriber and differentiates professional/non-professional; the
+ *     cheap vendor tiers explicitly exclude external distribution). Shipping V1 on
+ *     synthetic data means no licensing exposure while the product is being validated.
+ *  2. INTEGRITY. Ranked seasons require every entrant to face the identical sequence.
+ *     A seeded generator gives that for free and cannot leak.
+ *  3. HONESTY. The UI labels every session SYNTHETIC. We never imply this is real market
+ *     data, and we never imply a simulated result is a live one.
+ *
+ * The interface below (`loadSession`) is the seam. Swapping in a licensed historical feed
+ * later means implementing the same shape and changing the provider id — nothing above
+ * this file knows the difference.
+ */
+
+const PROVIDER = 'synthetic-v1';
+
+const INSTRUMENTS = {
+  MES: { symbol: 'MES', name: 'Micro E-mini S&P 500', pointValue: 5,   tickSize: 0.25, start: 5400, vol: 0.0055, assetClass: 'futures', digits: 2 },
+  MNQ: { symbol: 'MNQ', name: 'Micro E-mini Nasdaq',  pointValue: 2,   tickSize: 0.25, start: 19000, vol: 0.0080, assetClass: 'futures', digits: 2 },
+  MGC: { symbol: 'MGC', name: 'Micro Gold',           pointValue: 10,  tickSize: 0.10, start: 2380, vol: 0.0045, assetClass: 'futures', digits: 1 },
+  EURUSD: { symbol: 'EURUSD', name: 'EUR/USD', pointValue: 100000, tickSize: 0.00001, start: 1.0850, vol: 0.0022, assetClass: 'fx', digits: 5 },
+  GBPUSD: { symbol: 'GBPUSD', name: 'GBP/USD', pointValue: 100000, tickSize: 0.00001, start: 1.2650, vol: 0.0028, assetClass: 'fx', digits: 5 },
+  XAUUSD: { symbol: 'XAUUSD', name: 'Gold spot', pointValue: 100, tickSize: 0.01, start: 2380, vol: 0.0048, assetClass: 'fx', digits: 2 },
+};
+
+function instrumentsFor(assetClass) {
+  return Object.values(INSTRUMENTS).filter((i) => i.assetClass === assetClass);
+}
+
+/** mulberry32 — small, fast, and identical across every JS engine. */
+function rng(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a = (a + 0x6D2B79F5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Box-Muller, driven by the seeded rng so the whole series stays reproducible. */
+function gauss(rand) {
+  let u = 0, v = 0;
+  while (u === 0) u = rand();
+  while (v === 0) v = rand();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function hashSeed(str) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+
+/**
+ * Generate a multi-day session of 1-minute bars.
+ *
+ * Structure is deliberately not a plain random walk — a plain walk is trivially unlike a
+ * market and traders notice immediately. This produces:
+ *   - an intraday volatility smile (open and close hotter than midday)
+ *   - regime switching between trend and chop, with persistence
+ *   - occasional gaps at the session open
+ *   - scheduled high-impact events with a volatility burst, used by the news rule
+ *
+ * @param {object} opts
+ * @param {string} opts.symbol
+ * @param {number} opts.days
+ * @param {string|number} opts.seed
+ * @param {number} [opts.barsPerDay]  minutes of session per day
+ * @param {number} [opts.startTs]     epoch ms of the first bar
+ */
+function loadSession({ symbol, days = 10, seed = 'default', barsPerDay = 390, startTs = Date.UTC(2026, 0, 5, 13, 30) }) {
+  const inst = INSTRUMENTS[symbol];
+  if (!inst) throw new Error(`Unknown instrument ${symbol}`);
+  const rand = rng(typeof seed === 'number' ? seed : hashSeed(String(seed) + symbol + days));
+
+  const bars = [];
+  const news = [];
+  let price = inst.start;
+  let regime = 0;          // -1 down-trend, 0 chop, +1 up-trend
+  let regimeLeft = 0;
+  const minuteVol = inst.vol / Math.sqrt(barsPerDay);
+
+  for (let d = 0; d < days; d++) {
+    const dayStart = startTs + d * 86400_000;
+
+    // Weekend skip keeps day-roll semantics realistic.
+    const dow = new Date(dayStart).getUTCDay();
+    if (dow === 0 || dow === 6) { days++; continue; }
+
+    // Overnight gap.
+    price *= 1 + gauss(rand) * inst.vol * 0.35;
+
+    // Two scheduled events per run, on fixed days, so the news drill is reproducible.
+    const eventMinute = d % 3 === 1 ? Math.floor(barsPerDay * 0.12) : null;
+    if (eventMinute !== null) {
+      news.push({ t: dayStart + eventMinute * 60_000, name: 'High-impact release', impact: 'high' });
+    }
+
+    for (let m = 0; m < barsPerDay; m++) {
+      const t = dayStart + m * 60_000;
+
+      if (regimeLeft <= 0) {
+        const r = rand();
+        regime = r < 0.36 ? 1 : r < 0.72 ? -1 : 0;
+        regimeLeft = 25 + Math.floor(rand() * 110);
+      }
+      regimeLeft--;
+
+      // Volatility smile: hot open, quiet lunch, firm close.
+      const prog = m / barsPerDay;
+      const smile = 1.55 * Math.exp(-Math.pow(prog / 0.16, 2))
+                  + 0.85
+                  + 0.75 * Math.exp(-Math.pow((prog - 1) / 0.13, 2));
+
+      // News burst.
+      let burst = 1;
+      if (eventMinute !== null) {
+        const dist = Math.abs(m - eventMinute);
+        if (dist < 14) burst = 1 + 3.4 * Math.exp(-dist / 4);
+      }
+
+      const drift = regime * minuteVol * 0.16;
+      const sigma = minuteVol * smile * burst;
+      const ret = drift + gauss(rand) * sigma;
+
+      const o = price;
+      const c = o * (1 + ret);
+      const wick = Math.abs(gauss(rand)) * sigma * o * 0.85;
+      const h = Math.max(o, c) + wick * rand();
+      const l = Math.min(o, c) - wick * rand();
+      price = c;
+
+      bars.push({
+        t,
+        o: round(o, inst.digits),
+        h: round(h, inst.digits),
+        l: round(l, inst.digits),
+        c: round(c, inst.digits),
+        v: Math.round(400 + rand() * 2600 * smile * burst),
+      });
+    }
+  }
+
+  return {
+    provider: PROVIDER,
+    synthetic: true,
+    symbol,
+    instrument: inst,
+    seed: String(seed),
+    barsPerDay,
+    bars,
+    news,
+  };
+}
+
+function round(v, digits) {
+  const f = Math.pow(10, digits);
+  return Math.round(v * f) / f;
+}
+
+/** Aggregate 1-minute bars up to a higher timeframe. Pure, no lookahead. */
+function resample(bars, minutes) {
+  if (minutes <= 1) return bars;
+  const out = [];
+  let bucket = null;
+  for (const b of bars) {
+    const key = Math.floor(b.t / (minutes * 60_000));
+    if (!bucket || bucket.key !== key) {
+      if (bucket) out.push(bucket.bar);
+      bucket = { key, bar: { t: b.t, o: b.o, h: b.h, l: b.l, c: b.c, v: b.v } };
+    } else {
+      const x = bucket.bar;
+      x.h = Math.max(x.h, b.h);
+      x.l = Math.min(x.l, b.l);
+      x.c = b.c;
+      x.v += b.v;
+    }
+  }
+  if (bucket) out.push(bucket.bar);
+  return out;
+}
+
+/** Is `t` inside a restricted window around any scheduled event? */
+function inNewsWindow(session, t, windowMin) {
+  const w = windowMin * 60_000;
+  return session.news.some((n) => Math.abs(t - n.t) <= w);
+}
+
+return { PROVIDER, INSTRUMENTS, instrumentsFor, hashSeed, loadSession, resample, inNewsWindow };
+})();
+
+__m["src/ui/chart.js"] = (function () {
+
+/**
+ * Candlestick renderer.
+ *
+ * Hand-rolled on canvas rather than pulling in a charting library, for one reason that
+ * matters to this product: the rule lines (drawdown floor, daily floor, profit target)
+ * have to be first-class citizens drawn in price space, not annotations bolted on top.
+ * The floor is the most important line on the screen and it must never be subtle.
+ */
+
+const C = {
+  bg: '#0B0E11',
+  grid: '#161C24',
+  axis: '#5D6B78',
+  up: '#00C9A7',
+  down: '#FF4757',
+  wick: '#4A5764',
+  floor: '#FF4757',
+  daily: '#FFB020',
+  target: '#00C9A7',
+  entry: '#4C8DFF',
+  news: '#FFB020',
+};
+
+class Chart {
+  constructor(canvas) {
+    this.cv = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.pad = { l: 8, r: 70, t: 10, b: 22 };
+    this._resize();
+    window.addEventListener('resize', () => { this._resize(); this.render(); });
+    this.data = null;
+  }
+
+  _resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const r = this.cv.getBoundingClientRect();
+    this.w = Math.max(320, r.width);
+    this.h = Math.max(220, r.height);
+    this.cv.width = this.w * dpr;
+    this.cv.height = this.h * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  /**
+   * @param {object} d
+   *   bars      visible bars (already resampled)
+   *   position  open position or null
+   *   levels    [{price, color, label, dashed}]
+   *   trades    closed trades to mark
+   *   news      event timestamps
+   */
+  set(d) { this.data = d; this.render(); }
+
+  render() {
+    const { ctx } = this;
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, this.w, this.h);
+    const d = this.data;
+    if (!d || !d.bars.length) return;
+
+    const bars = d.bars;
+    const plotW = this.w - this.pad.l - this.pad.r;
+    const plotH = this.h - this.pad.t - this.pad.b;
+
+    // Price range must include the rule lines, otherwise the floor can sit off-screen
+    // exactly when it matters most.
+    let hi = -Infinity, lo = Infinity;
+    for (const b of bars) { if (b.h > hi) hi = b.h; if (b.l < lo) lo = b.l; }
+    for (const l of d.levels || []) {
+      if (l.inRangeOnly && (l.price > hi * 1.04 || l.price < lo * 0.96)) continue;
+      hi = Math.max(hi, l.price); lo = Math.min(lo, l.price);
+    }
+    const span = (hi - lo) || 1;
+    hi += span * 0.06; lo -= span * 0.06;
+    const range = hi - lo;
+
+    const y = (p) => this.pad.t + (hi - p) / range * plotH;
+    const bw = plotW / bars.length;
+    const x = (i) => this.pad.l + i * bw + bw / 2;
+    this._y = y; this._x = x; this._bw = bw; this._hi = hi; this._lo = lo;
+
+    // ── grid + price axis ──
+    ctx.font = '10px ui-monospace, monospace';
+    ctx.textBaseline = 'middle';
+    const steps = 6;
+    for (let i = 0; i <= steps; i++) {
+      const p = lo + (range * i) / steps;
+      const py = Math.round(y(p)) + 0.5;
+      ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(this.pad.l, py); ctx.lineTo(this.w - this.pad.r, py); ctx.stroke();
+      ctx.fillStyle = C.axis; ctx.textAlign = 'left';
+      ctx.fillText(fmtPrice(p, d.digits), this.w - this.pad.r + 6, py);
+    }
+
+    // ── session separators + news markers ──
+    let prevDay = null;
+    for (let i = 0; i < bars.length; i++) {
+      const day = new Date(bars[i].t).toISOString().slice(0, 10);
+      if (prevDay && day !== prevDay) {
+        ctx.strokeStyle = '#202932'; ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t);
+        ctx.lineTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t + plotH);
+        ctx.stroke();
+      }
+      prevDay = day;
+    }
+    for (const n of d.news || []) {
+      const i = bars.findIndex((b) => Math.abs(b.t - n.t) < 60_000 * (d.tf || 1));
+      if (i < 0) continue;
+      ctx.fillStyle = 'rgba(255,176,32,.14)';
+      ctx.fillRect(x(i) - bw, this.pad.t, bw * 2, plotH);
+    }
+
+    // ── candles ──
+    const cw = Math.max(1, Math.min(bw * 0.68, 11));
+    for (let i = 0; i < bars.length; i++) {
+      const b = bars[i];
+      const up = b.c >= b.o;
+      const cx = x(i);
+      ctx.strokeStyle = up ? C.up : C.down;
+      ctx.globalAlpha = 0.55;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(Math.round(cx) + 0.5, y(b.h));
+      ctx.lineTo(Math.round(cx) + 0.5, y(b.l));
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = up ? C.up : C.down;
+      const yo = y(b.o), yc = y(b.c);
+      const top = Math.min(yo, yc);
+      const hgt = Math.max(1, Math.abs(yc - yo));
+      ctx.fillRect(Math.round(cx - cw / 2), Math.round(top), Math.round(cw), Math.round(hgt));
+    }
+
+    // ── trade markers ──
+    for (const t of d.trades || []) {
+      const ei = nearest(bars, t.entryTs);
+      const xi = nearest(bars, t.exitTs);
+      if (ei < 0 || xi < 0) continue;
+      ctx.strokeStyle = t.pnl >= 0 ? 'rgba(0,201,167,.5)' : 'rgba(255,71,87,.5)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(x(ei), y(t.entryPrice));
+      ctx.lineTo(x(xi), y(t.exitPrice));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      tri(ctx, x(ei), y(t.entryPrice), t.side === 'long' ? 1 : -1, C.entry);
+    }
+
+    // ── open position ──
+    if (d.position) {
+      const p = d.position;
+      ctx.strokeStyle = C.entry; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+      ctx.beginPath();
+      ctx.moveTo(this.pad.l, Math.round(y(p.entryPrice)) + 0.5);
+      ctx.lineTo(this.w - this.pad.r, Math.round(y(p.entryPrice)) + 0.5);
+      ctx.stroke(); ctx.setLineDash([]);
+      tag(ctx, this.w - this.pad.r, y(p.entryPrice), `${p.side === 'long' ? 'L' : 'S'} ${p.size}`, C.entry);
+      if (p.stop)   dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.stop), C.down, 'SL', this.w - this.pad.r);
+      if (p.target) dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.target), C.up, 'TP', this.w - this.pad.r);
+    }
+
+    // ── rule levels: drawn last so nothing hides them ──
+    for (const l of d.levels || []) {
+      if (l.price > hi || l.price < lo) continue;
+      const py = Math.round(y(l.price)) + 0.5;
+      ctx.strokeStyle = l.color; ctx.lineWidth = l.bold ? 1.6 : 1;
+      if (l.dashed) ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(this.pad.l, py); ctx.lineTo(this.w - this.pad.r, py); ctx.stroke();
+      ctx.setLineDash([]);
+      tag(ctx, this.w - this.pad.r, py, l.label, l.color);
+    }
+
+    // ── time axis ──
+    ctx.fillStyle = C.axis; ctx.textAlign = 'center'; ctx.font = '10px ui-monospace, monospace';
+    const every = Math.max(1, Math.floor(bars.length / 7));
+    for (let i = 0; i < bars.length; i += every) {
+      ctx.fillText(new Date(bars[i].t).toISOString().slice(11, 16), x(i), this.h - 9);
+    }
+  }
+}
+
+/** Map an equity-space value onto the chart's price axis so rule lines can be shown
+ *  on a price chart. Returns the price at which the account would sit at `equity`. */
+function equityToPrice(position, price, pointValue, balance, targetEquity) {
+  if (!position) return null;
+  const dir = position.side === 'long' ? 1 : -1;
+  // balance + (p - entry)*dir*size*pv = targetEquity
+  return position.entryPrice + (targetEquity - balance) / (dir * position.size * pointValue);
+}
+
+function nearest(bars, t) {
+  if (!bars.length) return -1;
+  let best = -1, bd = Infinity;
+  for (let i = 0; i < bars.length; i++) {
+    const d = Math.abs(bars[i].t - t);
+    if (d < bd) { bd = d; best = i; }
+  }
+  return bd > 1000 * 60 * 60 * 8 ? -1 : best;
+}
+
+function tri(ctx, cx, cy, dir, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  const s = 4.5, off = dir > 0 ? 7 : -7;
+  ctx.moveTo(cx, cy + off - dir * s);
+  ctx.lineTo(cx - s, cy + off + dir * s * 0.5);
+  ctx.lineTo(cx + s, cy + off + dir * s * 0.5);
+  ctx.closePath(); ctx.fill();
+}
+
+function tag(ctx, xr, y, text, color) {
+  ctx.font = '10px ui-monospace, monospace';
+  const w = ctx.measureText(text).width + 10;
+  ctx.fillStyle = color;
+  ctx.globalAlpha = 0.9;
+  ctx.fillRect(xr + 2, y - 8, w, 16);
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#08111A';
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillText(text, xr + 7, y);
+}
+
+function dashLine(ctx, x1, x2, y, color, label, xr) {
+  ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+  ctx.setLineDash([2, 5]);
+  ctx.beginPath(); ctx.moveTo(x1, Math.round(y) + 0.5); ctx.lineTo(x2, Math.round(y) + 0.5); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  tag(ctx, xr, y, label, color);
+}
+
+function fmtPrice(p, digits = 2) {
+  return p.toFixed(digits);
+}
+
+return { Chart, equityToPrice, fmtPrice };
+})();
+
+__m["src/ui/share.js"] = (function () {
+
+/**
+ * Share-card renderer.
+ *
+ * The research concluded that the most under-served shareable artifact in this niche is a
+ * credible explanation of a LOSS — the trading internet is saturated with win screenshots.
+ * So the primary card is the Breach Autopsy, not the pass certificate.
+ *
+ * Everything rendered here is marked SIMULATED. That is a legal requirement, not a style
+ * choice: regulators have taken action against firms for presenting simulated trading as
+ * live, and a share card is the artifact most likely to travel without its context.
+ */
+
+const W = 1200, H = 675;
+
+function renderCard(state, opts = {}) {
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const g = cv.getContext('2d');
+
+  // Three outcomes, not two. Calling a profitable run that simply ended "CHALLENGE FAILED"
+  // would be a misrepresentation, and the share card is the artifact most likely to travel
+  // without its context.
+  const passed = state.status === 'passed';
+  const breached = state.status === 'failed' && !!state.breach;
+  const accent = passed ? '#00C9A7' : breached ? '#FF4757' : '#FFB020';
+
+  // background
+  g.fillStyle = '#0B0E11';
+  g.fillRect(0, 0, W, H);
+  const grad = g.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, passed ? 'rgba(0,201,167,.10)' : 'rgba(255,71,87,.10)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, W, H);
+
+  // header
+  g.fillStyle = '#E6EDF3';
+  g.font = '700 22px Inter, system-ui, sans-serif';
+  g.fillText('Challenge', 56, 62);
+  const cw = g.measureText('Challenge').width;
+  g.fillStyle = '#00C9A7';
+  g.fillText(' Ready', 56 + cw, 62);
+
+  badge(g, W - 56 - 116, 44, 116, 24, 'SIMULATED', '#FFB020');
+
+  // verdict
+  g.fillStyle = accent;
+  g.font = '700 15px ui-monospace, monospace';
+  g.fillText(passed ? 'CHALLENGE PASSED' : breached ? 'CHALLENGE FAILED' : 'RUN ENDED EARLY', 56, 138);
+
+  g.fillStyle = '#E6EDF3';
+  g.font = '700 46px Inter, system-ui, sans-serif';
+  const headline = passed
+    ? `${state.rs.firm} · ${money(state.balance - state.rs.accountSize)} in ${state.tradingDays.length} days`
+    : breached
+      ? (opts.primary ? opts.primary.name : breachLabel(state.breach.code))
+      : (opts.primary ? opts.primary.name : 'Stopped before a verdict');
+  g.fillText(clip(g, headline, W - 112), 56, 190);
+
+  if (!passed && opts.primary) {
+    g.fillStyle = '#8B99A6';
+    g.font = '400 19px Inter, system-ui, sans-serif';
+    g.fillText(clip(g, opts.primary.stat || '', W - 112), 56, 224);
+  }
+
+  // equity curve
+  drawCurve(g, state, 56, 258, W - 112, 250, accent);
+
+  // stat strip
+  const profit = state.balance - state.rs.accountSize;
+  const stats = [
+    ['RESULT', (profit >= 0 ? '+' : '-') + money(profit)],
+    ['TRADES', String(state.trades.length)],
+    ['DAYS', String(state.tradingDays.length)],
+    ['RULESET', `${state.rs.firm}`],
+  ];
+  if (opts.score !== null && opts.score !== undefined) {
+    stats.push(['READINESS', `${opts.score} · ${opts.grade}`]);
+  }
+  const colW = (W - 112) / stats.length;
+  stats.forEach(([k, v], i) => {
+    const x = 56 + i * colW;
+    g.fillStyle = '#5D6B78';
+    g.font = '600 11px ui-monospace, monospace';
+    g.fillText(k, x, H - 92);
+    g.fillStyle = k === 'RESULT' ? (profit >= 0 ? '#00C9A7' : '#FF4757') : '#E6EDF3';
+    g.font = '600 26px ui-monospace, monospace';
+    g.fillText(clip(g, v, colW - 16), x, H - 58);
+  });
+
+  g.fillStyle = '#3A4552';
+  g.font = '400 12px Inter, system-ui, sans-serif';
+  g.fillText('Simulated result on synthetic data. Not a real trading record, and not a prediction.', 56, H - 24);
+
+  return cv;
+}
+
+function drawCurve(g, state, x, y, w, h, accent) {
+  // Build the realized equity path from closed trades.
+  const pts = [state.rs.accountSize];
+  for (const t of state.trades) pts.push(pts[pts.length - 1] + t.pnl);
+
+  const floor = state.floor;
+  let hi = Math.max(...pts, state.rs.accountSize + state.rs.profitTarget);
+  let lo = Math.min(...pts, floor);
+  const pad = (hi - lo) * 0.12 || 1;
+  hi += pad; lo -= pad;
+
+  const py = (v) => y + h - ((v - lo) / (hi - lo)) * h;
+  const px = (i) => x + (pts.length === 1 ? 0 : (i / (pts.length - 1)) * w);
+
+  // frame
+  g.strokeStyle = '#232C36'; g.lineWidth = 1;
+  g.strokeRect(x + .5, y + .5, w, h);
+
+  // rule lines
+  line(g, x, py(state.rs.accountSize + state.rs.profitTarget), w, '#00C9A7', 'TARGET', [5, 5]);
+  line(g, x, py(floor), w, '#FF4757', 'FLOOR', [5, 5]);
+  line(g, x, py(state.rs.accountSize), w, '#3A4552', '', [2, 4]);
+
+  if (pts.length > 1) {
+    // area
+    g.beginPath();
+    g.moveTo(px(0), py(pts[0]));
+    for (let i = 1; i < pts.length; i++) g.lineTo(px(i), py(pts[i]));
+    g.lineTo(px(pts.length - 1), y + h); g.lineTo(px(0), y + h); g.closePath();
+    const grad = g.createLinearGradient(0, y, 0, y + h);
+    grad.addColorStop(0, accent + '38');
+    grad.addColorStop(1, accent + '00');
+    g.fillStyle = grad; g.fill();
+
+    // line
+    g.beginPath();
+    g.moveTo(px(0), py(pts[0]));
+    for (let i = 1; i < pts.length; i++) g.lineTo(px(i), py(pts[i]));
+    g.strokeStyle = accent; g.lineWidth = 2.5; g.lineJoin = 'round';
+    g.stroke();
+
+    // final dot
+    g.fillStyle = accent;
+    g.beginPath(); g.arc(px(pts.length - 1), py(pts[pts.length - 1]), 5, 0, Math.PI * 2); g.fill();
+  }
+}
+
+function line(g, x, y, w, color, label, dash) {
+  g.save();
+  g.setLineDash(dash); g.strokeStyle = color; g.globalAlpha = .65; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(x, Math.round(y) + .5); g.lineTo(x + w, Math.round(y) + .5); g.stroke();
+  g.restore();
+  if (label) {
+    g.fillStyle = color; g.globalAlpha = .8;
+    g.font = '600 10px ui-monospace, monospace';
+    g.fillText(label, x + w - g.measureText(label).width - 6, y - 5);
+    g.globalAlpha = 1;
+  }
+}
+
+function badge(g, x, y, w, h, text, color) {
+  g.strokeStyle = color; g.globalAlpha = .5;
+  g.strokeRect(x + .5, y + .5, w, h);
+  g.globalAlpha = .12; g.fillStyle = color; g.fillRect(x, y, w, h);
+  g.globalAlpha = 1; g.fillStyle = color;
+  g.font = '700 11px ui-monospace, monospace';
+  g.fillText(text, x + (w - g.measureText(text).width) / 2, y + h / 2 + 4);
+}
+
+function clip(g, text, max) {
+  if (g.measureText(text).width <= max) return text;
+  let t = text;
+  while (t.length > 4 && g.measureText(t + '…').width > max) t = t.slice(0, -1);
+  return t + '…';
+}
+
+const money = (n) => '$' + Math.round(Math.abs(n)).toLocaleString('en-US');
+
+function breachLabel(code) {
+  return {
+    DAILY_LOSS: 'Daily loss limit',
+    MAX_LOSS: 'Max drawdown floor',
+    TIME_LIMIT: 'Ran out of time',
+  }[code] || 'Rule breach';
+}
+
+function download(canvas, filename) {
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, 'image/png');
+}
+
+return { renderCard, download };
+})();
+
+__m["src/ui/app.js"] = (function () {
+const { RULESET_LIST, loadRuleSet, describeRules } = __m["src/engine/rulesets.js"];
+const { createAccount, applyBar, submitOrder, closePosition, hud } = __m["src/engine/account.js"];
+const { classify, narrative } = __m["src/engine/classify.js"];
+const { readinessScore, recommendation, COMPONENTS } = __m["src/engine/score.js"];
+const { normalizeGuards, drillsFor, levelFor, xpForRun, DRILLS } = __m["src/engine/training.js"];
+const { loadSession, resample, inNewsWindow, instrumentsFor } = __m["src/data/market.js"];
+const { Chart, equityToPrice } = __m["src/ui/chart.js"];
+const { renderCard, download } = __m["src/ui/share.js"];
+/**
+ * Challenge Ready — application controller.
+ *
+ * Deliberately a plain module with a small hand-rolled view layer: no framework, no build
+ * step, no dependencies. `python3 -m http.server` and it runs. The engine is the asset;
+ * the UI should stay cheap enough to rewrite.
+ */
+
+
+
+
+
+
+
+
+
+// ── persistence ─────────────────────────────────────────────────────────────
+const KEY = 'challenge-ready/v1';
+
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+  } catch { /* corrupt or unavailable storage must never break the app */ }
+  return { runs: [], xp: 0, streak: 0, lastDay: null, completedDrills: [] };
+}
+
+function saveProfile(p) {
+  try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* private mode */ }
+}
+
+/** Runs are stored slimmed down — the full timeline of a long run is large. */
+function slimRun(a) {
+  return {
+    status: a.status, breach: a.breach, balance: a.balance, floor: a.floor,
+    peakEquity: a.peakEquity, trades: a.trades, dayPnL: a.dayPnL,
+    tradingDays: a.tradingDays, timeline: a.timeline.slice(-400),
+    rs: a.rs, finishedAt: Date.now(),
+  };
+}
+
+// ── app state ───────────────────────────────────────────────────────────────
+const S = {
+  view: 'setup',
+  profile: loadProfile(),
+  rulesetId: 'topstep-50k-combine',
+  symbol: 'MES',
+  guards: normalizeGuards({}),
+  drill: null,
+  session: null,
+  account: null,
+  cursor: 0,
+  tf: 5,
+  speed: 8,
+  playing: false,
+  timer: null,
+  orderSize: 1,
+  stopPts: 12,
+  targetPts: 18,
+  toast: null,
+  toastTimer: null,
+  lastResult: null,
+};
+
+const root = document.getElementById('app');
+const $ = (sel, el = document) => el.querySelector(sel);
+const money = (n, sign = false) => (sign && n > 0 ? '+' : n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function go(view) { S.view = view; stop(); render(); window.scrollTo(0, 0); }
+
+function toast(msg, kind = '') {
+  S.toast = { msg, kind };
+  clearTimeout(S.toastTimer);
+  S.toastTimer = setTimeout(() => { S.toast = null; paintToast(); }, 3800);
+  paintToast();
+}
+
+function paintToast() {
+  let el = $('#toast');
+  if (!S.toast) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; document.body.appendChild(el); }
+  el.className = `toast ${S.toast.kind}`;
+  el.textContent = S.toast.msg;
+}
+
+// ── render ──────────────────────────────────────────────────────────────────
+function render() {
+  const lvl = levelFor(S.profile.xp);
+  const score = readinessScore(S.profile.runs);
+
+  root.innerHTML = `
+    <div class="topbar">
+      <div class="logo">Challenge<span> Ready</span></div>
+      <div class="sim-badge">SIMULATED</div>
+      <div class="spacer"></div>
+      <nav>
+        <button data-nav="setup"     class="${S.view === 'setup' ? 'on' : ''}">New run</button>
+        <button data-nav="dashboard" class="${S.view === 'dashboard' ? 'on' : ''}">Dashboard</button>
+      </nav>
+      <div class="lvl">
+        <b>L${lvl.level}</b> ${esc(lvl.name)}
+        <span class="bar"><i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%"></i></span>
+        <span class="num">${S.profile.xp} XP</span>
+      </div>
+    </div>
+    <main id="main"></main>`;
+
+  root.querySelectorAll('[data-nav]').forEach((b) =>
+    b.addEventListener('click', () => go(b.dataset.nav)));
+
+  const main = $('#main');
+  ({ setup: viewSetup, trade: viewTrade, autopsy: viewAutopsy, dashboard: viewDashboard }[S.view])(main, score);
+  paintToast();
+}
+
+// ── SETUP ───────────────────────────────────────────────────────────────────
+function viewSetup(main) {
+  const rs = loadRuleSet(S.rulesetId);
+  const instruments = instrumentsFor(rs.assetClass);
+  if (!instruments.some((i) => i.symbol === S.symbol)) S.symbol = instruments[0].symbol;
+  const hasRuns = S.profile.runs.length > 0;
+
+  main.innerHTML = `
+    <div class="wrap">
+      ${hasRuns ? '' : `
+      <div class="hero">
+        <h1>93% of traders fail their first prop firm challenge.<br>Find out why before you pay to find out.</h1>
+        <p class="sub">Practise under the exact rule set you are about to buy. When you breach, this
+          tells you the specific behaviour that did it — not just that it happened.</p>
+        <div class="stat-row">
+          <div><b class="num">16.8%</b><small>Combines passed</small></div>
+          <div><b class="num">51.8%</b><small>Traders funded eventually</small></div>
+          <div><b class="num">33.3%</b><small>Funded who got paid</small></div>
+          <div><b class="num neg">0.71%</b><small>Reached live capital</small></div>
+        </div>
+        <p class="src">Source: Topstep's own published Trading Combine statistics, Jan–Dec 2025.
+          Every number in this product is sourced or labelled as an estimate.</p>
+      </div>`}
+
+      <h2 style="margin-bottom:12px">${hasRuns ? 'Start a run' : '1 · Pick the rule set you are training for'}</h2>
+      <div class="firm-grid" style="margin-bottom:26px">
+        ${RULESET_LIST.map((r) => `
+          <button class="firm ${r.id === S.rulesetId ? 'on' : ''}" data-rs="${r.id}">
+            <b>${esc(r.firm)}</b>
+            <small>${esc(r.label)}</small>
+            <div class="dd">${ddLabel(r.maxLossType)} · ${money(r.maxLoss)} DD · ${money(r.profitTarget)} target</div>
+          </button>`).join('')}
+      </div>
+
+      <div class="grid g2" style="margin-bottom:22px">
+        <div class="card">
+          <h3 style="margin-bottom:10px">The rules you will be trading under</h3>
+          <table class="rules-table">
+            ${describeRules(rs).map((r) => `<tr><td>${esc(r.k)}</td><td>${esc(r.v)}</td></tr>`).join('')}
+          </table>
+          <p class="src" style="margin-top:12px">
+            Modelled from public documentation, last checked ${rs.verifiedOn}.
+            <a href="${rs.sourceUrl}" target="_blank" rel="noopener">Verify current terms →</a>
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:10px">What usually kills this one</h3>
+          ${rs.notes.map((n) => `<div class="note" style="margin-bottom:8px">${esc(n)}</div>`).join('')}
+          <div class="field" style="border-top:1px solid var(--line);margin-top:12px">
+            <label>Instrument</label>
+            <select id="sym" style="width:auto">
+              ${instruments.map((i) => `<option value="${i.symbol}" ${i.symbol === S.symbol ? 'selected' : ''}>${esc(i.name)}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:22px">
+        <h3>Guardrails — your own limits, enforced by the engine</h3>
+        <p style="font-size:13px;margin:6px 0 4px">
+          Set these while you are calm. Once the run starts they cannot be loosened. This is the
+          only mechanism here that works on the behaviour that actually ends most challenges.
+        </p>
+        <div class="grid g3" style="margin-top:8px">
+          <div class="field">
+            <label>Max trades / day<small>Blank = no limit</small></label>
+            <input id="g-cap" type="number" min="0" value="${S.guards.maxTradesPerDay ?? ''}">
+          </div>
+          <div class="field">
+            <label>Cooldown after N losses<small>Blocks entries for 15 min</small></label>
+            <input id="g-cool" type="number" min="0" value="${S.guards.cooldownAfterLosses ?? ''}">
+          </div>
+          <div class="field">
+            <label>Session hours (UTC)<small>e.g. 13 to 16</small></label>
+            <span style="display:flex;gap:6px">
+              <input id="g-s" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionStartHour ?? ''}">
+              <input id="g-e" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionEndHour ?? ''}">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      ${S.drill ? `<div class="card" style="margin-bottom:22px;border-color:var(--teal)">
+        <h3 style="color:var(--teal)">Drill loaded · ${esc(S.drill.name)}</h3>
+        <p style="margin-top:6px">${esc(S.drill.goal)}</p>
+        <button class="btn sm" id="clear-drill" style="margin-top:10px">Remove drill</button>
+      </div>` : ''}
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary big" id="start">Start the run →</button>
+        <span style="font-size:12.5px;color:var(--dim)">
+          Synthetic market data, deterministic seed. No real money, no real market data, no account required.
+        </span>
+      </div>
+    </div>
+    ${footer()}`;
+
+  main.querySelectorAll('[data-rs]').forEach((b) =>
+    b.addEventListener('click', () => { S.rulesetId = b.dataset.rs; render(); }));
+  $('#sym', main).addEventListener('change', (e) => { S.symbol = e.target.value; });
+  $('#clear-drill', main)?.addEventListener('click', () => { S.drill = null; render(); });
+  $('#start', main).addEventListener('click', startRun);
+}
+
+function readGuards(main) {
+  return normalizeGuards({
+    maxTradesPerDay: $('#g-cap', main)?.value,
+    cooldownAfterLosses: $('#g-cool', main)?.value,
+    cooldownMinutes: 15,
+    sessionStartHour: $('#g-s', main)?.value,
+    sessionEndHour: $('#g-e', main)?.value,
+  });
+}
+
+function startRun() {
+  const main = $('#main');
+  S.guards = readGuards(main);
+  if (S.drill?.guards) S.guards = normalizeGuards({ ...S.guards, ...S.drill.guards });
+
+  const rs = loadRuleSet(S.rulesetId);
+  // Seed from the ruleset + attempt number so every run is a fresh but reproducible market.
+  const seed = `${S.rulesetId}|${S.symbol}|${S.profile.runs.length}`;
+  S.session = loadSession({
+    symbol: S.symbol,
+    days: rs.maxTradingDays ? Math.min(rs.maxTradingDays, 14) : 10,
+    seed,
+    barsPerDay: 300,
+  });
+  S.account = createAccount(rs, S.session.instrument, S.guards);
+  // Warm up with enough history that the chart is populated on the first frame — an empty
+  // chart on the most important screen reads as a broken product.
+  S.cursor = 260;
+  for (let i = 0; i < S.cursor; i++) S.account = applyBar(S.account, S.session.bars[i]);
+  S.playing = false;
+  go('trade');
+  play();
+}
+
+// ── TRADE ───────────────────────────────────────────────────────────────────
+let chart = null;
+
+function viewTrade(main) {
+  main.innerHTML = `
+    <div class="trade-shell">
+      <div class="hud" id="hud"></div>
+      <div class="chart-area">
+        <canvas id="cv"></canvas>
+        <div class="chart-overlay" id="ov"></div>
+        <div class="ticker" id="tk"></div>
+      </div>
+      <div class="pos-strip" id="ps"></div>
+      <div class="order-bar">
+        <div class="grp">
+          <label>Size</label>
+          <input id="o-size" type="number" min="1" value="${S.orderSize}" ${S.drill?.lockSize ? 'disabled' : ''}>
+        </div>
+        <div class="grp"><label>Stop pts</label><input id="o-stop" type="number" min="0" value="${S.stopPts}"></div>
+        <div class="grp"><label>Target pts</label><input id="o-tgt" type="number" min="0" value="${S.targetPts}"></div>
+        <div class="sep"></div>
+        <button class="btn sm buy"  id="b-buy">Buy</button>
+        <button class="btn sm sell" id="b-sell">Sell</button>
+        <button class="btn sm flat" id="b-flat">Flatten</button>
+        <div class="sep"></div>
+        <div class="speed">
+          ${[1, 4, 8, 25, 100].map((s) => `<button data-sp="${s}" class="${S.speed === s ? 'on' : ''}">${s}×</button>`).join('')}
+        </div>
+        <button class="btn sm" id="b-play">${S.playing ? '❚❚ Pause' : '▶ Play'}</button>
+        <div class="sep"></div>
+        <div class="speed">
+          ${[1, 5, 15].map((t) => `<button data-tf="${t}" class="${S.tf === t ? 'on' : ''}">${t}m</button>`).join('')}
+        </div>
+        <div class="spacer" style="flex:1"></div>
+        <button class="btn sm danger" id="b-end">End run</button>
+      </div>
+    </div>`;
+
+  chart = new Chart($('#cv', main));
+
+  $('#b-buy', main).addEventListener('click', () => order('long'));
+  $('#b-sell', main).addEventListener('click', () => order('short'));
+  $('#b-flat', main).addEventListener('click', flatten);
+  $('#b-play', main).addEventListener('click', () => (S.playing ? stop(true) : play()));
+  $('#b-end', main).addEventListener('click', () => finish('ended'));
+  main.querySelectorAll('[data-sp]').forEach((b) => b.addEventListener('click', () => {
+    S.speed = +b.dataset.sp; if (S.playing) { stop(); play(); } else render();
+  }));
+  main.querySelectorAll('[data-tf]').forEach((b) => b.addEventListener('click', () => {
+    S.tf = +b.dataset.tf; paintTrade();
+  }));
+  ['o-size', 'o-stop', 'o-tgt'].forEach((id) => $('#' + id, main).addEventListener('change', (e) => {
+    const v = Math.max(0, +e.target.value || 0);
+    if (id === 'o-size') S.orderSize = Math.max(1, v); else if (id === 'o-stop') S.stopPts = v; else S.targetPts = v;
+  }));
+
+  document.onkeydown = (e) => {
+    if (S.view !== 'trade' || e.target.tagName === 'INPUT') return;
+    if (e.key === 'b') order('long');
+    if (e.key === 's') order('short');
+    if (e.key === 'f') flatten();
+    if (e.key === ' ') { e.preventDefault(); S.playing ? stop(true) : play(); }
+  };
+
+  paintTrade();
+}
+
+function play() {
+  if (S.playing) return;
+  S.playing = true;
+  const tick = () => {
+    if (!S.playing) return;
+    step();
+    if (S.playing) S.timer = setTimeout(tick, Math.max(12, 420 / S.speed));
+  };
+  S.timer = setTimeout(tick, 200);
+  const b = $('#b-play'); if (b) b.textContent = '❚❚ Pause';
+}
+
+function stop(repaint = false) {
+  S.playing = false;
+  clearTimeout(S.timer);
+  const b = $('#b-play'); if (b) b.textContent = '▶ Play';
+  if (repaint) paintTrade();
+}
+
+function step() {
+  if (S.cursor >= S.session.bars.length - 1) { finish('out_of_data'); return; }
+  S.account = applyBar(S.account, S.session.bars[S.cursor]);
+  S.cursor++;
+  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  paintTrade();
+}
+
+function order(side) {
+  if (!S.account || S.account.status !== 'active') return;
+  const bar = S.session.bars[S.cursor - 1];
+  const size = S.drill?.lockSize ? 1 : S.orderSize;
+  const o = { type: 'market', side, size };
+  if (S.stopPts > 0)   o.stop   = side === 'long' ? bar.c - S.stopPts : bar.c + S.stopPts;
+  if (S.targetPts > 0) o.target = side === 'long' ? bar.c + S.targetPts : bar.c - S.targetPts;
+
+  const r = submitOrder(S.account, o, bar, {
+    inNewsWindow: inNewsWindow(S.session, bar.t, S.account.rs.newsWindowMin),
+  });
+  S.account = r.state;
+  if (r.rejected) {
+    const isGuard = String(r.rejected).startsWith('GUARD');
+    toast(r.message || 'Order rejected', isGuard ? 'guard' : 'block');
+  }
+  paintTrade();
+}
+
+function flatten() {
+  if (!S.account?.position) return;
+  const bar = S.session.bars[S.cursor - 1];
+  S.account = closePosition(S.account, bar.c).state;
+  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  paintTrade();
+}
+
+function paintTrade() {
+  if (S.view !== 'trade' || !S.account) return;
+  const a = S.account;
+  const h = hud(a);
+  const bar = S.session.bars[S.cursor - 1];
+
+  // HUD — order is fixed and it never scrolls or collapses.
+  const cells = [
+    cell('Equity', money(h.equity), null, `Bal ${money(h.balance)}`),
+    cell('Daily limit', h.dailyRoom === null ? '—' : money(h.dailyRoom) + ' left',
+         h.dailyPct, h.dailyFloor === null ? 'No daily rule' : `Floor ${money(h.dailyFloor)}`),
+    cell('Max loss floor', money(h.floorRoom) + ' left', h.floorPct,
+         `${money(h.floor)}${h.floorLocked ? ' · LOCKED' : ddArrow(a.rs.maxLossType)}`),
+    cell('Target', money(h.profit) + ' / ' + money(h.target), h.targetPct, `${Math.round(h.targetPct * 100)}%`, true),
+    cell('Day', `${h.day}${h.maxDays ? ' / ' + h.maxDays : ''}`, null,
+         `${h.tradingDays}/${h.minTradingDays} trading days`),
+    cell('Trades today', `${h.tradesToday}${h.tradeCap !== null ? ' / ' + h.tradeCap : ''}`, null,
+         h.consistencyPct !== null ? `Best day ${Math.round(h.consistencyPct * 100)}%` : 'No consistency rule'),
+  ];
+  $('#hud').innerHTML = cells.join('');
+
+  // Chart
+  const visible = 190;
+  const from = Math.max(0, S.cursor - visible * S.tf);
+  const bars = resample(S.session.bars.slice(from, S.cursor), S.tf);
+
+  const levels = [];
+  if (a.position) {
+    const pv = a.instrument.pointValue;
+    const fp = equityToPrice(a.position, bar.c, pv, a.balance, a.floor);
+    if (fp !== null && Number.isFinite(fp)) levels.push({ price: fp, color: '#FF4757', label: 'FLOOR', dashed: false, bold: true, inRangeOnly: true });
+    if (a.dailyFloor !== null) {
+      const dp = equityToPrice(a.position, bar.c, pv, a.balance, a.dailyFloor);
+      if (dp !== null && Number.isFinite(dp)) levels.push({ price: dp, color: '#FFB020', label: 'DAILY', dashed: true, inRangeOnly: true });
+    }
+  }
+  chart.set({
+    bars, position: a.position, levels, trades: a.trades.slice(-24),
+    news: S.session.news, digits: a.instrument.digits, tf: S.tf,
+  });
+
+  const upl = a.position
+    ? (bar.c - a.position.entryPrice) * (a.position.side === 'long' ? 1 : -1) * a.position.size * a.instrument.pointValue
+    : 0;
+
+  $('#ov').innerHTML = `${esc(a.instrument.name)} · ${S.tf}m<br>
+    <span style="color:#5D6B78">synthetic seed ${esc(S.session.seed)}</span>`;
+  $('#tk').innerHTML = `${bar.c.toFixed(a.instrument.digits)}<br>
+    <span style="color:#5D6B78">${new Date(bar.t).toISOString().slice(0, 16).replace('T', ' ')}</span>`;
+
+  const warn = h.warnings.filter((w) => w.code !== 'CONSISTENCY_BLOCK');
+  const cd = h.cooldownUntil && bar.t < h.cooldownUntil
+    ? `<span class="warn">COOLDOWN ${Math.ceil((h.cooldownUntil - bar.t) / 60000)}m</span>` : '';
+  $('#ps').innerHTML = a.position
+    ? `<span class="${a.position.side === 'long' ? 'pos' : ''}" style="color:${a.position.side === 'long' ? 'var(--teal)' : 'var(--blue)'}">
+         ${a.position.side.toUpperCase()} ${a.position.size} @ ${a.position.entryPrice.toFixed(a.instrument.digits)}</span>
+       <span class="${upl >= 0 ? 'pos' : 'neg'}">${money(upl, true)} open</span>
+       ${a.position.stop ? `<span style="color:var(--dim)">SL ${a.position.stop.toFixed(a.instrument.digits)}</span>` : ''}
+       ${a.position.target ? `<span style="color:var(--dim)">TP ${a.position.target.toFixed(a.instrument.digits)}</span>` : ''}
+       ${cd}
+       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`
+    : `<span style="color:var(--dim)">Flat</span> ${cd}
+       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`;
+}
+
+function cell(k, v, pct, sub, invert = false) {
+  let cls = '';
+  if (pct !== null && pct !== undefined) {
+    // For headroom meters low is bad; for the target meter low is just early.
+    if (!invert) cls = pct <= 0.15 ? 'red' : pct <= 0.3 ? 'amber' : '';
+  }
+  const width = pct === null || pct === undefined ? null : Math.round(pct * 100);
+  return `<div class="cell ${cls}">
+    <div class="k">${esc(k)}</div>
+    <div class="v">${esc(v)}</div>
+    ${width === null ? `<small>${esc(sub || '')}</small>`
+      : `<div class="meter"><i style="width:${width}%"></i></div><small>${esc(sub || '')}</small>`}
+  </div>`;
+}
+
+const ddArrow = (t) => (t === 'static' ? ' · fixed' : ' · trailing');
+const ddLabel = (t) => ({
+  static: 'Static DD', trailing_intraday: 'Intraday trailing',
+  trailing_eod: 'EOD trailing', trailing_to_static: 'Trailing→lock',
+}[t]);
+
+// ── finish + autopsy ────────────────────────────────────────────────────────
+function finish() {
+  stop();
+  // A run that neither passed nor breached still terminates — record it as 'ended' rather
+  // than leaving it 'active', or it will never be scored and the dashboard has nothing to show.
+  if (S.account.status === 'active') S.account = { ...S.account, status: 'ended' };
+  const a = S.account;
+  const { findings, primary, metrics } = classify(a);
+  const { xp, notes } = xpForRun(a, findings);
+
+  const profile = { ...S.profile };
+  profile.runs = [...profile.runs, slimRun(a)].slice(-40);
+  profile.xp += xp;
+  const today = new Date().toISOString().slice(0, 10);
+  if (profile.lastDay !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    profile.streak = profile.lastDay === yesterday ? profile.streak + 1 : 1;
+    profile.lastDay = today;
+  }
+  S.profile = profile;
+  saveProfile(profile);
+
+  S.lastResult = { findings, primary, metrics, xp, notes, drills: drillsFor(findings) };
+  go('autopsy');
+}
+
+function viewAutopsy(main, score) {
+  const a = S.account;
+  const { findings, primary, xp, notes, drills } = S.lastResult;
+  const passed = a.status === 'passed';
+  const events = narrative(a, 14);
+  const profit = a.balance - a.rs.accountSize;
+
+  main.innerHTML = `
+    <div class="wrap">
+      <div class="verdict ${passed ? 'pass' : 'fail'}">
+        <div class="tag">${passed ? 'CHALLENGE PASSED' : a.breach ? 'CHALLENGE FAILED' : 'RUN ENDED'} · SIMULATED</div>
+        <h1>${passed ? `Passed in ${a.tradingDays.length} trading days`
+            : a.breach ? esc(a.breach.detail) : 'You ended the run early'}</h1>
+        <p>${esc(a.rs.firm)} · ${esc(a.rs.label)} · result ${money(profit, true)} over ${a.trades.length} trades</p>
+      </div>
+
+      ${primary && !passed ? `
+      <div class="card" style="margin-bottom:16px;border-color:rgba(255,71,87,.35)">
+        <div class="finding" style="border:none;padding:0;margin:0">
+          <div class="code">PRIMARY PATTERN · ${esc(primary.code)}</div>
+          <h4 style="font-size:22px">${esc(primary.name)}</h4>
+          <div class="stat">${esc(primary.stat)}</div>
+          <p>${esc(primary.detail)}</p>
+        </div>
+      </div>` : ''}
+
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="card">
+          <h3 style="margin-bottom:10px">What actually happened</h3>
+          <div class="timeline">
+            ${events.map((e) => `<div class="row ${e.kind}">
+              <span class="t">${esc(e.time)}</span><span class="x">${esc(e.text)}</span></div>`).join('')}
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:10px">Everything we found</h3>
+          ${findings.length ? findings.map((f) => `
+            <div class="finding sev${f.severity >= 4 ? 3 : f.severity >= 2 ? 2 : 1}">
+              <div class="code">${esc(f.code)}</div>
+              <h4>${esc(f.name)}</h4>
+              <div class="stat">${esc(f.stat)}</div>
+              <p>${esc(f.detail)}</p>
+              ${f.evidence?.length ? `<ul>${f.evidence.map((e) => `<li>${esc(e.text)}</li>`).join('')}</ul>` : ''}
+            </div>`).join('')
+            : `<p>No behavioural patterns flagged in this run. That is a good sign, and it is also
+               only one run — the score weights recent runs, so do it again.</p>`}
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="card">
+          <h3 style="margin-bottom:10px">Your drills</h3>
+          ${drills.map((d, i) => `
+            <div class="drill">
+              <div class="n">${i + 1}</div>
+              <div>
+                <b>${esc(d.name)}</b>
+                <div class="goal">${esc(d.goal)}</div>
+                <div class="why">${esc(d.why)}</div>
+                <button class="btn sm" data-drill="${d.id}" style="margin-top:8px">Load this drill →</button>
+              </div>
+            </div>`).join('')}
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:10px">XP earned · +${xp}</h3>
+          <div class="timeline">
+            ${notes.map((n) => `<div class="row"><span class="t num">+${n.n}</span><span class="x">${esc(n.why)}</span></div>`).join('')}
+          </div>
+          <p class="src" style="margin-top:12px">
+            XP is awarded for process, never for profit. A bigger winner earns exactly the same
+            as a small one — rewarding P&amp;L would train gambling.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <h3 style="margin-bottom:12px">Share this</h3>
+        <div id="card-host" style="margin-bottom:12px"></div>
+        <button class="btn" id="dl">Download the card</button>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" id="again">Run it again →</button>
+        <button class="btn" id="dash">See my readiness score</button>
+      </div>
+    </div>
+    ${footer()}`;
+
+  const cv = renderCard(a, { primary, score: score.score, grade: score.grade });
+  cv.className = 'share-card';
+  cv.style.width = '100%';
+  $('#card-host', main).appendChild(cv);
+  $('#dl', main).addEventListener('click', () => download(cv, `challenge-ready-${a.status}.png`));
+
+  main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
+    S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
+    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    go('setup');
+  }));
+  $('#again', main).addEventListener('click', startRun);
+  $('#dash', main).addEventListener('click', () => go('dashboard'));
+}
+
+// ── DASHBOARD ───────────────────────────────────────────────────────────────
+function viewDashboard(main, score) {
+  const runs = S.profile.runs;
+  if (!runs.length || !score.components) {
+    main.innerHTML = `<div class="wrap narrow"><div class="card empty">
+      <h2>Unscored</h2>
+      <p>You haven't been tested yet. One 15-minute run will tell you more about your trading
+         than fifteen videos will.</p>
+      <button class="btn primary" id="go">Run the diagnostic →</button>
+    </div></div>${footer()}`;
+    $('#go', main).addEventListener('click', () => go('setup'));
+    return;
+  }
+
+  const rec = recommendation(score.score, score.runs);
+  const lvl = levelFor(S.profile.xp);
+  const passes = runs.filter((r) => r.status === 'passed').length;
+
+  main.innerHTML = `
+    <div class="wrap">
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="card">
+          <div class="score-hero">
+            ${dial(score.score, score.grade)}
+            <div style="flex:1;min-width:200px">
+              <h2>Readiness Score</h2>
+              <p style="font-size:13px">${esc(score.disclosure)}</p>
+              <div style="margin-top:12px;display:flex;gap:18px;font-size:13px">
+                <span><b class="num">${runs.length}</b> <span style="color:var(--dim)">runs</span></span>
+                <span><b class="num">${passes}</b> <span style="color:var(--dim)">passed</span></span>
+                <span><b class="num">${S.profile.streak}</b> <span style="color:var(--dim)">day streak</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="rec ${rec.level}" style="margin-top:16px">${esc(rec.text)}</div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:12px">Components</h3>
+          ${COMPONENTS.map((c) => {
+            const v = Math.round(score.components[c.key]);
+            const col = v >= 75 ? 'var(--teal)' : v >= 50 ? 'var(--amber)' : 'var(--red)';
+            return `<div class="comp">
+              <div class="top"><span>${esc(c.label)}</span><b class="num">${v}</b></div>
+              <div class="track"><i style="width:${v}%;background:${col}"></i></div>
+              <div style="font-size:11.5px;color:var(--dim);margin-top:3px">${esc(c.blurb)}</div>
+            </div>`;
+          }).join('')}
+          ${score.weakest ? `<div class="note" style="margin-top:12px">
+            Weakest component: <b style="color:var(--fg)">${esc(score.weakest.label)}</b>. Fix this one first —
+            it carries ${Math.round(score.weakest.weight * 100)}% of the score.</div>` : ''}
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="card">
+          <h3 style="margin-bottom:12px">Progression</h3>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+            <b style="font-size:26px">L${lvl.level}</b>
+            <span style="font-size:16px">${esc(lvl.name)}</span>
+          </div>
+          <div class="comp"><div class="track">
+            <i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%;background:var(--teal)"></i>
+          </div></div>
+          <div style="font-size:12.5px;color:var(--dim);margin-top:6px">
+            ${lvl.max ? 'Max level' : `${lvl.need - lvl.into} XP to level ${lvl.level + 1}`}
+          </div>
+          <div class="note" style="margin-top:14px">
+            Level 7 is "Challenge Ready" and it is deliberately hard to reach. A badge that is
+            easy to get is a badge nobody respects.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:12px">Available drills</h3>
+          <div style="max-height:230px;overflow:auto">
+            ${DRILLS.slice(0, 6).map((d) => `
+              <div class="drill">
+                <div class="n">${esc(d.forMode)}</div>
+                <div style="flex:1">
+                  <b>${esc(d.name)}</b>
+                  <div class="goal">${esc(d.goal)}</div>
+                </div>
+                <button class="btn sm" data-drill="${d.id}">Load</button>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:12px">Run history</h3>
+        <table class="hist">
+          <tr><th>#</th><th>Ruleset</th><th>Result</th><th>P&amp;L</th><th>Trades</th><th>Days</th><th>Cause</th></tr>
+          ${runs.slice().reverse().map((r, i) => {
+            const p = r.balance - r.rs.accountSize;
+            return `<tr>
+              <td>${runs.length - i}</td>
+              <td>${esc(r.rs.firm)}</td>
+              <td class="${r.status === 'passed' ? 'pos' : r.status === 'failed' ? 'neg' : ''}">${esc(r.status)}</td>
+              <td class="${p >= 0 ? 'pos' : 'neg'}">${money(p, true)}</td>
+              <td>${r.trades.length}</td>
+              <td>${r.tradingDays.length}</td>
+              <td style="color:var(--dim)">${r.breach ? esc(r.breach.code) : '—'}</td>
+            </tr>`;
+          }).join('')}
+        </table>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+        <button class="btn primary" id="new">New run →</button>
+        <button class="btn danger" id="reset">Reset all my data</button>
+      </div>
+    </div>
+    ${footer()}`;
+
+  main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
+    S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
+    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    go('setup');
+  }));
+  $('#new', main).addEventListener('click', () => go('setup'));
+  $('#reset', main).addEventListener('click', () => {
+    if (!confirm('Delete every run, your XP and your streak? This cannot be undone.')) return;
+    S.profile = { runs: [], xp: 0, streak: 0, lastDay: null, completedDrills: [] };
+    saveProfile(S.profile);
+    go('dashboard');
+  });
+}
+
+function dial(score, grade) {
+  const r = 56, c = 2 * Math.PI * r;
+  const pct = (score ?? 0) / 100;
+  const col = score >= 75 ? '#00C9A7' : score >= 50 ? '#FFB020' : '#FF4757';
+  return `<div class="dial">
+    <svg width="132" height="132" viewBox="0 0 132 132">
+      <circle cx="66" cy="66" r="${r}" fill="none" stroke="#171E26" stroke-width="10"/>
+      <circle cx="66" cy="66" r="${r}" fill="none" stroke="${col}" stroke-width="10"
+        stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct)}"
+        transform="rotate(-90 66 66)"/>
+    </svg>
+    <div class="g"><b style="color:${col}">${score ?? '—'}</b><small>GRADE ${grade ?? '—'}</small></div>
+  </div>`;
+}
+
+function footer() {
+  return `<footer>
+    Simulated trading on synthetic data. Nothing here is real market data, a real trading record,
+    a prediction, or financial advice. Rule sets are models of publicly documented evaluation
+    formats and are not affiliated with any firm — always verify current terms with the firm itself.
+  </footer>`;
+}
+
+render();
+
+return {  };
+})();
+</script>
