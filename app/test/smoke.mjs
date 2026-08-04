@@ -46,7 +46,7 @@ await page.waitForTimeout(900);
 ok(await page.locator('#hud .cell').first().isVisible(), 'HUD rendered');
 ok((await page.locator('#hud .cell').count()) === 6, 'six HUD cells');
 const hudText = await page.locator('#hud').innerText();
-ok(/Max loss floor/i.test(hudText), 'floor cell present');
+ok(/Loss floor/i.test(hudText), 'floor cell present');
 await shot('03-trading');
 
 console.log('4. place a trade');
@@ -59,7 +59,7 @@ await shot('04-position-open');
 
 await page.locator('#b-flat').click();
 await page.waitForTimeout(200);
-ok((await page.locator('#ps').innerText()).includes('Flat'), 'flatten closes the position');
+ok(/flat/i.test(await page.locator('#ps').innerText()), 'flatten closes the position');
 
 console.log('5. guardrail: trade cap blocks the 7th trade');
 // Let the clock run between trades so each one has a real holding period and a real P&L —
@@ -86,7 +86,7 @@ await page.locator('#b-play').click();
 await page.waitForSelector('.verdict', { timeout: 45000 });
 await page.waitForTimeout(400);
 const verdict = await page.locator('.verdict').innerText();
-ok(/PASSED|FAILED|ENDED/.test(verdict), `autopsy reached: ${verdict.split('\n')[0]}`);
+ok(/passed|failed|ended/i.test(verdict), `autopsy reached: ${verdict.split('\n')[0]}`);
 ok(await page.locator('.timeline .row').first().isVisible(), 'timeline narrative rendered');
 ok((await page.locator('.drill').count()) >= 3, 'three drills prescribed');
 ok(await page.locator('#card-host canvas').isVisible(), 'share card rendered');
@@ -99,7 +99,7 @@ await page.waitForSelector('.dial');
 const dialText = await page.locator('.dial .g').innerText();
 ok(/\d+/.test(dialText), `score computed: ${dialText.replace(/\n/g, ' ')}`);
 ok((await page.locator('.comp').count()) >= 5, 'five score components shown');
-const disclosure = await page.locator('.card p').first().innerText();
+const disclosure = await page.locator('#disclosure').innerText();
 ok(/simulator/i.test(disclosure) && !/probability of passing/i.test(disclosure),
    'disclosure is honest and claims no real-world probability');
 ok((await page.locator('.hist tr').count()) >= 2, 'run history recorded');
@@ -114,8 +114,8 @@ ok((await page.locator('.hist tr').count()) >= 2, 'runs survive a reload');
 console.log('9. drill loading');
 await page.locator('[data-drill]').first().click();
 await page.waitForTimeout(250);
-ok((await page.locator('.card').first().innerText()).includes('Drill loaded')
-   || (await page.content()).includes('Drill loaded'), 'drill loads into the next run');
+await page.waitForSelector('.firm-grid');
+ok((await page.content()).includes('Drill loaded'), 'drill loads into the next run');
 await shot('09-drill-loaded');
 
 console.log('\nconsole errors:', errors.length);

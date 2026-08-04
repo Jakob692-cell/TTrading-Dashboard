@@ -74,6 +74,32 @@ test/
 
 ---
 
+## The visual identity: two worlds
+
+The product's thesis is that the verdict is the product, not the chart. So the app is
+deliberately two places, and moving between them should feel like it:
+
+- **The cockpit** — where you trade. An instrument panel: square corners, hairline rules,
+  etched labels, readouts. No cards, no rounding. Alarm states are structural — the whole
+  instrument changes ground colour as you approach a limit, not just a number.
+- **The report** — where you are judged. Paper, serif, wide margins, rules instead of boxes.
+  A document that was issued to you.
+
+They share one type scale and one accent family, so it reads as one system with two grounds.
+The type discipline *is* the identity: **the serif never appears in the cockpit, the mono
+never carries prose, and every number is mono and tabular.**
+
+Palette: graphite `#14171C`, cool paper `#E8EBEF`, oxblood `#A6273A` (breach), ultramarine
+`#3B57D8` (pass / position), muted amber `#B87A12` (caution). P&L is oxblood/ultramarine
+rather than red/green — ~8% of men have red-green colour deficiency and this audience skews
+~69% male, so the most safety-critical number on screen must not depend on that distinction.
+
+Single-theme by intent, not omission: a trading instrument is dark and a printed assessment
+is paper. Inverting either would break the metaphor the product runs on.
+
+The share card is **paper, not cockpit** — a printed assessment stands out in a feed
+otherwise full of dark trading screenshots. It is the one place the design takes a real risk.
+
 ## Three decisions worth defending
 
 ### Synthetic market data, deliberately

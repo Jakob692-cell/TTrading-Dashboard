@@ -2,288 +2,544 @@
 <meta name="description" content="Practise a prop firm challenge under the exact rules before you pay for one. Simulated trading on synthetic data.">
 <meta name="color-scheme" content="dark">
 <style>
-/* Challenge Ready — V1
-   Colour note: P&L uses teal/red rather than green/red. ~8% of men have red-green colour
-   vision deficiency and this audience skews ~69% male, so the most safety-critical number
-   in the product must not depend on a red/green distinction. Every value also carries an
-   explicit +/- sign so colour is never the only channel. */
+/* ═══════════════════════════════════════════════════════════════════════════
+   Challenge Ready — visual identity
+
+   The product's thesis is that the verdict is the product, not the chart. So the
+   app is deliberately two places, and moving between them should feel like it:
+
+     THE COCKPIT  — where you trade. An instrument panel: square corners, hairline
+                    rules, etched labels, readouts. No cards, no rounding, no charm.
+     THE REPORT   — where you are judged. Paper, serif, wide margins, rules instead
+                    of boxes. A document that was issued to you.
+
+   They share one type scale, one set of rules and one accent family, so it reads
+   as one system with two grounds — a cockpit and its printed flight report.
+
+   Type discipline, which is the identity: the serif never appears in the cockpit.
+   The mono never carries prose. Every number is mono and tabular.
+
+   Single-theme by intent, not omission. A trading instrument is dark and a printed
+   assessment is paper; inverting either would break the metaphor the product runs on.
+
+   Colour note: P&L is oxblood/ultramarine rather than red/green. ~8% of men have
+   red-green colour deficiency and this audience skews ~69% male, so the most
+   safety-critical number on screen must not depend on that distinction. Every
+   value also carries an explicit sign, so colour is never the only channel.
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg:      #0B0E11;
-  --panel:   #12171E;
-  --panel-2: #171E26;
-  --line:    #232C36;
-  --fg:      #E6EDF3;
-  --muted:   #8B99A6;
-  --dim:     #5D6B78;
-  --teal:    #00C9A7;
-  --red:     #FF4757;
-  --amber:   #FFB020;
-  --blue:    #4C8DFF;
-  --radius:  10px;
-  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* grounds */
+  --ink:        #14171C;   /* cockpit ground — cool graphite, not pure black */
+  --panel:      #1A1E25;   /* instrument face */
+  --panel-hi:   #212630;   /* raised instrument */
+  --rule:       #2B313B;   /* hairline */
+  --rule-soft:  #21262E;
+
+  --paper:      #E8EBEF;   /* report ground — cool bluish white, not warm cream */
+  --paper-2:    #DDE1E7;
+  --paper-rule: #C3C9D2;
+
+  /* ink */
+  --readout:    #CFD6DE;   /* primary readout on the panel */
+  --readout-2:  #8D97A4;   /* secondary */
+  --readout-3:  #616B78;   /* etched label */
+  --ink-1:      #15181D;   /* primary on paper */
+  --ink-2:      #4A525E;
+  --ink-3:      #78818E;
+
+  /* signal — semantic, not decorative */
+  --oxblood:    #A6273A;   /* breach, failure, loss */
+  --oxblood-lo: #D45C6E;   /* the same signal, legible on the dark ground */
+  --ultra:      #3B57D8;   /* pass, armed, position */
+  --ultra-lo:   #7D93FF;
+  --caution:    #B87A12;
+  --caution-lo: #E0A33C;
+
+  /* type */
+  --serif: Georgia, 'Iowan Old Style', 'Times New Roman', Times, serif;
+  --sans:  system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --mono:  ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* scale */
+  --t-xs: 11px; --t-sm: 12.5px; --t-md: 14px; --t-lg: 17px;
+  --t-xl: 22px; --t-2xl: 30px; --t-3xl: 42px; --t-4xl: 58px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   height: 100%;
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--ink);
+  color: var(--readout);
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: var(--t-md);
   -webkit-font-smoothing: antialiased;
 }
 
 button { font: inherit; color: inherit; cursor: pointer; border: none; background: none; }
-button:disabled { cursor: not-allowed; opacity: .38; }
+button:disabled { cursor: not-allowed; opacity: .35; }
 input, select { font: inherit; color: inherit; }
-.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
-/* ── shell ─────────────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--ultra-lo); outline-offset: 2px; }
+
+.num, .n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Etched label — the single most repeated device in the cockpit. */
+.lbl {
+  font-family: var(--sans);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--readout-3);
+}
+
 #app { min-height: 100%; display: flex; flex-direction: column; }
 
+/* ── masthead ──────────────────────────────────────────────────────────────
+   A fixed instrument bezel. Square, hairline-ruled, no rounding anywhere. */
 .topbar {
-  display: flex; align-items: center; gap: 16px;
-  padding: 10px 18px; border-bottom: 1px solid var(--line);
-  background: var(--panel); flex-shrink: 0;
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 20px; height: 46px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
 }
-.logo { font-weight: 700; letter-spacing: -.02em; font-size: 15px; }
-.logo span { color: var(--teal); }
+.logo {
+  font-family: var(--sans);
+  font-size: var(--t-sm); font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--readout);
+}
+.logo span { color: var(--readout-3); }
+
 .sim-badge {
-  font-size: 10px; font-weight: 700; letter-spacing: .09em;
-  padding: 3px 8px; border-radius: 4px;
-  background: rgba(255,176,32,.13); color: var(--amber);
-  border: 1px solid rgba(255,176,32,.32);
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 700; letter-spacing: .16em;
+  padding: 3px 7px;
+  color: var(--caution-lo);
+  border: 1px solid color-mix(in srgb, var(--caution) 55%, transparent);
 }
 .topbar .spacer { flex: 1; }
-.topbar nav { display: flex; gap: 4px; }
-.topbar nav button {
-  padding: 6px 12px; border-radius: 7px; color: var(--muted); font-size: 13px;
-}
-.topbar nav button:hover { background: var(--panel-2); color: var(--fg); }
-.topbar nav button.on { background: var(--panel-2); color: var(--fg); }
 
-.lvl {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; color: var(--muted);
-  padding: 4px 10px; border: 1px solid var(--line); border-radius: 20px;
+.topbar nav { display: flex; align-self: stretch; }
+.topbar nav button {
+  padding: 0 15px; align-self: stretch;
+  font-size: var(--t-sm); font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--readout-3);
+  border-bottom: 2px solid transparent;
 }
-.lvl b { color: var(--fg); font-weight: 600; }
-.lvl .bar { width: 54px; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
-.lvl .bar i { display: block; height: 100%; background: var(--teal); }
+.topbar nav button:hover { color: var(--readout); }
+.topbar nav button.on { color: var(--readout); border-bottom-color: var(--ultra-lo); }
+
+.lvl { display: flex; align-items: baseline; gap: 9px; font-size: var(--t-xs); color: var(--readout-3); }
+.lvl b { font-family: var(--mono); font-size: var(--t-sm); color: var(--readout); font-weight: 600; }
+.lvl .lname { letter-spacing: .1em; text-transform: uppercase; }
+.lvl .bar { width: 46px; height: 2px; background: var(--rule); align-self: center; }
+.lvl .bar i { display: block; height: 100%; background: var(--ultra-lo); }
 
 main { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 
-/* ── generic bits ──────────────────────────────────────────────────────── */
-.wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; width: 100%; }
-.wrap.narrow { max-width: 720px; }
-h1 { font-size: 30px; font-weight: 700; letter-spacing: -.025em; line-height: 1.15; }
-h2 { font-size: 19px; font-weight: 650; letter-spacing: -.015em; margin-bottom: 4px; }
-h3 { font-size: 13px; font-weight: 650; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-p  { color: var(--muted); line-height: 1.6; }
-
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
-.grid { display: grid; gap: 14px; }
-.g2 { grid-template-columns: repeat(2, 1fr); }
-.g3 { grid-template-columns: repeat(3, 1fr); }
-@media (max-width: 860px) { .g2, .g3 { grid-template-columns: 1fr; } }
-
-.btn {
-  padding: 11px 18px; border-radius: 8px; font-weight: 600; font-size: 14px;
-  background: var(--panel-2); border: 1px solid var(--line); transition: .12s;
+/* ═══ THE REPORT — paper ground ════════════════════════════════════════════ */
+.paper {
+  background: var(--paper);
+  color: var(--ink-1);
+  flex: 1;
+  /* A printed sheet has an edge. This is the seam between the two worlds. */
+  border-top: 3px solid var(--ink);
 }
-.btn:hover:not(:disabled) { border-color: var(--dim); }
-.btn.primary { background: var(--teal); color: #04231D; border-color: var(--teal); }
-.btn.primary:hover:not(:disabled) { filter: brightness(1.08); }
-.btn.danger  { background: rgba(255,71,87,.12); color: var(--red); border-color: rgba(255,71,87,.35); }
-.btn.big { padding: 14px 26px; font-size: 15px; }
-.btn.sm { padding: 7px 12px; font-size: 13px; }
+.sheet { max-width: 1080px; margin: 0 auto; padding: 40px 32px 72px; }
+.sheet.narrow { max-width: 740px; }
 
-.pos { color: var(--teal); } .neg { color: var(--red); } .warn { color: var(--amber); }
+.paper h1, .paper h2, .paper .serif { font-family: var(--serif); font-weight: 400; }
+.paper h1 { font-size: var(--t-3xl); line-height: 1.08; letter-spacing: -.015em; text-wrap: balance; }
+.paper h2 { font-size: var(--t-xl); line-height: 1.2; letter-spacing: -.01em; }
+.paper p  { color: var(--ink-2); line-height: 1.62; max-width: 68ch; }
+.paper .lbl { color: var(--ink-3); }
+.paper a { color: var(--ultra); }
 
-.pill { display:inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
-        background: var(--panel-2); color: var(--muted); border: 1px solid var(--line); }
+/* Section head: a ruled band, the way a form segments a page. */
+.band {
+  display: flex; align-items: baseline; gap: 12px;
+  border-bottom: 1px solid var(--ink-1);
+  padding-bottom: 6px; margin-bottom: 18px;
+}
+.band .lbl { color: var(--ink-1); }
+.band .rest { flex: 1; text-align: right; font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-3); }
 
-/* ── landing ───────────────────────────────────────────────────────────── */
-.hero { text-align: center; padding: 56px 0 34px; }
-.hero h1 { max-width: 700px; margin: 0 auto 14px; font-size: 38px; }
-.hero .sub { max-width: 560px; margin: 0 auto 26px; font-size: 16px; }
-.stat-row { display: flex; gap: 34px; justify-content: center; margin: 30px 0 8px; flex-wrap: wrap; }
-.stat-row div { text-align: center; }
-.stat-row b { display: block; font-size: 28px; font-family: var(--mono); font-weight: 600; }
-.stat-row small { color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; }
-.src { font-size: 11px; color: var(--dim); margin-top: 18px; }
-.src a { color: var(--dim); }
+/* Panels on paper are rules, not boxes. */
+.block { border-top: 1px solid var(--paper-rule); padding-top: 16px; }
 
-/* ── setup ─────────────────────────────────────────────────────────────── */
-.firm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-@media (max-width: 760px) { .firm-grid { grid-template-columns: 1fr; } }
+.cols { display: grid; gap: 34px; }
+.c2 { grid-template-columns: 1fr 1fr; }
+.c3 { grid-template-columns: repeat(3, 1fr); }
+.c-wide { grid-template-columns: 1.35fr 1fr; }
+@media (max-width: 880px) { .c2, .c3, .c-wide { grid-template-columns: 1fr; } }
+
+/* ── setup masthead: asymmetric, left-aligned, filing-header logic ───────── */
+.masthead { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: end; margin-bottom: 52px; }
+@media (max-width: 880px) { .masthead { grid-template-columns: 1fr; gap: 30px; } }
+.masthead h1 { font-size: 45px; line-height: 1.1; }
+@media (max-width: 1000px) { .masthead h1 { font-size: 38px; } }
+.masthead .kicker { margin-bottom: 15px; }
+.masthead p { margin-top: 16px; font-size: 15.5px; }
+
+/* Sourced statistics as a ruled table, not floating numbers. */
+.figures { width: 100%; border-collapse: collapse; }
+.figures caption {
+  text-align: left; padding-bottom: 7px;
+  border-bottom: 1px solid var(--ink-1);
+  font-family: var(--sans); font-size: var(--t-xs); font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-1);
+}
+.figures td { padding: 7px 0; border-bottom: 1px solid var(--paper-rule); vertical-align: baseline; }
+.figures td:first-child {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-lg); font-weight: 600; width: 4.6em; color: var(--ink-1);
+}
+.figures td:last-child { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.35; }
+.figures tr.low td:first-child { color: var(--oxblood); }
+.src { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.55; margin-top: 9px; }
+.src a { color: var(--ink-3); }
+
+/* ── rule-set picker: a specification sheet, one row per programme ───────── */
+.firm-grid { display: flex; flex-direction: column; border-top: 1px solid var(--ink-1); }
 .firm {
-  text-align: left; padding: 14px; border-radius: 9px;
-  background: var(--panel); border: 1px solid var(--line); transition: .12s;
+  display: grid; grid-template-columns: 1.1fr 1fr auto;
+  gap: 20px; align-items: baseline;
+  padding: 13px 14px 13px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--paper-rule);
+  position: relative;
+  transition: background .12s;
 }
-.firm:hover { border-color: var(--dim); }
-.firm.on { border-color: var(--teal); background: rgba(0,201,167,.06); }
-.firm b { display: block; font-size: 14px; margin-bottom: 2px; }
-.firm small { color: var(--muted); font-size: 12px; }
-.firm .dd { margin-top: 8px; font-size: 11px; color: var(--dim); font-family: var(--mono); }
+.firm::before {
+  content: ''; position: absolute; left: -14px; top: 0; bottom: 0;
+  width: 3px; background: transparent;
+}
+.firm:hover { background: var(--paper-2); }
+.firm.on { background: var(--paper-2); }
+.firm.on::before { background: var(--ultra); }
+.firm b { font-family: var(--serif); font-size: var(--t-lg); font-weight: 400; color: var(--ink-1); }
+.firm .prog { font-size: var(--t-sm); color: var(--ink-2); }
+.firm .dd {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs); color: var(--ink-3); text-align: right; white-space: nowrap;
+}
+.firm .dd em { font-style: normal; color: var(--ink-2); }
 
-.rules-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.rules-table td { padding: 8px 0; border-bottom: 1px solid var(--line); }
-.rules-table td:first-child { color: var(--muted); width: 46%; }
-.rules-table td:last-child { font-family: var(--mono); text-align: right; }
+/* ── rule specification table ────────────────────────────────────────────── */
+.rules-table { width: 100%; border-collapse: collapse; }
+.rules-table td { padding: 9px 0; border-bottom: 1px solid var(--paper-rule); vertical-align: baseline; }
+.rules-table td:first-child { color: var(--ink-2); font-size: var(--t-sm); white-space: nowrap; padding-right: 16px; }
+.rules-table td:last-child {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-sm); text-align: right; color: var(--ink-1); line-height: 1.45;
+}
 .rules-table tr:last-child td { border-bottom: none; }
 
-.note { font-size: 12.5px; color: var(--muted); line-height: 1.55;
-        padding: 11px 13px; border-left: 2px solid var(--line); background: var(--panel-2);
-        border-radius: 0 6px 6px 0; }
+/* A margin note, the way an examiner annotates. */
+.note {
+  font-size: var(--t-sm); color: var(--ink-2); line-height: 1.55;
+  padding-left: 13px; border-left: 2px solid var(--ink-1);
+  margin-bottom: 11px;
+}
+.paper .note em { font-style: italic; color: var(--ink-1); }
 
-.field { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; }
-.field label { font-size: 13.5px; }
-.field small { display: block; color: var(--dim); font-size: 11.5px; margin-top: 2px; }
+/* ── form controls on paper ──────────────────────────────────────────────── */
+.field { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--paper-rule); }
+.field label { font-size: var(--t-sm); color: var(--ink-1); }
+.field small { display: block; color: var(--ink-3); font-size: var(--t-xs); margin-top: 3px; }
 .field input, .field select {
-  background: var(--bg); border: 1px solid var(--line); border-radius: 7px;
-  padding: 7px 10px; width: 118px; font-family: var(--mono); font-size: 13px;
+  background: transparent; border: none; border-bottom: 1px solid var(--ink-2);
+  padding: 3px 2px; width: 96px; text-align: right;
+  font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: var(--t-sm);
+  color: var(--ink-1); border-radius: 0;
 }
-.field input[type=checkbox] { width: auto; accent-color: var(--teal); }
+.field input:focus, .field select:focus { outline: none; border-bottom-color: var(--ultra); }
+.field .pair { display: flex; gap: 8px; }
+.field .pair input { width: 46px; }
 
-/* ── trading screen ────────────────────────────────────────────────────── */
-.trade-shell { display: flex; flex-direction: column; height: calc(100vh - 49px); }
-
-.hud {
-  display: flex; align-items: stretch; gap: 1px; background: var(--line);
-  border-bottom: 1px solid var(--line); flex-shrink: 0;
+/* ── buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--sans); font-size: var(--t-sm); font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 11px 18px; border: 1px solid currentColor; background: transparent;
+  transition: background .12s, color .12s;
 }
-.hud .cell { flex: 1; background: var(--panel); padding: 8px 13px; min-width: 0; }
-.hud .cell .k { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--dim); }
-.hud .cell .v { font-family: var(--mono); font-size: 17px; font-weight: 600; margin-top: 1px;
-                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hud .cell .meter { height: 3px; background: var(--line); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-.hud .cell .meter i { display: block; height: 100%; background: var(--teal); transition: width .2s, background .2s; }
-.hud .cell.amber .meter i { background: var(--amber); }
-.hud .cell.red   .meter i { background: var(--red); }
-.hud .cell.amber .v { color: var(--amber); }
-.hud .cell.red   .v { color: var(--red); }
-.hud .cell small { font-size: 10.5px; color: var(--dim); }
+.paper .btn { color: var(--ink-1); }
+.paper .btn:hover:not(:disabled) { background: var(--ink-1); color: var(--paper); }
+.btn.primary { background: var(--ink-1); color: var(--paper); border-color: var(--ink-1); }
+.paper .btn.primary:hover:not(:disabled) { background: var(--ultra); border-color: var(--ultra); color: #fff; }
+.btn.big { padding: 15px 30px; font-size: var(--t-md); }
+.btn.sm { padding: 7px 11px; font-size: var(--t-xs); letter-spacing: .08em; }
+.btn.quiet { border-color: var(--paper-rule); color: var(--ink-2); }
+.paper .btn.danger { color: var(--oxblood); border-color: color-mix(in srgb, var(--oxblood) 45%, transparent); }
+.paper .btn.danger:hover { background: var(--oxblood); color: var(--paper); }
 
-.chart-area { flex: 1; position: relative; min-height: 0; background: var(--bg); }
+.actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+.actions .caption { font-size: var(--t-xs); color: var(--ink-3); max-width: 40ch; line-height: 1.5; }
+
+/* ═══ THE COCKPIT — instrument ground ══════════════════════════════════════ */
+.trade-shell { display: flex; flex-direction: column; height: calc(100vh - 46px); background: var(--ink); }
+
+/* HUD: a segmented instrument strip. Etched label, big readout, a travel meter. */
+.hud { display: flex; background: var(--panel); border-bottom: 1px solid var(--rule); flex-shrink: 0; }
+.hud .cell {
+  flex: 1; min-width: 0; padding: 9px 14px 10px;
+  border-right: 1px solid var(--rule-soft);
+  position: relative;
+}
+.hud .cell:last-child { border-right: none; }
+.hud .cell .k { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--readout-3); }
+.hud .cell .v {
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 19px; font-weight: 500; letter-spacing: -.01em;
+  margin-top: 3px; color: var(--readout);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.hud .cell .meter { height: 2px; background: var(--rule); margin-top: 7px; }
+.hud .cell .meter i { display: block; height: 100%; background: var(--readout-2); transition: width .18s, background .18s; }
+.hud .cell small { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--readout-3); margin-top: 5px; }
+
+/* Alarm states are structural: the whole instrument changes, not just a number. */
+.hud .cell.caution { background: color-mix(in srgb, var(--caution) 9%, var(--panel)); }
+.hud .cell.caution .v, .hud .cell.caution .k { color: var(--caution-lo); }
+.hud .cell.caution .meter i { background: var(--caution-lo); }
+.hud .cell.alarm { background: color-mix(in srgb, var(--oxblood) 16%, var(--panel)); }
+.hud .cell.alarm .v, .hud .cell.alarm .k { color: var(--oxblood-lo); }
+.hud .cell.alarm .meter i { background: var(--oxblood-lo); }
+.hud .cell.alarm::after {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--oxblood-lo);
+}
+.hud .cell.armed .v { color: var(--ultra-lo); }
+.hud .cell.armed .meter i { background: var(--ultra-lo); }
+
+.chart-area { flex: 1; position: relative; min-height: 0; background: var(--ink); }
 .chart-area canvas { display: block; width: 100%; height: 100%; }
-.chart-overlay {
-  position: absolute; top: 10px; left: 12px; font-size: 11.5px;
-  color: var(--muted); font-family: var(--mono); pointer-events: none; line-height: 1.6;
+.chart-overlay, .ticker {
+  position: absolute; top: 11px;
+  font-family: var(--mono); font-size: 11px; line-height: 1.65;
+  color: var(--readout-3); pointer-events: none;
 }
+.chart-overlay { left: 13px; }
+ /* Offset by the price axis gutter so the last price never collides with an axis label. */
+.ticker { right: 78px; text-align: right; }
+.ticker b { display: block; font-size: 15px; font-weight: 500; color: var(--readout); }
 
-.ticker { position:absolute; top:10px; right:12px; text-align:right; font-family: var(--mono);
-          font-size: 11.5px; color: var(--muted); pointer-events:none; line-height:1.6; }
+/* Position strip: the state line between chart and controls. */
+.pos-strip {
+  display: flex; align-items: center; gap: 18px;
+  padding: 8px 14px; min-height: 33px;
+  background: var(--panel);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono); font-size: var(--t-sm);
+  flex-shrink: 0; flex-wrap: wrap;
+}
+.pos-strip .flat { color: var(--readout-3); letter-spacing: .1em; text-transform: uppercase; font-size: var(--t-xs); }
+.pos-strip .side { color: var(--ultra-lo); font-weight: 600; }
+.pos-strip .prot { color: var(--readout-3); }
+.pos-strip .caution { color: var(--caution-lo); }
+.pos-strip .alarm { color: var(--oxblood-lo); }
 
+/* Control deck. */
 .order-bar {
-  display: flex; align-items: center; gap: 8px; padding: 9px 13px;
-  border-top: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: var(--panel-hi);
+  border-top: 1px solid var(--rule); flex-wrap: wrap; flex-shrink: 0;
 }
-.order-bar .grp { display: flex; align-items: center; gap: 6px; }
-.order-bar label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; }
-.order-bar input, .order-bar select {
-  background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
-  padding: 6px 8px; width: 68px; font-family: var(--mono); font-size: 13px;
+.order-bar .grp { display: flex; align-items: center; gap: 7px; }
+.order-bar label { font-size: 10px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--readout-3); }
+.order-bar input {
+  background: var(--ink); border: 1px solid var(--rule); border-radius: 0;
+  padding: 6px 8px; width: 62px; text-align: right;
+  font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: var(--t-sm);
+  color: var(--readout);
 }
-.order-bar .sep { width: 1px; height: 26px; background: var(--line); }
-.buy  { background: rgba(0,201,167,.14); color: var(--teal); border: 1px solid rgba(0,201,167,.4); }
-.sell { background: rgba(76,141,255,.14); color: var(--blue); border: 1px solid rgba(76,141,255,.4); }
-.flat { background: var(--panel-2); border: 1px solid var(--line); }
+.order-bar input:focus { outline: none; border-color: var(--ultra-lo); }
+.order-bar .sep { width: 1px; height: 24px; background: var(--rule); }
+.order-bar .spacer { flex: 1; }
 
-.speed { display: flex; gap: 3px; }
-.speed button { padding: 5px 9px; border-radius: 5px; font-size: 12px; font-family: var(--mono);
-                background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
-.speed button.on { color: var(--teal); border-color: var(--teal); }
+.ctl {
+  font-family: var(--sans); font-size: var(--t-xs); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 9px 15px; border: 1px solid var(--rule); color: var(--readout-2);
+  transition: .12s;
+}
+.ctl:hover:not(:disabled) { border-color: var(--readout-3); color: var(--readout); }
+.ctl.buy  { color: var(--ultra-lo);   border-color: color-mix(in srgb, var(--ultra) 60%, transparent); }
+.ctl.buy:hover  { background: var(--ultra); color: #fff; border-color: var(--ultra); }
+.ctl.sell { color: var(--caution-lo); border-color: color-mix(in srgb, var(--caution) 55%, transparent); }
+.ctl.sell:hover { background: var(--caution); color: var(--ink); border-color: var(--caution); }
+.ctl.end  { color: var(--oxblood-lo); border-color: color-mix(in srgb, var(--oxblood) 50%, transparent); }
+.ctl.end:hover  { background: var(--oxblood); color: #fff; border-color: var(--oxblood); }
 
+.seg { display: flex; }
+.seg button {
+  font-family: var(--mono); font-size: var(--t-xs);
+  padding: 7px 10px; color: var(--readout-3);
+  border: 1px solid var(--rule); border-right-width: 0;
+}
+.seg button:last-child { border-right-width: 1px; }
+.seg button:hover { color: var(--readout); }
+.seg button.on { color: var(--ink); background: var(--readout-2); border-color: var(--readout-2); }
+
+/* Toast: an annunciator, not a notification bubble. */
 .toast {
-  position: fixed; left: 50%; transform: translateX(-50%); bottom: 96px; z-index: 60;
-  padding: 12px 18px; border-radius: 9px; font-size: 13.5px; font-weight: 500;
-  background: var(--panel); border: 1px solid var(--line); box-shadow: 0 12px 34px rgba(0,0,0,.5);
-  max-width: 460px;
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: 104px; z-index: 60;
+  padding: 11px 17px; max-width: 480px;
+  background: var(--panel-hi); border: 1px solid var(--rule);
+  border-left: 3px solid var(--readout-2);
+  font-family: var(--mono); font-size: var(--t-sm); line-height: 1.45;
+  color: var(--readout);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .55);
 }
-.toast.block { border-color: rgba(255,176,32,.45); color: var(--amber); }
-.toast.guard { border-color: rgba(0,201,167,.45); color: var(--teal); }
+.toast.block { border-left-color: var(--caution-lo); color: var(--caution-lo); }
+.toast.guard { border-left-color: var(--ultra-lo);   color: var(--ultra-lo); }
+@media (prefers-reduced-motion: no-preference) {
+  .toast { animation: rise .16s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translate(-50%, 6px); } }
+}
 
-.pos-strip { display:flex; align-items:center; gap:14px; padding: 7px 13px; background: var(--panel-2);
-             border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; flex-shrink:0; }
-
-/* ── autopsy ───────────────────────────────────────────────────────────── */
-.verdict { text-align: center; padding: 30px 0 22px; }
+/* ═══ VERDICT — the report's opening statement ═════════════════════════════ */
+.verdict { padding: 6px 0 30px; border-bottom: 1px solid var(--ink-1); margin-bottom: 30px; }
 .verdict .tag {
-  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .12em;
-  padding: 5px 12px; border-radius: 5px; margin-bottom: 14px;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: var(--t-xs); font-weight: 700;
+  letter-spacing: .16em; margin-bottom: 18px;
 }
-.verdict.fail .tag { background: rgba(255,71,87,.14); color: var(--red); border: 1px solid rgba(255,71,87,.4); }
-.verdict.pass .tag { background: rgba(0,201,167,.14); color: var(--teal); border: 1px solid rgba(0,201,167,.4); }
-.verdict h1 { font-size: 32px; margin-bottom: 8px; }
+.verdict .tag::before { content: ''; width: 26px; height: 2px; background: currentColor; }
+.verdict.fail  .tag { color: var(--oxblood); }
+.verdict.pass  .tag { color: var(--ultra); }
+.verdict.ended .tag { color: var(--caution); }
+.verdict h1 { font-size: var(--t-4xl); max-width: 20ch; }
+.verdict .meta {
+  margin-top: 16px; font-family: var(--mono); font-size: var(--t-sm);
+  color: var(--ink-2); display: flex; gap: 22px; flex-wrap: wrap;
+}
+.verdict .meta b { color: var(--ink-1); font-weight: 600; }
 
-.timeline { font-family: var(--mono); font-size: 12.5px; }
-.timeline .row { display: flex; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(35,44,54,.55); }
+/* Primary finding — the one thing to take away. */
+.primary { border-left: 3px solid var(--oxblood); padding: 2px 0 2px 18px; margin-bottom: 32px; }
+.primary .code { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: .13em; color: var(--ink-3); }
+.primary h2 { margin: 5px 0 8px; font-size: var(--t-2xl); }
+.primary .stat { font-family: var(--mono); font-size: var(--t-sm); color: var(--oxblood); margin-bottom: 10px; }
+
+/* Timeline: an event log, set as a ledger. */
+.timeline { font-family: var(--mono); font-size: var(--t-sm); }
+.timeline .row { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--paper-rule); }
 .timeline .row:last-child { border-bottom: none; }
-.timeline .t { color: var(--dim); width: 46px; flex-shrink: 0; }
-.timeline .row.loss .x, .timeline .row.breach .x { color: var(--red); }
-.timeline .row.win .x  { color: var(--teal); }
-.timeline .row.blocked .x, .timeline .row.floor .x { color: var(--amber); }
-.timeline .row.guard .x { color: var(--teal); }
-.timeline .row.pass .x  { color: var(--teal); font-weight: 600; }
-.timeline .row.breach   { background: rgba(255,71,87,.07); margin: 0 -8px; padding: 7px 8px; border-radius: 5px; }
+.timeline .t { color: var(--ink-3); }
+.timeline .x { color: var(--ink-2); }
+.timeline .row.loss .x   { color: var(--oxblood); }
+.timeline .row.win .x    { color: var(--ultra); }
+.timeline .row.entry .x  { color: var(--ink-1); }
+.timeline .row.blocked .x, .timeline .row.floor .x { color: var(--caution); }
+.timeline .row.guard .x  { color: var(--ultra); }
+.timeline .row.pass .x   { color: var(--ultra); font-weight: 600; }
+.timeline .daybreak {
+  display: flex; align-items: center; gap: 10px;
+  margin: 14px 0 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.timeline .daybreak::after { content: ''; flex: 1; height: 1px; background: var(--paper-rule); }
+.timeline .row.breach { background: color-mix(in srgb, var(--oxblood) 9%, transparent); margin: 0 -10px; padding: 8px 10px; }
+.timeline .row.breach .x { color: var(--oxblood); font-weight: 600; }
 
-.finding { border-left: 3px solid var(--red); padding: 12px 0 12px 14px; margin-bottom: 14px; }
-.finding.sev2 { border-color: var(--amber); }
-.finding.sev1 { border-color: var(--dim); }
-.finding .code { font-family: var(--mono); font-size: 11px; color: var(--dim); }
-.finding h4 { font-size: 15.5px; font-weight: 650; margin: 2px 0 5px; }
-.finding .stat { font-family: var(--mono); font-size: 12.5px; color: var(--amber); margin-bottom: 6px; }
-.finding p { font-size: 13.5px; }
-.finding ul { list-style: none; margin-top: 8px; font-family: var(--mono); font-size: 12px; color: var(--dim); }
-.finding li { padding: 3px 0 3px 12px; border-left: 1px solid var(--line); }
+/* Findings list. */
+.finding { padding: 15px 0; border-bottom: 1px solid var(--paper-rule); }
+.finding:last-child { border-bottom: none; }
+.finding .code { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: .13em; color: var(--ink-3); }
+.finding h4 { font-family: var(--serif); font-size: var(--t-lg); font-weight: 400; margin: 3px 0 6px; color: var(--ink-1); }
+.finding .stat { font-family: var(--mono); font-size: var(--t-sm); margin-bottom: 7px; }
+.finding.sev3 .stat { color: var(--oxblood); }
+.finding.sev2 .stat { color: var(--caution); }
+.finding.sev1 .stat { color: var(--ink-3); }
+.finding p { font-size: var(--t-sm); }
+.finding ul { list-style: none; margin-top: 9px; font-family: var(--mono); font-size: var(--t-xs); }
+.finding li { padding: 3px 0 3px 12px; border-left: 1px solid var(--paper-rule); color: var(--ink-3); }
 
-/* ── score ─────────────────────────────────────────────────────────────── */
-.score-hero { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
-.dial { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
-.dial .g { position: absolute; inset: 0; display: flex; flex-direction: column;
-           align-items: center; justify-content: center; }
-.dial .g b { font-size: 40px; font-weight: 700; line-height: 1; font-family: var(--mono); }
-.dial .g small { font-size: 11px; color: var(--dim); letter-spacing: .1em; margin-top: 3px; }
-
-.comp { margin-bottom: 11px; }
-.comp .top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
-.comp .top b { font-family: var(--mono); font-weight: 600; }
-.comp .track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
-.comp .track i { display: block; height: 100%; border-radius: 3px; }
-
-.rec { padding: 14px 16px; border-radius: 9px; font-size: 14px; line-height: 1.55; }
-.rec.stop  { background: rgba(255,71,87,.09);  border: 1px solid rgba(255,71,87,.3);  color: #FFB3BA; }
-.rec.wait  { background: rgba(255,176,32,.09); border: 1px solid rgba(255,176,32,.3); color: #FFD79A; }
-.rec.close { background: rgba(76,141,255,.09); border: 1px solid rgba(76,141,255,.3); color: #B7D0FF; }
-.rec.ready { background: rgba(0,201,167,.09);  border: 1px solid rgba(0,201,167,.3);  color: #9BEBD9; }
-.rec.unknown { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); }
-
-.drill { display: flex; gap: 13px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line); }
+/* Drills — a prescription, numbered because the order is the prescription. */
+.drill { display: grid; grid-template-columns: auto 1fr auto; gap: 15px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--paper-rule); }
 .drill:last-child { border-bottom: none; }
-.drill .n { width: 26px; height: 26px; border-radius: 7px; background: var(--panel-2);
-            display: grid; place-items: center; font-family: var(--mono); font-size: 12px;
-            color: var(--muted); flex-shrink: 0; }
-.drill b { font-size: 14px; }
-.drill .goal { font-size: 13px; color: var(--muted); margin-top: 2px; }
-.drill .why  { font-size: 12.5px; color: var(--dim); margin-top: 5px; font-style: italic; }
+.drill .n {
+  font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-3);
+  padding-top: 3px; min-width: 2.2em;
+}
+.drill b { font-family: var(--serif); font-size: 15.5px; font-weight: 400; color: var(--ink-1); }
+.drill .goal { font-size: var(--t-sm); color: var(--ink-2); margin-top: 3px; line-height: 1.5; }
+.drill .why { font-size: var(--t-sm); color: var(--ink-3); margin-top: 6px; font-style: italic; line-height: 1.5; }
 
-.empty { text-align: center; padding: 40px 20px; }
-.empty p { max-width: 380px; margin: 8px auto 16px; }
+/* XP ledger. */
+.ledger { font-family: var(--mono); font-size: var(--t-sm); }
+.ledger .row { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 5px 0; border-bottom: 1px solid var(--paper-rule); }
+.ledger .row:last-child { border-bottom: none; }
+.ledger .amt { color: var(--ultra); }
+.ledger .why { color: var(--ink-2); }
 
-.hist { width: 100%; border-collapse: collapse; font-size: 13px; }
-.hist th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
-           color: var(--dim); padding: 8px 10px 8px 0; font-weight: 600; }
-.hist td { padding: 9px 10px 9px 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; }
+/* ═══ SCORE ════════════════════════════════════════════════════════════════ */
+.score-head { display: grid; grid-template-columns: auto 1fr; gap: 30px; align-items: center; }
+@media (max-width: 620px) { .score-head { grid-template-columns: 1fr; } }
+.dial { position: relative; width: 148px; height: 148px; flex-shrink: 0; }
+.dial .g { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.dial .g b { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 46px; font-weight: 500; line-height: 1; color: var(--ink-1); }
+.dial .g small { font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--ink-3); margin-top: 6px; }
 
-.share-card { border: 1px solid var(--line); border-radius: 9px; max-width: 100%; display: block; }
+.comp { padding: 11px 0; border-bottom: 1px solid var(--paper-rule); }
+.comp:last-child { border-bottom: none; }
+.comp .top { display: flex; justify-content: baseline; align-items: baseline; gap: 12px; }
+.comp .top span { flex: 1; font-size: var(--t-sm); color: var(--ink-1); }
+.comp .top b { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: var(--t-sm); font-weight: 600; }
+.comp .track { height: 3px; background: var(--paper-rule); margin-top: 7px; }
+.comp .track i { display: block; height: 100%; }
+.comp .blurb { font-size: var(--t-xs); color: var(--ink-3); margin-top: 5px; }
 
-footer { border-top: 1px solid var(--line); padding: 18px; text-align: center;
-         font-size: 11.5px; color: var(--dim); line-height: 1.7; }
-footer a { color: var(--dim); }
+/* Recommendation — an examiner's ruling, not a status chip. */
+.rec { padding: 16px 0 0; border-top: 2px solid var(--ink-1); margin-top: 20px; }
+.rec .lbl { display: block; margin-bottom: 7px; }
+.rec p { font-family: var(--serif); font-size: var(--t-lg); line-height: 1.45; color: var(--ink-1); max-width: 56ch; }
+.rec.stop  { border-top-color: var(--oxblood); }
+.rec.stop .lbl { color: var(--oxblood); }
+.rec.wait  { border-top-color: var(--caution); }
+.rec.wait .lbl { color: var(--caution); }
+.rec.close { border-top-color: var(--ink-2); }
+.rec.ready { border-top-color: var(--ultra); }
+.rec.ready .lbl { color: var(--ultra); }
+
+/* Run history. */
+.hist { width: 100%; border-collapse: collapse; }
+.hist th {
+  text-align: left; padding: 0 12px 7px 0; border-bottom: 1px solid var(--ink-1);
+  font-size: 10px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-1);
+}
+.hist th.r, .hist td.r { text-align: right; padding-right: 0; }
+.hist td {
+  padding: 9px 12px 9px 0; border-bottom: 1px solid var(--paper-rule);
+  font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: var(--t-sm); color: var(--ink-2);
+}
+.hist td.name { font-family: var(--sans); color: var(--ink-1); }
+.hist .pos { color: var(--ultra); }
+.hist .neg { color: var(--oxblood); }
+
+.pos { color: var(--ultra); }
+.neg { color: var(--oxblood); }
+.paper .pos { color: var(--ultra); }
+.paper .neg { color: var(--oxblood); }
+
+.empty { padding: 60px 0; max-width: 52ch; }
+.empty h2 { margin-bottom: 10px; }
+.empty p { margin-bottom: 22px; }
+
+.share-card { display: block; width: 100%; border: 1px solid var(--paper-rule); }
+
+/* Colophon. */
+.colophon {
+  border-top: 1px solid var(--paper-rule); margin-top: 44px; padding-top: 16px;
+  font-size: var(--t-xs); color: var(--ink-3); line-height: 1.65; max-width: 76ch;
+}
 
 /* The host page may supply its own body background; make sure ours wins. */
 html, body { background: #0B0E11 !important; color: #E6EDF3; }
@@ -1358,21 +1614,28 @@ function narrative(state, limit = 12) {
   ]);
   const events = state.timeline.filter((e) => interesting.has(e.type));
   const tail = events.slice(-limit);
-  return tail.map((e) => {
-    const time = e.t ? new Date(e.t).toISOString().slice(11, 16) : '--:--';
-    switch (e.type) {
-      case 'entry':          return { time, kind: 'entry', text: `Entered ${e.side} ${e.size} @ mkt` };
-      case 'exit':           return { time, kind: e.pnl >= 0 ? 'win' : 'loss', text: `${e.reason === 'stop' ? 'Stopped out' : e.reason === 'target' ? 'Target hit' : 'Closed'} ${e.pnl >= 0 ? '+' : '-'}${money(e.pnl)}` };
-      case 'breach':         return { time, kind: 'breach', text: e.detail };
-      case 'order_rejected': return { time, kind: 'blocked', text: e.msg };
-      case 'cooldown_started': return { time, kind: 'guard', text: `Cooldown started after ${e.after} losses` };
-      case 'eod_floor_move': return { time, kind: 'floor', text: `Floor moved up to ${money(e.floor)}` };
-      case 'floor_locked':   return { time, kind: 'floor', text: `Floor locked at ${money(e.floor)}` };
-      case 'consistency_block': return { time, kind: 'blocked', text: 'Target reached but consistency rule blocks the pass' };
-      case 'passed':         return { time, kind: 'pass', text: `Passed with ${money(e.profit)} over ${e.days} days` };
-      default:               return { time, kind: 'info', text: e.type };
-    }
-  });
+  return tail.map((e) => ({
+    // `day` lets the caller break the log by session. Without it the clock appears to run
+    // backwards across a day roll, which reads as a bug rather than as a new trading day.
+    day: e.t ? new Date(e.t).toISOString().slice(0, 10) : null,
+    ...describeEvent(e),
+  }));
+}
+
+function describeEvent(e) {
+  const time = e.t ? new Date(e.t).toISOString().slice(11, 16) : '--:--';
+  switch (e.type) {
+    case 'entry':            return { time, kind: 'entry', text: `Entered ${e.side} ${e.size} @ mkt` };
+    case 'exit':             return { time, kind: e.pnl >= 0 ? 'win' : 'loss', text: `${e.reason === 'stop' ? 'Stopped out' : e.reason === 'target' ? 'Target hit' : 'Closed'} ${e.pnl >= 0 ? '+' : '\u2212'}${money(e.pnl)}` };
+    case 'breach':           return { time, kind: 'breach', text: e.detail };
+    case 'order_rejected':   return { time, kind: 'blocked', text: e.msg };
+    case 'cooldown_started': return { time, kind: 'guard', text: `Cooldown started after ${e.after} losses` };
+    case 'eod_floor_move':   return { time, kind: 'floor', text: `Floor moved up to ${money(e.floor)}` };
+    case 'floor_locked':     return { time, kind: 'floor', text: `Floor locked at ${money(e.floor)}` };
+    case 'consistency_block':return { time, kind: 'blocked', text: 'Target reached but consistency rule blocks the pass' };
+    case 'passed':           return { time, kind: 'pass', text: `Passed with ${money(e.profit)} over ${e.days} days` };
+    default:                 return { time, kind: 'info', text: e.type };
+  }
 }
 
 return { MODES, classify, computeMetrics, narrative };
@@ -2006,18 +2269,19 @@ __m["src/ui/chart.js"] = (function () {
  * The floor is the most important line on the screen and it must never be subtle.
  */
 
+/* Cockpit palette, mirroring the tokens in styles.css. Candles are ultramarine/oxblood
+   rather than green/red: the audience skews heavily male, ~8% of whom have red-green
+   colour deficiency, and direction is the one thing on this screen that must never be
+   ambiguous. */
 const C = {
-  bg: '#0B0E11',
-  grid: '#161C24',
-  axis: '#5D6B78',
-  up: '#00C9A7',
-  down: '#FF4757',
-  wick: '#4A5764',
-  floor: '#FF4757',
-  daily: '#FFB020',
-  target: '#00C9A7',
-  entry: '#4C8DFF',
-  news: '#FFB020',
+  bg: '#14171C',
+  grid: '#1E232B',
+  session: '#262C36',
+  axis: '#616B78',
+  up: '#7D93FF',
+  down: '#D45C6E',
+  entry: '#CFD6DE',
+  news: '#B87A12',
 };
 
 class Chart {
@@ -2096,7 +2360,7 @@ class Chart {
     for (let i = 0; i < bars.length; i++) {
       const day = new Date(bars[i].t).toISOString().slice(0, 10);
       if (prevDay && day !== prevDay) {
-        ctx.strokeStyle = '#202932'; ctx.lineWidth = 1;
+        ctx.strokeStyle = C.session; ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t);
         ctx.lineTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t + plotH);
@@ -2107,7 +2371,7 @@ class Chart {
     for (const n of d.news || []) {
       const i = bars.findIndex((b) => Math.abs(b.t - n.t) < 60_000 * (d.tf || 1));
       if (i < 0) continue;
-      ctx.fillStyle = 'rgba(255,176,32,.14)';
+      ctx.fillStyle = 'rgba(184,122,18,.16)';
       ctx.fillRect(x(i) - bw, this.pad.t, bw * 2, plotH);
     }
 
@@ -2137,7 +2401,7 @@ class Chart {
       const ei = nearest(bars, t.entryTs);
       const xi = nearest(bars, t.exitTs);
       if (ei < 0 || xi < 0) continue;
-      ctx.strokeStyle = t.pnl >= 0 ? 'rgba(0,201,167,.5)' : 'rgba(255,71,87,.5)';
+      ctx.strokeStyle = t.pnl >= 0 ? 'rgba(125,147,255,.55)' : 'rgba(212,92,110,.55)';
       ctx.lineWidth = 1.2;
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
@@ -2158,7 +2422,7 @@ class Chart {
       ctx.stroke(); ctx.setLineDash([]);
       tag(ctx, this.w - this.pad.r, y(p.entryPrice), `${p.side === 'long' ? 'L' : 'S'} ${p.size}`, C.entry);
       if (p.stop)   dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.stop), C.down, 'SL', this.w - this.pad.r);
-      if (p.target) dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.target), C.up, 'TP', this.w - this.pad.r);
+      if (p.target) dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.target), '#7D93FF', 'TP', this.w - this.pad.r);
     }
 
     // ── rule levels: drawn last so nothing hides them ──
@@ -2217,7 +2481,7 @@ function tag(ctx, xr, y, text, color) {
   ctx.globalAlpha = 0.9;
   ctx.fillRect(xr + 2, y - 8, w, 16);
   ctx.globalAlpha = 1;
-  ctx.fillStyle = '#08111A';
+  ctx.fillStyle = '#14171C';
   ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
   ctx.fillText(text, xr + 7, y);
 }
@@ -2242,171 +2506,233 @@ __m["src/ui/share.js"] = (function () {
 /**
  * Share-card renderer.
  *
- * The research concluded that the most under-served shareable artifact in this niche is a
- * credible explanation of a LOSS — the trading internet is saturated with win screenshots.
- * So the primary card is the Breach Autopsy, not the pass certificate.
+ * Two decisions worth stating:
  *
- * Everything rendered here is marked SIMULATED. That is a legal requirement, not a style
- * choice: regulators have taken action against firms for presenting simulated trading as
- * live, and a share card is the artifact most likely to travel without its context.
+ * 1. The card is PAPER, not the cockpit. Verdicts live in the report world, and a printed
+ *    assessment stands out in a feed otherwise full of dark trading screenshots. It is the
+ *    one place the design takes a real risk.
+ * 2. The primary card is the finding, not a win screenshot. The research found the trading
+ *    internet is saturated with wins and starved of credible explanations of a loss.
+ *
+ * Everything rendered here is marked SIMULATED, and the card distinguishes a breach from a
+ * run that merely ended. That is not decoration: regulators have taken action against firms
+ * for presenting simulated trading as live, and a share card travels without its context.
  */
 
 const W = 1200, H = 675;
+const M = 64;                       // margin — the sheet's edge
+
+const PAPER = '#E8EBEF';
+const RULE  = '#C3C9D2';
+const INK   = '#15181D';
+const INK2  = '#4A525E';
+const INK3  = '#78818E';
+const OXBLOOD = '#A6273A';
+const ULTRA   = '#3B57D8';
+const CAUTION = '#B87A12';
+
+const SERIF = 'Georgia, "Iowan Old Style", "Times New Roman", serif';
+const SANS  = 'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+const MONO  = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
 function renderCard(state, opts = {}) {
   const cv = document.createElement('canvas');
   cv.width = W; cv.height = H;
   const g = cv.getContext('2d');
 
-  // Three outcomes, not two. Calling a profitable run that simply ended "CHALLENGE FAILED"
-  // would be a misrepresentation, and the share card is the artifact most likely to travel
-  // without its context.
   const passed = state.status === 'passed';
   const breached = state.status === 'failed' && !!state.breach;
-  const accent = passed ? '#00C9A7' : breached ? '#FF4757' : '#FFB020';
+  const accent = passed ? ULTRA : breached ? OXBLOOD : CAUTION;
 
-  // background
-  g.fillStyle = '#0B0E11';
+  g.fillStyle = PAPER;
   g.fillRect(0, 0, W, H);
-  const grad = g.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, passed ? 'rgba(0,201,167,.10)' : 'rgba(255,71,87,.10)');
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = grad; g.fillRect(0, 0, W, H);
 
-  // header
-  g.fillStyle = '#E6EDF3';
-  g.font = '700 22px Inter, system-ui, sans-serif';
-  g.fillText('Challenge', 56, 62);
-  const cw = g.measureText('Challenge').width;
-  g.fillStyle = '#00C9A7';
-  g.fillText(' Ready', 56 + cw, 62);
+  // Masthead rule — a document header, not a hero.
+  g.fillStyle = INK;
+  g.font = `700 13px ${SANS}`;
+  g.letterSpacing = '0.18em';
+  g.fillText('CHALLENGE/READY', M, M);
+  g.letterSpacing = '0px';
 
-  badge(g, W - 56 - 116, 44, 116, 24, 'SIMULATED', '#FFB020');
+  label(g, 'SIMULATED', W - M, M, 'right', CAUTION);
 
-  // verdict
+  rule(g, M, M + 16, W - M * 2, INK, 1.5);
+
+  // Verdict
+  let y = M + 62;
   g.fillStyle = accent;
-  g.font = '700 15px ui-monospace, monospace';
-  g.fillText(passed ? 'CHALLENGE PASSED' : breached ? 'CHALLENGE FAILED' : 'RUN ENDED EARLY', 56, 138);
+  g.font = `700 12px ${MONO}`;
+  g.letterSpacing = '0.16em';
+  g.fillText((passed ? 'PASSED' : breached ? 'FAILED' : 'ENDED EARLY').toUpperCase(), M, y);
+  g.letterSpacing = '0px';
 
-  g.fillStyle = '#E6EDF3';
-  g.font = '700 46px Inter, system-ui, sans-serif';
+  // Two columns through the body: the finding reads left, the plate sits right.
+  const plateW = 420, plateH = 300;
+  const textW = W - M * 2 - plateW - 48;
+
+  y += 48;
+  g.fillStyle = INK;
+  g.font = `400 42px ${SERIF}`;
   const headline = passed
-    ? `${state.rs.firm} · ${money(state.balance - state.rs.accountSize)} in ${state.tradingDays.length} days`
+    ? `Target reached in ${state.tradingDays.length} days`
     : breached
       ? (opts.primary ? opts.primary.name : breachLabel(state.breach.code))
       : (opts.primary ? opts.primary.name : 'Stopped before a verdict');
-  g.fillText(clip(g, headline, W - 112), 56, 190);
+  y = wrap(g, headline, M, y, textW, 48);
 
-  if (!passed && opts.primary) {
-    g.fillStyle = '#8B99A6';
-    g.font = '400 19px Inter, system-ui, sans-serif';
-    g.fillText(clip(g, opts.primary.stat || '', W - 112), 56, 224);
+  if (opts.primary) {
+    g.fillStyle = accent;
+    g.font = `400 15px ${MONO}`;
+    y = wrap(g, opts.primary.stat || '', M, y + 12, textW, 22);
+
+    // The explanation is the point of the card — it is what a win screenshot never carries.
+    g.fillStyle = INK2;
+    g.font = `400 16px ${SANS}`;
+    wrap(g, opts.primary.detail || '', M, y + 14, textW, 24);
+  } else {
+    g.fillStyle = INK2;
+    g.font = `400 16px ${SANS}`;
+    wrap(g, passed
+      ? 'Reached the target inside every rule, with no behavioural pattern flagged.'
+      : 'No behavioural pattern was flagged in this run — one run is not yet evidence.',
+      M, y + 14, textW, 24);
   }
 
-  // equity curve
-  drawCurve(g, state, 56, 258, W - 112, 250, accent);
+  // Equity plate, right column — ruled like a figure in a report.
+  const plateY = M + 62;
+  drawCurve(g, state, W - M - plateW, plateY, plateW, plateH, accent);
+  label(g, 'EQUITY, REALISED', W - M - plateW, plateY + plateH + 22, 'left', INK3);
 
-  // stat strip
+  // Footing table
+  const footY = H - M - 74;
+  rule(g, M, footY, W - M * 2, INK, 1.5);
+
   const profit = state.balance - state.rs.accountSize;
-  const stats = [
-    ['RESULT', (profit >= 0 ? '+' : '-') + money(profit)],
-    ['TRADES', String(state.trades.length)],
-    ['DAYS', String(state.tradingDays.length)],
-    ['RULESET', `${state.rs.firm}`],
+  const cells = [
+    ['RESULT', (profit >= 0 ? '+' : '−') + money(profit), profit >= 0 ? ULTRA : OXBLOOD],
+    ['TRADES', String(state.trades.length), INK],
+    ['DAYS', String(state.tradingDays.length), INK],
+    ['PROGRAMME', state.rs.firm, INK],
   ];
   if (opts.score !== null && opts.score !== undefined) {
-    stats.push(['READINESS', `${opts.score} · ${opts.grade}`]);
+    cells.push(['READINESS', `${opts.score} · ${opts.grade}`, INK]);
   }
-  const colW = (W - 112) / stats.length;
-  stats.forEach(([k, v], i) => {
-    const x = 56 + i * colW;
-    g.fillStyle = '#5D6B78';
-    g.font = '600 11px ui-monospace, monospace';
-    g.fillText(k, x, H - 92);
-    g.fillStyle = k === 'RESULT' ? (profit >= 0 ? '#00C9A7' : '#FF4757') : '#E6EDF3';
-    g.font = '600 26px ui-monospace, monospace';
-    g.fillText(clip(g, v, colW - 16), x, H - 58);
+
+  const colW = (W - M * 2) / cells.length;
+  cells.forEach(([k, v, col], i) => {
+    const x = M + i * colW;
+    if (i > 0) {
+      g.strokeStyle = RULE; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(Math.round(x) - 14.5, footY + 12); g.lineTo(Math.round(x) - 14.5, footY + 58); g.stroke();
+    }
+    label(g, k, x, footY + 24, 'left', INK3);
+    g.fillStyle = col;
+    g.font = `500 25px ${MONO}`;
+    g.fillText(clip(g, v, colW - 22), x, footY + 54);
   });
 
-  g.fillStyle = '#3A4552';
-  g.font = '400 12px Inter, system-ui, sans-serif';
-  g.fillText('Simulated result on synthetic data. Not a real trading record, and not a prediction.', 56, H - 24);
+  g.fillStyle = INK3;
+  g.font = `400 11.5px ${SANS}`;
+  g.fillText('Simulated result on synthetic data. Not a real trading record, and not a prediction.', M, H - 24);
 
   return cv;
 }
 
 function drawCurve(g, state, x, y, w, h, accent) {
-  // Build the realized equity path from closed trades.
   const pts = [state.rs.accountSize];
   for (const t of state.trades) pts.push(pts[pts.length - 1] + t.pnl);
 
   const floor = state.floor;
-  let hi = Math.max(...pts, state.rs.accountSize + state.rs.profitTarget);
+  const target = state.rs.accountSize + state.rs.profitTarget;
+  let hi = Math.max(...pts, target);
   let lo = Math.min(...pts, floor);
-  const pad = (hi - lo) * 0.12 || 1;
+  const pad = (hi - lo) * 0.14 || 1;
   hi += pad; lo -= pad;
 
   const py = (v) => y + h - ((v - lo) / (hi - lo)) * h;
   const px = (i) => x + (pts.length === 1 ? 0 : (i / (pts.length - 1)) * w);
 
-  // frame
-  g.strokeStyle = '#232C36'; g.lineWidth = 1;
-  g.strokeRect(x + .5, y + .5, w, h);
+  g.fillStyle = '#DDE1E7';
+  g.fillRect(x, y, w, h);
 
-  // rule lines
-  line(g, x, py(state.rs.accountSize + state.rs.profitTarget), w, '#00C9A7', 'TARGET', [5, 5]);
-  line(g, x, py(floor), w, '#FF4757', 'FLOOR', [5, 5]);
-  line(g, x, py(state.rs.accountSize), w, '#3A4552', '', [2, 4]);
+  gline(g, x, py(target), w, ULTRA, 'TARGET');
+  gline(g, x, py(floor), w, OXBLOOD, 'FLOOR');
+  gline(g, x, py(state.rs.accountSize), w, INK3, '');
 
   if (pts.length > 1) {
-    // area
+    g.save();
     g.beginPath();
     g.moveTo(px(0), py(pts[0]));
     for (let i = 1; i < pts.length; i++) g.lineTo(px(i), py(pts[i]));
     g.lineTo(px(pts.length - 1), y + h); g.lineTo(px(0), y + h); g.closePath();
-    const grad = g.createLinearGradient(0, y, 0, y + h);
-    grad.addColorStop(0, accent + '38');
-    grad.addColorStop(1, accent + '00');
-    g.fillStyle = grad; g.fill();
+    g.globalAlpha = 0.13; g.fillStyle = accent; g.fill();
+    g.restore();
 
-    // line
     g.beginPath();
     g.moveTo(px(0), py(pts[0]));
     for (let i = 1; i < pts.length; i++) g.lineTo(px(i), py(pts[i]));
-    g.strokeStyle = accent; g.lineWidth = 2.5; g.lineJoin = 'round';
+    g.strokeStyle = accent; g.lineWidth = 2; g.lineJoin = 'round';
     g.stroke();
 
-    // final dot
     g.fillStyle = accent;
-    g.beginPath(); g.arc(px(pts.length - 1), py(pts[pts.length - 1]), 5, 0, Math.PI * 2); g.fill();
+    g.beginPath(); g.arc(px(pts.length - 1), py(pts[pts.length - 1]), 4, 0, Math.PI * 2); g.fill();
   }
+
+  g.strokeStyle = INK; g.lineWidth = 1;
+  g.strokeRect(x + .5, y + .5, w, h);
 }
 
-function line(g, x, y, w, color, label, dash) {
+function gline(g, x, y, w, color, text) {
   g.save();
-  g.setLineDash(dash); g.strokeStyle = color; g.globalAlpha = .65; g.lineWidth = 1;
+  g.setLineDash([4, 4]); g.strokeStyle = color; g.globalAlpha = .55; g.lineWidth = 1;
   g.beginPath(); g.moveTo(x, Math.round(y) + .5); g.lineTo(x + w, Math.round(y) + .5); g.stroke();
   g.restore();
-  if (label) {
-    g.fillStyle = color; g.globalAlpha = .8;
-    g.font = '600 10px ui-monospace, monospace';
-    g.fillText(label, x + w - g.measureText(label).width - 6, y - 5);
-    g.globalAlpha = 1;
+  if (text) {
+    g.save();
+    g.fillStyle = color; g.globalAlpha = .85;
+    g.font = `600 9px ${SANS}`; g.letterSpacing = '0.14em';
+    g.fillText(text, x + 6, y - 5);
+    g.restore();
+    g.letterSpacing = '0px';
   }
 }
 
-function badge(g, x, y, w, h, text, color) {
-  g.strokeStyle = color; g.globalAlpha = .5;
-  g.strokeRect(x + .5, y + .5, w, h);
-  g.globalAlpha = .12; g.fillStyle = color; g.fillRect(x, y, w, h);
-  g.globalAlpha = 1; g.fillStyle = color;
-  g.font = '700 11px ui-monospace, monospace';
-  g.fillText(text, x + (w - g.measureText(text).width) / 2, y + h / 2 + 4);
+function rule(g, x, y, w, color, lw = 1) {
+  g.strokeStyle = color; g.lineWidth = lw;
+  g.beginPath(); g.moveTo(x, Math.round(y) + .5); g.lineTo(x + w, Math.round(y) + .5); g.stroke();
+}
+
+function label(g, text, x, y, align, color) {
+  g.save();
+  g.fillStyle = color;
+  g.font = `600 10px ${SANS}`;
+  g.letterSpacing = '0.15em';
+  g.textAlign = align;
+  g.fillText(text, x, y);
+  g.restore();
+  g.textAlign = 'left';
+  g.letterSpacing = '0px';
+}
+
+/** Wrap headline text, returning the baseline after the last line. */
+function wrap(g, text, x, y, maxW, lh) {
+  const words = String(text).split(' ');
+  let line = '';
+  for (const w of words) {
+    const test = line ? line + ' ' + w : w;
+    if (g.measureText(test).width > maxW && line) {
+      g.fillText(line, x, y);
+      y += lh;
+      line = w;
+    } else line = test;
+  }
+  if (line) { g.fillText(line, x, y); y += lh; }
+  return y;
 }
 
 function clip(g, text, max) {
   if (g.measureText(text).width <= max) return text;
-  let t = text;
+  let t = String(text);
   while (t.length > 4 && g.measureText(t + '…').width > max) t = t.slice(0, -1);
   return t + '…';
 }
@@ -2446,9 +2772,12 @@ const { renderCard, download } = __m["src/ui/share.js"];
 /**
  * Challenge Ready — application controller.
  *
+ * Two grounds, per the identity in styles.css: the cockpit (trading) is an instrument
+ * panel, everything else is a printed report on paper. View functions that render into
+ * `.paper > .sheet` belong to the report world; `viewTrade` is the only cockpit view.
+ *
  * Deliberately a plain module with a small hand-rolled view layer: no framework, no build
- * step, no dependencies. `python3 -m http.server` and it runs. The engine is the asset;
- * the UI should stay cheap enough to rewrite.
+ * step, no runtime dependencies. The engine is the asset; the UI should stay cheap to redo.
  */
 
 
@@ -2509,7 +2838,8 @@ const S = {
 
 const root = document.getElementById('app');
 const $ = (sel, el = document) => el.querySelector(sel);
-const money = (n, sign = false) => (sign && n > 0 ? '+' : n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
+const money = (n, sign = false) =>
+  (sign && n > 0 ? '+' : n < 0 ? '−' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 function go(view) { S.view = view; stop(); render(); window.scrollTo(0, 0); }
@@ -2517,7 +2847,7 @@ function go(view) { S.view = view; stop(); render(); window.scrollTo(0, 0); }
 function toast(msg, kind = '') {
   S.toast = { msg, kind };
   clearTimeout(S.toastTimer);
-  S.toastTimer = setTimeout(() => { S.toast = null; paintToast(); }, 3800);
+  S.toastTimer = setTimeout(() => { S.toast = null; paintToast(); }, 4200);
   paintToast();
 }
 
@@ -2529,24 +2859,25 @@ function paintToast() {
   el.textContent = S.toast.msg;
 }
 
-// ── render ──────────────────────────────────────────────────────────────────
+// ── shell ───────────────────────────────────────────────────────────────────
 function render() {
   const lvl = levelFor(S.profile.xp);
   const score = readinessScore(S.profile.runs);
 
   root.innerHTML = `
     <div class="topbar">
-      <div class="logo">Challenge<span> Ready</span></div>
+      <div class="logo">Challenge<span>/</span>Ready</div>
       <div class="sim-badge">SIMULATED</div>
       <div class="spacer"></div>
       <nav>
         <button data-nav="setup"     class="${S.view === 'setup' ? 'on' : ''}">New run</button>
-        <button data-nav="dashboard" class="${S.view === 'dashboard' ? 'on' : ''}">Dashboard</button>
+        <button data-nav="dashboard" class="${S.view === 'dashboard' ? 'on' : ''}">Record</button>
       </nav>
       <div class="lvl">
-        <b>L${lvl.level}</b> ${esc(lvl.name)}
+        <b>L${lvl.level}</b>
+        <span class="lname">${esc(lvl.name)}</span>
         <span class="bar"><i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%"></i></span>
-        <span class="num">${S.profile.xp} XP</span>
+        <span class="num">${S.profile.xp}&thinsp;XP</span>
       </div>
     </div>
     <main id="main"></main>`;
@@ -2559,103 +2890,128 @@ function render() {
   paintToast();
 }
 
-// ── SETUP ───────────────────────────────────────────────────────────────────
+// ═══ SETUP — report ground ══════════════════════════════════════════════════
 function viewSetup(main) {
   const rs = loadRuleSet(S.rulesetId);
   const instruments = instrumentsFor(rs.assetClass);
   if (!instruments.some((i) => i.symbol === S.symbol)) S.symbol = instruments[0].symbol;
-  const hasRuns = S.profile.runs.length > 0;
+  const returning = S.profile.runs.length > 0;
 
-  main.innerHTML = `
-    <div class="wrap">
-      ${hasRuns ? '' : `
-      <div class="hero">
-        <h1>93% of traders fail their first prop firm challenge.<br>Find out why before you pay to find out.</h1>
-        <p class="sub">Practise under the exact rule set you are about to buy. When you breach, this
-          tells you the specific behaviour that did it — not just that it happened.</p>
-        <div class="stat-row">
-          <div><b class="num">16.8%</b><small>Combines passed</small></div>
-          <div><b class="num">51.8%</b><small>Traders funded eventually</small></div>
-          <div><b class="num">33.3%</b><small>Funded who got paid</small></div>
-          <div><b class="num neg">0.71%</b><small>Reached live capital</small></div>
-        </div>
-        <p class="src">Source: Topstep's own published Trading Combine statistics, Jan–Dec 2025.
-          Every number in this product is sourced or labelled as an estimate.</p>
-      </div>`}
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-      <h2 style="margin-bottom:12px">${hasRuns ? 'Start a run' : '1 · Pick the rule set you are training for'}</h2>
-      <div class="firm-grid" style="margin-bottom:26px">
-        ${RULESET_LIST.map((r) => `
-          <button class="firm ${r.id === S.rulesetId ? 'on' : ''}" data-rs="${r.id}">
-            <b>${esc(r.firm)}</b>
-            <small>${esc(r.label)}</small>
-            <div class="dd">${ddLabel(r.maxLossType)} · ${money(r.maxLoss)} DD · ${money(r.profitTarget)} target</div>
-          </button>`).join('')}
+    ${returning ? '' : `
+    <div class="masthead">
+      <div>
+        <div class="lbl kicker">Pre-evaluation training</div>
+        <h1>Find out what ends your challenge before it costs you $500 to find out.</h1>
+        <p>Trade a real firm's rule set against the clock. When you breach, this tells you
+           the specific behaviour that did it — not just that it happened.</p>
       </div>
-
-      <div class="grid g2" style="margin-bottom:22px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">The rules you will be trading under</h3>
-          <table class="rules-table">
-            ${describeRules(rs).map((r) => `<tr><td>${esc(r.k)}</td><td>${esc(r.v)}</td></tr>`).join('')}
-          </table>
-          <p class="src" style="margin-top:12px">
-            Modelled from public documentation, last checked ${rs.verifiedOn}.
-            <a href="${rs.sourceUrl}" target="_blank" rel="noopener">Verify current terms →</a>
-          </p>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">What usually kills this one</h3>
-          ${rs.notes.map((n) => `<div class="note" style="margin-bottom:8px">${esc(n)}</div>`).join('')}
-          <div class="field" style="border-top:1px solid var(--line);margin-top:12px">
-            <label>Instrument</label>
-            <select id="sym" style="width:auto">
-              ${instruments.map((i) => `<option value="${i.symbol}" ${i.symbol === S.symbol ? 'selected' : ''}>${esc(i.name)}</option>`).join('')}
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:22px">
-        <h3>Guardrails — your own limits, enforced by the engine</h3>
-        <p style="font-size:13px;margin:6px 0 4px">
-          Set these while you are calm. Once the run starts they cannot be loosened. This is the
-          only mechanism here that works on the behaviour that actually ends most challenges.
+      <div>
+        <table class="figures">
+          <caption>What the funnel actually looks like</caption>
+          <tbody>
+            <tr><td>16.8%</td><td>of Trading Combines are completed successfully</td></tr>
+            <tr><td>51.8%</td><td>of participants reach Funded in at least one attempt</td></tr>
+            <tr><td>33.3%</td><td>of funded participants ever receive a payout</td></tr>
+            <tr class="low"><td>0.71%</td><td>of Express-Funded traders reach live capital</td></tr>
+          </tbody>
+        </table>
+        <p class="src">
+          Topstep's own published Trading Combine statistics, January–December 2025. Every figure
+          in this product is either sourced or explicitly labelled an estimate.
         </p>
-        <div class="grid g3" style="margin-top:8px">
-          <div class="field">
-            <label>Max trades / day<small>Blank = no limit</small></label>
-            <input id="g-cap" type="number" min="0" value="${S.guards.maxTradesPerDay ?? ''}">
-          </div>
-          <div class="field">
-            <label>Cooldown after N losses<small>Blocks entries for 15 min</small></label>
-            <input id="g-cool" type="number" min="0" value="${S.guards.cooldownAfterLosses ?? ''}">
-          </div>
-          <div class="field">
-            <label>Session hours (UTC)<small>e.g. 13 to 16</small></label>
-            <span style="display:flex;gap:6px">
-              <input id="g-s" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionStartHour ?? ''}">
-              <input id="g-e" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionEndHour ?? ''}">
-            </span>
-          </div>
+      </div>
+    </div>`}
+
+    <div class="band">
+      <span class="lbl">${returning ? 'Select programme' : 'I · Select programme'}</span>
+      <span class="rest">6 rule sets</span>
+    </div>
+    <div class="firm-grid">
+      ${RULESET_LIST.map((r) => `
+        <button class="firm ${r.id === S.rulesetId ? 'on' : ''}" data-rs="${r.id}">
+          <b>${esc(r.firm)}</b>
+          <span class="prog">${esc(r.label)}</span>
+          <span class="dd"><em>${ddLabel(r.maxLossType)}</em> · ${money(r.maxLoss)} DD · ${money(r.profitTarget)} target</span>
+        </button>`).join('')}
+    </div>
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band">
+          <span class="lbl">II · Specification</span>
+          <span class="rest">${esc(rs.firm)} · ${esc(rs.label)}</span>
         </div>
+        <table class="rules-table">
+          ${describeRules(rs).map((r) => `<tr><td>${esc(r.k)}</td><td>${esc(r.v)}</td></tr>`).join('')}
+        </table>
+        <p class="src">
+          Modelled from public documentation, last checked ${esc(rs.verifiedOn)}. Not affiliated with
+          any firm. <a href="${esc(rs.sourceUrl)}" target="_blank" rel="noopener">Verify current terms&nbsp;→</a>
+        </p>
       </div>
 
-      ${S.drill ? `<div class="card" style="margin-bottom:22px;border-color:var(--teal)">
-        <h3 style="color:var(--teal)">Drill loaded · ${esc(S.drill.name)}</h3>
-        <p style="margin-top:6px">${esc(S.drill.goal)}</p>
-        <button class="btn sm" id="clear-drill" style="margin-top:10px">Remove drill</button>
-      </div>` : ''}
-
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <button class="btn primary big" id="start">Start the run →</button>
-        <span style="font-size:12.5px;color:var(--dim)">
-          Synthetic market data, deterministic seed. No real money, no real market data, no account required.
-        </span>
+      <div>
+        <div class="band"><span class="lbl">What ends this one</span></div>
+        ${rs.notes.map((n) => `<div class="note">${esc(n)}</div>`).join('')}
+        <div class="field" style="margin-top:20px">
+          <label>Instrument</label>
+          <select id="sym" style="width:auto">
+            ${instruments.map((i) => `<option value="${i.symbol}" ${i.symbol === S.symbol ? 'selected' : ''}>${esc(i.name)}</option>`).join('')}
+          </select>
+        </div>
       </div>
     </div>
-    ${footer()}`;
+
+    <div style="margin-top:44px">
+      <div class="band">
+        <span class="lbl">III · Guardrails</span>
+        <span class="rest">enforced by the engine, not the interface</span>
+      </div>
+      <p style="margin-bottom:18px">
+        Set these now, while you are calm. Once the run starts they cannot be loosened. This is the
+        only mechanism here that acts on the behaviour that actually ends most challenges.
+      </p>
+      <div class="cols c3">
+        <div class="field">
+          <label>Max trades per day<small>Blank for no limit</small></label>
+          <input id="g-cap" type="number" min="0" value="${S.guards.maxTradesPerDay ?? ''}">
+        </div>
+        <div class="field">
+          <label>Cooldown after N losses<small>Blocks entries for 15 minutes</small></label>
+          <input id="g-cool" type="number" min="0" value="${S.guards.cooldownAfterLosses ?? ''}">
+        </div>
+        <div class="field">
+          <label>Session hours<small>UTC, e.g. 13 to 16</small></label>
+          <span class="pair">
+            <input id="g-s" type="number" min="0" max="23" value="${S.guards.sessionStartHour ?? ''}">
+            <input id="g-e" type="number" min="0" max="23" value="${S.guards.sessionEndHour ?? ''}">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    ${S.drill ? `
+    <div style="margin-top:40px">
+      <div class="band"><span class="lbl" style="color:var(--ultra)">Drill loaded</span></div>
+      <div class="cols c2">
+        <div>
+          <h2 style="margin-bottom:6px">${esc(S.drill.name)}</h2>
+          <p>${esc(S.drill.goal)}</p>
+        </div>
+        <div style="align-self:end"><button class="btn sm quiet" id="clear-drill">Remove drill</button></div>
+      </div>
+    </div>` : ''}
+
+    <div class="actions">
+      <button class="btn primary big" id="start">Begin run</button>
+      <span class="caption">Synthetic market data on a fixed seed. No real money, no real market
+        data, no account needed.</span>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   main.querySelectorAll('[data-rs]').forEach((b) =>
     b.addEventListener('click', () => { S.rulesetId = b.dataset.rs; render(); }));
@@ -2680,7 +3036,7 @@ function startRun() {
   if (S.drill?.guards) S.guards = normalizeGuards({ ...S.guards, ...S.drill.guards });
 
   const rs = loadRuleSet(S.rulesetId);
-  // Seed from the ruleset + attempt number so every run is a fresh but reproducible market.
+  // Seed from the ruleset + attempt number: a fresh but reproducible market each run.
   const seed = `${S.rulesetId}|${S.symbol}|${S.profile.runs.length}`;
   S.session = loadSession({
     symbol: S.symbol,
@@ -2689,8 +3045,8 @@ function startRun() {
     barsPerDay: 300,
   });
   S.account = createAccount(rs, S.session.instrument, S.guards);
-  // Warm up with enough history that the chart is populated on the first frame — an empty
-  // chart on the most important screen reads as a broken product.
+  // Warm up so the chart is populated on the first frame — an empty chart on the most
+  // important screen reads as a broken product.
   S.cursor = 260;
   for (let i = 0; i < S.cursor; i++) S.account = applyBar(S.account, S.session.bars[i]);
   S.playing = false;
@@ -2698,7 +3054,7 @@ function startRun() {
   play();
 }
 
-// ── TRADE ───────────────────────────────────────────────────────────────────
+// ═══ TRADE — cockpit ground ═════════════════════════════════════════════════
 let chart = null;
 
 function viewTrade(main) {
@@ -2712,27 +3068,21 @@ function viewTrade(main) {
       </div>
       <div class="pos-strip" id="ps"></div>
       <div class="order-bar">
-        <div class="grp">
-          <label>Size</label>
-          <input id="o-size" type="number" min="1" value="${S.orderSize}" ${S.drill?.lockSize ? 'disabled' : ''}>
-        </div>
-        <div class="grp"><label>Stop pts</label><input id="o-stop" type="number" min="0" value="${S.stopPts}"></div>
-        <div class="grp"><label>Target pts</label><input id="o-tgt" type="number" min="0" value="${S.targetPts}"></div>
+        <div class="grp"><label for="o-size">Size</label>
+          <input id="o-size" type="number" min="1" value="${S.orderSize}" ${S.drill?.lockSize ? 'disabled' : ''}></div>
+        <div class="grp"><label for="o-stop">Stop</label><input id="o-stop" type="number" min="0" value="${S.stopPts}"></div>
+        <div class="grp"><label for="o-tgt">Target</label><input id="o-tgt" type="number" min="0" value="${S.targetPts}"></div>
         <div class="sep"></div>
-        <button class="btn sm buy"  id="b-buy">Buy</button>
-        <button class="btn sm sell" id="b-sell">Sell</button>
-        <button class="btn sm flat" id="b-flat">Flatten</button>
+        <button class="ctl buy"  id="b-buy">Buy</button>
+        <button class="ctl sell" id="b-sell">Sell</button>
+        <button class="ctl"      id="b-flat">Flatten</button>
         <div class="sep"></div>
-        <div class="speed">
-          ${[1, 4, 8, 25, 100].map((s) => `<button data-sp="${s}" class="${S.speed === s ? 'on' : ''}">${s}×</button>`).join('')}
-        </div>
-        <button class="btn sm" id="b-play">${S.playing ? '❚❚ Pause' : '▶ Play'}</button>
+        <div class="seg">${[1, 4, 8, 25, 100].map((s) => `<button data-sp="${s}" class="${S.speed === s ? 'on' : ''}">${s}×</button>`).join('')}</div>
+        <button class="ctl" id="b-play">${S.playing ? 'Pause' : 'Play'}</button>
         <div class="sep"></div>
-        <div class="speed">
-          ${[1, 5, 15].map((t) => `<button data-tf="${t}" class="${S.tf === t ? 'on' : ''}">${t}m</button>`).join('')}
-        </div>
-        <div class="spacer" style="flex:1"></div>
-        <button class="btn sm danger" id="b-end">End run</button>
+        <div class="seg">${[1, 5, 15].map((t) => `<button data-tf="${t}" class="${S.tf === t ? 'on' : ''}">${t}m</button>`).join('')}</div>
+        <div class="spacer"></div>
+        <button class="ctl end" id="b-end">End run</button>
       </div>
     </div>`;
 
@@ -2742,12 +3092,16 @@ function viewTrade(main) {
   $('#b-sell', main).addEventListener('click', () => order('short'));
   $('#b-flat', main).addEventListener('click', flatten);
   $('#b-play', main).addEventListener('click', () => (S.playing ? stop(true) : play()));
-  $('#b-end', main).addEventListener('click', () => finish('ended'));
+  $('#b-end', main).addEventListener('click', () => finish());
   main.querySelectorAll('[data-sp]').forEach((b) => b.addEventListener('click', () => {
-    S.speed = +b.dataset.sp; if (S.playing) { stop(); play(); } else render();
+    S.speed = +b.dataset.sp;
+    main.querySelectorAll('[data-sp]').forEach((x) => x.classList.toggle('on', x === b));
+    if (S.playing) { stop(); play(); }
   }));
   main.querySelectorAll('[data-tf]').forEach((b) => b.addEventListener('click', () => {
-    S.tf = +b.dataset.tf; paintTrade();
+    S.tf = +b.dataset.tf;
+    main.querySelectorAll('[data-tf]').forEach((x) => x.classList.toggle('on', x === b));
+    paintTrade();
   }));
   ['o-size', 'o-stop', 'o-tgt'].forEach((id) => $('#' + id, main).addEventListener('change', (e) => {
     const v = Math.max(0, +e.target.value || 0);
@@ -2774,21 +3128,21 @@ function play() {
     if (S.playing) S.timer = setTimeout(tick, Math.max(12, 420 / S.speed));
   };
   S.timer = setTimeout(tick, 200);
-  const b = $('#b-play'); if (b) b.textContent = '❚❚ Pause';
+  const b = $('#b-play'); if (b) b.textContent = 'Pause';
 }
 
 function stop(repaint = false) {
   S.playing = false;
   clearTimeout(S.timer);
-  const b = $('#b-play'); if (b) b.textContent = '▶ Play';
+  const b = $('#b-play'); if (b) b.textContent = 'Play';
   if (repaint) paintTrade();
 }
 
 function step() {
-  if (S.cursor >= S.session.bars.length - 1) { finish('out_of_data'); return; }
+  if (S.cursor >= S.session.bars.length - 1) { finish(); return; }
   S.account = applyBar(S.account, S.session.bars[S.cursor]);
   S.cursor++;
-  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  if (S.account.status !== 'active') { finish(); return; }
   paintTrade();
 }
 
@@ -2805,8 +3159,7 @@ function order(side) {
   });
   S.account = r.state;
   if (r.rejected) {
-    const isGuard = String(r.rejected).startsWith('GUARD');
-    toast(r.message || 'Order rejected', isGuard ? 'guard' : 'block');
+    toast(r.message || 'Order rejected', String(r.rejected).startsWith('GUARD') ? 'guard' : 'block');
   }
   paintTrade();
 }
@@ -2815,7 +3168,7 @@ function flatten() {
   if (!S.account?.position) return;
   const bar = S.session.bars[S.cursor - 1];
   S.account = closePosition(S.account, bar.c).state;
-  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  if (S.account.status !== 'active') { finish(); return; }
   paintTrade();
 }
 
@@ -2825,22 +3178,21 @@ function paintTrade() {
   const h = hud(a);
   const bar = S.session.bars[S.cursor - 1];
 
-  // HUD — order is fixed and it never scrolls or collapses.
-  const cells = [
-    cell('Equity', money(h.equity), null, `Bal ${money(h.balance)}`),
-    cell('Daily limit', h.dailyRoom === null ? '—' : money(h.dailyRoom) + ' left',
+  // Instrument order is fixed. It never scrolls, collapses or reorders.
+  $('#hud').innerHTML = [
+    cell('Equity', money(h.equity), null, `Balance ${money(h.balance)}`),
+    cell('Daily limit', h.dailyRoom === null ? '—' : money(h.dailyRoom),
          h.dailyPct, h.dailyFloor === null ? 'No daily rule' : `Floor ${money(h.dailyFloor)}`),
-    cell('Max loss floor', money(h.floorRoom) + ' left', h.floorPct,
-         `${money(h.floor)}${h.floorLocked ? ' · LOCKED' : ddArrow(a.rs.maxLossType)}`),
-    cell('Target', money(h.profit) + ' / ' + money(h.target), h.targetPct, `${Math.round(h.targetPct * 100)}%`, true),
-    cell('Day', `${h.day}${h.maxDays ? ' / ' + h.maxDays : ''}`, null,
-         `${h.tradingDays}/${h.minTradingDays} trading days`),
-    cell('Trades today', `${h.tradesToday}${h.tradeCap !== null ? ' / ' + h.tradeCap : ''}`, null,
+    cell('Loss floor', money(h.floorRoom), h.floorPct,
+         `${money(h.floor)}${h.floorLocked ? ' · locked' : ddArrow(a.rs.maxLossType)}`),
+    cell('Target', money(h.profit), null, `of ${money(h.target)} · ${Math.round(h.targetPct * 100)}%`,
+         h.targetPct > 0 ? 'armed' : '', h.targetPct),
+    cell('Day', `${h.day}${h.maxDays ? '/' + h.maxDays : ''}`, null,
+         `${h.tradingDays} of ${h.minTradingDays} min days`),
+    cell('Trades today', `${h.tradesToday}${h.tradeCap !== null ? '/' + h.tradeCap : ''}`, null,
          h.consistencyPct !== null ? `Best day ${Math.round(h.consistencyPct * 100)}%` : 'No consistency rule'),
-  ];
-  $('#hud').innerHTML = cells.join('');
+  ].join('');
 
-  // Chart
   const visible = 190;
   const from = Math.max(0, S.cursor - visible * S.tf);
   const bars = resample(S.session.bars.slice(from, S.cursor), S.tf);
@@ -2849,10 +3201,10 @@ function paintTrade() {
   if (a.position) {
     const pv = a.instrument.pointValue;
     const fp = equityToPrice(a.position, bar.c, pv, a.balance, a.floor);
-    if (fp !== null && Number.isFinite(fp)) levels.push({ price: fp, color: '#FF4757', label: 'FLOOR', dashed: false, bold: true, inRangeOnly: true });
+    if (fp !== null && Number.isFinite(fp)) levels.push({ price: fp, color: '#D45C6E', label: 'FLOOR', bold: true, inRangeOnly: true });
     if (a.dailyFloor !== null) {
       const dp = equityToPrice(a.position, bar.c, pv, a.balance, a.dailyFloor);
-      if (dp !== null && Number.isFinite(dp)) levels.push({ price: dp, color: '#FFB020', label: 'DAILY', dashed: true, inRangeOnly: true });
+      if (dp !== null && Number.isFinite(dp)) levels.push({ price: dp, color: '#E0A33C', label: 'DAILY', dashed: true, inRangeOnly: true });
     }
   }
   chart.set({
@@ -2864,52 +3216,49 @@ function paintTrade() {
     ? (bar.c - a.position.entryPrice) * (a.position.side === 'long' ? 1 : -1) * a.position.size * a.instrument.pointValue
     : 0;
 
-  $('#ov').innerHTML = `${esc(a.instrument.name)} · ${S.tf}m<br>
-    <span style="color:#5D6B78">synthetic seed ${esc(S.session.seed)}</span>`;
-  $('#tk').innerHTML = `${bar.c.toFixed(a.instrument.digits)}<br>
-    <span style="color:#5D6B78">${new Date(bar.t).toISOString().slice(0, 16).replace('T', ' ')}</span>`;
+  $('#ov').innerHTML = `${esc(a.instrument.name)} · ${S.tf}m<br>synthetic · seed ${esc(S.session.seed)}`;
+  $('#tk').innerHTML = `<b>${bar.c.toFixed(a.instrument.digits)}</b>${new Date(bar.t).toISOString().slice(0, 16).replace('T', ' ')}Z`;
 
   const warn = h.warnings.filter((w) => w.code !== 'CONSISTENCY_BLOCK');
   const cd = h.cooldownUntil && bar.t < h.cooldownUntil
-    ? `<span class="warn">COOLDOWN ${Math.ceil((h.cooldownUntil - bar.t) / 60000)}m</span>` : '';
-  $('#ps').innerHTML = a.position
-    ? `<span class="${a.position.side === 'long' ? 'pos' : ''}" style="color:${a.position.side === 'long' ? 'var(--teal)' : 'var(--blue)'}">
-         ${a.position.side.toUpperCase()} ${a.position.size} @ ${a.position.entryPrice.toFixed(a.instrument.digits)}</span>
+    ? `<span class="caution">Cooldown ${Math.ceil((h.cooldownUntil - bar.t) / 60000)}m</span>` : '';
+  $('#ps').innerHTML = (a.position
+    ? `<span class="side">${a.position.side.toUpperCase()} ${a.position.size} @ ${a.position.entryPrice.toFixed(a.instrument.digits)}</span>
        <span class="${upl >= 0 ? 'pos' : 'neg'}">${money(upl, true)} open</span>
-       ${a.position.stop ? `<span style="color:var(--dim)">SL ${a.position.stop.toFixed(a.instrument.digits)}</span>` : ''}
-       ${a.position.target ? `<span style="color:var(--dim)">TP ${a.position.target.toFixed(a.instrument.digits)}</span>` : ''}
-       ${cd}
-       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`
-    : `<span style="color:var(--dim)">Flat</span> ${cd}
-       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`;
+       ${a.position.stop ? `<span class="prot">SL ${a.position.stop.toFixed(a.instrument.digits)}</span>` : ''}
+       ${a.position.target ? `<span class="prot">TP ${a.position.target.toFixed(a.instrument.digits)}</span>` : ''}`
+    : `<span class="flat">Flat</span>`)
+    + cd
+    + warn.map((w) => `<span class="${w.sev === 2 ? 'alarm' : 'caution'}">${esc(w.msg)}</span>`).join('');
 }
 
-function cell(k, v, pct, sub, invert = false) {
-  let cls = '';
-  if (pct !== null && pct !== undefined) {
-    // For headroom meters low is bad; for the target meter low is just early.
-    if (!invert) cls = pct <= 0.15 ? 'red' : pct <= 0.3 ? 'amber' : '';
+/** One instrument in the HUD strip. `state` forces a class; otherwise proximity decides. */
+function cell(k, v, pct, sub, state = '', meterPct = null) {
+  let cls = state;
+  if (!cls && pct !== null && pct !== undefined) {
+    cls = pct <= 0.15 ? 'alarm' : pct <= 0.3 ? 'caution' : '';
   }
-  const width = pct === null || pct === undefined ? null : Math.round(pct * 100);
+  const width = meterPct ?? pct;
   return `<div class="cell ${cls}">
     <div class="k">${esc(k)}</div>
     <div class="v">${esc(v)}</div>
-    ${width === null ? `<small>${esc(sub || '')}</small>`
-      : `<div class="meter"><i style="width:${width}%"></i></div><small>${esc(sub || '')}</small>`}
+    ${width === null || width === undefined ? ''
+      : `<div class="meter"><i style="width:${Math.round(width * 100)}%"></i></div>`}
+    <small>${esc(sub || '')}</small>
   </div>`;
 }
 
 const ddArrow = (t) => (t === 'static' ? ' · fixed' : ' · trailing');
 const ddLabel = (t) => ({
-  static: 'Static DD', trailing_intraday: 'Intraday trailing',
-  trailing_eod: 'EOD trailing', trailing_to_static: 'Trailing→lock',
+  static: 'Static', trailing_intraday: 'Intraday trail',
+  trailing_eod: 'EOD trail', trailing_to_static: 'Trail → lock',
 }[t]);
 
-// ── finish + autopsy ────────────────────────────────────────────────────────
+// ── finish ──────────────────────────────────────────────────────────────────
 function finish() {
   stop();
   // A run that neither passed nor breached still terminates — record it as 'ended' rather
-  // than leaving it 'active', or it will never be scored and the dashboard has nothing to show.
+  // than leaving it 'active', or it will never be scored and the record has nothing to show.
   if (S.account.status === 'active') S.account = { ...S.account, status: 'ended' };
   const a = S.account;
   const { findings, primary, metrics } = classify(a);
@@ -2931,121 +3280,141 @@ function finish() {
   go('autopsy');
 }
 
+// ═══ AUTOPSY — report ground ════════════════════════════════════════════════
 function viewAutopsy(main, score) {
   const a = S.account;
   const { findings, primary, xp, notes, drills } = S.lastResult;
   const passed = a.status === 'passed';
+  const breached = a.status === 'failed' && !!a.breach;
+  const kind = passed ? 'pass' : breached ? 'fail' : 'ended';
   const events = narrative(a, 14);
   const profit = a.balance - a.rs.accountSize;
 
-  main.innerHTML = `
-    <div class="wrap">
-      <div class="verdict ${passed ? 'pass' : 'fail'}">
-        <div class="tag">${passed ? 'CHALLENGE PASSED' : a.breach ? 'CHALLENGE FAILED' : 'RUN ENDED'} · SIMULATED</div>
-        <h1>${passed ? `Passed in ${a.tradingDays.length} trading days`
-            : a.breach ? esc(a.breach.detail) : 'You ended the run early'}</h1>
-        <p>${esc(a.rs.firm)} · ${esc(a.rs.label)} · result ${money(profit, true)} over ${a.trades.length} trades</p>
-      </div>
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-      ${primary && !passed ? `
-      <div class="card" style="margin-bottom:16px;border-color:rgba(255,71,87,.35)">
-        <div class="finding" style="border:none;padding:0;margin:0">
-          <div class="code">PRIMARY PATTERN · ${esc(primary.code)}</div>
-          <h4 style="font-size:22px">${esc(primary.name)}</h4>
-          <div class="stat">${esc(primary.stat)}</div>
-          <p>${esc(primary.detail)}</p>
-        </div>
-      </div>` : ''}
-
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">What actually happened</h3>
-          <div class="timeline">
-            ${events.map((e) => `<div class="row ${e.kind}">
-              <span class="t">${esc(e.time)}</span><span class="x">${esc(e.text)}</span></div>`).join('')}
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">Everything we found</h3>
-          ${findings.length ? findings.map((f) => `
-            <div class="finding sev${f.severity >= 4 ? 3 : f.severity >= 2 ? 2 : 1}">
-              <div class="code">${esc(f.code)}</div>
-              <h4>${esc(f.name)}</h4>
-              <div class="stat">${esc(f.stat)}</div>
-              <p>${esc(f.detail)}</p>
-              ${f.evidence?.length ? `<ul>${f.evidence.map((e) => `<li>${esc(e.text)}</li>`).join('')}</ul>` : ''}
-            </div>`).join('')
-            : `<p>No behavioural patterns flagged in this run. That is a good sign, and it is also
-               only one run — the score weights recent runs, so do it again.</p>`}
-        </div>
-      </div>
-
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">Your drills</h3>
-          ${drills.map((d, i) => `
-            <div class="drill">
-              <div class="n">${i + 1}</div>
-              <div>
-                <b>${esc(d.name)}</b>
-                <div class="goal">${esc(d.goal)}</div>
-                <div class="why">${esc(d.why)}</div>
-                <button class="btn sm" data-drill="${d.id}" style="margin-top:8px">Load this drill →</button>
-              </div>
-            </div>`).join('')}
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">XP earned · +${xp}</h3>
-          <div class="timeline">
-            ${notes.map((n) => `<div class="row"><span class="t num">+${n.n}</span><span class="x">${esc(n.why)}</span></div>`).join('')}
-          </div>
-          <p class="src" style="margin-top:12px">
-            XP is awarded for process, never for profit. A bigger winner earns exactly the same
-            as a small one — rewarding P&amp;L would train gambling.
-          </p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="margin-bottom:12px">Share this</h3>
-        <div id="card-host" style="margin-bottom:12px"></div>
-        <button class="btn" id="dl">Download the card</button>
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn primary" id="again">Run it again →</button>
-        <button class="btn" id="dash">See my readiness score</button>
+    <div class="verdict ${kind}">
+      <div class="tag">${passed ? 'Passed' : breached ? 'Failed' : 'Ended early'} · Simulated</div>
+      <h1>${passed ? `Target reached in ${a.tradingDays.length} trading days`
+          : breached ? esc(a.breach.detail)
+          : 'You stopped before a verdict'}</h1>
+      <div class="meta">
+        <span>${esc(a.rs.firm)} · ${esc(a.rs.label)}</span>
+        <span>Result <b class="${profit >= 0 ? 'pos' : 'neg'}">${money(profit, true)}</b></span>
+        <span>Trades <b>${a.trades.length}</b></span>
+        <span>Days <b>${a.tradingDays.length}</b></span>
       </div>
     </div>
-    ${footer()}`;
+
+    ${primary && !passed ? `
+    <div class="primary">
+      <div class="code">Primary pattern · ${esc(primary.code)}</div>
+      <h2>${esc(primary.name)}</h2>
+      <div class="stat">${esc(primary.stat)}</div>
+      <p>${esc(primary.detail)}</p>
+    </div>` : ''}
+
+    <div class="cols c-wide">
+      <div>
+        <div class="band"><span class="lbl">What actually happened</span><span class="rest">last ${events.length} events</span></div>
+        <div class="timeline">
+          ${events.map((e, i) => {
+            // Break the log by session, or the clock appears to run backwards at a day roll.
+            const newDay = e.day && e.day !== events[i - 1]?.day;
+            return `${newDay ? `<div class="daybreak"><span>${esc(dayLabel(e.day))}</span></div>` : ''}
+              <div class="row ${e.kind}">
+                <span class="t">${esc(e.time)}</span><span class="x">${esc(e.text)}</span>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">Findings</span><span class="rest">${findings.length}</span></div>
+        ${findings.length ? findings.map((f) => `
+          <div class="finding sev${f.severity >= 4 ? 3 : f.severity >= 2 ? 2 : 1}">
+            <div class="code">${esc(f.code)}</div>
+            <h4>${esc(f.name)}</h4>
+            <div class="stat">${esc(f.stat)}</div>
+            <p>${esc(f.detail)}</p>
+            ${f.evidence?.length ? `<ul>${f.evidence.map((e) => `<li>${esc(e.text)}</li>`).join('')}</ul>` : ''}
+          </div>`).join('')
+          : `<p>No behavioural patterns flagged in this run. That is a good sign, and it is also
+             one run — the score weights recent runs, so do it again.</p>`}
+      </div>
+    </div>
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band"><span class="lbl">Prescription</span><span class="rest">in order</span></div>
+        ${drills.map((d, i) => `
+          <div class="drill">
+            <span class="n">${String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <b>${esc(d.name)}</b>
+              <div class="goal">${esc(d.goal)}</div>
+              <div class="why">${esc(d.why)}</div>
+            </div>
+            <button class="btn sm quiet" data-drill="${esc(d.id)}">Load</button>
+          </div>`).join('')}
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">XP earned</span><span class="rest">+${xp}</span></div>
+        <div class="ledger">
+          ${notes.map((n) => `<div class="row"><span class="amt">+${n.n}</span><span class="why">${esc(n.why)}</span></div>`).join('')}
+        </div>
+        <p class="src">XP is awarded for process, never for profit. A larger winner earns exactly
+          the same as a small one — rewarding P&amp;L would train gambling.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:44px">
+      <div class="band"><span class="lbl">Share</span></div>
+      <div class="cols c2">
+        <div id="card-host"></div>
+        <div>
+          <p>The card carries the finding, not a win screenshot. It is marked simulated, and it
+             distinguishes a breach from a run that simply ended.</p>
+          <div class="actions" style="margin-top:16px"><button class="btn sm" id="dl">Download card</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="again">Run it again</button>
+      <button class="btn quiet" id="dash">See my record</button>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   const cv = renderCard(a, { primary, score: score.score, grade: score.grade });
   cv.className = 'share-card';
-  cv.style.width = '100%';
   $('#card-host', main).appendChild(cv);
   $('#dl', main).addEventListener('click', () => download(cv, `challenge-ready-${a.status}.png`));
 
   main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
     S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
-    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    toast(`Drill loaded — ${S.drill.name}`, 'guard');
     go('setup');
   }));
   $('#again', main).addEventListener('click', startRun);
   $('#dash', main).addEventListener('click', () => go('dashboard'));
 }
 
-// ── DASHBOARD ───────────────────────────────────────────────────────────────
+// ═══ RECORD — report ground ═════════════════════════════════════════════════
 function viewDashboard(main, score) {
   const runs = S.profile.runs;
   if (!runs.length || !score.components) {
-    main.innerHTML = `<div class="wrap narrow"><div class="card empty">
-      <h2>Unscored</h2>
-      <p>You haven't been tested yet. One 15-minute run will tell you more about your trading
-         than fifteen videos will.</p>
-      <button class="btn primary" id="go">Run the diagnostic →</button>
-    </div></div>${footer()}`;
+    main.innerHTML = `<div class="paper"><div class="sheet narrow">
+      <div class="empty">
+        <div class="lbl" style="margin-bottom:12px">Unscored</div>
+        <h2>You have not been tested yet.</h2>
+        <p>One fifteen-minute run will tell you more about how you trade than fifteen videos will.</p>
+        <button class="btn primary" id="go">Run the diagnostic</button>
+      </div>
+      ${colophon()}
+    </div></div>`;
     $('#go', main).addEventListener('click', () => go('setup'));
     return;
   }
@@ -3054,111 +3423,111 @@ function viewDashboard(main, score) {
   const lvl = levelFor(S.profile.xp);
   const passes = runs.filter((r) => r.status === 'passed').length;
 
-  main.innerHTML = `
-    <div class="wrap">
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <div class="score-hero">
-            ${dial(score.score, score.grade)}
-            <div style="flex:1;min-width:200px">
-              <h2>Readiness Score</h2>
-              <p style="font-size:13px">${esc(score.disclosure)}</p>
-              <div style="margin-top:12px;display:flex;gap:18px;font-size:13px">
-                <span><b class="num">${runs.length}</b> <span style="color:var(--dim)">runs</span></span>
-                <span><b class="num">${passes}</b> <span style="color:var(--dim)">passed</span></span>
-                <span><b class="num">${S.profile.streak}</b> <span style="color:var(--dim)">day streak</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="rec ${rec.level}" style="margin-top:16px">${esc(rec.text)}</div>
-        </div>
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-        <div class="card">
-          <h3 style="margin-bottom:12px">Components</h3>
-          ${COMPONENTS.map((c) => {
-            const v = Math.round(score.components[c.key]);
-            const col = v >= 75 ? 'var(--teal)' : v >= 50 ? 'var(--amber)' : 'var(--red)';
-            return `<div class="comp">
-              <div class="top"><span>${esc(c.label)}</span><b class="num">${v}</b></div>
-              <div class="track"><i style="width:${v}%;background:${col}"></i></div>
-              <div style="font-size:11.5px;color:var(--dim);margin-top:3px">${esc(c.blurb)}</div>
-            </div>`;
-          }).join('')}
-          ${score.weakest ? `<div class="note" style="margin-top:12px">
-            Weakest component: <b style="color:var(--fg)">${esc(score.weakest.label)}</b>. Fix this one first —
-            it carries ${Math.round(score.weakest.weight * 100)}% of the score.</div>` : ''}
+    <div class="band">
+      <span class="lbl">Assessment</span>
+      <span class="rest">${runs.length} run${runs.length === 1 ? '' : 's'} · ${passes} passed · ${S.profile.streak}-day streak</span>
+    </div>
+
+    <div class="cols c-wide">
+      <div>
+        <div class="score-head">
+          ${dial(score.score, score.grade)}
+          <div>
+            <h2>Readiness</h2>
+            <p id="disclosure" style="margin-top:8px;font-size:13px">${esc(score.disclosure)}</p>
+          </div>
+        </div>
+        <div class="rec ${rec.level}">
+          <span class="lbl">Recommendation</span>
+          <p>${esc(rec.text)}</p>
         </div>
       </div>
 
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:12px">Progression</h3>
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
-            <b style="font-size:26px">L${lvl.level}</b>
-            <span style="font-size:16px">${esc(lvl.name)}</span>
-          </div>
-          <div class="comp"><div class="track">
-            <i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%;background:var(--teal)"></i>
-          </div></div>
-          <div style="font-size:12.5px;color:var(--dim);margin-top:6px">
-            ${lvl.max ? 'Max level' : `${lvl.need - lvl.into} XP to level ${lvl.level + 1}`}
-          </div>
-          <div class="note" style="margin-top:14px">
-            Level 7 is "Challenge Ready" and it is deliberately hard to reach. A badge that is
-            easy to get is a badge nobody respects.
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:12px">Available drills</h3>
-          <div style="max-height:230px;overflow:auto">
-            ${DRILLS.slice(0, 6).map((d) => `
-              <div class="drill">
-                <div class="n">${esc(d.forMode)}</div>
-                <div style="flex:1">
-                  <b>${esc(d.name)}</b>
-                  <div class="goal">${esc(d.goal)}</div>
-                </div>
-                <button class="btn sm" data-drill="${d.id}">Load</button>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 style="margin-bottom:12px">Run history</h3>
-        <table class="hist">
-          <tr><th>#</th><th>Ruleset</th><th>Result</th><th>P&amp;L</th><th>Trades</th><th>Days</th><th>Cause</th></tr>
-          ${runs.slice().reverse().map((r, i) => {
-            const p = r.balance - r.rs.accountSize;
-            return `<tr>
-              <td>${runs.length - i}</td>
-              <td>${esc(r.rs.firm)}</td>
-              <td class="${r.status === 'passed' ? 'pos' : r.status === 'failed' ? 'neg' : ''}">${esc(r.status)}</td>
-              <td class="${p >= 0 ? 'pos' : 'neg'}">${money(p, true)}</td>
-              <td>${r.trades.length}</td>
-              <td>${r.tradingDays.length}</td>
-              <td style="color:var(--dim)">${r.breach ? esc(r.breach.code) : '—'}</td>
-            </tr>`;
-          }).join('')}
-        </table>
-      </div>
-
-      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-        <button class="btn primary" id="new">New run →</button>
-        <button class="btn danger" id="reset">Reset all my data</button>
+      <div>
+        <div class="band"><span class="lbl">Components</span><span class="rest">weighted</span></div>
+        ${COMPONENTS.map((c) => {
+          const v = Math.round(score.components[c.key]);
+          const col = v >= 75 ? 'var(--ultra)' : v >= 50 ? 'var(--caution)' : 'var(--oxblood)';
+          return `<div class="comp">
+            <div class="top"><span>${esc(c.label)}</span><b style="color:${col}">${v}</b></div>
+            <div class="track"><i style="width:${v}%;background:${col}"></i></div>
+            <div class="blurb">${esc(c.blurb)}</div>
+          </div>`;
+        }).join('')}
+        ${score.weakest ? `<div class="note" style="margin-top:16px">
+          Weakest component: <em>${esc(score.weakest.label)}</em>. Fix this one first — it carries
+          ${Math.round(score.weakest.weight * 100)}% of the score.</div>` : ''}
       </div>
     </div>
-    ${footer()}`;
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band"><span class="lbl">Progression</span><span class="rest">${S.profile.xp} XP</span></div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+          <b class="num" style="font-size:30px;color:var(--ink-1)">L${lvl.level}</b>
+          <span class="serif" style="font-size:20px">${esc(lvl.name)}</span>
+        </div>
+        <div class="comp" style="border:none;padding:0">
+          <div class="track"><i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%;background:var(--ink-1)"></i></div>
+        </div>
+        <p class="src">${lvl.max ? 'Maximum level.' : `${lvl.need - lvl.into} XP to level ${lvl.level + 1}.`}
+          Level 7 is “Challenge Ready” and it is deliberately hard to reach — a badge that is easy
+          to get is a badge nobody respects.</p>
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">Drills</span><span class="rest">${DRILLS.length} available</span></div>
+        ${DRILLS.slice(0, 5).map((d) => `
+          <div class="drill">
+            <span class="n">${esc(d.forMode)}</span>
+            <div><b>${esc(d.name)}</b><div class="goal">${esc(d.goal)}</div></div>
+            <button class="btn sm quiet" data-drill="${esc(d.id)}">Load</button>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="margin-top:44px">
+      <div class="band"><span class="lbl">Run record</span></div>
+      <table class="hist">
+        <thead><tr>
+          <th>#</th><th>Programme</th><th>Outcome</th>
+          <th class="r">Result</th><th class="r">Trades</th><th class="r">Days</th><th class="r">Cause</th>
+        </tr></thead>
+        <tbody>
+        ${runs.slice().reverse().map((r, i) => {
+          const p = r.balance - r.rs.accountSize;
+          return `<tr>
+            <td>${runs.length - i}</td>
+            <td class="name">${esc(r.rs.firm)}</td>
+            <td>${esc(r.status)}</td>
+            <td class="r ${p >= 0 ? 'pos' : 'neg'}">${money(p, true)}</td>
+            <td class="r">${r.trades.length}</td>
+            <td class="r">${r.tradingDays.length}</td>
+            <td class="r">${r.breach ? esc(r.breach.code.replace('_', ' ').toLowerCase()) : '—'}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="new">New run</button>
+      <button class="btn danger sm" id="reset">Erase my record</button>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
     S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
-    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    toast(`Drill loaded — ${S.drill.name}`, 'guard');
     go('setup');
   }));
   $('#new', main).addEventListener('click', () => go('setup'));
   $('#reset', main).addEventListener('click', () => {
-    if (!confirm('Delete every run, your XP and your streak? This cannot be undone.')) return;
+    if (!confirm('Erase every run, your XP and your streak? This cannot be undone.')) return;
     S.profile = { runs: [], xp: 0, streak: 0, lastDay: null, completedDrills: [] };
     saveProfile(S.profile);
     go('dashboard');
@@ -3166,26 +3535,31 @@ function viewDashboard(main, score) {
 }
 
 function dial(score, grade) {
-  const r = 56, c = 2 * Math.PI * r;
+  const r = 62, c = 2 * Math.PI * r;
   const pct = (score ?? 0) / 100;
-  const col = score >= 75 ? '#00C9A7' : score >= 50 ? '#FFB020' : '#FF4757';
+  const col = score >= 75 ? 'var(--ultra)' : score >= 50 ? 'var(--caution)' : 'var(--oxblood)';
   return `<div class="dial">
-    <svg width="132" height="132" viewBox="0 0 132 132">
-      <circle cx="66" cy="66" r="${r}" fill="none" stroke="#171E26" stroke-width="10"/>
-      <circle cx="66" cy="66" r="${r}" fill="none" stroke="${col}" stroke-width="10"
-        stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct)}"
-        transform="rotate(-90 66 66)"/>
+    <svg width="148" height="148" viewBox="0 0 148 148" aria-hidden="true">
+      <circle cx="74" cy="74" r="${r}" fill="none" stroke="var(--paper-rule)" stroke-width="6"/>
+      <circle cx="74" cy="74" r="${r}" fill="none" stroke="${col}" stroke-width="6"
+        stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct)}" transform="rotate(-90 74 74)"/>
     </svg>
-    <div class="g"><b style="color:${col}">${score ?? '—'}</b><small>GRADE ${grade ?? '—'}</small></div>
+    <div class="g"><b>${score ?? '—'}</b><small>GRADE ${grade ?? '—'}</small></div>
   </div>`;
 }
 
-function footer() {
-  return `<footer>
+/** "Mon 5 Jan" — enough to orient without competing with the event times. */
+function dayLabel(iso) {
+  const d = new Date(iso + 'T00:00:00Z');
+  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+function colophon() {
+  return `<div class="colophon">
     Simulated trading on synthetic data. Nothing here is real market data, a real trading record,
     a prediction, or financial advice. Rule sets are models of publicly documented evaluation
     formats and are not affiliated with any firm — always verify current terms with the firm itself.
-  </footer>`;
+  </div>`;
 }
 
 render();

@@ -308,19 +308,26 @@ export function narrative(state, limit = 12) {
   ]);
   const events = state.timeline.filter((e) => interesting.has(e.type));
   const tail = events.slice(-limit);
-  return tail.map((e) => {
-    const time = e.t ? new Date(e.t).toISOString().slice(11, 16) : '--:--';
-    switch (e.type) {
-      case 'entry':          return { time, kind: 'entry', text: `Entered ${e.side} ${e.size} @ mkt` };
-      case 'exit':           return { time, kind: e.pnl >= 0 ? 'win' : 'loss', text: `${e.reason === 'stop' ? 'Stopped out' : e.reason === 'target' ? 'Target hit' : 'Closed'} ${e.pnl >= 0 ? '+' : '-'}${money(e.pnl)}` };
-      case 'breach':         return { time, kind: 'breach', text: e.detail };
-      case 'order_rejected': return { time, kind: 'blocked', text: e.msg };
-      case 'cooldown_started': return { time, kind: 'guard', text: `Cooldown started after ${e.after} losses` };
-      case 'eod_floor_move': return { time, kind: 'floor', text: `Floor moved up to ${money(e.floor)}` };
-      case 'floor_locked':   return { time, kind: 'floor', text: `Floor locked at ${money(e.floor)}` };
-      case 'consistency_block': return { time, kind: 'blocked', text: 'Target reached but consistency rule blocks the pass' };
-      case 'passed':         return { time, kind: 'pass', text: `Passed with ${money(e.profit)} over ${e.days} days` };
-      default:               return { time, kind: 'info', text: e.type };
-    }
-  });
+  return tail.map((e) => ({
+    // `day` lets the caller break the log by session. Without it the clock appears to run
+    // backwards across a day roll, which reads as a bug rather than as a new trading day.
+    day: e.t ? new Date(e.t).toISOString().slice(0, 10) : null,
+    ...describeEvent(e),
+  }));
+}
+
+function describeEvent(e) {
+  const time = e.t ? new Date(e.t).toISOString().slice(11, 16) : '--:--';
+  switch (e.type) {
+    case 'entry':            return { time, kind: 'entry', text: `Entered ${e.side} ${e.size} @ mkt` };
+    case 'exit':             return { time, kind: e.pnl >= 0 ? 'win' : 'loss', text: `${e.reason === 'stop' ? 'Stopped out' : e.reason === 'target' ? 'Target hit' : 'Closed'} ${e.pnl >= 0 ? '+' : '\u2212'}${money(e.pnl)}` };
+    case 'breach':           return { time, kind: 'breach', text: e.detail };
+    case 'order_rejected':   return { time, kind: 'blocked', text: e.msg };
+    case 'cooldown_started': return { time, kind: 'guard', text: `Cooldown started after ${e.after} losses` };
+    case 'eod_floor_move':   return { time, kind: 'floor', text: `Floor moved up to ${money(e.floor)}` };
+    case 'floor_locked':     return { time, kind: 'floor', text: `Floor locked at ${money(e.floor)}` };
+    case 'consistency_block':return { time, kind: 'blocked', text: 'Target reached but consistency rule blocks the pass' };
+    case 'passed':           return { time, kind: 'pass', text: `Passed with ${money(e.profit)} over ${e.days} days` };
+    default:                 return { time, kind: 'info', text: e.type };
+  }
 }

@@ -1,9 +1,12 @@
 /**
  * Challenge Ready — application controller.
  *
+ * Two grounds, per the identity in styles.css: the cockpit (trading) is an instrument
+ * panel, everything else is a printed report on paper. View functions that render into
+ * `.paper > .sheet` belong to the report world; `viewTrade` is the only cockpit view.
+ *
  * Deliberately a plain module with a small hand-rolled view layer: no framework, no build
- * step, no dependencies. `python3 -m http.server` and it runs. The engine is the asset;
- * the UI should stay cheap enough to rewrite.
+ * step, no runtime dependencies. The engine is the asset; the UI should stay cheap to redo.
  */
 
 import { RULESET_LIST, loadRuleSet, describeRules } from '../engine/rulesets.js';
@@ -65,7 +68,8 @@ const S = {
 
 const root = document.getElementById('app');
 const $ = (sel, el = document) => el.querySelector(sel);
-const money = (n, sign = false) => (sign && n > 0 ? '+' : n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
+const money = (n, sign = false) =>
+  (sign && n > 0 ? '+' : n < 0 ? '−' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-US');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 function go(view) { S.view = view; stop(); render(); window.scrollTo(0, 0); }
@@ -73,7 +77,7 @@ function go(view) { S.view = view; stop(); render(); window.scrollTo(0, 0); }
 function toast(msg, kind = '') {
   S.toast = { msg, kind };
   clearTimeout(S.toastTimer);
-  S.toastTimer = setTimeout(() => { S.toast = null; paintToast(); }, 3800);
+  S.toastTimer = setTimeout(() => { S.toast = null; paintToast(); }, 4200);
   paintToast();
 }
 
@@ -85,24 +89,25 @@ function paintToast() {
   el.textContent = S.toast.msg;
 }
 
-// ── render ──────────────────────────────────────────────────────────────────
+// ── shell ───────────────────────────────────────────────────────────────────
 function render() {
   const lvl = levelFor(S.profile.xp);
   const score = readinessScore(S.profile.runs);
 
   root.innerHTML = `
     <div class="topbar">
-      <div class="logo">Challenge<span> Ready</span></div>
+      <div class="logo">Challenge<span>/</span>Ready</div>
       <div class="sim-badge">SIMULATED</div>
       <div class="spacer"></div>
       <nav>
         <button data-nav="setup"     class="${S.view === 'setup' ? 'on' : ''}">New run</button>
-        <button data-nav="dashboard" class="${S.view === 'dashboard' ? 'on' : ''}">Dashboard</button>
+        <button data-nav="dashboard" class="${S.view === 'dashboard' ? 'on' : ''}">Record</button>
       </nav>
       <div class="lvl">
-        <b>L${lvl.level}</b> ${esc(lvl.name)}
+        <b>L${lvl.level}</b>
+        <span class="lname">${esc(lvl.name)}</span>
         <span class="bar"><i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%"></i></span>
-        <span class="num">${S.profile.xp} XP</span>
+        <span class="num">${S.profile.xp}&thinsp;XP</span>
       </div>
     </div>
     <main id="main"></main>`;
@@ -115,103 +120,128 @@ function render() {
   paintToast();
 }
 
-// ── SETUP ───────────────────────────────────────────────────────────────────
+// ═══ SETUP — report ground ══════════════════════════════════════════════════
 function viewSetup(main) {
   const rs = loadRuleSet(S.rulesetId);
   const instruments = instrumentsFor(rs.assetClass);
   if (!instruments.some((i) => i.symbol === S.symbol)) S.symbol = instruments[0].symbol;
-  const hasRuns = S.profile.runs.length > 0;
+  const returning = S.profile.runs.length > 0;
 
-  main.innerHTML = `
-    <div class="wrap">
-      ${hasRuns ? '' : `
-      <div class="hero">
-        <h1>93% of traders fail their first prop firm challenge.<br>Find out why before you pay to find out.</h1>
-        <p class="sub">Practise under the exact rule set you are about to buy. When you breach, this
-          tells you the specific behaviour that did it — not just that it happened.</p>
-        <div class="stat-row">
-          <div><b class="num">16.8%</b><small>Combines passed</small></div>
-          <div><b class="num">51.8%</b><small>Traders funded eventually</small></div>
-          <div><b class="num">33.3%</b><small>Funded who got paid</small></div>
-          <div><b class="num neg">0.71%</b><small>Reached live capital</small></div>
-        </div>
-        <p class="src">Source: Topstep's own published Trading Combine statistics, Jan–Dec 2025.
-          Every number in this product is sourced or labelled as an estimate.</p>
-      </div>`}
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-      <h2 style="margin-bottom:12px">${hasRuns ? 'Start a run' : '1 · Pick the rule set you are training for'}</h2>
-      <div class="firm-grid" style="margin-bottom:26px">
-        ${RULESET_LIST.map((r) => `
-          <button class="firm ${r.id === S.rulesetId ? 'on' : ''}" data-rs="${r.id}">
-            <b>${esc(r.firm)}</b>
-            <small>${esc(r.label)}</small>
-            <div class="dd">${ddLabel(r.maxLossType)} · ${money(r.maxLoss)} DD · ${money(r.profitTarget)} target</div>
-          </button>`).join('')}
+    ${returning ? '' : `
+    <div class="masthead">
+      <div>
+        <div class="lbl kicker">Pre-evaluation training</div>
+        <h1>Find out what ends your challenge before it costs you $500 to find out.</h1>
+        <p>Trade a real firm's rule set against the clock. When you breach, this tells you
+           the specific behaviour that did it — not just that it happened.</p>
       </div>
-
-      <div class="grid g2" style="margin-bottom:22px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">The rules you will be trading under</h3>
-          <table class="rules-table">
-            ${describeRules(rs).map((r) => `<tr><td>${esc(r.k)}</td><td>${esc(r.v)}</td></tr>`).join('')}
-          </table>
-          <p class="src" style="margin-top:12px">
-            Modelled from public documentation, last checked ${rs.verifiedOn}.
-            <a href="${rs.sourceUrl}" target="_blank" rel="noopener">Verify current terms →</a>
-          </p>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">What usually kills this one</h3>
-          ${rs.notes.map((n) => `<div class="note" style="margin-bottom:8px">${esc(n)}</div>`).join('')}
-          <div class="field" style="border-top:1px solid var(--line);margin-top:12px">
-            <label>Instrument</label>
-            <select id="sym" style="width:auto">
-              ${instruments.map((i) => `<option value="${i.symbol}" ${i.symbol === S.symbol ? 'selected' : ''}>${esc(i.name)}</option>`).join('')}
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:22px">
-        <h3>Guardrails — your own limits, enforced by the engine</h3>
-        <p style="font-size:13px;margin:6px 0 4px">
-          Set these while you are calm. Once the run starts they cannot be loosened. This is the
-          only mechanism here that works on the behaviour that actually ends most challenges.
+      <div>
+        <table class="figures">
+          <caption>What the funnel actually looks like</caption>
+          <tbody>
+            <tr><td>16.8%</td><td>of Trading Combines are completed successfully</td></tr>
+            <tr><td>51.8%</td><td>of participants reach Funded in at least one attempt</td></tr>
+            <tr><td>33.3%</td><td>of funded participants ever receive a payout</td></tr>
+            <tr class="low"><td>0.71%</td><td>of Express-Funded traders reach live capital</td></tr>
+          </tbody>
+        </table>
+        <p class="src">
+          Topstep's own published Trading Combine statistics, January–December 2025. Every figure
+          in this product is either sourced or explicitly labelled an estimate.
         </p>
-        <div class="grid g3" style="margin-top:8px">
-          <div class="field">
-            <label>Max trades / day<small>Blank = no limit</small></label>
-            <input id="g-cap" type="number" min="0" value="${S.guards.maxTradesPerDay ?? ''}">
-          </div>
-          <div class="field">
-            <label>Cooldown after N losses<small>Blocks entries for 15 min</small></label>
-            <input id="g-cool" type="number" min="0" value="${S.guards.cooldownAfterLosses ?? ''}">
-          </div>
-          <div class="field">
-            <label>Session hours (UTC)<small>e.g. 13 to 16</small></label>
-            <span style="display:flex;gap:6px">
-              <input id="g-s" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionStartHour ?? ''}">
-              <input id="g-e" type="number" min="0" max="23" style="width:56px" value="${S.guards.sessionEndHour ?? ''}">
-            </span>
-          </div>
+      </div>
+    </div>`}
+
+    <div class="band">
+      <span class="lbl">${returning ? 'Select programme' : 'I · Select programme'}</span>
+      <span class="rest">6 rule sets</span>
+    </div>
+    <div class="firm-grid">
+      ${RULESET_LIST.map((r) => `
+        <button class="firm ${r.id === S.rulesetId ? 'on' : ''}" data-rs="${r.id}">
+          <b>${esc(r.firm)}</b>
+          <span class="prog">${esc(r.label)}</span>
+          <span class="dd"><em>${ddLabel(r.maxLossType)}</em> · ${money(r.maxLoss)} DD · ${money(r.profitTarget)} target</span>
+        </button>`).join('')}
+    </div>
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band">
+          <span class="lbl">II · Specification</span>
+          <span class="rest">${esc(rs.firm)} · ${esc(rs.label)}</span>
         </div>
+        <table class="rules-table">
+          ${describeRules(rs).map((r) => `<tr><td>${esc(r.k)}</td><td>${esc(r.v)}</td></tr>`).join('')}
+        </table>
+        <p class="src">
+          Modelled from public documentation, last checked ${esc(rs.verifiedOn)}. Not affiliated with
+          any firm. <a href="${esc(rs.sourceUrl)}" target="_blank" rel="noopener">Verify current terms&nbsp;→</a>
+        </p>
       </div>
 
-      ${S.drill ? `<div class="card" style="margin-bottom:22px;border-color:var(--teal)">
-        <h3 style="color:var(--teal)">Drill loaded · ${esc(S.drill.name)}</h3>
-        <p style="margin-top:6px">${esc(S.drill.goal)}</p>
-        <button class="btn sm" id="clear-drill" style="margin-top:10px">Remove drill</button>
-      </div>` : ''}
-
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <button class="btn primary big" id="start">Start the run →</button>
-        <span style="font-size:12.5px;color:var(--dim)">
-          Synthetic market data, deterministic seed. No real money, no real market data, no account required.
-        </span>
+      <div>
+        <div class="band"><span class="lbl">What ends this one</span></div>
+        ${rs.notes.map((n) => `<div class="note">${esc(n)}</div>`).join('')}
+        <div class="field" style="margin-top:20px">
+          <label>Instrument</label>
+          <select id="sym" style="width:auto">
+            ${instruments.map((i) => `<option value="${i.symbol}" ${i.symbol === S.symbol ? 'selected' : ''}>${esc(i.name)}</option>`).join('')}
+          </select>
+        </div>
       </div>
     </div>
-    ${footer()}`;
+
+    <div style="margin-top:44px">
+      <div class="band">
+        <span class="lbl">III · Guardrails</span>
+        <span class="rest">enforced by the engine, not the interface</span>
+      </div>
+      <p style="margin-bottom:18px">
+        Set these now, while you are calm. Once the run starts they cannot be loosened. This is the
+        only mechanism here that acts on the behaviour that actually ends most challenges.
+      </p>
+      <div class="cols c3">
+        <div class="field">
+          <label>Max trades per day<small>Blank for no limit</small></label>
+          <input id="g-cap" type="number" min="0" value="${S.guards.maxTradesPerDay ?? ''}">
+        </div>
+        <div class="field">
+          <label>Cooldown after N losses<small>Blocks entries for 15 minutes</small></label>
+          <input id="g-cool" type="number" min="0" value="${S.guards.cooldownAfterLosses ?? ''}">
+        </div>
+        <div class="field">
+          <label>Session hours<small>UTC, e.g. 13 to 16</small></label>
+          <span class="pair">
+            <input id="g-s" type="number" min="0" max="23" value="${S.guards.sessionStartHour ?? ''}">
+            <input id="g-e" type="number" min="0" max="23" value="${S.guards.sessionEndHour ?? ''}">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    ${S.drill ? `
+    <div style="margin-top:40px">
+      <div class="band"><span class="lbl" style="color:var(--ultra)">Drill loaded</span></div>
+      <div class="cols c2">
+        <div>
+          <h2 style="margin-bottom:6px">${esc(S.drill.name)}</h2>
+          <p>${esc(S.drill.goal)}</p>
+        </div>
+        <div style="align-self:end"><button class="btn sm quiet" id="clear-drill">Remove drill</button></div>
+      </div>
+    </div>` : ''}
+
+    <div class="actions">
+      <button class="btn primary big" id="start">Begin run</button>
+      <span class="caption">Synthetic market data on a fixed seed. No real money, no real market
+        data, no account needed.</span>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   main.querySelectorAll('[data-rs]').forEach((b) =>
     b.addEventListener('click', () => { S.rulesetId = b.dataset.rs; render(); }));
@@ -236,7 +266,7 @@ function startRun() {
   if (S.drill?.guards) S.guards = normalizeGuards({ ...S.guards, ...S.drill.guards });
 
   const rs = loadRuleSet(S.rulesetId);
-  // Seed from the ruleset + attempt number so every run is a fresh but reproducible market.
+  // Seed from the ruleset + attempt number: a fresh but reproducible market each run.
   const seed = `${S.rulesetId}|${S.symbol}|${S.profile.runs.length}`;
   S.session = loadSession({
     symbol: S.symbol,
@@ -245,8 +275,8 @@ function startRun() {
     barsPerDay: 300,
   });
   S.account = createAccount(rs, S.session.instrument, S.guards);
-  // Warm up with enough history that the chart is populated on the first frame — an empty
-  // chart on the most important screen reads as a broken product.
+  // Warm up so the chart is populated on the first frame — an empty chart on the most
+  // important screen reads as a broken product.
   S.cursor = 260;
   for (let i = 0; i < S.cursor; i++) S.account = applyBar(S.account, S.session.bars[i]);
   S.playing = false;
@@ -254,7 +284,7 @@ function startRun() {
   play();
 }
 
-// ── TRADE ───────────────────────────────────────────────────────────────────
+// ═══ TRADE — cockpit ground ═════════════════════════════════════════════════
 let chart = null;
 
 function viewTrade(main) {
@@ -268,27 +298,21 @@ function viewTrade(main) {
       </div>
       <div class="pos-strip" id="ps"></div>
       <div class="order-bar">
-        <div class="grp">
-          <label>Size</label>
-          <input id="o-size" type="number" min="1" value="${S.orderSize}" ${S.drill?.lockSize ? 'disabled' : ''}>
-        </div>
-        <div class="grp"><label>Stop pts</label><input id="o-stop" type="number" min="0" value="${S.stopPts}"></div>
-        <div class="grp"><label>Target pts</label><input id="o-tgt" type="number" min="0" value="${S.targetPts}"></div>
+        <div class="grp"><label for="o-size">Size</label>
+          <input id="o-size" type="number" min="1" value="${S.orderSize}" ${S.drill?.lockSize ? 'disabled' : ''}></div>
+        <div class="grp"><label for="o-stop">Stop</label><input id="o-stop" type="number" min="0" value="${S.stopPts}"></div>
+        <div class="grp"><label for="o-tgt">Target</label><input id="o-tgt" type="number" min="0" value="${S.targetPts}"></div>
         <div class="sep"></div>
-        <button class="btn sm buy"  id="b-buy">Buy</button>
-        <button class="btn sm sell" id="b-sell">Sell</button>
-        <button class="btn sm flat" id="b-flat">Flatten</button>
+        <button class="ctl buy"  id="b-buy">Buy</button>
+        <button class="ctl sell" id="b-sell">Sell</button>
+        <button class="ctl"      id="b-flat">Flatten</button>
         <div class="sep"></div>
-        <div class="speed">
-          ${[1, 4, 8, 25, 100].map((s) => `<button data-sp="${s}" class="${S.speed === s ? 'on' : ''}">${s}×</button>`).join('')}
-        </div>
-        <button class="btn sm" id="b-play">${S.playing ? '❚❚ Pause' : '▶ Play'}</button>
+        <div class="seg">${[1, 4, 8, 25, 100].map((s) => `<button data-sp="${s}" class="${S.speed === s ? 'on' : ''}">${s}×</button>`).join('')}</div>
+        <button class="ctl" id="b-play">${S.playing ? 'Pause' : 'Play'}</button>
         <div class="sep"></div>
-        <div class="speed">
-          ${[1, 5, 15].map((t) => `<button data-tf="${t}" class="${S.tf === t ? 'on' : ''}">${t}m</button>`).join('')}
-        </div>
-        <div class="spacer" style="flex:1"></div>
-        <button class="btn sm danger" id="b-end">End run</button>
+        <div class="seg">${[1, 5, 15].map((t) => `<button data-tf="${t}" class="${S.tf === t ? 'on' : ''}">${t}m</button>`).join('')}</div>
+        <div class="spacer"></div>
+        <button class="ctl end" id="b-end">End run</button>
       </div>
     </div>`;
 
@@ -298,12 +322,16 @@ function viewTrade(main) {
   $('#b-sell', main).addEventListener('click', () => order('short'));
   $('#b-flat', main).addEventListener('click', flatten);
   $('#b-play', main).addEventListener('click', () => (S.playing ? stop(true) : play()));
-  $('#b-end', main).addEventListener('click', () => finish('ended'));
+  $('#b-end', main).addEventListener('click', () => finish());
   main.querySelectorAll('[data-sp]').forEach((b) => b.addEventListener('click', () => {
-    S.speed = +b.dataset.sp; if (S.playing) { stop(); play(); } else render();
+    S.speed = +b.dataset.sp;
+    main.querySelectorAll('[data-sp]').forEach((x) => x.classList.toggle('on', x === b));
+    if (S.playing) { stop(); play(); }
   }));
   main.querySelectorAll('[data-tf]').forEach((b) => b.addEventListener('click', () => {
-    S.tf = +b.dataset.tf; paintTrade();
+    S.tf = +b.dataset.tf;
+    main.querySelectorAll('[data-tf]').forEach((x) => x.classList.toggle('on', x === b));
+    paintTrade();
   }));
   ['o-size', 'o-stop', 'o-tgt'].forEach((id) => $('#' + id, main).addEventListener('change', (e) => {
     const v = Math.max(0, +e.target.value || 0);
@@ -330,21 +358,21 @@ function play() {
     if (S.playing) S.timer = setTimeout(tick, Math.max(12, 420 / S.speed));
   };
   S.timer = setTimeout(tick, 200);
-  const b = $('#b-play'); if (b) b.textContent = '❚❚ Pause';
+  const b = $('#b-play'); if (b) b.textContent = 'Pause';
 }
 
 function stop(repaint = false) {
   S.playing = false;
   clearTimeout(S.timer);
-  const b = $('#b-play'); if (b) b.textContent = '▶ Play';
+  const b = $('#b-play'); if (b) b.textContent = 'Play';
   if (repaint) paintTrade();
 }
 
 function step() {
-  if (S.cursor >= S.session.bars.length - 1) { finish('out_of_data'); return; }
+  if (S.cursor >= S.session.bars.length - 1) { finish(); return; }
   S.account = applyBar(S.account, S.session.bars[S.cursor]);
   S.cursor++;
-  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  if (S.account.status !== 'active') { finish(); return; }
   paintTrade();
 }
 
@@ -361,8 +389,7 @@ function order(side) {
   });
   S.account = r.state;
   if (r.rejected) {
-    const isGuard = String(r.rejected).startsWith('GUARD');
-    toast(r.message || 'Order rejected', isGuard ? 'guard' : 'block');
+    toast(r.message || 'Order rejected', String(r.rejected).startsWith('GUARD') ? 'guard' : 'block');
   }
   paintTrade();
 }
@@ -371,7 +398,7 @@ function flatten() {
   if (!S.account?.position) return;
   const bar = S.session.bars[S.cursor - 1];
   S.account = closePosition(S.account, bar.c).state;
-  if (S.account.status !== 'active') { finish(S.account.status); return; }
+  if (S.account.status !== 'active') { finish(); return; }
   paintTrade();
 }
 
@@ -381,22 +408,21 @@ function paintTrade() {
   const h = hud(a);
   const bar = S.session.bars[S.cursor - 1];
 
-  // HUD — order is fixed and it never scrolls or collapses.
-  const cells = [
-    cell('Equity', money(h.equity), null, `Bal ${money(h.balance)}`),
-    cell('Daily limit', h.dailyRoom === null ? '—' : money(h.dailyRoom) + ' left',
+  // Instrument order is fixed. It never scrolls, collapses or reorders.
+  $('#hud').innerHTML = [
+    cell('Equity', money(h.equity), null, `Balance ${money(h.balance)}`),
+    cell('Daily limit', h.dailyRoom === null ? '—' : money(h.dailyRoom),
          h.dailyPct, h.dailyFloor === null ? 'No daily rule' : `Floor ${money(h.dailyFloor)}`),
-    cell('Max loss floor', money(h.floorRoom) + ' left', h.floorPct,
-         `${money(h.floor)}${h.floorLocked ? ' · LOCKED' : ddArrow(a.rs.maxLossType)}`),
-    cell('Target', money(h.profit) + ' / ' + money(h.target), h.targetPct, `${Math.round(h.targetPct * 100)}%`, true),
-    cell('Day', `${h.day}${h.maxDays ? ' / ' + h.maxDays : ''}`, null,
-         `${h.tradingDays}/${h.minTradingDays} trading days`),
-    cell('Trades today', `${h.tradesToday}${h.tradeCap !== null ? ' / ' + h.tradeCap : ''}`, null,
+    cell('Loss floor', money(h.floorRoom), h.floorPct,
+         `${money(h.floor)}${h.floorLocked ? ' · locked' : ddArrow(a.rs.maxLossType)}`),
+    cell('Target', money(h.profit), null, `of ${money(h.target)} · ${Math.round(h.targetPct * 100)}%`,
+         h.targetPct > 0 ? 'armed' : '', h.targetPct),
+    cell('Day', `${h.day}${h.maxDays ? '/' + h.maxDays : ''}`, null,
+         `${h.tradingDays} of ${h.minTradingDays} min days`),
+    cell('Trades today', `${h.tradesToday}${h.tradeCap !== null ? '/' + h.tradeCap : ''}`, null,
          h.consistencyPct !== null ? `Best day ${Math.round(h.consistencyPct * 100)}%` : 'No consistency rule'),
-  ];
-  $('#hud').innerHTML = cells.join('');
+  ].join('');
 
-  // Chart
   const visible = 190;
   const from = Math.max(0, S.cursor - visible * S.tf);
   const bars = resample(S.session.bars.slice(from, S.cursor), S.tf);
@@ -405,10 +431,10 @@ function paintTrade() {
   if (a.position) {
     const pv = a.instrument.pointValue;
     const fp = equityToPrice(a.position, bar.c, pv, a.balance, a.floor);
-    if (fp !== null && Number.isFinite(fp)) levels.push({ price: fp, color: '#FF4757', label: 'FLOOR', dashed: false, bold: true, inRangeOnly: true });
+    if (fp !== null && Number.isFinite(fp)) levels.push({ price: fp, color: '#D45C6E', label: 'FLOOR', bold: true, inRangeOnly: true });
     if (a.dailyFloor !== null) {
       const dp = equityToPrice(a.position, bar.c, pv, a.balance, a.dailyFloor);
-      if (dp !== null && Number.isFinite(dp)) levels.push({ price: dp, color: '#FFB020', label: 'DAILY', dashed: true, inRangeOnly: true });
+      if (dp !== null && Number.isFinite(dp)) levels.push({ price: dp, color: '#E0A33C', label: 'DAILY', dashed: true, inRangeOnly: true });
     }
   }
   chart.set({
@@ -420,52 +446,49 @@ function paintTrade() {
     ? (bar.c - a.position.entryPrice) * (a.position.side === 'long' ? 1 : -1) * a.position.size * a.instrument.pointValue
     : 0;
 
-  $('#ov').innerHTML = `${esc(a.instrument.name)} · ${S.tf}m<br>
-    <span style="color:#5D6B78">synthetic seed ${esc(S.session.seed)}</span>`;
-  $('#tk').innerHTML = `${bar.c.toFixed(a.instrument.digits)}<br>
-    <span style="color:#5D6B78">${new Date(bar.t).toISOString().slice(0, 16).replace('T', ' ')}</span>`;
+  $('#ov').innerHTML = `${esc(a.instrument.name)} · ${S.tf}m<br>synthetic · seed ${esc(S.session.seed)}`;
+  $('#tk').innerHTML = `<b>${bar.c.toFixed(a.instrument.digits)}</b>${new Date(bar.t).toISOString().slice(0, 16).replace('T', ' ')}Z`;
 
   const warn = h.warnings.filter((w) => w.code !== 'CONSISTENCY_BLOCK');
   const cd = h.cooldownUntil && bar.t < h.cooldownUntil
-    ? `<span class="warn">COOLDOWN ${Math.ceil((h.cooldownUntil - bar.t) / 60000)}m</span>` : '';
-  $('#ps').innerHTML = a.position
-    ? `<span class="${a.position.side === 'long' ? 'pos' : ''}" style="color:${a.position.side === 'long' ? 'var(--teal)' : 'var(--blue)'}">
-         ${a.position.side.toUpperCase()} ${a.position.size} @ ${a.position.entryPrice.toFixed(a.instrument.digits)}</span>
+    ? `<span class="caution">Cooldown ${Math.ceil((h.cooldownUntil - bar.t) / 60000)}m</span>` : '';
+  $('#ps').innerHTML = (a.position
+    ? `<span class="side">${a.position.side.toUpperCase()} ${a.position.size} @ ${a.position.entryPrice.toFixed(a.instrument.digits)}</span>
        <span class="${upl >= 0 ? 'pos' : 'neg'}">${money(upl, true)} open</span>
-       ${a.position.stop ? `<span style="color:var(--dim)">SL ${a.position.stop.toFixed(a.instrument.digits)}</span>` : ''}
-       ${a.position.target ? `<span style="color:var(--dim)">TP ${a.position.target.toFixed(a.instrument.digits)}</span>` : ''}
-       ${cd}
-       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`
-    : `<span style="color:var(--dim)">Flat</span> ${cd}
-       ${warn.map((w) => `<span class="${w.sev === 2 ? 'neg' : 'warn'}">${esc(w.msg)}</span>`).join('')}`;
+       ${a.position.stop ? `<span class="prot">SL ${a.position.stop.toFixed(a.instrument.digits)}</span>` : ''}
+       ${a.position.target ? `<span class="prot">TP ${a.position.target.toFixed(a.instrument.digits)}</span>` : ''}`
+    : `<span class="flat">Flat</span>`)
+    + cd
+    + warn.map((w) => `<span class="${w.sev === 2 ? 'alarm' : 'caution'}">${esc(w.msg)}</span>`).join('');
 }
 
-function cell(k, v, pct, sub, invert = false) {
-  let cls = '';
-  if (pct !== null && pct !== undefined) {
-    // For headroom meters low is bad; for the target meter low is just early.
-    if (!invert) cls = pct <= 0.15 ? 'red' : pct <= 0.3 ? 'amber' : '';
+/** One instrument in the HUD strip. `state` forces a class; otherwise proximity decides. */
+function cell(k, v, pct, sub, state = '', meterPct = null) {
+  let cls = state;
+  if (!cls && pct !== null && pct !== undefined) {
+    cls = pct <= 0.15 ? 'alarm' : pct <= 0.3 ? 'caution' : '';
   }
-  const width = pct === null || pct === undefined ? null : Math.round(pct * 100);
+  const width = meterPct ?? pct;
   return `<div class="cell ${cls}">
     <div class="k">${esc(k)}</div>
     <div class="v">${esc(v)}</div>
-    ${width === null ? `<small>${esc(sub || '')}</small>`
-      : `<div class="meter"><i style="width:${width}%"></i></div><small>${esc(sub || '')}</small>`}
+    ${width === null || width === undefined ? ''
+      : `<div class="meter"><i style="width:${Math.round(width * 100)}%"></i></div>`}
+    <small>${esc(sub || '')}</small>
   </div>`;
 }
 
 const ddArrow = (t) => (t === 'static' ? ' · fixed' : ' · trailing');
 const ddLabel = (t) => ({
-  static: 'Static DD', trailing_intraday: 'Intraday trailing',
-  trailing_eod: 'EOD trailing', trailing_to_static: 'Trailing→lock',
+  static: 'Static', trailing_intraday: 'Intraday trail',
+  trailing_eod: 'EOD trail', trailing_to_static: 'Trail → lock',
 }[t]);
 
-// ── finish + autopsy ────────────────────────────────────────────────────────
+// ── finish ──────────────────────────────────────────────────────────────────
 function finish() {
   stop();
   // A run that neither passed nor breached still terminates — record it as 'ended' rather
-  // than leaving it 'active', or it will never be scored and the dashboard has nothing to show.
+  // than leaving it 'active', or it will never be scored and the record has nothing to show.
   if (S.account.status === 'active') S.account = { ...S.account, status: 'ended' };
   const a = S.account;
   const { findings, primary, metrics } = classify(a);
@@ -487,121 +510,141 @@ function finish() {
   go('autopsy');
 }
 
+// ═══ AUTOPSY — report ground ════════════════════════════════════════════════
 function viewAutopsy(main, score) {
   const a = S.account;
   const { findings, primary, xp, notes, drills } = S.lastResult;
   const passed = a.status === 'passed';
+  const breached = a.status === 'failed' && !!a.breach;
+  const kind = passed ? 'pass' : breached ? 'fail' : 'ended';
   const events = narrative(a, 14);
   const profit = a.balance - a.rs.accountSize;
 
-  main.innerHTML = `
-    <div class="wrap">
-      <div class="verdict ${passed ? 'pass' : 'fail'}">
-        <div class="tag">${passed ? 'CHALLENGE PASSED' : a.breach ? 'CHALLENGE FAILED' : 'RUN ENDED'} · SIMULATED</div>
-        <h1>${passed ? `Passed in ${a.tradingDays.length} trading days`
-            : a.breach ? esc(a.breach.detail) : 'You ended the run early'}</h1>
-        <p>${esc(a.rs.firm)} · ${esc(a.rs.label)} · result ${money(profit, true)} over ${a.trades.length} trades</p>
-      </div>
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-      ${primary && !passed ? `
-      <div class="card" style="margin-bottom:16px;border-color:rgba(255,71,87,.35)">
-        <div class="finding" style="border:none;padding:0;margin:0">
-          <div class="code">PRIMARY PATTERN · ${esc(primary.code)}</div>
-          <h4 style="font-size:22px">${esc(primary.name)}</h4>
-          <div class="stat">${esc(primary.stat)}</div>
-          <p>${esc(primary.detail)}</p>
-        </div>
-      </div>` : ''}
-
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">What actually happened</h3>
-          <div class="timeline">
-            ${events.map((e) => `<div class="row ${e.kind}">
-              <span class="t">${esc(e.time)}</span><span class="x">${esc(e.text)}</span></div>`).join('')}
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">Everything we found</h3>
-          ${findings.length ? findings.map((f) => `
-            <div class="finding sev${f.severity >= 4 ? 3 : f.severity >= 2 ? 2 : 1}">
-              <div class="code">${esc(f.code)}</div>
-              <h4>${esc(f.name)}</h4>
-              <div class="stat">${esc(f.stat)}</div>
-              <p>${esc(f.detail)}</p>
-              ${f.evidence?.length ? `<ul>${f.evidence.map((e) => `<li>${esc(e.text)}</li>`).join('')}</ul>` : ''}
-            </div>`).join('')
-            : `<p>No behavioural patterns flagged in this run. That is a good sign, and it is also
-               only one run — the score weights recent runs, so do it again.</p>`}
-        </div>
-      </div>
-
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:10px">Your drills</h3>
-          ${drills.map((d, i) => `
-            <div class="drill">
-              <div class="n">${i + 1}</div>
-              <div>
-                <b>${esc(d.name)}</b>
-                <div class="goal">${esc(d.goal)}</div>
-                <div class="why">${esc(d.why)}</div>
-                <button class="btn sm" data-drill="${d.id}" style="margin-top:8px">Load this drill →</button>
-              </div>
-            </div>`).join('')}
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:10px">XP earned · +${xp}</h3>
-          <div class="timeline">
-            ${notes.map((n) => `<div class="row"><span class="t num">+${n.n}</span><span class="x">${esc(n.why)}</span></div>`).join('')}
-          </div>
-          <p class="src" style="margin-top:12px">
-            XP is awarded for process, never for profit. A bigger winner earns exactly the same
-            as a small one — rewarding P&amp;L would train gambling.
-          </p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <h3 style="margin-bottom:12px">Share this</h3>
-        <div id="card-host" style="margin-bottom:12px"></div>
-        <button class="btn" id="dl">Download the card</button>
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn primary" id="again">Run it again →</button>
-        <button class="btn" id="dash">See my readiness score</button>
+    <div class="verdict ${kind}">
+      <div class="tag">${passed ? 'Passed' : breached ? 'Failed' : 'Ended early'} · Simulated</div>
+      <h1>${passed ? `Target reached in ${a.tradingDays.length} trading days`
+          : breached ? esc(a.breach.detail)
+          : 'You stopped before a verdict'}</h1>
+      <div class="meta">
+        <span>${esc(a.rs.firm)} · ${esc(a.rs.label)}</span>
+        <span>Result <b class="${profit >= 0 ? 'pos' : 'neg'}">${money(profit, true)}</b></span>
+        <span>Trades <b>${a.trades.length}</b></span>
+        <span>Days <b>${a.tradingDays.length}</b></span>
       </div>
     </div>
-    ${footer()}`;
+
+    ${primary && !passed ? `
+    <div class="primary">
+      <div class="code">Primary pattern · ${esc(primary.code)}</div>
+      <h2>${esc(primary.name)}</h2>
+      <div class="stat">${esc(primary.stat)}</div>
+      <p>${esc(primary.detail)}</p>
+    </div>` : ''}
+
+    <div class="cols c-wide">
+      <div>
+        <div class="band"><span class="lbl">What actually happened</span><span class="rest">last ${events.length} events</span></div>
+        <div class="timeline">
+          ${events.map((e, i) => {
+            // Break the log by session, or the clock appears to run backwards at a day roll.
+            const newDay = e.day && e.day !== events[i - 1]?.day;
+            return `${newDay ? `<div class="daybreak"><span>${esc(dayLabel(e.day))}</span></div>` : ''}
+              <div class="row ${e.kind}">
+                <span class="t">${esc(e.time)}</span><span class="x">${esc(e.text)}</span>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">Findings</span><span class="rest">${findings.length}</span></div>
+        ${findings.length ? findings.map((f) => `
+          <div class="finding sev${f.severity >= 4 ? 3 : f.severity >= 2 ? 2 : 1}">
+            <div class="code">${esc(f.code)}</div>
+            <h4>${esc(f.name)}</h4>
+            <div class="stat">${esc(f.stat)}</div>
+            <p>${esc(f.detail)}</p>
+            ${f.evidence?.length ? `<ul>${f.evidence.map((e) => `<li>${esc(e.text)}</li>`).join('')}</ul>` : ''}
+          </div>`).join('')
+          : `<p>No behavioural patterns flagged in this run. That is a good sign, and it is also
+             one run — the score weights recent runs, so do it again.</p>`}
+      </div>
+    </div>
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band"><span class="lbl">Prescription</span><span class="rest">in order</span></div>
+        ${drills.map((d, i) => `
+          <div class="drill">
+            <span class="n">${String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <b>${esc(d.name)}</b>
+              <div class="goal">${esc(d.goal)}</div>
+              <div class="why">${esc(d.why)}</div>
+            </div>
+            <button class="btn sm quiet" data-drill="${esc(d.id)}">Load</button>
+          </div>`).join('')}
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">XP earned</span><span class="rest">+${xp}</span></div>
+        <div class="ledger">
+          ${notes.map((n) => `<div class="row"><span class="amt">+${n.n}</span><span class="why">${esc(n.why)}</span></div>`).join('')}
+        </div>
+        <p class="src">XP is awarded for process, never for profit. A larger winner earns exactly
+          the same as a small one — rewarding P&amp;L would train gambling.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:44px">
+      <div class="band"><span class="lbl">Share</span></div>
+      <div class="cols c2">
+        <div id="card-host"></div>
+        <div>
+          <p>The card carries the finding, not a win screenshot. It is marked simulated, and it
+             distinguishes a breach from a run that simply ended.</p>
+          <div class="actions" style="margin-top:16px"><button class="btn sm" id="dl">Download card</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="again">Run it again</button>
+      <button class="btn quiet" id="dash">See my record</button>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   const cv = renderCard(a, { primary, score: score.score, grade: score.grade });
   cv.className = 'share-card';
-  cv.style.width = '100%';
   $('#card-host', main).appendChild(cv);
   $('#dl', main).addEventListener('click', () => download(cv, `challenge-ready-${a.status}.png`));
 
   main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
     S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
-    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    toast(`Drill loaded — ${S.drill.name}`, 'guard');
     go('setup');
   }));
   $('#again', main).addEventListener('click', startRun);
   $('#dash', main).addEventListener('click', () => go('dashboard'));
 }
 
-// ── DASHBOARD ───────────────────────────────────────────────────────────────
+// ═══ RECORD — report ground ═════════════════════════════════════════════════
 function viewDashboard(main, score) {
   const runs = S.profile.runs;
   if (!runs.length || !score.components) {
-    main.innerHTML = `<div class="wrap narrow"><div class="card empty">
-      <h2>Unscored</h2>
-      <p>You haven't been tested yet. One 15-minute run will tell you more about your trading
-         than fifteen videos will.</p>
-      <button class="btn primary" id="go">Run the diagnostic →</button>
-    </div></div>${footer()}`;
+    main.innerHTML = `<div class="paper"><div class="sheet narrow">
+      <div class="empty">
+        <div class="lbl" style="margin-bottom:12px">Unscored</div>
+        <h2>You have not been tested yet.</h2>
+        <p>One fifteen-minute run will tell you more about how you trade than fifteen videos will.</p>
+        <button class="btn primary" id="go">Run the diagnostic</button>
+      </div>
+      ${colophon()}
+    </div></div>`;
     $('#go', main).addEventListener('click', () => go('setup'));
     return;
   }
@@ -610,111 +653,111 @@ function viewDashboard(main, score) {
   const lvl = levelFor(S.profile.xp);
   const passes = runs.filter((r) => r.status === 'passed').length;
 
-  main.innerHTML = `
-    <div class="wrap">
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <div class="score-hero">
-            ${dial(score.score, score.grade)}
-            <div style="flex:1;min-width:200px">
-              <h2>Readiness Score</h2>
-              <p style="font-size:13px">${esc(score.disclosure)}</p>
-              <div style="margin-top:12px;display:flex;gap:18px;font-size:13px">
-                <span><b class="num">${runs.length}</b> <span style="color:var(--dim)">runs</span></span>
-                <span><b class="num">${passes}</b> <span style="color:var(--dim)">passed</span></span>
-                <span><b class="num">${S.profile.streak}</b> <span style="color:var(--dim)">day streak</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="rec ${rec.level}" style="margin-top:16px">${esc(rec.text)}</div>
-        </div>
+  main.innerHTML = `<div class="paper"><div class="sheet">
 
-        <div class="card">
-          <h3 style="margin-bottom:12px">Components</h3>
-          ${COMPONENTS.map((c) => {
-            const v = Math.round(score.components[c.key]);
-            const col = v >= 75 ? 'var(--teal)' : v >= 50 ? 'var(--amber)' : 'var(--red)';
-            return `<div class="comp">
-              <div class="top"><span>${esc(c.label)}</span><b class="num">${v}</b></div>
-              <div class="track"><i style="width:${v}%;background:${col}"></i></div>
-              <div style="font-size:11.5px;color:var(--dim);margin-top:3px">${esc(c.blurb)}</div>
-            </div>`;
-          }).join('')}
-          ${score.weakest ? `<div class="note" style="margin-top:12px">
-            Weakest component: <b style="color:var(--fg)">${esc(score.weakest.label)}</b>. Fix this one first —
-            it carries ${Math.round(score.weakest.weight * 100)}% of the score.</div>` : ''}
+    <div class="band">
+      <span class="lbl">Assessment</span>
+      <span class="rest">${runs.length} run${runs.length === 1 ? '' : 's'} · ${passes} passed · ${S.profile.streak}-day streak</span>
+    </div>
+
+    <div class="cols c-wide">
+      <div>
+        <div class="score-head">
+          ${dial(score.score, score.grade)}
+          <div>
+            <h2>Readiness</h2>
+            <p id="disclosure" style="margin-top:8px;font-size:13px">${esc(score.disclosure)}</p>
+          </div>
+        </div>
+        <div class="rec ${rec.level}">
+          <span class="lbl">Recommendation</span>
+          <p>${esc(rec.text)}</p>
         </div>
       </div>
 
-      <div class="grid g2" style="margin-bottom:16px">
-        <div class="card">
-          <h3 style="margin-bottom:12px">Progression</h3>
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
-            <b style="font-size:26px">L${lvl.level}</b>
-            <span style="font-size:16px">${esc(lvl.name)}</span>
-          </div>
-          <div class="comp"><div class="track">
-            <i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%;background:var(--teal)"></i>
-          </div></div>
-          <div style="font-size:12.5px;color:var(--dim);margin-top:6px">
-            ${lvl.max ? 'Max level' : `${lvl.need - lvl.into} XP to level ${lvl.level + 1}`}
-          </div>
-          <div class="note" style="margin-top:14px">
-            Level 7 is "Challenge Ready" and it is deliberately hard to reach. A badge that is
-            easy to get is a badge nobody respects.
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom:12px">Available drills</h3>
-          <div style="max-height:230px;overflow:auto">
-            ${DRILLS.slice(0, 6).map((d) => `
-              <div class="drill">
-                <div class="n">${esc(d.forMode)}</div>
-                <div style="flex:1">
-                  <b>${esc(d.name)}</b>
-                  <div class="goal">${esc(d.goal)}</div>
-                </div>
-                <button class="btn sm" data-drill="${d.id}">Load</button>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 style="margin-bottom:12px">Run history</h3>
-        <table class="hist">
-          <tr><th>#</th><th>Ruleset</th><th>Result</th><th>P&amp;L</th><th>Trades</th><th>Days</th><th>Cause</th></tr>
-          ${runs.slice().reverse().map((r, i) => {
-            const p = r.balance - r.rs.accountSize;
-            return `<tr>
-              <td>${runs.length - i}</td>
-              <td>${esc(r.rs.firm)}</td>
-              <td class="${r.status === 'passed' ? 'pos' : r.status === 'failed' ? 'neg' : ''}">${esc(r.status)}</td>
-              <td class="${p >= 0 ? 'pos' : 'neg'}">${money(p, true)}</td>
-              <td>${r.trades.length}</td>
-              <td>${r.tradingDays.length}</td>
-              <td style="color:var(--dim)">${r.breach ? esc(r.breach.code) : '—'}</td>
-            </tr>`;
-          }).join('')}
-        </table>
-      </div>
-
-      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-        <button class="btn primary" id="new">New run →</button>
-        <button class="btn danger" id="reset">Reset all my data</button>
+      <div>
+        <div class="band"><span class="lbl">Components</span><span class="rest">weighted</span></div>
+        ${COMPONENTS.map((c) => {
+          const v = Math.round(score.components[c.key]);
+          const col = v >= 75 ? 'var(--ultra)' : v >= 50 ? 'var(--caution)' : 'var(--oxblood)';
+          return `<div class="comp">
+            <div class="top"><span>${esc(c.label)}</span><b style="color:${col}">${v}</b></div>
+            <div class="track"><i style="width:${v}%;background:${col}"></i></div>
+            <div class="blurb">${esc(c.blurb)}</div>
+          </div>`;
+        }).join('')}
+        ${score.weakest ? `<div class="note" style="margin-top:16px">
+          Weakest component: <em>${esc(score.weakest.label)}</em>. Fix this one first — it carries
+          ${Math.round(score.weakest.weight * 100)}% of the score.</div>` : ''}
       </div>
     </div>
-    ${footer()}`;
+
+    <div class="cols c-wide" style="margin-top:44px">
+      <div>
+        <div class="band"><span class="lbl">Progression</span><span class="rest">${S.profile.xp} XP</span></div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+          <b class="num" style="font-size:30px;color:var(--ink-1)">L${lvl.level}</b>
+          <span class="serif" style="font-size:20px">${esc(lvl.name)}</span>
+        </div>
+        <div class="comp" style="border:none;padding:0">
+          <div class="track"><i style="width:${lvl.max ? 100 : Math.round((lvl.into / lvl.need) * 100)}%;background:var(--ink-1)"></i></div>
+        </div>
+        <p class="src">${lvl.max ? 'Maximum level.' : `${lvl.need - lvl.into} XP to level ${lvl.level + 1}.`}
+          Level 7 is “Challenge Ready” and it is deliberately hard to reach — a badge that is easy
+          to get is a badge nobody respects.</p>
+      </div>
+
+      <div>
+        <div class="band"><span class="lbl">Drills</span><span class="rest">${DRILLS.length} available</span></div>
+        ${DRILLS.slice(0, 5).map((d) => `
+          <div class="drill">
+            <span class="n">${esc(d.forMode)}</span>
+            <div><b>${esc(d.name)}</b><div class="goal">${esc(d.goal)}</div></div>
+            <button class="btn sm quiet" data-drill="${esc(d.id)}">Load</button>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="margin-top:44px">
+      <div class="band"><span class="lbl">Run record</span></div>
+      <table class="hist">
+        <thead><tr>
+          <th>#</th><th>Programme</th><th>Outcome</th>
+          <th class="r">Result</th><th class="r">Trades</th><th class="r">Days</th><th class="r">Cause</th>
+        </tr></thead>
+        <tbody>
+        ${runs.slice().reverse().map((r, i) => {
+          const p = r.balance - r.rs.accountSize;
+          return `<tr>
+            <td>${runs.length - i}</td>
+            <td class="name">${esc(r.rs.firm)}</td>
+            <td>${esc(r.status)}</td>
+            <td class="r ${p >= 0 ? 'pos' : 'neg'}">${money(p, true)}</td>
+            <td class="r">${r.trades.length}</td>
+            <td class="r">${r.tradingDays.length}</td>
+            <td class="r">${r.breach ? esc(r.breach.code.replace('_', ' ').toLowerCase()) : '—'}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="new">New run</button>
+      <button class="btn danger sm" id="reset">Erase my record</button>
+    </div>
+
+    ${colophon()}
+  </div></div>`;
 
   main.querySelectorAll('[data-drill]').forEach((b) => b.addEventListener('click', () => {
     S.drill = DRILLS.find((d) => d.id === b.dataset.drill);
-    toast(`Drill loaded: ${S.drill.name}`, 'guard');
+    toast(`Drill loaded — ${S.drill.name}`, 'guard');
     go('setup');
   }));
   $('#new', main).addEventListener('click', () => go('setup'));
   $('#reset', main).addEventListener('click', () => {
-    if (!confirm('Delete every run, your XP and your streak? This cannot be undone.')) return;
+    if (!confirm('Erase every run, your XP and your streak? This cannot be undone.')) return;
     S.profile = { runs: [], xp: 0, streak: 0, lastDay: null, completedDrills: [] };
     saveProfile(S.profile);
     go('dashboard');
@@ -722,26 +765,31 @@ function viewDashboard(main, score) {
 }
 
 function dial(score, grade) {
-  const r = 56, c = 2 * Math.PI * r;
+  const r = 62, c = 2 * Math.PI * r;
   const pct = (score ?? 0) / 100;
-  const col = score >= 75 ? '#00C9A7' : score >= 50 ? '#FFB020' : '#FF4757';
+  const col = score >= 75 ? 'var(--ultra)' : score >= 50 ? 'var(--caution)' : 'var(--oxblood)';
   return `<div class="dial">
-    <svg width="132" height="132" viewBox="0 0 132 132">
-      <circle cx="66" cy="66" r="${r}" fill="none" stroke="#171E26" stroke-width="10"/>
-      <circle cx="66" cy="66" r="${r}" fill="none" stroke="${col}" stroke-width="10"
-        stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct)}"
-        transform="rotate(-90 66 66)"/>
+    <svg width="148" height="148" viewBox="0 0 148 148" aria-hidden="true">
+      <circle cx="74" cy="74" r="${r}" fill="none" stroke="var(--paper-rule)" stroke-width="6"/>
+      <circle cx="74" cy="74" r="${r}" fill="none" stroke="${col}" stroke-width="6"
+        stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct)}" transform="rotate(-90 74 74)"/>
     </svg>
-    <div class="g"><b style="color:${col}">${score ?? '—'}</b><small>GRADE ${grade ?? '—'}</small></div>
+    <div class="g"><b>${score ?? '—'}</b><small>GRADE ${grade ?? '—'}</small></div>
   </div>`;
 }
 
-function footer() {
-  return `<footer>
+/** "Mon 5 Jan" — enough to orient without competing with the event times. */
+function dayLabel(iso) {
+  const d = new Date(iso + 'T00:00:00Z');
+  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+function colophon() {
+  return `<div class="colophon">
     Simulated trading on synthetic data. Nothing here is real market data, a real trading record,
     a prediction, or financial advice. Rule sets are models of publicly documented evaluation
     formats and are not affiliated with any firm — always verify current terms with the firm itself.
-  </footer>`;
+  </div>`;
 }
 
 render();

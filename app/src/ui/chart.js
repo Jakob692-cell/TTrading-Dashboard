@@ -7,18 +7,19 @@
  * The floor is the most important line on the screen and it must never be subtle.
  */
 
+/* Cockpit palette, mirroring the tokens in styles.css. Candles are ultramarine/oxblood
+   rather than green/red: the audience skews heavily male, ~8% of whom have red-green
+   colour deficiency, and direction is the one thing on this screen that must never be
+   ambiguous. */
 const C = {
-  bg: '#0B0E11',
-  grid: '#161C24',
-  axis: '#5D6B78',
-  up: '#00C9A7',
-  down: '#FF4757',
-  wick: '#4A5764',
-  floor: '#FF4757',
-  daily: '#FFB020',
-  target: '#00C9A7',
-  entry: '#4C8DFF',
-  news: '#FFB020',
+  bg: '#14171C',
+  grid: '#1E232B',
+  session: '#262C36',
+  axis: '#616B78',
+  up: '#7D93FF',
+  down: '#D45C6E',
+  entry: '#CFD6DE',
+  news: '#B87A12',
 };
 
 export class Chart {
@@ -97,7 +98,7 @@ export class Chart {
     for (let i = 0; i < bars.length; i++) {
       const day = new Date(bars[i].t).toISOString().slice(0, 10);
       if (prevDay && day !== prevDay) {
-        ctx.strokeStyle = '#202932'; ctx.lineWidth = 1;
+        ctx.strokeStyle = C.session; ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t);
         ctx.lineTo(Math.round(x(i) - bw / 2) + 0.5, this.pad.t + plotH);
@@ -108,7 +109,7 @@ export class Chart {
     for (const n of d.news || []) {
       const i = bars.findIndex((b) => Math.abs(b.t - n.t) < 60_000 * (d.tf || 1));
       if (i < 0) continue;
-      ctx.fillStyle = 'rgba(255,176,32,.14)';
+      ctx.fillStyle = 'rgba(184,122,18,.16)';
       ctx.fillRect(x(i) - bw, this.pad.t, bw * 2, plotH);
     }
 
@@ -138,7 +139,7 @@ export class Chart {
       const ei = nearest(bars, t.entryTs);
       const xi = nearest(bars, t.exitTs);
       if (ei < 0 || xi < 0) continue;
-      ctx.strokeStyle = t.pnl >= 0 ? 'rgba(0,201,167,.5)' : 'rgba(255,71,87,.5)';
+      ctx.strokeStyle = t.pnl >= 0 ? 'rgba(125,147,255,.55)' : 'rgba(212,92,110,.55)';
       ctx.lineWidth = 1.2;
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
@@ -159,7 +160,7 @@ export class Chart {
       ctx.stroke(); ctx.setLineDash([]);
       tag(ctx, this.w - this.pad.r, y(p.entryPrice), `${p.side === 'long' ? 'L' : 'S'} ${p.size}`, C.entry);
       if (p.stop)   dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.stop), C.down, 'SL', this.w - this.pad.r);
-      if (p.target) dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.target), C.up, 'TP', this.w - this.pad.r);
+      if (p.target) dashLine(ctx, this.pad.l, this.w - this.pad.r, y(p.target), '#7D93FF', 'TP', this.w - this.pad.r);
     }
 
     // ── rule levels: drawn last so nothing hides them ──
@@ -218,7 +219,7 @@ function tag(ctx, xr, y, text, color) {
   ctx.globalAlpha = 0.9;
   ctx.fillRect(xr + 2, y - 8, w, 16);
   ctx.globalAlpha = 1;
-  ctx.fillStyle = '#08111A';
+  ctx.fillStyle = '#14171C';
   ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
   ctx.fillText(text, xr + 7, y);
 }
