@@ -93,6 +93,10 @@ export async function launchBrowser({ networkMode = 'auto', userAgent, locale = 
     async close() {
       await context.close().catch(() => {});
       await browser.close().catch(() => {});
+      // Ohne das Beenden des Dispatchers halten offene Keep-alive-Sockets die
+      // Event-Loop am Leben und der Prozess beendet sich nicht. destroy() statt close(),
+      // weil close() auf noch laufende Anfragen wartet und dabei selbst hängen kann.
+      await dispatcher.destroy().catch(() => {});
     },
   };
 }

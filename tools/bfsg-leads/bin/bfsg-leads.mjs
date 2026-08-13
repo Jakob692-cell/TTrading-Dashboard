@@ -115,12 +115,26 @@ async function cmdQualify(opt, vorab) {
   const sperrliste = ladeSperrliste(opt.sperrliste);
   const kandidaten = quelle.kandidaten.slice(0, opt.max);
 
-  const b = await launchBrowser({ networkMode: opt.network, probeUrl: kandidaten[0] && kandidaten[0].website });
+  let b = await launchBrowser({ networkMode: opt.network, probeUrl: kandidaten[0] && kandidaten[0].website });
+  const netzwerkModus = b.mode;
   log(`Netzwerkmodus: ${b.mode} · prüfe ${kandidaten.length} Betriebe`);
   const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
+  let neustarts = 0;
 
   const leads = [];
   for (const [i, k] of kandidaten.entries()) {
+    // Einzelne Websites bringen Chromium zum Absturz. Dann neu starten statt den
+    // restlichen Lauf mit leeren Datensätzen zu füllen, die wie "keine Mängel" aussehen.
+    if (!b.browser.isConnected()) {
+      if (neustarts >= 3) {
+        log(`Browser wiederholt abgestürzt – Lauf nach ${leads.length} von ${kandidaten.length} Betrieben beendet.`);
+        break;
+      }
+      neustarts++;
+      log(`Browser abgestürzt – Neustart ${neustarts}/3`);
+      await b.close().catch(() => {});
+      b = await launchBrowser({ networkMode: netzwerkModus });
+    }
     log(`(${i + 1}/${kandidaten.length}) ${k.name || k.host}`);
     let lead;
     try {
@@ -192,4 +206,6 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error('[bfsg-leads] Abbruch:', e.message || e); process.exit(1); });
+main()
+  .then(() => process.exit(0))
+  .catch((e) => { console.error('[bfsg-leads] Abbruch:', e.message || e); process.exit(1); });
