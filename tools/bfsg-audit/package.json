@@ -1,0 +1,19 @@
+{
+  "name": "bfsg-audit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Automatisierter Accessibility-/BFSG-Vorprüfungs-Scanner (Crawler + Chromium + axe-core + eigene Prüfmodule)",
+  "bin": {
+    "bfsg-audit": "bin/bfsg-audit.mjs"
+  },
+  "scripts": {
+    "audit": "node bin/bfsg-audit.mjs",
+    "test": "node test/run-fixture-test.mjs"
+  },
+  "dependencies": {
+    "axe-core": "^4.10.0",
+    "playwright": "^1.49.0",
+    "undici": "^7.0.0"
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Testseite mit bekannten Barrieren</title>
+<style>
+  body { font-family: sans-serif; margin: 0; color: #222; background: #fff; }
+  .lowcontrast { color: #999999; background: #ffffff; }         /* ~2,85:1 – Verstoss 1.4.3 */
+  .lowcontrast-large { color: #b0b0b0; background: #ffffff; font-size: 26px; } /* ~2,3:1 – Verstoss auch für grossen Text */
+  a.plain { color: #4b7bd4; text-decoration: none; }             /* nur farblich – 1.4.1 */
+  a, button { outline: none; }                                   /* kein Fokusindikator – 2.4.7 */
+  .wide { width: 900px; background: #eee; }                      /* Reflow-Problem bei 320px */
+  .tiny { display: inline-block; width: 14px; height: 14px; }    /* Zielgrösse < 24px */
+  .spin { animation: spin 2s linear infinite; width: 40px; height: 40px; background: #345; }
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  input, select { border: 1px solid #f0f0f0; }                   /* Nicht-Text-Kontrast < 3:1 */
+</style>
+</head>
+<body>
+<header>
+  <nav aria-label="Hauptnavigation">
+    <ul>
+      <li><a href="/index.html">Start</a></li>
+      <li><a href="/seite2.html">Zweite Seite</a></li>
+      <li><a class="plain" href="/kontakt.html">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Testseite mit bekannten Barrieren</h1>
+
+  <h3>Übersprungene Ebene (H1 → H3)</h3>
+  <h2></h2>
+
+  <p class="lowcontrast">Dieser Fliesstext hat zu wenig Kontrast und ist damit für viele Menschen
+    schlecht lesbar. Er dient als Testfall für die Kontrastberechnung.</p>
+  <p class="lowcontrast-large">Auch dieser grosse Text hält den Mindestkontrast nicht ein.</p>
+
+  <p>Ein Absatz mit einem <a class="plain" href="/ziel-a.html">nur farblich markierten Link</a>
+    sowie einem Verweis auf <a href="/ziel-b.html">mehr</a> und noch einmal
+    <a href="/ziel-c.html">mehr</a> mit unterschiedlichen Zielen.</p>
+
+  <p><a href="https://beispiel.invalid/extern" target="_blank">Externe Seite</a></p>
+
+  <h2>Bilder</h2>
+  <img src="diagramm.png" width="120" height="80">
+  <img src="foto.png" alt="IMG_2043.jpg" width="120" height="80">
+  <img src="linie.png" alt="" width="120" height="6">
+  <a href="/start.html"><img src="logo.png" width="60" height="60"></a>
+  <button class="icon"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#345"></svg></button>
+  <a class="tiny" href="/klein.html"><svg width="14" height="14" viewBox="0 0 14 14"><rect width="14" height="14" fill="#345"></svg></a>
+
+  <h2>Formular</h2>
+  <form action="/senden" method="post">
+    <input type="text" name="vorname" placeholder="Vorname">
+    <input type="email" name="email">
+    <label for="ort">Ort</label>
+    <input type="text" id="ort" name="ort" required>
+    <p>Anrede</p>
+    <input type="radio" name="anrede" id="a1" value="w"><label for="a1">Frau</label>
+    <input type="radio" name="anrede" id="a2" value="m"><label for="a2">Herr</label>
+    <select name="land"><option>Deutschland</option><option>Österreich</option></select>
+    <button type="submit">Absenden</button>
+  </form>
+
+  <h2>Tabelle</h2>
+  <table>
+    <tr><td>Produkt</td><td>Preis</td></tr>
+    <tr><td>Beratung</td><td>120,00 €</td></tr>
+  </table>
+
+  <h2>ARIA-Fehler</h2>
+  <div role="buton" tabindex="0">Falsche Rolle</div>
+  <div aria-labelledby="gibtesnicht">Verweis ins Leere</div>
+  <div aria-hidden="true"><a href="/versteckt.html">Versteckt, aber fokussierbar</a></div>
+  <div id="doppelt">A</div>
+  <div id="doppelt">B</div>
+  <a href="/vorne.html" tabindex="3">Positiver tabindex</a>
+
+  <h2>Medien und Bewegung</h2>
+  <video src="film.mp4" width="200" height="120"></video>
+  <div class="spin" aria-label="Dauerhafte Animation"></div>
+  <div class="carousel"><div>Slide 1</div><div>Slide 2</div></div>
+  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="200" height="120"></iframe>
+
+  <div class="wide">Ein sehr breiter Block, der auf schmalen Viewports horizontales Scrollen erzwingt.</div>
+</main>
+
+<footer>
+  <p>Beispiel GmbH · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></p>
+</footer>
+</body>
+</html>
