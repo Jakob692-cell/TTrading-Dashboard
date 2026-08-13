@@ -55,12 +55,22 @@ export function urlVarianten(url) {
 async function ladeMitVarianten(page, startUrl, timeout) {
   let fehler = null;
   for (const url of urlVarianten(startUrl)) {
-    try {
-      const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
-      if (resp && resp.status() < 400) return { resp, url };
-      fehler = `HTTP ${resp ? resp.status() : '?'} bei ${url}`;
-    } catch (e) {
-      fehler = String(e.message || e).split('\n')[0];
+    for (let versuch = 0; versuch < 2; versuch++) {
+      try {
+        const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
+        if (resp && resp.status() < 400) return { resp, url };
+        fehler = `HTTP ${resp ? resp.status() : '?'} bei ${url}`;
+        break;
+      } catch (e) {
+        fehler = String(e.message || e).split('\n')[0];
+        // Leitet die Seite während des Ladens selbst weiter (typisch bei
+        // http→https→www-Ketten), bricht Playwright ab – dann einmal nachfassen.
+        if (/interrupted by another navigation|frame was detached/i.test(fehler)) {
+          await page.waitForTimeout(1200);
+          continue;
+        }
+        break;
+      }
     }
   }
   return { resp: null, url: startUrl, fehler };
