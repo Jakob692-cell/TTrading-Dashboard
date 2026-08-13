@@ -54,10 +54,15 @@ export function urlVarianten(url) {
 
 async function ladeMitVarianten(page, startUrl, timeout) {
   let fehler = null;
+  // Beim Durchprobieren der Schreibweisen mit kurzem Timeout arbeiten, sonst summieren
+  // sich vier Varianten × zwei Versuche zu mehreren Minuten je Betrieb.
+  const probeTimeout = Math.min(timeout, 15000);
+  const deadline = Date.now() + Math.min(timeout * 2, 90000);
   for (const url of urlVarianten(startUrl)) {
     for (let versuch = 0; versuch < 2; versuch++) {
+      if (Date.now() > deadline) return { resp: null, url: startUrl, fehler: fehler || 'Zeitbudget für den Verbindungsaufbau überschritten' };
       try {
-        const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
+        const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: probeTimeout });
         if (resp && resp.status() < 400) return { resp, url };
         fehler = `HTTP ${resp ? resp.status() : '?'} bei ${url}`;
         break;
