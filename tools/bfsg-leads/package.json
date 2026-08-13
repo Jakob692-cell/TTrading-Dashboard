@@ -1,0 +1,9 @@
+{
+  "name": "bfsg-leads",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kundenakquise-Vorbereitung: Betriebe finden, Websites kurz auf Barrierefreiheit prüfen, Anrufliste erzeugen",
+  "bin": { "bfsg-leads": "bin/bfsg-leads.mjs" },
+  "scripts": { "leads": "node bin/bfsg-leads.mjs" }
+}

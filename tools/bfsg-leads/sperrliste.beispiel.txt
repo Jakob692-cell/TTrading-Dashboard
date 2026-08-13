@@ -1,0 +1,6 @@
+# Sperrliste – hier eingetragene Hosts oder Telefonnummern werden nie kontaktiert.
+# Eine Zeile je Eintrag, Kommentare mit #.
+# Pflichteintrag nach jedem Widerspruch (Art. 21 DSGVO) und nach jedem "nicht mehr anrufen".
+#
+# beispiel-firma.de
+# +4991911234567
