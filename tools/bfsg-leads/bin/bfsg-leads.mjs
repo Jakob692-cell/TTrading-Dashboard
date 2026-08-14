@@ -116,18 +116,26 @@ async function cmdQualify(opt, vorab) {
   const kandidaten = quelle.kandidaten.slice(0, opt.max);
 
   let b = await launchBrowser({ networkMode: opt.network, probeUrl: kandidaten[0] && kandidaten[0].website });
-  const netzwerkModus = b.mode;
+  let netzwerkModus = b.mode;
   log(`Netzwerkmodus: ${b.mode} · prüfe ${kandidaten.length} Betriebe`);
   const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
   let neustarts = 0;
 
-  const leads = [];
-  for (const [i, k] of kandidaten.entries()) {
+  // Ergebnisse je Host, damit ein zweiter Anlauf nach Transportwechsel den ersten ersetzt
+  const ergebnisse = new Map();
+  const queue = [...kandidaten];
+  let fehlerSerie = 0;
+  let transportWechsel = 0;
+  let i = -1;
+  while (++i < queue.length) {
+    const k = queue[i];
+    const vorhanden = ergebnisse.get(k.host);
+    if (vorhanden && vorhanden.erreichbar) continue;
     // Einzelne Websites bringen Chromium zum Absturz. Dann neu starten statt den
     // restlichen Lauf mit leeren Datensätzen zu füllen, die wie "keine Mängel" aussehen.
     if (!b.browser.isConnected()) {
       if (neustarts >= 3) {
-        log(`Browser wiederholt abgestürzt – Lauf nach ${leads.length} von ${kandidaten.length} Betrieben beendet.`);
+        log(`Browser wiederholt abgestürzt – Lauf nach ${ergebnisse.size} von ${kandidaten.length} Betrieben beendet.`);
         break;
       }
       neustarts++;
@@ -135,7 +143,7 @@ async function cmdQualify(opt, vorab) {
       await b.close().catch(() => {});
       b = await launchBrowser({ networkMode: netzwerkModus });
     }
-    log(`(${i + 1}/${kandidaten.length}) ${k.name || k.host}`);
+    log(`(${Math.min(i + 1, kandidaten.length)}/${kandidaten.length}) ${k.name || k.host}`);
     let lead;
     try {
       lead = await qualifiziereKandidat(b.context, k, {
@@ -156,9 +164,31 @@ async function cmdQualify(opt, vorab) {
     if (!lead.betriebspruefung.istBetrieb) {
       lead.bewertung.flags.push('Gewerbebetrieb nicht eindeutig belegt – vor dem Anruf manuell prüfen');
     }
-    leads.push(lead);
+    const bisher = ergebnisse.get(k.host);
+    if (!bisher || (!bisher.erreichbar && lead.erreichbar)) ergebnisse.set(k.host, lead);
+
+    // Scheitern mehrere Betriebe hintereinander, liegt das meist am Transportweg
+    // (Proxy weg, Relay nötig oder umgekehrt) und nicht an den Websites. Dann den
+    // Modus wechseln und die bisher gescheiterten Betriebe erneut prüfen.
+    if (!lead.erreichbar) fehlerSerie++; else fehlerSerie = 0;
+    if (fehlerSerie >= 3 && transportWechsel < 2) {
+      transportWechsel++;
+      const neuerModus = netzwerkModus === 'relay' ? 'direct' : 'relay';
+      const nachholen = [...ergebnisse.values()].filter((l) => !l.erreichbar);
+      log(`${fehlerSerie} Fehlschläge in Folge – Netzwerkmodus wechselt auf "${neuerModus}", ${nachholen.length} Betriebe werden erneut geprüft`);
+      await b.close().catch(() => {});
+      netzwerkModus = neuerModus;
+      b = await launchBrowser({ networkMode: netzwerkModus });
+      fehlerSerie = 0;
+      for (const l of nachholen) {
+        const kand = kandidaten.find((x) => x.host === l.host);
+        if (kand) queue.push(kand);
+      }
+    }
     if (opt.delay) await new Promise((r) => setTimeout(r, opt.delay));
   }
+  const leads = [...ergebnisse.values()];
+  log(`Netzwerkmodus am Ende: ${netzwerkModus}${transportWechsel ? ` (${transportWechsel} Wechsel)` : ''}`);
   await b.close();
 
   const daten = { region: quelle.region, quelle: quelle.quelle, erstelltAm: new Date().toISOString(), leads };
