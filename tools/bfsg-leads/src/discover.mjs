@@ -180,6 +180,13 @@ export async function discoverOsm({ ort, radiusKm = null, branchen = ['shop', 'h
       });
       if (res.status >= 400) { lastErr = new Error(`${ep}: HTTP ${res.status}`); continue; }
       const data = JSON.parse(res.body.toString('utf8'));
+      // Overpass meldet Laufzeitfehler (Timeout, Überlast) mit HTTP 200 und einem
+      // "remark"-Feld. Ohne diese Prüfung sieht ein Fehlschlag wie "keine Betriebe" aus.
+      if (data.remark) { lastErr = new Error(`${ep}: ${String(data.remark).slice(0, 120)}`); continue; }
+      if (!Array.isArray(data.elements) || data.elements.length === 0) {
+        lastErr = new Error(`${ep}: leeres Ergebnis`);
+        if (ep !== endpoints[endpoints.length - 1]) continue; // anderen Endpunkt probieren
+      }
       const seen = new Set();
       const out = [];
       for (const el of data.elements || []) {
