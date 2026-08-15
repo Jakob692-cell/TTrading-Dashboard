@@ -81,7 +81,8 @@ Leads, bei denen etwas unklar ist, gehören nicht in die Anrufliste, sondern in 
 
 `references/gespraechsleitfaden.md` enthält Einstieg, Belegführung, Einwandbehandlung
 („Kleinstunternehmen", „haben schon eine Agentur", „schicken Sie was per Mail") und
-Abschlussvarianten. Nach jedem Anruf Ergebnis in die CSV eintragen.
+Abschlussvarianten. Preise, Rabattlogik und eine Angebotsvorlage stehen in
+`references/preise-und-angebot.md`. Nach jedem Anruf Ergebnis in die CSV eintragen.
 
 ### Schritt 5 – Übergabe an das Audit
 

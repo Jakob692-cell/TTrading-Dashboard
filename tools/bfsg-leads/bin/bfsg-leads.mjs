@@ -26,6 +26,7 @@
  *   --unterseiten <n>     zusätzlich geprüfte Unterseiten je Betrieb (Standard 2)
  *   --sperrliste <datei>  Zeilenweise Hosts/Nummern, die nie kontaktiert werden
  *   --network auto|direct|relay
+ *   --timeout <ms>        Zeitbudget je Seitenaufruf (Standard 30000)
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,7 +47,7 @@ const log = (...a) => console.error('[bfsg-leads]', ...a);
 function parseArgs(argv) {
   const o = {
     branchen: ['shop', 'handwerk', 'dienstleistung'], max: 25, delay: 1500,
-    unterseiten: 2, network: 'auto', ketten: false, radius: null,
+    unterseiten: 2, network: 'auto', ketten: false, radius: null, timeout: 30000,
   };
   const rest = [];
   for (let i = 0; i < argv.length; i++) {
@@ -64,6 +65,7 @@ function parseArgs(argv) {
       case '--unterseiten': o.unterseiten = Number(next()); break;
       case '--sperrliste': o.sperrliste = next(); break;
       case '--network': o.network = next(); break;
+      case '--timeout': o.timeout = Number(next()); break;
       case '--ketten': o.ketten = true; break;
       case '-h': case '--help': o.help = true; break;
       default: rest.push(a);
@@ -147,7 +149,7 @@ async function cmdQualify(opt, vorab) {
     let lead;
     try {
       lead = await qualifiziereKandidat(b.context, k, {
-        axeSource, dispatcher: b.dispatcher, maxUnterseiten: opt.unterseiten,
+        axeSource, dispatcher: b.dispatcher, maxUnterseiten: opt.unterseiten, timeout: opt.timeout,
       });
     } catch (e) {
       lead = { ...k, erreichbar: false, fehler: String(e.message || e).split('\n')[0], befunde: [], hinweise: [] };

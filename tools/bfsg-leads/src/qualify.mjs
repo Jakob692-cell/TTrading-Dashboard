@@ -54,15 +54,17 @@ export function urlVarianten(url) {
 
 async function ladeMitVarianten(page, startUrl, timeout) {
   let fehler = null;
-  // Beim Durchprobieren der Schreibweisen mit kurzem Timeout arbeiten, sonst summieren
-  // sich vier Varianten × zwei Versuche zu mehreren Minuten je Betrieb.
-  const probeTimeout = Math.min(timeout, 15000);
-  const deadline = Date.now() + Math.min(timeout * 2, 90000);
-  for (const url of urlVarianten(startUrl)) {
+  // Die angegebene Adresse bekommt das volle Zeitbudget – langsame Server sind der
+  // Normalfall, kein Ausschlussgrund. Nur die alternativen Schreibweisen laufen kurz,
+  // sonst summieren sich vier Varianten zu mehreren Minuten je Betrieb.
+  const deadline = Date.now() + Math.min(timeout * 3, 150000);
+  const varianten = urlVarianten(startUrl);
+  for (const [nr, url] of varianten.entries()) {
+    const proVersuch = nr === 0 ? timeout : Math.min(timeout, 15000);
     for (let versuch = 0; versuch < 2; versuch++) {
       if (Date.now() > deadline) return { resp: null, url: startUrl, fehler: fehler || 'Zeitbudget für den Verbindungsaufbau überschritten' };
       try {
-        const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: probeTimeout });
+        const resp = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: proVersuch });
         if (resp && resp.status() < 400) return { resp, url };
         fehler = `HTTP ${resp ? resp.status() : '?'} bei ${url}`;
         break;

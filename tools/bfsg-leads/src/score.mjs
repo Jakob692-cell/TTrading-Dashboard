@@ -86,7 +86,17 @@ export function bewerteLead(lead, kontakt, { doNotCall = [] } = {}) {
   if (doNotCall.some((e) => host === e || host.endsWith(`.${e}`) || (kontakt.telefon && kontakt.telefon === e))) {
     b.ausschluss.push('Auf der Sperrliste (do-not-call)');
   }
-  if (!lead.erreichbar) b.ausschluss.push(lead.fehler || 'Website nicht erreichbar – keine belastbare Grundlage');
+  // Zugriffsschutz ist kein Ausschlussgrund: Der Betrieb bleibt ein gültiger Lead,
+  // nur der Aufhänger muss von Hand geholt werden. Ausgeschlossen wird nur, was
+  // wirklich nicht existiert.
+  const zugriffsschutz = !lead.erreichbar && /403|robots\.txt|Bot-Schutz|429/i.test(lead.fehler || '');
+  if (!lead.erreichbar) {
+    if (zugriffsschutz) {
+      b.flags.push('Website automatisiert nicht prüfbar (Zugriffsschutz/robots.txt) – vor dem Anruf selbst ansehen, es liegt kein geprüfter Aufhänger vor');
+    } else {
+      b.ausschluss.push(lead.fehler || 'Website nicht erreichbar – keine belastbare Grundlage');
+    }
+  }
   if (!kontakt.telefon) b.flags.push('Keine Telefonnummer gefunden – Kaltanruf nicht möglich');
   if (kontakt.telefon && /^(\+49\s?1[5-7]|01[5-7])/.test(kontakt.telefon)) {
     b.flags.push('Mobilnummer – vor dem Anruf sicherstellen, dass es ein Geschäftsanschluss ist (sonst Verbraucheranruf, § 7 Abs. 2 Nr. 1 UWG)');
