@@ -114,19 +114,40 @@ async function probeDirect(browser, url) {
   }
 }
 
-/** Leitet sämtliche Browser-Requests über den Node-Prozess (proxy-fähig) um. */
-async function installRelay(context, dispatcher) {
+/**
+ * Leitet sämtliche Browser-Requests über den Node-Prozess (proxy-fähig) um.
+ *
+ * Weiterleitungen werden hier aufgelöst und nicht an den Browser zurückgegeben:
+ * Ketten wie www → apex → Zielseite scheiterten sonst regelmässig, weil jeder
+ * Sprung erneut durch Browser und Relay laufen musste.
+ */
+async function installRelay(context, dispatcher, { maxRedirects = 5 } = {}) {
   await context.route('**/*', async (route) => {
     const req = route.request();
     const url = req.url();
     if (!/^https?:/i.test(url)) return route.continue().catch(() => {});
     try {
-      const res = await fetchRaw(url, {
+      let ziel = url;
+      let res = await fetchRaw(ziel, {
         dispatcher,
         method: req.method(),
         headers: req.headers(),
         body: req.postDataBuffer() || undefined,
       });
+      for (let hop = 0; hop < maxRedirects; hop++) {
+        const loc = res.headers.location;
+        if (!loc || res.status < 300 || res.status >= 400) break;
+        const next = new URL(Array.isArray(loc) ? loc[0] : loc, ziel).toString();
+        if (!/^https?:/i.test(next) || next === ziel) break;
+        ziel = next;
+        // Nach einer Weiterleitung ist nur noch GET sinnvoll (303) bzw. die
+        // Methode bleibt erhalten (307/308); Body wird bewusst nicht wiederholt.
+        res = await fetchRaw(ziel, {
+          dispatcher,
+          method: res.status === 307 || res.status === 308 ? req.method() : 'GET',
+          headers: { ...req.headers(), referer: url },
+        });
+      }
       const headers = {};
       for (const [k, v] of Object.entries(res.headers)) {
         if (HOP_BY_HOP.has(k.toLowerCase())) continue;
