@@ -18,6 +18,9 @@
  *   --ignore-robots        robots.txt nicht auswerten (nur mit Erlaubnis des Betreibers!)
  *   --same-host            Subdomains nicht mitprüfen
  *   --timeout <ms>         Navigations-Timeout (Standard 45000)
+ *   --beschaeftigte <n>    recherchierte Beschäftigtenzahl (für die Kleinstunternehmen-Prüfung)
+ *   --umsatz-mio <n>       recherchierter Jahresumsatz in Mio. Euro
+ *   --bilanzsumme-mio <n>  recherchierte Jahresbilanzsumme in Mio. Euro
  *   --cookie "n=v; n2=v2"  Cookies vorab setzen (z. B. Consent-Cookie, damit der
  *                          Cookie-Layer den Tastatur-Durchlauf nicht blockiert)
  */
@@ -25,7 +28,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { launchBrowser, fetchRaw } from '../src/browser.mjs';
-import { classifyLink, isInternal, loadRobots, loadSitemapUrls, normalizeUrl, priorityScore } from '../src/crawl.mjs';
+import { classifyLink, isInternal, loadRobots, loadSitemapUrls, normalizeUrl } from '../src/crawl.mjs';
+import { seitentyp, stichprobenPrioritaet, typenUebersicht, KRITISCHE_TYPEN } from '../src/seitentyp.mjs';
 import { pageProbe } from '../src/probe.mjs';
 import { runKeyboardWalk } from '../src/keyboard.mjs';
 import { runResponsive, DEFAULT_VIEWPORTS } from '../src/responsive.mjs';
@@ -55,6 +59,9 @@ function parseArgs(argv) {
       case '--max-docs': o.maxDocs = Number(next()); break;
       case '--timeout': o.timeout = Number(next()); break;
       case '--cookie': o.cookies.push(next()); break;
+      case '--beschaeftigte': o.beschaeftigte = Number(next()); break;
+      case '--umsatz-mio': o.umsatzMio = Number(next()); break;
+      case '--bilanzsumme-mio': o.bilanzsummeMio = Number(next()); break;
       case '--no-screenshots': o.screenshots = false; break;
       case '--no-keyboard': o.keyboard = false; break;
       case '--no-responsive': o.responsive = false; break;
@@ -131,7 +138,7 @@ async function main() {
   while (queue.length && pages.length < opt.maxPages) {
     // Startseite immer zuerst, danach Seiten mit hoher BFSG-Relevanz
     // (Kontakt, Shop, Login, Checkout, Impressum …)
-    if (pages.length > 0) queue.sort((a, x) => priorityScore(x) - priorityScore(a));
+    if (pages.length > 0) queue.sort((a, x) => stichprobenPrioritaet(x) - stichprobenPrioritaet(a));
     else queue.sort((a, x) => (a === startUrl ? -1 : x === startUrl ? 1 : 0));
     const url = queue.shift();
     if (visited.has(url)) continue;
@@ -187,6 +194,7 @@ async function main() {
       log(`  ! Sonde fehlgeschlagen: ${rec.probeError}`);
     }
 
+    rec.seitentyp = seitentyp(rec.finalUrl || url, rec.probe);
     if (opt.screenshots) {
       try {
         const p = path.join(shotDir, `${slugify(url)}-desktop.png`);
@@ -256,6 +264,8 @@ async function main() {
   await b.close();
 
   /* ------------------------------------------------------------ Auswertung */
+  const seitentypJeUrl = new Map(pages.map((p) => [p.url, p.seitentyp || 'Inhaltsseite']));
+  const screenshotJeUrl = new Map(pages.map((p) => [p.url, (p.screenshots || [])[0] ? p.screenshots[0].path : null]));
   for (const p of pages) {
     if (p.blocked || (p.status && p.status >= 400)) {
       findings.push({
@@ -287,6 +297,10 @@ async function main() {
       });
     }
   }
+  for (const f of findings) {
+    if (f.seitentyp == null) f.seitentyp = seitentypJeUrl.get(f.url) || seitentyp(f.url);
+    if (f.screenshot == null) f.screenshot = screenshotJeUrl.get(f.url) || null;
+  }
   findings.push(...analyzeErrorPage(target.origin, errorPage));
   findings.push(...analyzeCrossPage(pages));
   for (const d of docs) findings.push(...pdfFindings(d));
@@ -299,7 +313,9 @@ async function main() {
       maxPages: opt.maxPages, networkMode: b.mode, axeVersion, browserVersion,
       viewports: DEFAULT_VIEWPORTS.map((v) => v.label),
       robotsRespected: opt.robots,
-      toolVersion: '1.0.0',
+      toolVersion: '2.0.0',
+      geprueftTypen: typenUebersicht(pages.map((p) => ({ seitentyp: p.seitentyp }))),
+      fehlendeTypen: KRITISCHE_TYPEN.filter((t) => !pages.some((p) => p.seitentyp === t)),
     },
     sitemap: {
       discovered: discovered.size,
@@ -311,11 +327,18 @@ async function main() {
     },
     pages: pages.map((p) => ({
       url: p.url, finalUrl: p.finalUrl, status: p.status, error: p.error,
+      seitentyp: p.seitentyp || null,
       title: p.probe ? p.probe.title : null,
       probe: p.probe, keyboard: p.keyboard, viewports: p.viewports,
       screenshots: p.screenshots, text: undefined,
     })),
     docs, context,
+    unternehmen: {
+      beschaeftigte: opt.beschaeftigte != null ? opt.beschaeftigte : null,
+      umsatzMio: opt.umsatzMio != null ? opt.umsatzMio : null,
+      bilanzsummeMio: opt.bilanzsummeMio != null ? opt.bilanzsummeMio : null,
+      quelle: opt.beschaeftigte != null ? 'manuell recherchiert und übergeben' : 'nicht recherchiert',
+    },
     findings,
     errorPage: errorPage ? { url: errorPage.url, status: errorPage.status } : null,
   };

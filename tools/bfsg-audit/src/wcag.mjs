@@ -110,3 +110,14 @@ export function wcagFromAxeTags(tags = []) {
   }
   return out;
 }
+
+/**
+ * Konformitätsstufe für eine Menge von Kriterien: die strengste betroffene Stufe.
+ * Ohne gesicherte Zuordnung: "nicht eindeutig".
+ */
+export function wcagLevel(ids = []) {
+  const stufen = ids.map((id) => (WCAG[id] || {}).level).filter(Boolean);
+  if (!stufen.length) return 'nicht eindeutig';
+  if (stufen.includes('A') && stufen.includes('AA')) return 'A/AA';
+  return stufen[0];
+}

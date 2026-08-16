@@ -72,7 +72,7 @@ console.log(`Testserver: ${base}\nAusgabe:    ${out}`);
 
 const child = spawn(process.execPath, [
   path.join(root, 'bin', 'bfsg-audit.mjs'), base,
-  '--max-pages', '6', '--out', out, '--network', 'direct', '--delay', '0', '--no-screenshots',
+  '--max-pages', '8', '--out', out, '--network', 'direct', '--delay', '0', '--no-screenshots',
 ], { stdio: ['ignore', 'inherit', 'inherit'] });
 
 const code = await new Promise((r) => child.on('exit', r));

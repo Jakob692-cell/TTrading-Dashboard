@@ -27,10 +27,13 @@ export function groupFindings(findings) {
   for (const f of findings) {
     const k = f.check.replace(/-\d+$/, '') + '|' + f.title;
     if (!map.has(k)) {
-      map.set(k, { ...f, pages: [f.url], totalCount: f.count || 0, elements: [...(f.elements || [])] });
+      map.set(k, { ...f, pages: [f.url], seitentypen: [f.seitentyp || 'Inhaltsseite'], totalCount: f.count || 0, elements: [...(f.elements || [])] });
     } else {
       const g = map.get(k);
       if (!g.pages.includes(f.url)) g.pages.push(f.url);
+      if (f.seitentyp && !g.seitentypen.includes(f.seitentyp)) g.seitentypen.push(f.seitentyp);
+      if (!g.messwert && f.messwert) g.messwert = f.messwert;
+      if (!g.screenshot && f.screenshot) g.screenshot = f.screenshot;
       g.totalCount += f.count || 0;
       for (const e of f.elements || []) if (g.elements.length < 12) g.elements.push(e);
       if (SEV_ORDER[f.severity] < SEV_ORDER[g.severity]) g.severity = f.severity;
@@ -151,23 +154,29 @@ export function buildMarkdown(result) {
 
   /* 6./7. Detailbefunde mit WCAG-Zuordnung */
   P('## 6./7. Wichtigste Accessibility-Probleme mit WCAG-Zuordnung');
-  grouped.forEach((f, i) => {
-    L.push(`### ${i + 1}. [${f.severity}] ${f.title}`, '');
+  grouped.forEach((f) => {
+    L.push(`### ${f.id} · [${f.severity}] ${f.title}`, '');
+    L.push(`**URL:** ${f.pages.slice(0, 6).join(', ')}${f.pages.length > 6 ? ` … (+${f.pages.length - 6})` : ''}  `);
+    L.push(`**Seitentyp:** ${[...new Set(f.seitentypen || [])].join(', ') || 'Inhaltsseite'}  `);
     L.push(`**Kategorie:** ${f.category}  `);
     L.push(`**WCAG:** ${wcagList(f.wcag)}  `);
+    L.push(`**Level:** ${f.level || 'nicht eindeutig'}  `);
     L.push(`**Problem:** ${f.problem}  `);
-    L.push(`**Erwartung:** ${f.expectation}  `);
-    L.push(`**Betroffene URL(s):** ${f.pages.slice(0, 6).join(', ')}${f.pages.length > 6 ? ` … (+${f.pages.length - 6})` : ''}  `);
+    L.push(`**Technischer Nachweis:** ${f.count} betroffene(s) Element(e) auf ${f.pages.length} Seite(n); Prüfquelle: ${f.source}  `);
     if (f.elements.length) {
-      L.push('**Betroffene Elemente (Auszug):**', '');
+      L.push('**Konkrete Elemente (Auszug):**', '');
       f.elements.slice(0, 8).forEach((e) => L.push(`  - \`${String(e).replace(/`/g, "'")}\``));
       L.push('');
     }
+    L.push(`**Messwert:** ${f.messwert || '—'}  `);
+    L.push(`**Erwarteter Wert:** ${f.erwartet || f.expectation}  `);
     L.push(`**Schweregrad:** ${f.severity}  `);
-    L.push(`**Automatisch feststellbar:** ${DET[f.detectable]}  `);
-    L.push(`**Empfehlung:** ${f.recommendation}  `);
-    if (f.rationale) L.push(`**Begründung/Hinweis:** ${f.rationale}  `);
-    L.push(`**Quelle:** ${f.source}`, '');
+    L.push(`**Automatisierbarkeit:** ${f.automatisierbarkeit}  `);
+    L.push(`**Benutzerwirkung:** ${f.benutzerwirkung}  `);
+    L.push(`**Empfohlene Lösung:** ${f.recommendation}  `);
+    if (f.screenshot) L.push(`**Screenshot:** \`${f.screenshot}\`  `);
+    if (f.rationale) L.push(`**Hinweis:** ${f.rationale}  `, '');
+    else L.push('');
   });
 
   /* 8. Screenshots */
@@ -239,10 +248,12 @@ export function buildMarkdown(result) {
 
   /* Kompakttabelle */
   P('## Kompaktübersicht');
-  L.push('| URL | Problem | Kategorie | WCAG | Schweregrad | Automatisch feststellbar | Empfehlung |', '| --- | --- | --- | --- | --- | --- | --- |');
+  L.push('| ID | URL | Seitentyp | Problem | WCAG | Level | Schweregrad | Nachweis | Automatisierbarkeit |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- |');
   for (const f of grouped) {
     const u = f.pages.length === 1 ? f.pages[0] : `${f.pages[0]} (+${f.pages.length - 1})`;
-    L.push(`| ${esc(u)} | ${esc(f.title)} | ${esc(f.category)} | ${esc(wcagShort(f.wcag))} | ${f.severity} | ${DET[f.detectable]} | ${esc(f.recommendation)} |`);
+    const typ = [...new Set(f.seitentypen || [])].slice(0, 2).join(', ') || 'Inhaltsseite';
+    L.push(`| ${f.id} | ${esc(u)} | ${esc(typ)} | ${esc(f.title)} | ${esc(wcagShort(f.wcag))} | ${f.level || '–'} | ${f.severity} | ${f.count} Element(e)${f.messwert ? `, ${esc(f.messwert)}` : ''} | ${f.automatisierbarkeit} |`);
   }
   L.push('');
 
@@ -266,38 +277,153 @@ export function buildMarkdown(result) {
     '4. Erneuten automatisierten Lauf nach der Umsetzung durchführen und Ergebnisse gegenüberstellen.',
   );
 
+  /* Akquise-Kurzausgabe */
+  const st = bfsgStatus(context, result.unternehmen || {});
+  P('## Sales-Output (Akquise-Kurzfassung)');
+  const einstieg = grouped.find((f) => ['contrast-text', 'form-unlabelled', 'button-empty', 'img-alt-missing', 'viewport-zoom', 'focus-invisible'].some((c) => f.check.startsWith(c)));
+  P('```',
+    `UNTERNEHMEN: ${target.host}`,
+    `BFSG-RELEVANZ: ${st.kategorie === 'A' ? 'HIGH' : st.kategorie === 'B' ? 'MEDIUM' : (st.kategorie === 'C' || st.kategorie === 'D') ? 'LOW' : 'UNKLAR'} (Status ${st.kategorie}: ${st.label})`,
+    `KLEINSTUNTERNEHMEN: ${st.kleinstunternehmen}`,
+    `B2C: ${st.b2c}`,
+    `ONLINE-VERTRAG: ${st.elektronischerGeschaeftsverkehr}`,
+    `ACCESSIBILITY-FEHLER: ${grouped.length} Befundgruppen, ${grouped.reduce((a, f) => a + (f.totalCount || 0), 0)} betroffene Elemente`,
+    `CRITICAL: ${bySev.CRITICAL.length}`,
+    `HIGH: ${bySev.HIGH.length}`,
+    `BESTER GESPRAECHSEINSTIEG: ${einstieg ? einstieg.title : 'kein belastbarer Einstieg – keine schweren Befunde'}`,
+    `KONKRETER NACHWEIS: ${einstieg ? `${einstieg.id} · ${einstieg.messwert || `${einstieg.totalCount} Element(e)`} · ${einstieg.pages[0]}` : '—'}`,
+    '```');
+
+  /* Abschlussformat nach Prüfspezifikation */
+  P('# AUDIT SUMMARY');
+  P(`**Website:** ${target.startUrl}`);
+  P(`**Unternehmen:** ${(context.imprint && context.imprint.legalForm) ? `${target.host} (${context.imprint.legalForm})` : target.host}`);
+  P(`**Audit-Datum:** ${finishedAt.slice(0, 10)}`);
+  P(`**Untersuchte URLs:** ${pages.length} – ${Object.entries(meta.geprueftTypen || {}).map(([t, n]) => `${t}: ${n}`).join(', ') || 'keine Typisierung'}`);
+  if (meta.fehlendeTypen && meta.fehlendeTypen.length) {
+    P(`**Nicht erfasste Seitentypen (Prüflücke):** ${meta.fehlendeTypen.join(', ')}`);
+  }
+  P('## BFSG');
+  P(`- BFSG-Relevanz: **${st.kategorie} – ${st.label}**`,
+    `- B2C: ${st.b2c}`,
+    `- Elektronischer Geschäftsverkehr: ${st.elektronischerGeschaeftsverkehr}`,
+    `- Kleinstunternehmen: ${st.kleinstunternehmen}`,
+    `- Unternehmensgröße: ${result.unternehmen && result.unternehmen.beschaeftigte != null ? `${result.unternehmen.beschaeftigte} Beschäftigte` : 'nicht feststellbar'}`,
+    `- Rechtliche Sicherheit: ${st.rechtlicheSicherheit}`);
+  P('## TECHNISCH');
+  P(`- Gesamtbefunde: ${grouped.length}`,
+    `- Critical: ${bySev.CRITICAL.length}`,
+    `- High: ${bySev.HIGH.length}`,
+    `- Medium: ${bySev.MEDIUM.length}`,
+    `- Low: ${bySev.LOW.length}`,
+    `- Automatisch nachweisbar: ${auto.length}`,
+    `- Manuell zu prüfen: ${manual.length}`);
+  P('## TOP 5');
+  if (top.length) top.forEach((f, i) => L.push(`${i + 1}. ${f.id} · [${f.severity}] ${f.title} (${f.totalCount} Element(e), WCAG ${wcagShort(f.wcag)})`));
+  else L.push('1. Keine Befunde im automatisierten Lauf – das ersetzt keine manuelle Prüfung.');
+  L.push('');
+  P('## WICHTIGSTE TECHNISCHE ÄNDERUNGEN');
+  const massnahmen = grouped.slice(0, 5).map((f, i) => `${i + 1}. ${f.recommendation} (${f.id})`);
+  P(...(massnahmen.length ? massnahmen : ['1. Keine Massnahmen aus dem automatisierten Lauf ableitbar.']));
+  P('## RECHTLICHER HINWEIS');
+  P('„Dieser Bericht ist ein technischer Accessibility-/BFSG-Vorcheck und keine Rechtsberatung oder rechtsverbindliche Konformitätsbescheinigung."');
+
   P('---');
   P(`Erzeugt mit \`tools/bfsg-audit\` · Prüfwerkzeuge: eigene DOM-Analyse + axe-core ${meta.axeVersion || ''} · Netzwerkmodus: ${meta.networkMode} · Chromium ${meta.browserVersion || ''}`);
   return L.join('\n');
 }
 
-function bfsgAssessment(context, short = false) {
+/**
+ * BFSG-Status in genau einer der fünf Kategorien der Prüfspezifikation.
+ *
+ * Kategorie D (Kleinstunternehmen-Ausnahme wahrscheinlich) kann das Werkzeug allein aus
+ * Website-Signalen nicht vergeben – Beschäftigtenzahl und Umsatz stehen auf keiner Website.
+ * Sie wird nur gesetzt, wenn die Prüferin/der Prüfer recherchierte Werte übergibt.
+ */
+export function bfsgStatus(context, unternehmen = {}) {
   const i = context.indication;
-  const out = [];
-  let phrase;
-  if (i.sectorSpecific.length || i.electronicCommerce === 'deutliche Hinweise') phrase = 'eine **wahrscheinliche** Relevanz des BFSG';
-  else if (i.electronicCommerce === 'schwache Hinweise') phrase = 'eine **mögliche** Relevanz des BFSG';
-  else if (i.consumerFacing === 'überwiegend B2B-Hinweise') phrase = '**wahrscheinlich keine** Relevanz des BFSG';
-  else phrase = 'eine **nicht ausreichend feststellbare** Relevanz des BFSG';
+  const s = context.signals || {};
+  const b2c = s.b2c && s.b2c.found ? 'JA' : (s.b2b && s.b2b.found ? 'NEIN' : 'UNKLAR');
+  const ecom = i.electronicCommerce === 'deutliche Hinweise' ? 'JA'
+    : i.electronicCommerce === 'schwache Hinweise' ? 'UNKLAR' : 'NEIN';
 
-  out.push(`Auf Grundlage der öffentlich verfügbaren Informationen und der technisch erhobenen Indizien besteht ${phrase}.`);
+  // Kleinstunternehmen: < 10 Beschäftigte UND (Umsatz <= 2 Mio ODER Bilanzsumme <= 2 Mio)
+  let kleinst = 'UNKLAR';
+  if (unternehmen.beschaeftigte != null && (unternehmen.umsatzMio != null || unternehmen.bilanzsummeMio != null)) {
+    const unterSchwelle = (unternehmen.umsatzMio != null && unternehmen.umsatzMio <= 2)
+      || (unternehmen.bilanzsummeMio != null && unternehmen.bilanzsummeMio <= 2);
+    kleinst = unternehmen.beschaeftigte < 10 && unterSchwelle ? 'JA' : 'NEIN';
+  }
+
+  // Öffentliche Stellen unterliegen BGG/BITV 2.0 bzw. Landesrecht, nicht dem BFSG.
+  const OEFFENTLICH = /(\.bund\.de|\.bayern\.de|\.nrw\.de|\.niedersachsen\.de|bundesfachstelle|bundesamt|bundesministerium|ministerium|landkreis|stadt-|stadtverwaltung|gemeinde|kreisverwaltung|behoerde|hochschule|universit|\.schule)/i;
+  const oeffentlicheStelle = OEFFENTLICH.test(context.baseUrl || '');
+
+  let kategorie, label;
+  if (oeffentlicheStelle) {
+    kategorie = 'E'; label = 'nicht ausreichend feststellbar – Hinweise auf eine öffentliche Stelle (dann BGG/BITV 2.0 bzw. Landesrecht statt BFSG)';
+  } else if (kleinst === 'JA' && (ecom === 'JA' || ecom === 'UNKLAR')) {
+    kategorie = 'D'; label = 'Kleinstunternehmen-Ausnahme wahrscheinlich';
+  } else if (i.sectorSpecific.length || (ecom === 'JA' && b2c !== 'NEIN')) {
+    kategorie = 'A'; label = 'BFSG wahrscheinlich relevant';
+  } else if (ecom === 'UNKLAR') {
+    kategorie = 'B'; label = 'BFSG möglicherweise relevant';
+  } else if (ecom === 'NEIN' && b2c === 'NEIN') {
+    kategorie = 'C'; label = 'BFSG wahrscheinlich nicht relevant';
+  } else {
+    kategorie = 'E'; label = 'nicht ausreichend feststellbar';
+  }
+
+  const begruendung = [];
+  if (oeffentlicheStelle) begruendung.push('Domain/Name deutet auf eine öffentliche Stelle hin – Anwendungsbereich des BFSG (private Wirtschaftsakteure) ist dann zu hinterfragen; einschlägig sind regelmässig BGG/BITV 2.0 oder Landesgesetze');
+  if (i.sectorSpecific.length) begruendung.push(`branchenspezifische Dienstleistung nach § 1 Abs. 3 BFSG: ${i.sectorSpecific.join(', ')}`);
+  begruendung.push(`elektronischer Geschäftsverkehr (§ 2 Nr. 26 BFSG): ${i.electronicCommerce}`);
+  begruendung.push(`Verbraucherbezug (§ 2 Nr. 16 BFSG): ${i.consumerFacing}`);
+  begruendung.push(kleinst === 'UNKLAR'
+    ? 'Kleinstunternehmen-Schwelle (§ 2 Nr. 17 BFSG) nicht feststellbar – Beschäftigtenzahl und Umsatz sind aus der Website nicht ableitbar'
+    : `Kleinstunternehmen nach § 2 Nr. 17 BFSG: ${kleinst}`);
+
+  return {
+    kategorie, label, b2c, elektronischerGeschaeftsverkehr: ecom, kleinstunternehmen: kleinst,
+    dienstleistung: i.sectorSpecific.length ? i.sectorSpecific.join(', ') : 'nicht eindeutig branchenspezifisch',
+    begruendung,
+    rechtlicheSicherheit: kategorie === 'E' || kleinst === 'UNKLAR' ? 'NIEDRIG' : (kategorie === 'A' ? 'MITTEL' : 'MITTEL'),
+    quellen: [
+      'BFSG: https://www.gesetze-im-internet.de/bfsg/ (§§ 1, 2, 3, 14, 16, 17, 38)',
+      'BFSGV: https://www.gesetze-im-internet.de/bfsgv/ (§§ 3, 12, 13, 19, 21)',
+      'EN 301 549 / WCAG 2.1 A+AA als technische Referenz',
+      'Website-Signale des vorliegenden Laufs (siehe Abschnitt 2)',
+    ],
+  };
+}
+
+function bfsgAssessment(context, short = false, unternehmen = {}) {
+  const st = bfsgStatus(context, unternehmen);
+  const out = [];
+  out.push(`**BFSG-Status: ${st.kategorie} – ${st.label}**`);
   out.push('');
-  out.push('**Tragende Indizien:**');
-  out.push(`- Elektronischer Geschäftsverkehr (§ 1 Abs. 3 Nr. 5 i. V. m. § 2 Nr. 26 BFSG): ${i.electronicCommerce}`);
-  out.push(`- Verbraucherbezug (§ 2 Nr. 16 BFSG): ${i.consumerFacing}`);
-  out.push(`- Branchenspezifische Dienstleistungen (§ 1 Abs. 3 Nr. 1–4 BFSG): ${i.sectorSpecific.length ? i.sectorSpecific.join(', ') : 'keine Hinweise'}`);
-  out.push(`- Informationen zur Barrierefreiheit (§ 14 Abs. 1 Nr. 2 BFSG): ${i.accessibilityStatement ? 'Seite vorhanden – Inhalt und Vollständigkeit manuell prüfen' : 'nicht gefunden'}`);
+  out.push(`- B2C: **${st.b2c}**`);
+  out.push(`- Elektronischer Geschäftsverkehr: **${st.elektronischerGeschaeftsverkehr}**`);
+  out.push(`- Kleinstunternehmen: **${st.kleinstunternehmen}**`);
+  out.push(`- Relevante Dienstleistung: ${st.dienstleistung}`);
+  out.push(`- Rechtliche Sicherheit dieser Einschätzung: **${st.rechtlicheSicherheit}**`);
+  out.push('');
+  out.push('**Begründung:**');
+  out.push(...st.begruendung.map((b) => `- ${b}`));
   out.push('');
   out.push('**Offene Punkte, die die Einordnung ändern können:**');
-  out.push('- Kleinstunternehmen-Ausnahme für Dienstleistungen (§ 3 Abs. 3 i. V. m. § 2 Nr. 17 BFSG: weniger als 10 Beschäftigte **und** höchstens 2 Mio. € Jahresumsatz oder Jahresbilanzsumme) – aus der Website nicht feststellbar.');
-  out.push('- Übergangsbestimmungen nach § 38 BFSG (Fortführung vor dem 28.06.2025 eingesetzter Produkte/Verträge bis längstens 27.06.2030).');
+  out.push('- Kleinstunternehmen-Ausnahme (§ 3 Abs. 3 i. V. m. § 2 Nr. 17 BFSG): weniger als 10 Beschäftigte **und** (Jahresumsatz ≤ 2 Mio. € **oder** Jahresbilanzsumme ≤ 2 Mio. €). Zu recherchieren über Unternehmensregister, Bundesanzeiger und Geschäftsberichte.');
+  out.push('- Übergangsbestimmungen nach § 38 BFSG (vor dem 28.06.2025 eingesetzte Produkte und geschlossene Verträge, längstens bis 27.06.2030).');
   out.push('- Ausnahmen nach § 16 BFSG (grundlegende Veränderung) und § 17 BFSG (unverhältnismässige Belastung) – nur vom Wirtschaftsakteur selbst zu beurteilen und zu dokumentieren.');
   out.push('- Nicht erfasste Inhalte nach § 1 Abs. 4 BFSG (u. a. vor dem 28.06.2025 veröffentlichte Medien und Bürodateiformate, Kartendienste, Inhalte Dritter, Archive).');
+  out.push('');
+  out.push('**Quellen:**');
+  out.push(...st.quellen.map((q) => `- ${q}`));
   out.push('');
   out.push('**Eine abschliessende rechtliche Bewertung ist anhand öffentlich verfügbarer Informationen nicht möglich.** Dieser Bericht ersetzt keine Rechtsberatung.');
   if (!short) {
     out.push('');
-    out.push('Zuständig für die Marktüberwachung von Dienstleistungen ist die Marktüberwachungsstelle der Länder für die Barrierefreiheit von Produkten und Dienstleistungen (§§ 28 ff. BFSG); Verbraucherinnen und Verbraucher sowie anerkannte Verbände haben Rechte nach §§ 32–34 BFSG.');
+    out.push('Zuständig für die Marktüberwachung von Dienstleistungen sind die Marktüberwachungsstellen der Länder (§§ 28 ff. BFSG); Verbraucherinnen und Verbraucher sowie anerkannte Verbände haben Rechte nach §§ 32–34 BFSG.');
   }
   return out;
 }
@@ -316,8 +442,15 @@ function mdToHtml(md) {
   let i = 0;
   const closeList = (tag) => { if (tag) out.push(`</${tag}>`); };
   let listTag = null;
+  let inCode = false;
   while (i < lines.length) {
     const line = lines[i];
+    if (/^```/.test(line.trim())) {
+      closeList(listTag); listTag = null;
+      out.push(inCode ? '</pre>' : '<pre>');
+      inCode = !inCode; i++; continue;
+    }
+    if (inCode) { out.push(escHtml(line)); i++; continue; }
     const table = /^\|(.+)\|\s*$/.exec(line);
     if (table && /^\|[\s:|-]+\|\s*$/.test(lines[i + 1] || '')) {
       closeList(listTag); listTag = null;

@@ -7,32 +7,108 @@
  * als `detectable: 'manuell'` bzw. 'teilautomatisch' ausgegeben und landen im Bericht in
  * der Liste "MANUELLE PRÜFUNG ERFORDERLICH".
  */
-import { wcagFromAxeTags, wcagRef } from './wcag.mjs';
+import { wcagFromAxeTags, wcagLevel, wcagRef } from './wcag.mjs';
 
 export const SEVERITIES = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'];
 
+/** Die drei Automatisierbarkeitsstufen der Prüfspezifikation. */
+export const AUTOMATISIERBARKEIT = {
+  automatisch: 'AUTOMATISCH',
+  teilautomatisch: 'AUTOMATISCHER HINWEIS – MANUELLE PRÜFUNG',
+  manuell: 'NUR MANUELL PRÜFBAR',
+};
+
+/**
+ * Wirkung auf Nutzende je Prüfung – knapp, konkret und ohne Dramatisierung.
+ * Für Prüfungen ohne Eintrag wird aus der Kategorie eine allgemeine Formulierung gebildet.
+ */
+const WIRKUNG = {
+  'contrast-text': 'Text ist für Menschen mit Sehbeeinträchtigung, bei Farbsehschwäche und bei Sonnenlicht auf dem Mobilgerät schwer bis nicht lesbar.',
+  'contrast-nontext': 'Eingabefelder und Schaltflächen sind als solche nicht sicher erkennbar; Bedienelemente werden übersehen.',
+  'contrast-bgimage': 'Über Bildern kann der Text je nach Bildstelle unlesbar werden.',
+  'color-only-links': 'Bei Farbsehschwäche sind Links im Fliesstext nicht von normalem Text unterscheidbar.',
+  'img-alt-missing': 'Screenreader lesen Dateinamen vor oder überspringen die Information; der Bildinhalt geht verloren.',
+  'img-link-no-name': 'Grafische Links werden ohne Ziel angesagt – die Navigation ist blind nicht nutzbar.',
+  'img-alt-suspicious': 'Der vorgelesene Text vermittelt den Bildinhalt nicht.',
+  'svg-icon-no-name': 'Icon-Schaltflächen werden ohne Funktion angesagt.',
+  'button-empty': 'Bedienelemente werden nur als „Schaltfläche" angesagt und sind ohne Raten nicht bedienbar.',
+  'link-empty': 'Der Link wird ohne Ziel angesagt und ist in Linklisten unbrauchbar.',
+  'link-generic': 'In der Linkliste des Screenreaders stehen mehrfach „mehr" oder „hier" ohne Kontext.',
+  'link-ambiguous': 'Gleich benannte Links führen an verschiedene Ziele – die Auswahl wird zum Ratespiel.',
+  'clickable-nonsemantic': 'Die Funktion ist per Tastatur nicht auslösbar und für Screenreader unsichtbar.',
+  'form-unlabelled': 'Es ist nicht erkennbar, welche Eingabe erwartet wird; das Formular wird unbenutzbar.',
+  'form-placeholder-only': 'Die Beschriftung verschwindet beim Tippen; Kontrolle und Korrektur werden erschwert.',
+  'form-autocomplete': 'Automatisches Ausfüllen entfällt – für motorisch eingeschränkte Nutzende ein erheblicher Mehraufwand.',
+  'form-group': 'Der Bezug einzelner Optionen zur Gruppenfrage geht verloren.',
+  'form-error-region': 'Fehler werden beim Absenden nicht angesagt; Nutzende suchen den Fehler blind.',
+  'lang-missing': 'Screenreader lesen deutsche Texte mit fremder Aussprache vor – der Inhalt wird unverständlich.',
+  'lang-mismatch': 'Teile der Seite werden in falscher Aussprache vorgelesen.',
+  'title-missing': 'In Tab- und Verlaufslisten ist die Seite nicht identifizierbar.',
+  'h1-missing': 'Der Einstiegspunkt für die Sprungnavigation über Überschriften fehlt.',
+  'heading-skip': 'Die Gliederung ist über die Überschriftennavigation nicht nachvollziehbar.',
+  'heading-empty': 'Leere Einträge in der Überschriftenliste stören die Orientierung.',
+  'landmark-main-missing': 'Der wiederkehrende Kopfbereich lässt sich nicht überspringen.',
+  'skiplink-missing': 'Bei reiner Tastaturnutzung muss vor jedem Inhalt die gesamte Navigation durchlaufen werden.',
+  'focus-invisible': 'Ohne Maus ist nicht erkennbar, welches Element gerade aktiv ist – die Seite wird unbedienbar.',
+  'focus-order': 'Der Fokus springt entgegen der Leserichtung; die Bedienung wird unvorhersehbar.',
+  'focus-offscreen': 'Der Fokus liegt auf unsichtbaren Elementen – Nutzende verlieren die Orientierung.',
+  'keyboard-trap': 'Der Fokus lässt sich nicht mehr aus dem Element herausbewegen; die Seite muss neu geladen werden.',
+  'keyboard-unreachable': 'Einzelne Bedienelemente sind ohne Maus möglicherweise nicht erreichbar.',
+  'keyboard-modal-hold': 'Die Seite hinter dem Overlay konnte nicht geprüft werden; für Nutzende zählt, ob der Dialog schliessbar ist.',
+  'tabindex-positive': 'Die Reihenfolge beim Tabben weicht von der sichtbaren Anordnung ab.',
+  'aria-role-invalid': 'Assistive Technik erhält eine unbekannte Rolle und meldet das Element falsch oder gar nicht.',
+  'aria-ref-broken': 'Der Name des Elements entfällt vollständig, weil der Verweis ins Leere zeigt.',
+  'aria-hidden-focusable': 'Elemente sind per Tastatur erreichbar, für Screenreader aber unsichtbar – der Fokus verschwindet ins Nichts.',
+  'iframe-title': 'Eingebettete Inhalte werden ohne Bezeichnung angesagt.',
+  'video-captions': 'Gehörlose und schwerhörige Nutzende erhalten den Inhalt nicht.',
+  'media-autoplay': 'Automatischer Ton überlagert die Sprachausgabe des Screenreaders.',
+  'motion-infinite': 'Dauerbewegung erschwert Konzentration und Lesen, bei Vestibularstörungen bis zur Übelkeit.',
+  'motion-carousel': 'Inhalte wechseln, bevor sie gelesen werden konnten.',
+  'meta-refresh': 'Die Seite wechselt ohne Vorwarnung; Screenreader beginnen von vorn.',
+  'viewport-zoom': 'Vergrössern auf dem Mobilgerät ist gesperrt – für Menschen mit Sehbeeinträchtigung eine harte Barriere.',
+  'target-size': 'Kleine Ziele sind bei motorischen Einschränkungen und auf Touchgeräten schwer treffbar.',
+  'table-headers': 'Der Bezug einer Zelle zu ihrer Spalte oder Zeile wird nicht vorgelesen.',
+  'duplicate-ids': 'Beschriftungen und Verweise können auf das falsche Element zeigen.',
+  'consent-semantics': 'Der Consent-Dialog wird nicht als Dialog erkannt; Nutzende landen im Hintergrundinhalt.',
+  'consent-manual': 'Der Layer steht vor der gesamten Website – scheitert er, ist nichts nutzbar.',
+};
+
 let seq = 0;
+/** Fortlaufende Befund-IDs im Format BFSG-001. */
+export function resetFindingIds() { seq = 0; }
+
 function F(o) {
   if (o.wcag) {
     for (const id of o.wcag) {
       if (!wcagRef(id)) throw new Error(`Unbekanntes WCAG-Kriterium im Code: ${id}`);
     }
   }
+  const detectable = o.detectable || 'automatisch';
+  const basis = o.check.replace(/-\d+$/, '');
   return {
-    key: `${o.check}-${++seq}`,
+    id: `BFSG-${String(++seq).padStart(3, '0')}`,
+    key: `${o.check}-${seq}`,
     check: o.check,
     category: o.category,
     title: o.title,
     wcag: o.wcag || [],
+    level: wcagLevel(o.wcag || []),
     severity: o.severity,
     url: o.url,
+    seitentyp: null, // wird beim Zusammenführen im CLI gesetzt
     problem: o.problem,
     expectation: o.expectation,
+    messwert: o.messwert != null ? String(o.messwert) : null,
+    erwartet: o.erwartet != null ? String(o.erwartet) : null,
     elements: (o.elements || []).slice(0, 10),
     count: o.count != null ? o.count : (o.elements || []).length,
-    detectable: o.detectable || 'automatisch',
+    detectable,
+    automatisierbarkeit: AUTOMATISIERBARKEIT[detectable] || AUTOMATISIERBARKEIT.automatisch,
+    benutzerwirkung: o.benutzerwirkung || WIRKUNG[basis] ||
+      `Beeinträchtigt die Nutzung im Bereich „${o.category}" für Menschen mit Behinderungen.`,
     recommendation: o.recommendation,
     rationale: o.rationale || '',
+    screenshot: null, // wird beim Zusammenführen im CLI gesetzt
     source: o.source || 'eigene Prüfung',
   };
 }
@@ -456,6 +532,8 @@ export function analyzePage(page) {
       wcag: ['1.4.3'], severity: bump('HIGH', total, [25, 5]), url,
       problem: `${failing.length} Farbkombinationen unterschreiten den Mindestkontrast (betroffen: ${total} Textelemente). Schlechtester Wert: ${worst[0].ratio}:1.`,
       expectation: 'Mindestens 4,5:1 für normalen Text, 3:1 für grossen Text (ab 24 px bzw. 18,66 px fett).',
+      messwert: `${worst[0].ratio}:1 (schlechtester gemessener Wert)`,
+      erwartet: '4,5:1 (normaler Text) bzw. 3:1 (grosser Text)',
       elements: worst.slice(0, 10).map((c) => `${c.ratio}:1 (nötig ${c.required}:1) – Vordergrund ${c.fg} auf ${c.bg}, ${c.fontSize}px/${c.fontWeight} – z. B. ${c.samples[0] ? c.samples[0].selector + ' „' + c.samples[0].text + '“' : ''}`),
       count: total,
       recommendation: 'Farbwerte anpassen, bis das Verhältnis erreicht ist (meist genügt ein dunklerer Textton oder ein hellerer Hintergrund).',
@@ -482,6 +560,8 @@ export function analyzePage(page) {
       wcag: ['1.4.11'], severity: 'MEDIUM', url,
       problem: `${nonText.length} Bedienelemente (Rahmen/Flächen von Feldern und Buttons) erreichen weniger als 3:1 gegen ihre Umgebung.`,
       expectation: 'Grafische Bedienelemente und ihre Zustände benötigen mindestens 3:1.',
+      messwert: `${Math.min(...nonText.map((c) => c.ratio))}:1 (schlechtester gemessener Wert)`,
+      erwartet: '3:1',
       elements: nonText.slice(0, 10).map((c) => `${c.selector} – ${c.element}, ${c.boundary} ${c.color} auf ${c.against}: ${c.ratio}:1`),
       count: nonText.length,
       recommendation: 'Rahmen-/Flächenfarben der Bedienelemente kräftiger wählen.',
@@ -691,6 +771,8 @@ export function analyzePage(page) {
       wcag: ['1.4.4'], severity: 'HIGH', url,
       problem: `meta viewport: "${p.viewportMeta.content}"`,
       expectation: 'Vergrösserung bis mindestens 200 % muss möglich bleiben.',
+      messwert: p.viewportMeta.userScalableNo ? 'user-scalable=no' : `maximum-scale=${p.viewportMeta.maximumScale}`,
+      erwartet: 'keine Zoom-Sperre, maximum-scale ≥ 2',
       elements: ['<meta name="viewport">'], count: 1,
       recommendation: 'user-scalable=no und maximum-scale < 2 entfernen.',
     }));
@@ -718,6 +800,8 @@ export function analyzePage(page) {
       wcag: ['2.5.8'], severity: 'LOW', url,
       problem: `${targets.length} Bedienelemente sind kleiner als 24 × 24 CSS-Pixel.`,
       expectation: 'Zielgrösse mindestens 24 × 24 px (WCAG 2.2, 2.5.8) bzw. ausreichender Abstand.',
+      messwert: `kleinstes Ziel ${Math.min(...targets.map((t) => Math.min(t.width, t.height)))} px`,
+      erwartet: '24 × 24 px',
       elements: targets.slice(0, 10).map((t) => `${t.selector} (${t.width}×${t.height}px, "${t.name}")`), count: targets.length,
       recommendation: 'Trefferfläche per padding vergrössern.',
       rationale: '2.5.8 ist in WCAG 2.2 neu und geht über den in EN 301 549 V3.2.1 referenzierten Stand hinaus; für Touch-Bedienung dennoch dringend empfohlen.',
@@ -787,6 +871,8 @@ export function analyzeKeyboard(url, kb) {
       wcag: ['2.4.7'], severity: bump('HIGH', kb.noVisibleFocus.length, [10, 3]), url,
       problem: `${kb.noVisibleFocus.length} von ${kb.visited} per Tab erreichten Elementen zeigen bei Fokus keine erkennbare visuelle Änderung (Outline, Schatten, Hintergrund, Rahmen, Unterstreichung).`,
       expectation: 'Der Tastaturfokus muss jederzeit sichtbar sein.',
+      messwert: `${kb.noVisibleFocus.length} von ${kb.visited} fokussierten Elementen ohne sichtbare Änderung`,
+      erwartet: '0',
       elements: kb.noVisibleFocus.slice(0, 10).map((e) => `${e.selector} ("${e.name}")`),
       count: kb.noVisibleFocus.length,
       recommendation: 'outline nicht entfernen; stattdessen :focus-visible mit kontrastreichem Indikator (mind. 3:1) gestalten.',
@@ -866,6 +952,8 @@ export function analyzeResponsive(url, viewports) {
         severity, url,
         problem: `Bei ${vp.width}×${vp.height} px ist der Inhalt ${vp.scrollWidth} px breit (${px} px Überstand) – es entsteht horizontales Scrollen.`,
         expectation: 'Inhalte müssen sich bei 320 px Breite (entspricht 400 % Zoom) ohne horizontales Scrollen umbrechen.',
+        messwert: `${vp.scrollWidth} px Inhaltsbreite bei ${vp.width} px Viewport`,
+        erwartet: `höchstens ${vp.width} px`,
         elements: (vp.overflowing || []).slice(0, 8).map((o) => `${o.selector} (rechte Kante bei ${o.right} px)`),
         count: (vp.overflowing || []).length || 1,
         detectable: (vp.overflowing || []).length ? 'automatisch' : 'teilautomatisch',

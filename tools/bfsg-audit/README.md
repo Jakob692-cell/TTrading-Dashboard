@@ -77,9 +77,24 @@ node bin/bfsg-audit.mjs https://beispiel.de --max-pages 15 --out ./audit-beispie
 Zusätzlich läuft **axe-core** mit den Regelsätzen wcag2a/aa, wcag21a/aa, wcag22aa und best-practice.
 Befunde aus axe sind im Bericht mit der Quelle „axe-core" gekennzeichnet.
 
-Jeder Befund enthält: Kategorie, WCAG-Zuordnung (oder ausdrücklich „WCAG-Zuordnung nicht eindeutig"),
-Problem, Erwartung, betroffene URLs und Elemente, Schweregrad (CRITICAL/HIGH/MEDIUM/LOW),
-Kennzeichnung `automatisch | teilautomatisch | manuell` und eine konkrete Empfehlung.
+Jeder Befund trägt die Struktur der Prüfspezifikation: `ID` (BFSG-001), `URL`, `Seitentyp`,
+`Kategorie`, `WCAG`, `Level` (A/AA/nicht eindeutig), `Problem`, `Technischer Nachweis`,
+`Konkretes Element`, `Messwert`, `Erwarteter Wert`, `Schweregrad` (CRITICAL/HIGH/MEDIUM/LOW),
+`Automatisierbarkeit` (AUTOMATISCH · AUTOMATISCHER HINWEIS – MANUELLE PRÜFUNG · NUR MANUELL
+PRÜFBAR), `Benutzerwirkung`, `Empfohlene Lösung` und `Screenshot`.
+
+URLs werden nach Seitentyp klassifiziert (Startseite, Checkout, Warenkorb, Buchung, Login,
+Kontakt, Impressum, Barrierefreiheit …) und in dieser Reihenfolge priorisiert gecrawlt; nicht
+erfasste kritische Seitentypen weist der Bericht als Prüflücke aus.
+
+Der Bericht endet mit dem **Sales-Output** (Akquise-Kurzfassung, nur belegte Befunde) und dem
+**AUDIT SUMMARY** samt BFSG-Status in fünf Kategorien (A–E) sowie B2C / elektronischer
+Geschäftsverkehr / Kleinstunternehmen als JA/NEIN/UNKLAR.
+
+Recherchierte Unternehmensdaten für die Kleinstunternehmen-Prüfung (§ 2 Nr. 17 BFSG: < 10
+Beschäftigte **und** [Umsatz ≤ 2 Mio. € **oder** Bilanzsumme ≤ 2 Mio. €]) lassen sich mit
+`--beschaeftigte`, `--umsatz-mio` und `--bilanzsumme-mio` übergeben. Ohne diese Angaben lautet
+das Ergebnis ausdrücklich „nicht feststellbar" – es wird nicht geraten.
 
 ## Test
 
