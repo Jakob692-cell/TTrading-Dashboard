@@ -98,6 +98,12 @@ export function bewerteLead(lead, kontakt, { doNotCall = [] } = {}) {
     }
   }
   if (!kontakt.telefon) b.flags.push('Keine Telefonnummer gefunden – Kaltanruf nicht möglich');
+  if (kontakt.telefon && /^(00(?!49)|\+(?!49))/.test(kontakt.telefon)) {
+    b.flags.push(`Telefonnummer ist keine deutsche Rufnummer (${kontakt.telefon}) – vermutlich fehlerhafter Verzeichniseintrag, vor dem Anruf prüfen`);
+  }
+  if (kontakt.telefon && kontakt.telefon.replace(/\D/g, '').length < 7) {
+    b.flags.push(`Telefonnummer wirkt unvollständig (${kontakt.telefon}) – vor dem Anruf prüfen`);
+  }
   if (kontakt.telefon && /^(\+49\s?1[5-7]|01[5-7])/.test(kontakt.telefon)) {
     b.flags.push('Mobilnummer – vor dem Anruf sicherstellen, dass es ein Geschäftsanschluss ist (sonst Verbraucheranruf, § 7 Abs. 2 Nr. 1 UWG)');
   }
