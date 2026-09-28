@@ -11,9 +11,34 @@
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <title>NoVape</title>
+    <script>
+      // If the app can't start (old browser, blocked script), say so instead of leaving a blank page.
+      window.addEventListener('error', function (e) {
+        var hint = document.getElementById('boot-hint');
+        if (hint) hint.textContent = 'NoVape couldn’t start here (' + (e.message || 'script error') + '). Please open this page in an up-to-date Safari or Chrome.';
+      });
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div
+        id="boot"
+        style="position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 32px; text-align: center; background: #ffffff; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      >
+        <svg width="56" height="56" viewBox="0 0 72 72" aria-hidden="true">
+          <circle cx="36" cy="36" r="27" fill="none" stroke="#7FBF9A" stroke-width="7" stroke-linecap="round" stroke-dasharray="134 35.65" transform="rotate(-48 36 36)" />
+        </svg>
+        <strong style="font-size: 24px; letter-spacing: -0.03em">NoVape</strong>
+        <p id="boot-hint" style="margin: 0; max-width: 300px; font-size: 14px; line-height: 20px; color: #777777">
+          If this screen doesn’t change, open the file in Safari or Chrome. File previews (WhatsApp, Mail, Files) can’t run apps.
+          <br /><br />
+          Bleibt es bei diesem Bildschirm? Öffne die Datei in Safari oder Chrome – Dateivorschauen können keine Apps ausführen.
+        </p>
+      </div>
+    </div>
+    <noscript>
+      <p style="padding: 24px; font-family: sans-serif">NoVape needs JavaScript. Please open this file in Safari or Chrome.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
