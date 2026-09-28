@@ -23,6 +23,16 @@ export function PrivacyScreen() {
 
   const download = async () => {
     const json = await actions.exportData();
+    if (window.self !== window.top) {
+      // Embedded previews can't start downloads; hand the data over via the clipboard instead.
+      try {
+        await navigator.clipboard.writeText(json);
+        toast('Your data was copied as JSON');
+      } catch {
+        toast('Export isn’t available in this preview');
+      }
+      return;
+    }
     const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;

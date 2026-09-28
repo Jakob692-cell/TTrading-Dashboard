@@ -32,7 +32,17 @@ interface NavApi extends NavState {
 
 const NavContext = createContext<NavApi | null>(null);
 
+/** Inside an iframe (e.g. a shared preview) the browser history belongs to the host page, so leave it alone. */
+const embedded = (() => {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+})();
+
 function pushHistory() {
+  if (embedded) return false;
   try {
     window.history.pushState({ novape: true }, '');
     return true;
