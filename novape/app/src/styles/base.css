@@ -1,0 +1,179 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ---------- App shell ---------- */
+
+.stage {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.shell {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+@media (min-width: 600px) and (min-height: 700px) {
+  .stage {
+    align-items: center;
+    background: var(--stage);
+    padding: 24px;
+  }
+  .shell {
+    width: 390px;
+    height: min(844px, calc(100dvh - 48px));
+    border-radius: 44px;
+    box-shadow: 0 0 0 10px #ffffff, 0 0 0 11px #e2e2e5, 0 30px 80px rgba(17, 17, 17, 0.14);
+  }
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: calc(var(--safe-top) + 28px) var(--gutter) calc(var(--tabbar-h) + var(--safe-bottom) + 96px);
+}
+
+.screen::-webkit-scrollbar {
+  display: none;
+}
+
+.screen--pushed {
+  padding-top: calc(var(--safe-top) + 8px);
+}
+
+.screen--bare {
+  padding-bottom: calc(var(--safe-bottom) + 32px);
+}
+
+/* ---------- Transitions ---------- */
+
+@keyframes screen-push {
+  from {
+    transform: translateX(28%);
+    opacity: 0;
+  }
+}
+@keyframes screen-pop {
+  from {
+    transform: translateX(-12%);
+    opacity: 0;
+  }
+}
+@keyframes screen-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.anim-push {
+  animation: screen-push 0.42s var(--ease-out) both;
+}
+.anim-pop {
+  animation: screen-pop 0.36s var(--ease-out) both;
+}
+.anim-fade {
+  animation: screen-fade 0.32s var(--ease-out) both;
+}
+
+.enter {
+  animation: enter-up 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

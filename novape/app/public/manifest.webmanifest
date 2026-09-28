@@ -1,0 +1,10 @@
+{
+  "name": "NoVape",
+  "short_name": "NoVape",
+  "description": "Understand your habits. Reduce them at your own pace.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

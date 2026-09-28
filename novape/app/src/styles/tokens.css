@@ -1,0 +1,66 @@
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: #ffffff;
+  --bg-secondary: #f7f7f8;
+  --bg-tertiary: #f1f2f3;
+  --stage: #eeeef0;
+
+  /* Text */
+  --text: #111111;
+  --text-secondary: #777777;
+  --text-tertiary: #9a9aa0;
+  --text-on-dark: #ffffff;
+
+  /* Lines */
+  --border: #eaeaea;
+  --border-soft: #efeff0;
+  --divider: #f4f4f5;
+
+  /* Brand */
+  --accent: #7fbf9a;
+  --accent-strong: #5e9f7a;
+  --accent-ink: #3f7f5b;
+  --accent-soft: #eef6f1;
+  --accent-wash: #f4faf6;
+
+  /* Status */
+  --success: #6dba8a;
+  --warning: #c9953f;
+  --warning-soft: #fbf4e8;
+
+  /* Heatmap ramp (sequential sage) */
+  --heat-0: #f2f3f3;
+  --heat-1: #dcede2;
+  --heat-2: #b5dbc3;
+  --heat-3: #86c29f;
+  --heat-4: #5e9f7a;
+  --heat-5: #3f7f5b;
+
+  /* Shape */
+  --radius-xl: 28px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.03), 0 10px 30px rgba(17, 17, 17, 0.045);
+  --shadow-float: 0 10px 28px rgba(17, 17, 17, 0.1);
+  --shadow-knob: 0 2px 6px rgba(17, 17, 17, 0.18);
+
+  /* Type */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --press: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layout */
+  --gutter: 20px;
+  --tabbar-h: 84px;
+  --safe-top: max(env(safe-area-inset-top), 20px);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
