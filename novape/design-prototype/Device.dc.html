@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · My NoVape</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+button{font:inherit;color:inherit}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.97)}
+.row{transition:background .15s ease}
+.row:active{background:#F7F7F8}
+@keyframes pulse{0%{transform:scale(.7);opacity:.5}100%{transform:scale(1.25);opacity:0}}
+.pulse{animation:pulse 3.2s cubic-bezier(.22,1,.36,1) infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.float{animation:float 5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.blink{animation:blink .6s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+.knob{transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.track{transition:background .25s ease}
+</style>
+</helmet>
+<div style="width: 390px; height: 1200px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="display: flex; flex-direction: column; padding: 52px 24px 0 24px; box-sizing: border-box">
+<a href="Profile.dc.html" style="align-self: flex-start; display: flex; align-items: center; gap: 2px; height: 40px; margin-left: -8px; padding-right: 8px; font-size: 16px; font-weight: 500">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>Profile</a>
+<h1 class="fade" style="margin: 8px 0 0 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.035em">My NoVape</h1>
+
+<div style="margin-top: 8px; height: 320px; position: relative; display: flex; align-items: center; justify-content: center">
+<span class="pulse" style="position: absolute; left: 51px; top: 30px; width: 240px; height: 240px; border-radius: 999px; background: #E7F3EC"></span>
+<span style="position: absolute; left: 71px; top: 50px; width: 200px; height: 200px; border-radius: 999px; background: #F5F9F6"></span>
+<svg class="float" width="160" height="288" viewBox="0 0 200 360" role="img" aria-label="NoVape One with mint cartridge" style="position: relative">
+<defs>
+<linearGradient id="dbody" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#DADADF"></stop><stop offset=".22" stop-color="#F6F6F7"></stop><stop offset=".48" stop-color="#FFFFFF"></stop><stop offset=".8" stop-color="#EDEDEF"></stop><stop offset="1" stop-color="#D1D1D6"></stop></linearGradient>
+<linearGradient id="dcap" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#A6D4C3"></stop><stop offset=".25" stop-color="#D4EEE4"></stop><stop offset=".5" stop-color="#EAF7F2"></stop><stop offset=".8" stop-color="#C5E6D9"></stop><stop offset="1" stop-color="#9BCBB9"></stop></linearGradient>
+<radialGradient id="dshadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#111111" stop-opacity=".18"></stop><stop offset="1" stop-color="#111111" stop-opacity="0"></stop></radialGradient>
+<clipPath id="dclip"><rect x="62" y="24" width="76" height="296" rx="38"></rect></clipPath>
+</defs>
+<ellipse cx="100" cy="342" rx="54" ry="8" fill="url(#dshadow)"></ellipse>
+<rect x="62" y="24" width="76" height="296" rx="38" fill="url(#dbody)"></rect>
+<g clip-path="url(#dclip)">
+<rect x="62" y="24" width="76" height="84" fill="url(#dcap)"></rect>
+<rect x="62" y="107" width="76" height="1.2" fill="#FFFFFF" opacity=".9"></rect>
+<rect x="62" y="108.2" width="76" height="1" fill="#C6C6CC"></rect>
+<rect x="75" y="40" width="7" height="262" rx="3.5" fill="#FFFFFF" opacity=".6"></rect>
+</g>
+<rect x="62.5" y="24.5" width="75" height="295" rx="37.5" fill="none" stroke="#111111" stroke-opacity=".06"></rect>
+<circle class="{{ledClass}}" cx="100" cy="252" r="11" fill="#7FBF9A" opacity=".22"></circle>
+<circle cx="100" cy="252" r="3.4" fill="#7FBF9A"></circle>
+<text x="100" y="296" text-anchor="middle" font-size="7" letter-spacing="2.4" fill="#B9B9BE" font-weight="600">NOVAPE</text>
+</svg>
+</div>
+
+<div class="fade" style="display: flex; flex-direction: column; align-items: center; gap: 8px; animation-delay: 80ms">
+<span style="font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.03em">NoVape One</span>
+<span style="display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: #3F7F5B; background: #EEF6F1; border-radius: 999px; padding: 6px 12px"><span style="width: 7px; height: 7px; border-radius: 999px; background: #7FBF9A"></span>Connected · synced just now</span>
+</div>
+
+<div class="fade" style="margin-top: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; animation-delay: 120ms">
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12.5px; color: #777777">Battery</span>
+<span style="font-size: 22px; line-height: 26px; font-weight: 700; letter-spacing: -0.03em">82%</span>
+<div style="height: 4px; border-radius: 999px; background: #E6E6E9"><div style="height: 4px; width: 82%; border-radius: 999px; background: #111111"></div></div>
+</div>
+<a href="Flavors.dc.html" class="press" style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12.5px; color: #777777">Flavor</span>
+<span style="font-size: 22px; line-height: 26px; font-weight: 700; letter-spacing: -0.03em">Mint</span>
+<span style="width: 18px; height: 4px; border-radius: 999px; background: #8FD1C0"></span>
+</a>
+<a href="Flavors.dc.html" class="press" style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12.5px; color: #777777">Cartridge</span>
+<span style="font-size: 22px; line-height: 26px; font-weight: 700; letter-spacing: -0.03em">63%</span>
+<div style="height: 4px; border-radius: 999px; background: #E6E6E9"><div style="height: 4px; width: 63%; border-radius: 999px; background: #7FBF9A"></div></div>
+</a>
+</div>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 160ms">SETTINGS</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; animation-delay: 160ms">
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 16px 18px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15.5px">Haptic strength</span>
+<span style="font-size: 13px; color: #9A9AA0">Gentle pulse on each use</span>
+</div>
+<div role="radiogroup" aria-label="Haptic strength" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F4F4F5; border-radius: 11px">
+<sc-for list="{{haptics}}" as="h" hint-placeholder-count="4">
+<button type="button" role="radio" aria-checked="{{h.checked}}" onClick="{{h.pick}}" style="height: 30px; border: 0; border-radius: 8px; background: {{h.bg}}; box-shadow: {{h.shadow}}; font-size: 13px; font-weight: 600; color: {{h.color}}; cursor: pointer">{{h.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 0 18px; border-top: 1px solid #F4F4F5">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15.5px">Light feedback</span>
+<span style="font-size: 13px; color: #9A9AA0">Soft glow when your goal is close</span>
+</div>
+<button type="button" role="switch" aria-checked="{{lightChecked}}" aria-label="Light feedback" onClick="{{toggleLight}}" class="track" style="width: 51px; height: 31px; border: 0; border-radius: 999px; background: {{lightBg}}; position: relative; cursor: pointer; padding: 0">
+<span class="knob" style="position: absolute; left: 2px; top: 2px; width: 27px; height: 27px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 6px rgba(17,17,17,0.18); transform: translateX({{knobX}}px)"></span>
+</button>
+</div>
+<a href="#name" class="row" style="display: flex; align-items: center; gap: 14px; height: 56px; padding: 0 18px; border-top: 1px solid #F4F4F5">
+<span style="flex-grow: 1; font-size: 15.5px">Device name</span>
+<span style="font-size: 14px; color: #9A9AA0">Alex’s NoVape</span>
+<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#B5B5BA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+<a href="#firmware" class="row" style="display: flex; align-items: center; gap: 14px; height: 56px; padding: 0 18px; border-top: 1px solid #F4F4F5">
+<span style="flex-grow: 1; font-size: 15.5px">Firmware update</span>
+<span style="font-size: 14px; color: #9A9AA0">1.4.2 · Up to date</span>
+<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#B5B5BA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+<div style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 0 12px 0 18px; border-top: 1px solid #F4F4F5">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15.5px">Find my NoVape</span>
+<span style="font-size: 13px; color: #9A9AA0">{{findSub}}</span>
+</div>
+<button type="button" class="press" onClick="{{find}}" style="height: 34px; padding: 0 14px; border: 1px solid #EAEAEA; border-radius: 999px; background: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">{{findLabel}}</button>
+</div>
+</section>
+<button type="button" style="margin-top: 16px; height: 44px; border: 0; background: transparent; font-size: 15px; font-weight: 500; color: #777777; cursor: pointer">Disconnect device</button>
+</div>
+
+<nav style="position: absolute; left: 0; bottom: 0; width: 390px; height: 84px; box-sizing: border-box; background: rgba(255,255,255,0.96); border-top: 1px solid #EFEFF0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 8px">
+<a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Home</span>
+</a>
+<a href="Statistics.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><path d="M5 20v-8M12 20V5M19 20v-5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Statistics</span>
+</a>
+<a href="Goals.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+<span style="font-size: 10.5px; font-weight: 500">Goals</span>
+</a>
+<a href="Profile.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #111111">
+<span style="position: absolute; top: -1px; width: 20px; height: 3px; border-radius: 0 0 3px 3px; background: #7FBF9A"></span>
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 600">Profile</span>
+</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+  state = { haptic: 'Light', light: true, finding: false };
+  componentWillUnmount() { clearTimeout(this.timer); }
+  renderVals() {
+    const levels = ['Off', 'Light', 'Medium', 'Strong'];
+    return {
+      haptics: levels.map((l) => {
+        const on = this.state.haptic === l;
+        return {
+          label: l,
+          checked: on ? 'true' : 'false',
+          bg: on ? '#FFFFFF' : 'transparent',
+          shadow: on ? '0 1px 2px rgba(17,17,17,0.08), 0 2px 8px rgba(17,17,17,0.04)' : 'none',
+          color: on ? '#111111' : '#777777',
+          pick: () => this.setState({ haptic: l })
+        };
+      }),
+      lightChecked: this.state.light ? 'true' : 'false',
+      lightBg: this.state.light ? '#7FBF9A' : '#E4E4E7',
+      knobX: this.state.light ? 20 : 0,
+      toggleLight: () => this.setState({ light: !this.state.light }),
+      ledClass: this.state.finding ? 'blink' : '',
+      findSub: this.state.finding ? 'Vibrating and glowing…' : 'Makes it vibrate and glow',
+      findLabel: this.state.finding ? 'Stop' : 'Find',
+      find: () => {
+        clearTimeout(this.timer);
+        const next = !this.state.finding;
+        this.setState({ finding: next });
+        if (next) this.timer = setTimeout(() => this.setState({ finding: false }), 6000);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

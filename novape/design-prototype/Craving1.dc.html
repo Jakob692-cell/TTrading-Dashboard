@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · What triggered it?</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1),background .15s ease}
+.press:active{transform:scale(.97);background:#EFEFF0}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}}
+.sheet{animation:sheetUp .45s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #DCDCDF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="position: absolute; left: 16px; right: 16px; top: 40px; height: 60px; border-radius: 14px; background: #EDEDEF"></div>
+<div class="sheet" role="dialog" aria-label="Craving check-in" style="position: absolute; left: 0; top: 54px; width: 390px; height: 790px; box-sizing: border-box; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 10px 24px 40px 24px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: center"><span style="width: 36px; height: 5px; border-radius: 999px; background: #E2E2E5"></span></div>
+<div style="margin-top: 10px; display: flex; justify-content: flex-end">
+<a href="Main.dc.html" aria-label="Close" style="width: 34px; height: 34px; border-radius: 999px; background: #F4F4F5; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#555555" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</div>
+<div class="fade" style="margin-top: 8px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777">CRAVING CHECK-IN</span>
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.035em">What triggered it?</h1>
+<p style="margin: 0; font-size: 16px; line-height: 23px; color: #777777">Noticing is the first step. Pick what fits best.</p>
+</div>
+<div class="fade" style="margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; animation-delay: 80ms">
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Stress</a>
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Boredom</a>
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Social situation</a>
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">After eating</a>
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Work / studying</a>
+<a href="Craving2.dc.html" class="press" style="height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Habit</a>
+<a href="Craving2.dc.html" class="press" style="grid-column: span 2; height: 60px; border-radius: 18px; background: #F7F7F8; display: flex; align-items: center; padding: 0 18px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em">Other</a>
+</div>
+<div style="flex-grow: 1"></div>
+<p style="margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12.5px; color: #9A9AA0">
+<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"></path></svg>
+Stays on your phone. Used only for your own insights.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

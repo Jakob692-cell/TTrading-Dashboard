@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Welcome</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.98)}
+@keyframes ringIn{from{opacity:0;transform:rotate(-90deg) scale(.85)}}
+.logo{transform-origin:center;animation:ringIn 1.1s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}}
+.fade{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; box-sizing: border-box; padding: 0 28px 40px 28px">
+<div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; padding-top: 40px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 18px">
+<svg class="logo" width="88" height="88" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="27" fill="none" stroke="#7FBF9A" stroke-width="7" stroke-linecap="round" stroke-dasharray="134 35.65" transform="rotate(-48 36 36)"></circle></svg>
+<div class="fade" style="font-size: 36px; line-height: 40px; font-weight: 700; letter-spacing: -0.045em; animation-delay: 150ms">NoVape</div>
+</div>
+<div class="fade" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; animation-delay: 300ms">
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.035em">Take back control.</h1>
+<p style="margin: 0; font-size: 17px; line-height: 25px; color: #777777; max-width: 290px">Understand your habits. Reduce them at your own pace.</p>
+</div>
+</div>
+<div class="fade" style="display: flex; flex-direction: column; gap: 8px; animation-delay: 450ms">
+<a href="Onboarding2.dc.html" class="press" style="height: 56px; border-radius: 18px; background: #111111; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Get started</a>
+<a href="Main.dc.html" style="height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: #777777">I already have an account</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

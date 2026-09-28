@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Goals</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+button{font:inherit;color:inherit}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.98)}
+@keyframes fill{from{transform:scaleX(0)}}
+.fill{transform-origin:left;animation:fill 1s cubic-bezier(.22,1,.36,1) .2s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+@keyframes sheetUp{from{transform:translateY(100%)}}
+.sheet{animation:sheetUp .38s cubic-bezier(.22,1,.36,1) both}
+@keyframes dim{from{opacity:0}}
+.dim{animation:dim .3s ease both}
+</style>
+</helmet>
+<div style="width: 390px; height: 1360px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="display: flex; flex-direction: column; padding: 64px 24px 0 24px; box-sizing: border-box">
+
+<div class="fade" style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.035em">Your plan</h1>
+<p style="margin: 0; font-size: 15px; line-height: 20px; color: #777777">Stop vaping completely · week 3 of 7</p>
+</div>
+
+<section class="fade" style="margin-top: 24px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.05); padding: 24px; display: flex; flex-direction: column; gap: 18px; animation-delay: 60ms">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777">CURRENT GOAL</span>
+<span style="font-size: 12px; font-weight: 600; color: #3F7F5B; background: #EEF6F1; border-radius: 999px; padding: 4px 9px">Week 3 · ends today</span>
+</div>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-size: 72px; line-height: 72px; font-weight: 700; letter-spacing: -0.055em">{{current}}</span>
+<span style="font-size: 17px; color: #777777">uses/day</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; font-size: 14px">
+<span style="color: #777777">Today</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">32 / {{current}}</span>
+</div>
+<div style="height: 8px; border-radius: 999px; background: #F1F2F3; overflow: hidden">
+<div class="fill" style="height: 8px; width: {{todayPct}}%; border-radius: 999px; background: #7FBF9A"></div>
+</div>
+<span style="font-size: 13px; color: #777777">This week: at or under goal on 6 of 6 days so far.</span>
+</div>
+</section>
+
+<section class="fade" style="margin-top: 12px; background: #EEF6F1; border-radius: 20px; padding: 18px 20px; display: flex; gap: 12px; animation-delay: 100ms">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#4E8F6A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px"><path d="M4 14c3-1 5-4 8-4s5 3 8 4"></path><path d="M4 18.5c3-1 5-4 8-4s5 3 8 4"></path><circle cx="12" cy="5.5" r="1.8"></circle></svg>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 15px; line-height: 21px; font-weight: 600; letter-spacing: -0.01em">Progress doesn’t need to be perfect.</span>
+<span style="font-size: 13.5px; line-height: 19px; color: #4F5F55">Weeks 1 and 2 ran a little above target — and your daily use still fell by more than half.</span>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 32px; display: flex; justify-content: space-between; align-items: baseline; animation-delay: 140ms">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777">REDUCTION PLAN</span>
+<span style="font-size: 13px; color: #777777">Tap a week to edit</span>
+</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); padding: 8px 0; display: flex; flex-direction: column; animation-delay: 140ms">
+<div style="display: flex; align-items: center; gap: 14px; height: 64px; padding: 0 20px">
+<div style="width: 22px; display: flex; justify-content: center"><span style="width: 8px; height: 8px; border-radius: 999px; background: #D5D5D9"></span></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 600">Starting point</span>
+<span style="font-size: 13px; color: #777777">Your baseline</span>
+</div>
+<span style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: #777777">120<span style="font-size: 13px; font-weight: 500">/day</span></span>
+</div>
+<sc-for list="{{weeks}}" as="w" hint-placeholder-count="7">
+<button type="button" class="press" onClick="{{w.edit}}" aria-label="{{w.aria}}" style="display: flex; align-items: center; gap: 14px; height: 68px; padding: 0 20px; border: 0; border-top: 1px solid #F4F4F5; background: {{w.bg}}; text-align: left; cursor: pointer">
+<div style="width: 22px; display: flex; justify-content: center">
+<sc-if value="{{w.done}}" hint-placeholder-val="{{true}}">
+<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#7FBF9A"></circle><path d="M6.8 11.3l2.8 2.8 5.6-5.6" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</sc-if>
+<sc-if value="{{w.current}}" hint-placeholder-val="{{false}}">
+<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="#FFFFFF" stroke="#7FBF9A" stroke-width="3"></circle><circle cx="11" cy="11" r="3.5" fill="#7FBF9A"></circle></svg>
+</sc-if>
+<sc-if value="{{w.future}}" hint-placeholder-val="{{false}}">
+<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9.5" fill="none" stroke="#DADADE" stroke-width="1.5"></circle></svg>
+</sc-if>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 600">{{w.name}}</span>
+<span style="font-size: 13px; color: #777777">{{w.dates}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px">
+<span style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: {{w.targetColor}}">{{w.target}}<span style="font-size: 13px; font-weight: 500">/day</span></span>
+<span style="font-size: 12.5px; font-weight: {{w.statusWeight}}; color: {{w.statusColor}}">{{w.status}}</span>
+</div>
+</button>
+</sc-for>
+</section>
+<p class="fade" style="margin: 16px 4px 0 4px; font-size: 13px; line-height: 19px; color: #9A9AA0; animation-delay: 180ms">Your plan, your pace. Every target can be changed at any time — including extending a week.</p>
+</div>
+
+<a href="Craving1.dc.html" class="press" style="position: absolute; right: 20px; bottom: 104px; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px 0 14px; background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 999px; box-shadow: 0 10px 28px rgba(17,17,17,0.10); font-size: 15px; font-weight: 600; letter-spacing: -0.01em">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5E9F7A" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path><path d="M3 15.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path></svg>
+Craving?</a>
+
+<nav style="position: absolute; left: 0; bottom: 0; width: 390px; height: 84px; box-sizing: border-box; background: rgba(255,255,255,0.96); border-top: 1px solid #EFEFF0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 8px">
+<a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Home</span>
+</a>
+<a href="Statistics.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><path d="M5 20v-8M12 20V5M19 20v-5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Statistics</span>
+</a>
+<a href="Goals.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #111111">
+<span style="position: absolute; top: -1px; width: 20px; height: 3px; border-radius: 0 0 3px 3px; background: #7FBF9A"></span>
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="1.7"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+<span style="font-size: 10.5px; font-weight: 600">Goals</span>
+</a>
+<a href="Profile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Profile</span>
+</a>
+</nav>
+
+<sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+<div class="dim" onClick="{{cancel}}" style="position: absolute; left: 0; top: 0; width: 390px; height: 1360px; background: rgba(17,17,17,0.28)"></div>
+<div class="sheet" role="dialog" aria-label="Edit weekly target" style="position: absolute; left: 0; bottom: 0; width: 390px; box-sizing: border-box; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 12px 24px 36px 24px; display: flex; flex-direction: column; align-items: center; gap: 20px">
+<span style="width: 36px; height: 5px; border-radius: 999px; background: #E2E2E5"></span>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<span style="font-size: 17px; font-weight: 600">{{editName}} target</span>
+<span style="font-size: 14px; color: #777777">{{editDates}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 28px">
+<button type="button" class="press" onClick="{{dec}}" aria-label="Decrease by 5" style="width: 52px; height: 52px; border-radius: 999px; border: 1px solid #EAEAEA; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round"><path d="M6 12h12"></path></svg></button>
+<div style="display: flex; flex-direction: column; align-items: center; min-width: 110px">
+<span style="font-size: 64px; line-height: 68px; font-weight: 700; letter-spacing: -0.05em">{{draft}}</span>
+<span style="font-size: 14px; color: #777777">uses/day</span>
+</div>
+<button type="button" class="press" onClick="{{inc}}" aria-label="Increase by 5" style="width: 52px; height: 52px; border-radius: 999px; border: 1px solid #EAEAEA; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round"><path d="M6 12h12M12 6v12"></path></svg></button>
+</div>
+<span style="font-size: 13.5px; line-height: 19px; color: #777777; text-align: center">{{editHint}}</span>
+<div style="width: 100%; display: flex; flex-direction: column; gap: 10px">
+<button type="button" class="press" onClick="{{save}}" style="height: 54px; border: 0; border-radius: 18px; background: #111111; color: #FFFFFF; font-size: 16px; font-weight: 600; cursor: pointer">Save target</button>
+<button type="button" onClick="{{cancel}}" style="height: 44px; border: 0; background: transparent; color: #777777; font-size: 15px; font-weight: 500; cursor: pointer">Cancel</button>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1360}}'>
+class Component extends DCLogic {
+  state = { targets: [100, 80, 60, 45, 30, 15, 0], editing: null, draft: 0 };
+  renderVals() {
+    const targets = this.state.targets;
+    const dates = ['Sep 8 – 14', 'Sep 15 – 21', 'Sep 22 – 28', 'Sep 29 – Oct 5', 'Oct 6 – 12', 'Oct 13 – 19', 'Oct 20 – 26'];
+    const avgs = [109, 83];
+    const currentIdx = 2;
+    const weeks = targets.map((t, i) => {
+      const done = i < currentIdx;
+      const current = i === currentIdx;
+      return {
+        name: 'Week ' + (i + 1),
+        dates: dates[i],
+        target: t,
+        done: done,
+        current: current,
+        future: i > currentIdx,
+        bg: current ? '#FAFBFA' : '#FFFFFF',
+        targetColor: i > currentIdx ? '#777777' : '#111111',
+        status: done ? 'Completed ✓ · avg ' + avgs[i] : current ? 'Current' : 'Edit',
+        statusColor: done ? '#3F7F5B' : current ? '#111111' : '#9A9AA0',
+        statusWeight: current || done ? '600' : '500',
+        aria: 'Week ' + (i + 1) + ', ' + t + ' uses per day. Edit target',
+        edit: () => this.setState({ editing: i, draft: t })
+      };
+    });
+    const e = this.state.editing;
+    const draft = this.state.draft;
+    const prev = e == null ? 120 : e === 0 ? 120 : targets[e - 1];
+    let hint = '';
+    if (e != null) {
+      hint = draft > prev ? 'That’s above the previous week — completely fine if you need more time.' : draft === 0 ? 'A day without NoVape. Take it one week at a time.' : (prev - draft) + ' fewer than the week before. Small steps tend to stick.';
+    }
+    const current = targets[currentIdx];
+    return {
+      weeks: weeks,
+      current: current,
+      todayPct: Math.min(100, Math.round((32 / Math.max(current, 1)) * 100)),
+      editing: e != null,
+      editName: e == null ? '' : 'Week ' + (e + 1),
+      editDates: e == null ? '' : dates[e],
+      draft: draft,
+      editHint: hint,
+      dec: () => this.setState({ draft: Math.max(0, this.state.draft - 5) }),
+      inc: () => this.setState({ draft: Math.min(200, this.state.draft + 5) }),
+      save: () => {
+        const next = this.state.targets.slice();
+        next[this.state.editing] = this.state.draft;
+        this.setState({ targets: next, editing: null });
+      },
+      cancel: () => this.setState({ editing: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

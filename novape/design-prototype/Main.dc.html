@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.97)}
+@keyframes ringIn{from{stroke-dashoffset:603.19}}
+.ring{animation:ringIn 1.1s cubic-bezier(.22,1,.36,1) both}
+@keyframes barIn{from{transform:scaleY(0)}}
+.bar{transform-origin:bottom;animation:barIn .7s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 1340px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="display: flex; flex-direction: column; padding: 64px 24px 0 24px; box-sizing: border-box">
+
+<div class="fade" style="display: flex; justify-content: space-between; align-items: flex-start">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.03em">{{greeting}}, Alex</h1>
+<p style="margin: 0; font-size: 15px; line-height: 20px; color: #777777">Day 21 of your journey</p>
+</div>
+<a href="Device.dc.html" class="press" aria-label="NoVape One, connected, battery 82 percent" style="display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 10px; border: 1px solid #EAEAEA; border-radius: 999px; margin-top: 2px">
+<span style="width: 7px; height: 7px; border-radius: 999px; background: #7FBF9A"></span>
+<span style="font-size: 13px; font-weight: 600; letter-spacing: -0.01em">82%</span>
+</a>
+</div>
+
+<section class="fade" style="margin-top: 24px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.05); padding: 24px 24px 22px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; animation-delay: 60ms">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777">TODAY</div>
+<div style="position: relative; width: 216px; height: 216px">
+<svg width="216" height="216" viewBox="0 0 216 216" aria-hidden="true">
+<circle cx="108" cy="108" r="96" fill="none" stroke="#F1F2F3" stroke-width="12"></circle>
+<circle class="ring" cx="108" cy="108" r="96" fill="none" stroke="#7FBF9A" stroke-width="12" stroke-linecap="round" stroke-dasharray="603.19" transform="rotate(-90 108 108)" style="stroke-dashoffset: {{ringOffset}}"></circle>
+</svg>
+<div style="position: absolute; left: 0; top: 0; width: 216px; height: 216px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+<div style="font-size: 68px; line-height: 72px; font-weight: 700; letter-spacing: -0.05em">{{shown}}</div>
+<div style="font-size: 15px; color: #777777; margin-top: 0">uses</div>
+<div style="margin-top: 10px; font-size: 12px; font-weight: 600; color: #111111; background: #F7F7F8; border-radius: 999px; padding: 5px 10px">Goal: ≤ 60</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+<div style="display: flex; align-items: center; gap: 8px">
+<sc-if value="{{under}}" hint-placeholder-val="{{true}}">
+<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="8" fill="#EEF6F1"></circle><path d="M5.5 9.2l2.2 2.2 4.8-4.8" fill="none" stroke="#4E8F6A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</sc-if>
+<span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em">{{message}}</span>
+</div>
+<sc-if value="{{over}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 14px; color: #777777">Tomorrow is another data point.</span>
+</sc-if>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; animation-delay: 120ms">
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.03em">8 days</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Current streak</div>
+</div>
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.03em">51%</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Less than baseline</div>
+</div>
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.03em">€64</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Est. savings</div>
+</div>
+</div>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 180ms">TODAY’S PROGRESS</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); padding: 20px; display: flex; flex-direction: column; gap: 16px; animation-delay: 180ms">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15px; font-weight: 600">Uses per hour</span>
+<span style="font-size: 13px; color: #777777">Now {{now}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 118px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #F1F2F3">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="18">
+<div title="{{b.tip}}" style="width: 10px; height: 118px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px">
+<sc-if value="{{b.peak}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 11px; font-weight: 600; color: #777777">{{b.v}}</span>
+</sc-if>
+<div class="bar" style="width: 10px; height: {{b.h}}px; border-radius: 4px 4px 1px 1px; background: {{b.color}}; animation-delay: {{b.delay}}ms"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="18">
+<div style="width: 10px; display: flex; justify-content: center; overflow: visible; white-space: nowrap; font-size: 11px; color: #9A9AA0; font-variant-numeric: tabular-nums">{{b.label}}</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 240ms">INSIGHT</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); padding: 22px; display: flex; flex-direction: column; gap: 14px; animation-delay: 240ms">
+<div style="width: 36px; height: 36px; border-radius: 12px; background: #EEF6F1; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#4E8F6A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 18px; line-height: 25px; font-weight: 600; letter-spacing: -0.02em">You usually use NoVape most between 16:00–18:00.</p>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #777777">Knowing your triggers makes them easier to change.</p>
+</div>
+<a href="Statistics.dc.html" class="press" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px 0 16px; border: 1px solid #EAEAEA; border-radius: 999px; font-size: 14px; font-weight: 600">View insights
+<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+</section>
+</div>
+
+<a href="Craving1.dc.html" class="press" style="position: absolute; right: 20px; bottom: 104px; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px 0 14px; background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 999px; box-shadow: 0 10px 28px rgba(17,17,17,0.10); font-size: 15px; font-weight: 600; letter-spacing: -0.01em">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5E9F7A" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path><path d="M3 15.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path></svg>
+Craving?</a>
+
+<nav style="position: absolute; left: 0; bottom: 0; width: 390px; height: 84px; box-sizing: border-box; background: rgba(255,255,255,0.96); border-top: 1px solid #EFEFF0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 8px">
+<a href="Main.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #111111">
+<span style="position: absolute; top: -1px; width: 20px; height: 3px; border-radius: 0 0 3px 3px; background: #7FBF9A"></span>
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"></path></svg>
+<span style="font-size: 10.5px; font-weight: 600">Home</span>
+</a>
+<a href="Statistics.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><path d="M5 20v-8M12 20V5M19 20v-5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Statistics</span>
+</a>
+<a href="Goals.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+<span style="font-size: 10.5px; font-weight: 500">Goals</span>
+</a>
+<a href="Profile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Profile</span>
+</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dayState":{"editor":"enum","options":["Under goal","Over goal"],"default":"Under goal","section":"Scenario"},"$preview":{"width":390,"height":1340}}'>
+class Component extends DCLogic {
+  state = { t: 0 };
+  componentDidMount() { this.run(); }
+  componentDidUpdate(prev) { if (prev.dayState !== this.props.dayState) this.run(); }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); }
+  run() {
+    cancelAnimationFrame(this.raf);
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / 1000);
+      this.setState({ t: t });
+      if (t < 1) this.raf = requestAnimationFrame(step);
+    };
+    this.raf = requestAnimationFrame(step);
+  }
+  renderVals() {
+    const over = (this.props.dayState ?? 'Under goal') === 'Over goal';
+    const goal = 60;
+    const data = over ? [0, 3, 5, 4, 3, 5, 6, 8, 6, 7, 9, 8, 3] : [0, 2, 4, 3, 2, 3, 4, 6, 4, 4];
+    const uses = data.reduce((a, b) => a + b, 0);
+    const t = this.state.t == null ? 1 : this.state.t;
+    const eased = 1 - Math.pow(1 - t, 3);
+    const C = 603.19;
+    const frac = Math.min(uses / goal, 1);
+    const max = Math.max.apply(null, data);
+    const peakIdx = data.indexOf(max);
+    const bars = [];
+    for (let i = 0; i < 18; i++) {
+      const hour = 6 + i;
+      const hh = (hour < 10 ? '0' : '') + hour;
+      const has = i < data.length;
+      const v = has ? data[i] : 0;
+      bars.push({
+        v: v,
+        h: has ? (v === 0 ? 2 : Math.round((v / 10) * 100)) : 4,
+        color: has ? (i === peakIdx ? '#4F9470' : '#7FBF9A') : '#F1F2F3',
+        peak: has && i === peakIdx,
+        delay: 200 + i * 30,
+        tip: has ? hh + ':00 · ' + v + (v === 1 ? ' use' : ' uses') : hh + ':00 · upcoming',
+        label: i % 3 === 0 ? hh : ''
+      });
+    }
+    return {
+      over: over,
+      under: !over,
+      greeting: over ? 'Good evening' : 'Good afternoon',
+      now: over ? '18:40' : '15:40',
+      shown: Math.round(uses * eased),
+      ringOffset: (C * (1 - frac)).toFixed(2),
+      message: over ? (uses - goal) + ' above today’s goal' : (goal - uses) + ' fewer than your daily goal',
+      bars: bars
+    };
+  }
+}
+</script>
+</body>
+</html>

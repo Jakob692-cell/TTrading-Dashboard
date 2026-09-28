@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Statistics</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+button{font:inherit;color:inherit}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.97)}
+@keyframes draw{from{stroke-dashoffset:1}}
+.draw{animation:draw 1.4s cubic-bezier(.65,0,.35,1) both}
+@keyframes fadeIn{from{opacity:0}}
+.area{animation:fadeIn 1s ease .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+@keyframes cellIn{from{opacity:0;transform:scale(.6)}}
+.cell{animation:cellIn .5s cubic-bezier(.22,1,.36,1) both}
+@keyframes growX{from{transform:scaleX(0)}}
+.hbar{transform-origin:left;animation:growX .8s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 1660px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="display: flex; flex-direction: column; padding: 64px 24px 0 24px; box-sizing: border-box">
+
+<div class="fade" style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.035em">Your progress</h1>
+<p style="margin: 0; font-size: 15px; line-height: 20px; color: #777777">Day 21 · since Sep 8</p>
+</div>
+
+<div class="fade" role="tablist" aria-label="Time range" style="margin-top: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F4F4F5; border-radius: 12px; animation-delay: 60ms">
+<sc-for list="{{ranges}}" as="r" hint-placeholder-count="4">
+<button type="button" role="tab" aria-selected="{{r.active}}" onClick="{{r.pick}}" style="height: 32px; border: 0; border-radius: 9px; background: {{r.bg}}; box-shadow: {{r.shadow}}; font-size: 13px; font-weight: 600; color: {{r.color}}; cursor: pointer">{{r.label}}</button>
+</sc-for>
+</div>
+
+<section class="fade" style="margin-top: 16px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.05); padding: 20px; display: flex; flex-direction: column; gap: 14px; animation-delay: 100ms">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777">DAILY USES</span>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.045em">{{avg}}</span>
+<span style="font-size: 15px; color: #777777">avg / day</span>
+<span style="margin-left: auto; font-size: 12px; font-weight: 600; color: #3F7F5B; background: #EEF6F1; border-radius: 999px; padding: 4px 9px">{{delta}} vs baseline</span>
+</div>
+<span style="font-size: 13px; color: #777777">{{rangeCaption}}</span>
+</div>
+<div style="display: flex; gap: 14px; font-size: 12px; color: #777777">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 2px; border-radius: 2px; background: #5E9F7A"></span>Daily uses</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 2px; border-radius: 2px; background: #BDBDC2"></span>Goal</span>
+<span style="display: flex; align-items: center; gap: 6px"><svg width="14" height="2" aria-hidden="true"><line x1="0" y1="1" x2="14" y2="1" stroke="#9A9AA0" stroke-width="1.5" stroke-dasharray="3 2"></line></svg>Baseline</span>
+</div>
+<div style="position: relative; width: 302px; height: 196px">
+<svg width="302" height="196" viewBox="0 0 302 196" role="img" aria-label="{{chartLabel}}">
+<defs>
+<linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#7FBF9A" stop-opacity="0.22"></stop>
+<stop offset="1" stop-color="#7FBF9A" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<line x1="30" y1="164" x2="296" y2="164" stroke="#EDEDEF" stroke-width="1"></line>
+<line x1="30" y1="105.5" x2="296" y2="105.5" stroke="#F4F4F5" stroke-width="1"></line>
+<line x1="30" y1="47" x2="296" y2="47" stroke="#F4F4F5" stroke-width="1"></line>
+<text x="0" y="168" font-size="11" fill="#9A9AA0">0</text>
+<text x="0" y="109.5" font-size="11" fill="#9A9AA0">50</text>
+<text x="0" y="51" font-size="11" fill="#9A9AA0">100</text>
+<line x1="30" y1="23.6" x2="296" y2="23.6" stroke="#9A9AA0" stroke-width="1.2" stroke-dasharray="4 3"></line>
+<text x="296" y="17" font-size="11" fill="#777777" text-anchor="end">Baseline 120</text>
+<path d="{{goalPath}}" fill="none" stroke="#BDBDC2" stroke-width="1.5" stroke-linejoin="round"></path>
+<path class="area" d="{{areaPath}}" fill="url(#areaFill)"></path>
+<path class="draw" d="{{linePath}}" pathLength="1" stroke-dasharray="1" fill="none" stroke="#5E9F7A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="{{endX}}" cy="{{endY}}" r="5" fill="#5E9F7A" stroke="#FFFFFF" stroke-width="2"></circle>
+<text x="{{endLabelX}}" y="{{endLabelY}}" font-size="12" font-weight="600" fill="#111111" text-anchor="end">{{endValue}}</text>
+<sc-for list="{{xLabels}}" as="l" hint-placeholder-count="4">
+<text x="{{l.x}}" y="188" font-size="11" fill="#9A9AA0" text-anchor="{{l.anchor}}">{{l.text}}</text>
+</sc-for>
+<sc-if value="{{hovering}}" hint-placeholder-val="{{false}}">
+<line x1="{{hx}}" y1="12" x2="{{hx}}" y2="164" stroke="#111111" stroke-opacity="0.18" stroke-width="1"></line>
+<circle cx="{{hx}}" cy="{{hy}}" r="5" fill="#5E9F7A" stroke="#FFFFFF" stroke-width="2"></circle>
+</sc-if>
+</svg>
+<sc-if value="{{hovering}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; top: -6px; left: {{tipLeft}}px; width: 112px; box-sizing: border-box; padding: 8px 10px; background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 12px; box-shadow: 0 8px 24px rgba(17,17,17,0.08); pointer-events: none; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 700; letter-spacing: -0.02em">{{hValue}} uses</span>
+<span style="font-size: 11.5px; color: #777777">{{hDate}} · goal {{hGoal}}</span>
+</div>
+</sc-if>
+<div onPointerMove="{{onMove}}" onPointerLeave="{{onLeave}}" style="position: absolute; left: 0; top: 0; width: 302px; height: 196px; cursor: crosshair"></div>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 160ms">SINCE STARTING</div>
+<div class="fade" style="margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; animation-delay: 160ms">
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.035em">−55%</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Daily usage</div>
+</div>
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.035em">720</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Vape uses avoided</div>
+</div>
+<div style="background: #F7F7F8; border-radius: 18px; padding: 16px 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.035em">€64</div>
+<div style="font-size: 12.5px; line-height: 16px; color: #777777">Estimated savings</div>
+</div>
+</div>
+<p class="fade" style="margin: 10px 2px 0 2px; font-size: 12px; line-height: 17px; color: #9A9AA0; animation-delay: 160ms">Savings are estimated from the spending you entered. You can adjust it in Profile.</p>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 220ms">WHEN DO YOU USE IT?</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); padding: 20px; display: flex; flex-direction: column; gap: 14px; animation-delay: 220ms">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15px; font-weight: 600">Average uses by hour</span>
+<span style="font-size: 12px; color: #777777">Last 3 weeks</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<div style="display: grid; grid-template-columns: 22px repeat(24, minmax(0, 1fr)); column-gap: 2px; height: 14px">
+<span></span>
+<sc-for list="{{hourLabels}}" as="h" hint-placeholder-count="24">
+<span style="font-size: 10.5px; color: {{h.color}}; font-weight: {{h.weight}}; white-space: nowrap; overflow: visible; font-variant-numeric: tabular-nums">{{h.text}}</span>
+</sc-for>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 2px">
+<sc-for list="{{heat}}" as="row" hint-placeholder-count="7">
+<div style="display: grid; grid-template-columns: 22px repeat(24, minmax(0, 1fr)); column-gap: 2px; height: 16px">
+<span style="font-size: 11px; line-height: 16px; color: #9A9AA0">{{row.day}}</span>
+<sc-for list="{{row.cells}}" as="c" hint-placeholder-count="24">
+<span class="cell" title="{{c.tip}}" style="height: 16px; border-radius: 4px; background: {{c.color}}; animation-delay: {{c.delay}}ms"></span>
+</sc-for>
+</div>
+</sc-for>
+<span aria-hidden="true" style="position: absolute; top: -3px; left: 173.5px; width: 14px; height: 130px; box-sizing: border-box; border: 1.5px solid rgba(17,17,17,0.55); border-radius: 6px"></span>
+</div>
+</div>
+<div style="display: flex; align-items: center; justify-content: flex-end; gap: 4px; font-size: 11px; color: #9A9AA0">
+<span style="margin-right: 4px">Less</span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #F2F3F3"></span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #DCEDE2"></span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #B5DBC3"></span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #86C29F"></span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #5E9F7A"></span>
+<span style="width: 10px; height: 10px; border-radius: 3px; background: #3F7F5B"></span>
+<span style="margin-left: 4px">More</span>
+</div>
+<div style="height: 1px; background: #F1F2F3"></div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0; font-size: 16px; line-height: 23px; font-weight: 600; letter-spacing: -0.015em">Your strongest habit window is after lunch, between 13:00–14:00.</p>
+<p style="margin: 0; font-size: 13.5px; line-height: 19px; color: #777777">Late afternoon (16:00–18:00) is a close second. On weekends, use starts later and shifts into the evening.</p>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 32px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: #777777; animation-delay: 280ms">WHAT TRIGGERS CRAVINGS</div>
+<section class="fade" style="margin-top: 12px; background: #FFFFFF; border: 1px solid #EFEFF0; border-radius: 24px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); padding: 20px; display: flex; flex-direction: column; gap: 14px; animation-delay: 280ms">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 15px; font-weight: 600">From your check-ins</span>
+<span style="font-size: 12px; color: #777777">23 check-ins</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{triggers}}" as="t" hint-placeholder-count="6">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 14px">
+<span>{{t.label}}</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">{{t.pct}}%</span>
+</div>
+<div style="height: 6px; border-radius: 999px; background: #F2F3F3; overflow: hidden">
+<div class="hbar" style="height: 6px; width: {{t.pct}}%; border-radius: 999px; background: #7FBF9A; animation-delay: {{t.delay}}ms"></div>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="height: 1px; background: #F1F2F3"></div>
+<div style="display: flex; align-items: center; gap: 14px">
+<div style="position: relative; width: 52px; height: 52px; flex-shrink: 0">
+<svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="21" fill="none" stroke="#F1F2F3" stroke-width="6"></circle><circle cx="26" cy="26" r="21" fill="none" stroke="#7FBF9A" stroke-width="6" stroke-linecap="round" stroke-dasharray="131.95" stroke-dashoffset="22.43" transform="rotate(-90 26 26)"></circle></svg>
+<span style="position: absolute; left: 0; top: 0; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">83%</span>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #777777"><span style="color: #111111; font-weight: 600">Most cravings eased</span> after waiting two minutes — 11 went away completely.</p>
+</div>
+</section>
+</div>
+
+<a href="Craving1.dc.html" class="press" style="position: absolute; right: 20px; bottom: 104px; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px 0 14px; background: #FFFFFF; border: 1px solid #EAEAEA; border-radius: 999px; box-shadow: 0 10px 28px rgba(17,17,17,0.10); font-size: 15px; font-weight: 600; letter-spacing: -0.01em">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5E9F7A" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path><path d="M3 15.5c2.2 0 2.8-2.5 5-2.5s2.8 2.5 5 2.5 2.8-2.5 5-2.5"></path></svg>
+Craving?</a>
+
+<nav style="position: absolute; left: 0; bottom: 0; width: 390px; height: 84px; box-sizing: border-box; background: rgba(255,255,255,0.96); border-top: 1px solid #EFEFF0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 8px">
+<a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Home</span>
+</a>
+<a href="Statistics.dc.html" aria-current="page" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #111111">
+<span style="position: absolute; top: -1px; width: 20px; height: 3px; border-radius: 0 0 3px 3px; background: #7FBF9A"></span>
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="1.7" stroke-linecap="round"><path d="M5 20v-8M12 20V5M19 20v-5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 600">Statistics</span>
+</a>
+<a href="Goals.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+<span style="font-size: 10.5px; font-weight: 500">Goals</span>
+</a>
+<a href="Profile.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Profile</span>
+</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1660}}'>
+class Component extends DCLogic {
+  state = { range: '30D', hover: null };
+  renderVals() {
+    const all = [118, 121, 112, 109, 104, 101, 96, 92, 88, 84, 86, 82, 76, 72, 59, 58, 57, 55, 56, 54];
+    const months = ['Sep 8', 'Sep 9', 'Sep 10', 'Sep 11', 'Sep 12', 'Sep 13', 'Sep 14', 'Sep 15', 'Sep 16', 'Sep 17', 'Sep 18', 'Sep 19', 'Sep 20', 'Sep 21', 'Sep 22', 'Sep 23', 'Sep 24', 'Sep 25', 'Sep 26', 'Sep 27'];
+    const goalFor = (day) => (day <= 7 ? 100 : day <= 14 ? 80 : 60);
+    const range = this.state.range;
+    const start = range === '7D' ? 13 : 0;
+    const vals = all.slice(start);
+    const days = vals.map((v, i) => start + i + 1);
+    const n = vals.length;
+    const L = 30, R = 290, T = 12, B = 164, MAX = 130;
+    const X = (i) => L + (i * (R - L)) / (n - 1);
+    const Y = (v) => B - (v / MAX) * (B - T);
+    const pts = vals.map((v, i) => [X(i), Y(v)]);
+    const f = (x) => Math.round(x * 10) / 10;
+    let line = 'M' + f(pts[0][0]) + ' ' + f(pts[0][1]);
+    for (let i = 0; i < n - 1; i++) {
+      const p0 = pts[i - 1] || pts[i];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2] || p2;
+      line += ' C' + f(p1[0] + (p2[0] - p0[0]) / 6) + ' ' + f(p1[1] + (p2[1] - p0[1]) / 6) + ' ' + f(p2[0] - (p3[0] - p1[0]) / 6) + ' ' + f(p2[1] - (p3[1] - p1[1]) / 6) + ' ' + f(p2[0]) + ' ' + f(p2[1]);
+    }
+    const area = line + ' L' + f(X(n - 1)) + ' ' + B + ' L' + f(X(0)) + ' ' + B + ' Z';
+    let goal = 'M' + f(X(0)) + ' ' + f(Y(goalFor(days[0])));
+    for (let i = 1; i < n; i++) {
+      if (goalFor(days[i]) !== goalFor(days[i - 1])) {
+        goal += ' H' + f((X(i - 1) + X(i)) / 2) + ' V' + f(Y(goalFor(days[i])));
+      }
+    }
+    goal += ' H' + f(X(n - 1));
+    const labelIdx = range === '7D' ? [0, 3, 6] : [0, 6, 13, 19];
+    const xLabels = labelIdx.map((i, k) => ({
+      x: f(X(i)),
+      text: months[start + i],
+      anchor: k === 0 ? 'start' : k === labelIdx.length - 1 ? 'end' : 'middle'
+    }));
+    const avg = Math.round(vals.reduce((a, b) => a + b, 0) / n);
+    const captions = { '7D': 'Sep 21 – Sep 27', '30D': 'Since you started · 20 days', '3M': 'Since you started · 20 days', 'ALL': 'Since you started · 20 days' };
+    const ranges = ['7D', '30D', '3M', 'ALL'].map((r) => ({
+      label: r,
+      active: r === range ? 'true' : 'false',
+      bg: r === range ? '#FFFFFF' : 'transparent',
+      shadow: r === range ? '0 1px 2px rgba(17,17,17,0.08), 0 2px 8px rgba(17,17,17,0.04)' : 'none',
+      color: r === range ? '#111111' : '#777777',
+      pick: () => this.setState({ range: r, hover: null })
+    }));
+    const h = this.state.hover;
+    const hi = h == null ? null : Math.min(n - 1, Math.max(0, h));
+    const hx = hi == null ? 0 : X(hi);
+    const onMove = (e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const px = ((e.clientX - rect.left) / rect.width) * 302;
+      const idx = Math.round(((px - L) / (R - L)) * (n - 1));
+      if (idx !== this.state.hover) this.setState({ hover: Math.min(n - 1, Math.max(0, idx)) });
+    };
+    const profile = [0.2, 0.05, 0, 0, 0, 0.05, 0.3, 1.2, 2.2, 2.4, 2.0, 2.3, 3.0, 5.2, 3.4, 2.8, 4.2, 4.6, 3.0, 2.4, 2.6, 3.0, 2.0, 0.9];
+    const weekend = [0.8, 0.4, 0.1, 0, 0, 0, 0, 0.2, 0.6, 1.4, 2.2, 2.6, 3.0, 3.8, 3.0, 2.6, 3.2, 3.6, 3.4, 3.6, 4.4, 4.8, 3.6, 2.0];
+    const ramp = ['#F2F3F3', '#DCEDE2', '#B5DBC3', '#86C29F', '#5E9F7A', '#3F7F5B'];
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const shortDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const heat = shortDays.map((d, r) => ({
+      day: d,
+      cells: (r >= 5 ? weekend : profile).map((base, hr) => {
+        const noise = base === 0 ? 0 : Math.sin((r + 1) * 12.9898 + hr * 78.233) * 0.45;
+        const v = Math.max(0, base + noise);
+        const bin = v < 0.15 ? 0 : v < 1 ? 1 : v < 2 ? 2 : v < 3 ? 3 : v < 4.2 ? 4 : 5;
+        return {
+          color: ramp[bin],
+          delay: 300 + hr * 14 + r * 20,
+          tip: dayNames[r] + ' ' + (hr < 10 ? '0' : '') + hr + ':00 · ' + v.toFixed(1) + ' avg uses'
+        };
+      })
+    }));
+    const hourLabels = profile.map((p, hr) => ({
+      text: hr % 6 === 0 ? (hr < 10 ? '0' : '') + hr : hr === 13 ? '13' : '',
+      color: hr === 13 ? '#111111' : '#9A9AA0',
+      weight: hr === 13 ? '700' : '400'
+    }));
+    const triggers = [
+      { label: 'Stress', pct: 35 },
+      { label: 'After eating', pct: 22 },
+      { label: 'Work / studying', pct: 17 },
+      { label: 'Boredom', pct: 13 },
+      { label: 'Social situation', pct: 9 },
+      { label: 'Habit', pct: 4 }
+    ].map((t, i) => ({ label: t.label, pct: t.pct, delay: 300 + i * 60 }));
+    const last = pts[n - 1];
+    return {
+      ranges: ranges,
+      avg: avg,
+      delta: '−' + Math.round((1 - avg / 120) * 100) + '%',
+      rangeCaption: captions[range],
+      chartLabel: 'Daily uses, ' + captions[range] + ', from ' + vals[0] + ' to ' + vals[n - 1],
+      linePath: line,
+      areaPath: area,
+      goalPath: goal,
+      endX: f(last[0]),
+      endY: f(last[1]),
+      endLabelX: f(last[0] - 8),
+      endLabelY: f(last[1] - 10),
+      endValue: vals[n - 1],
+      xLabels: xLabels,
+      hovering: hi != null,
+      hx: f(hx),
+      hy: hi == null ? 0 : f(Y(vals[hi])),
+      tipLeft: hi == null ? 0 : Math.round(Math.min(302 - 112, Math.max(0, hx - 56))),
+      hValue: hi == null ? '' : vals[hi],
+      hDate: hi == null ? '' : months[start + hi],
+      hGoal: hi == null ? '' : goalFor(days[hi]),
+      onMove: onMove,
+      onLeave: () => this.setState({ hover: null }),
+      heat: heat,
+      hourLabels: hourLabels,
+      triggers: triggers
+    };
+  }
+}
+</script>
+</body>
+</html>

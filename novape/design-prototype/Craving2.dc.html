@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Wait two minutes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.98)}
+@keyframes breathe{0%,100%{transform:scale(.72)}50%{transform:scale(1)}}
+.breathe{animation:breathe 8s ease-in-out infinite}
+.breathe2{animation:breathe 8s ease-in-out infinite;animation-delay:-.25s}
+@keyframes inOut{0%,45%{opacity:1}50%,95%{opacity:0}100%{opacity:1}}
+@keyframes outIn{0%,45%{opacity:0}50%,95%{opacity:1}100%{opacity:0}}
+.lblIn{animation:inOut 8s ease-in-out infinite}
+.lblOut{animation:outIn 8s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #DCDCDF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="position: absolute; left: 16px; right: 16px; top: 40px; height: 60px; border-radius: 14px; background: #EDEDEF"></div>
+<div role="dialog" aria-label="Wait two minutes" style="position: absolute; left: 0; top: 54px; width: 390px; height: 790px; box-sizing: border-box; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 10px 24px 40px 24px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: center"><span style="width: 36px; height: 5px; border-radius: 999px; background: #E2E2E5"></span></div>
+<div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 13px; font-weight: 600; background: #F4F4F5; border-radius: 999px; padding: 7px 12px">Stress</span>
+<a href="Main.dc.html" aria-label="Close" style="width: 34px; height: 34px; border-radius: 999px; background: #F4F4F5; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#555555" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</div>
+<div class="fade" style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px; text-align: center; align-items: center">
+<h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 700; letter-spacing: -0.03em; max-width: 300px">Try waiting 2 minutes before deciding.</h1>
+<p style="margin: 0; font-size: 15px; line-height: 22px; color: #777777">Most cravings peak and pass. Breathe with the circle.</p>
+</div>
+
+<div style="margin-top: 28px; align-self: center; position: relative; width: 280px; height: 280px">
+<svg width="280" height="280" viewBox="0 0 280 280" aria-hidden="true" style="position: absolute; left: 0; top: 0">
+<circle cx="140" cy="140" r="134" fill="none" stroke="#F1F2F3" stroke-width="4"></circle>
+<circle cx="140" cy="140" r="134" fill="none" stroke="#7FBF9A" stroke-width="4" stroke-linecap="round" stroke-dasharray="841.95" transform="rotate(-90 140 140)" style="stroke-dashoffset: {{offset}}; transition: stroke-dashoffset 1s linear"></circle>
+</svg>
+<span class="breathe" style="position: absolute; left: 30px; top: 30px; width: 220px; height: 220px; border-radius: 999px; background: #F1F8F4"></span>
+<span class="breathe2" style="position: absolute; left: 60px; top: 60px; width: 160px; height: 160px; border-radius: 999px; background: #DDEFE4"></span>
+<div style="position: absolute; left: 0; top: 0; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center">
+<span class="lblIn" style="position: absolute; font-size: 17px; font-weight: 600; color: #3F7F5B">Breathe in</span>
+<span class="lblOut" style="position: absolute; font-size: 17px; font-weight: 600; color: #3F7F5B">Breathe out</span>
+</div>
+</div>
+
+<div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<span aria-live="polite" style="font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums">{{clock}}</span>
+<span style="font-size: 14px; color: #777777">{{clockLabel}}</span>
+</div>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+<a href="Craving3.dc.html" class="press" style="height: 56px; border-radius: 18px; background: #111111; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Continue</a>
+</sc-if>
+<sc-if value="{{running}}" hint-placeholder-val="{{true}}">
+<a href="Craving3.dc.html" style="height: 48px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: #777777">I’m ready to check in</a>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  state = { left: 120 };
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if (this.state.left <= 0) { clearInterval(this.timer); return; }
+      this.setState({ left: this.state.left - 1 });
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    const left = Math.max(0, this.state.left);
+    const m = Math.floor(left / 60);
+    const s = left % 60;
+    return {
+      clock: m + ':' + (s < 10 ? '0' : '') + s,
+      clockLabel: left > 0 ? 'remaining' : 'Two minutes. Well done.',
+      offset: (841.95 * (1 - left / 120)).toFixed(2),
+      done: left === 0,
+      running: left > 0
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Achievements.dc.html": {
+      "h": 1000,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Achievements",
+      "w": 390,
+      "x": 2350,
+      "y": 3644
+    },
+    "Craving1.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Craving · Trigger",
+      "w": 390,
+      "x": 0,
+      "y": 3644
+    },
+    "Craving2.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Craving · Wait 2 minutes",
+      "w": 390,
+      "x": 470,
+      "y": 3644
+    },
+    "Craving3.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Craving · Check-in",
+      "w": 390,
+      "x": 940,
+      "y": 3644
+    },
+    "Device.dc.html": {
+      "h": 1200,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "My NoVape",
+      "w": 390,
+      "x": 1410,
+      "y": 3644
+    },
+    "Flavors.dc.html": {
+      "h": 1010,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Cartridges & flavors",
+      "w": 390,
+      "x": 1880,
+      "y": 3644
+    },
+    "Goals.dc.html": {
+      "h": 1360,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Goals",
+      "w": 390,
+      "x": 940,
+      "y": 1564
+    },
+    "Main.dc.html": {
+      "h": 1340,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Home",
+      "w": 390,
+      "x": 0,
+      "y": 1564
+    },
+    "Notifications.dc.html": {
+      "h": 1150,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Notifications",
+      "w": 390,
+      "x": 2820,
+      "y": 3644
+    },
+    "Onboarding1.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding · Welcome",
+      "w": 390,
+      "x": 0,
+      "y": 300
+    },
+    "Onboarding2.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding · Intention",
+      "w": 390,
+      "x": 470,
+      "y": 300
+    },
+    "Onboarding3.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding · Starting point",
+      "w": 390,
+      "x": 940,
+      "y": 300
+    },
+    "Onboarding4.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding · Connect device",
+      "w": 390,
+      "x": 1410,
+      "y": 300
+    },
+    "Onboarding5.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding · First plan",
+      "w": 390,
+      "x": 1880,
+      "y": 300
+    },
+    "Profile.dc.html": {
+      "h": 1160,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Profile",
+      "w": 390,
+      "x": 1410,
+      "y": 1564
+    },
+    "Statistics.dc.html": {
+      "h": 1660,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Statistics",
+      "w": 390,
+      "x": 470,
+      "y": 1564
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-28T10:40:08.292Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "rowCore": {
+      "kind": "title1",
+      "maxW": 1640,
+      "text": "Core app",
+      "w": 240,
+      "x": 0,
+      "y": 1264
+    },
+    "rowDetails": {
+      "kind": "title1",
+      "maxW": 3210,
+      "text": "Craving check-in & details",
+      "w": 240,
+      "x": 0,
+      "y": 3344
+    },
+    "rowOnboarding": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "Onboarding",
+      "w": 240,
+      "x": 0,
+      "y": 0
+    }
+  },
+  "order": [
+    "Onboarding1.dc.html",
+    "Onboarding2.dc.html",
+    "Onboarding3.dc.html",
+    "Onboarding4.dc.html",
+    "Onboarding5.dc.html",
+    "Main.dc.html",
+    "Statistics.dc.html",
+    "Goals.dc.html",
+    "Profile.dc.html",
+    "Craving1.dc.html",
+    "Craving2.dc.html",
+    "Craving3.dc.html",
+    "Device.dc.html",
+    "Flavors.dc.html",
+    "Achievements.dc.html",
+    "Notifications.dc.html"
+  ],
+  "pages": [],
+  "title": "NoVape App Design"
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Your first plan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+button{font:inherit;color:inherit}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.press:active{transform:scale(.94)}
+.cta{transition:transform .18s cubic-bezier(.2,.8,.2,1)}
+.cta:active{transform:scale(.98)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; box-sizing: border-box; padding: 52px 24px 40px 24px">
+<div style="display: flex; align-items: center; gap: 16px">
+<a href="Onboarding4.dc.html" aria-label="Back" style="width: 40px; height: 40px; margin-left: -8px; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></a>
+<div aria-label="Step 4 of 4" style="flex-grow: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-right: 32px">
+<span style="height: 4px; border-radius: 999px; background: #7FBF9A"></span>
+<span style="height: 4px; border-radius: 999px; background: #7FBF9A"></span>
+<span style="height: 4px; border-radius: 999px; background: #7FBF9A"></span>
+<span style="height: 4px; border-radius: 999px; background: #7FBF9A"></span>
+</div>
+</div>
+<div class="fade" style="margin-top: 32px; display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.035em">Your first plan</h1>
+<p style="margin: 0; font-size: 16px; line-height: 23px; color: #777777">A gentle starting point. Adjust any week that doesn’t feel right.</p>
+</div>
+
+<section class="fade" style="margin-top: 24px; border: 1px solid #EFEFF0; border-radius: 22px; box-shadow: 0 1px 2px rgba(17,17,17,0.03), 0 10px 30px rgba(17,17,17,0.04); display: flex; flex-direction: column; overflow: hidden; animation-delay: 100ms">
+<div style="display: flex; align-items: center; height: 60px; padding: 0 18px; background: #F7F7F8">
+<span style="flex-grow: 1; font-size: 15px; color: #777777">Current baseline</span>
+<span style="font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: #777777">120<span style="font-size: 13px; font-weight: 500">/day</span></span>
+</div>
+<sc-for list="{{weeks}}" as="w" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 12px 0 18px; border-top: 1px solid #F4F4F5">
+<span style="flex-grow: 1; font-size: 15.5px; font-weight: 600">{{w.name}}</span>
+<button type="button" class="press" onClick="{{w.dec}}" aria-label="{{w.decLabel}}" style="width: 34px; height: 34px; border-radius: 999px; border: 1px solid #EAEAEA; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"></path></svg></button>
+<span style="min-width: 64px; text-align: center; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">{{w.value}}<span style="font-size: 13px; font-weight: 500; color: #777777">/day</span></span>
+<button type="button" class="press" onClick="{{w.inc}}" aria-label="{{w.incLabel}}" style="width: 34px; height: 34px; border-radius: 999px; border: 1px solid #EAEAEA; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12M12 6v12"></path></svg></button>
+</div>
+</sc-for>
+<div style="display: flex; align-items: center; height: 56px; padding: 0 18px; border-top: 1px solid #F4F4F5">
+<span style="flex-grow: 1; font-size: 14px; color: #777777">Then 45 → 30 → 15 → 0</span>
+<span style="font-size: 14px; color: #9A9AA0">4 more weeks</span>
+</div>
+</section>
+
+<div class="fade" style="margin-top: 16px; background: #EEF6F1; border-radius: 18px; padding: 16px 18px; display: flex; gap: 12px; animation-delay: 160ms">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#4E8F6A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #3F5A49"><span style="color: #111111; font-weight: 600">You’re in control.</span> These are your goals, not rules. Change them any time in the Goals tab — slowing down is always allowed.</p>
+</div>
+<div style="flex-grow: 1"></div>
+<a href="Main.dc.html" class="cta" style="height: 56px; border-radius: 18px; background: #111111; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Start my plan</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  state = { targets: [100, 80, 60] };
+  renderVals() {
+    const set = (i, d) => {
+      const next = this.state.targets.slice();
+      next[i] = Math.max(0, Math.min(200, next[i] + d));
+      this.setState({ targets: next });
+    };
+    return {
+      weeks: this.state.targets.map((v, i) => ({
+        name: 'Week ' + (i + 1),
+        value: v,
+        decLabel: 'Lower week ' + (i + 1) + ' target',
+        incLabel: 'Raise week ' + (i + 1) + ' target',
+        dec: () => set(i, -5),
+        inc: () => set(i, 5)
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

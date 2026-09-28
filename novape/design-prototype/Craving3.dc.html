@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · How do you feel?</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+button{font:inherit;color:inherit}
+.press{transition:transform .18s cubic-bezier(.2,.8,.2,1),border-color .2s ease,background .2s ease}
+.press:active{transform:scale(.98)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #DCDCDF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="position: absolute; left: 16px; right: 16px; top: 40px; height: 60px; border-radius: 14px; background: #EDEDEF"></div>
+<div role="dialog" aria-label="How do you feel?" style="position: absolute; left: 0; top: 54px; width: 390px; height: 790px; box-sizing: border-box; background: #FFFFFF; border-radius: 28px 28px 0 0; padding: 10px 24px 40px 24px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: center"><span style="width: 36px; height: 5px; border-radius: 999px; background: #E2E2E5"></span></div>
+<div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 13px; font-weight: 600; background: #F4F4F5; border-radius: 999px; padding: 7px 12px">Stress · waited 2:00</span>
+<a href="Main.dc.html" aria-label="Close" style="width: 34px; height: 34px; border-radius: 999px; background: #F4F4F5; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#555555" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</div>
+<div class="fade" style="margin-top: 24px; display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.035em">How do you feel?</h1>
+<p style="margin: 0; font-size: 16px; line-height: 23px; color: #777777">Any answer is useful. This isn’t a test.</p>
+</div>
+<div role="radiogroup" aria-label="Craving now" style="margin-top: 28px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+<button type="button" role="radio" aria-checked="{{o.checked}}" class="press" onClick="{{o.pick}}" style="display: flex; align-items: center; gap: 16px; height: 68px; padding: 0 18px; border-radius: 20px; border: 1.5px solid {{o.border}}; background: {{o.bg}}; text-align: left; cursor: pointer">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11" fill="none" stroke="#EDEDEF" stroke-width="4"></circle><circle cx="14" cy="14" r="11" fill="none" stroke="#7FBF9A" stroke-width="4" stroke-linecap="round" stroke-dasharray="69.12" transform="rotate(-90 14 14)" style="stroke-dashoffset: {{o.arc}}"></circle></svg>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 600; letter-spacing: -0.015em">{{o.title}}</span>
+<span style="font-size: 13.5px; color: #777777">{{o.sub}}</span>
+</div>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{answered}}" hint-placeholder-val="{{false}}">
+<div class="fade" style="margin-top: 20px; background: #EEF6F1; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em">{{responseTitle}}</span>
+<span style="font-size: 14px; line-height: 20px; color: #3F5A49">{{responseSub}}</span>
+</div>
+</sc-if>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{answered}}" hint-placeholder-val="{{false}}">
+<a href="Main.dc.html" class="press" style="height: 56px; border-radius: 18px; background: #111111; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; letter-spacing: -0.01em">Done</a>
+</sc-if>
+<sc-if value="{{unanswered}}" hint-placeholder-val="{{true}}">
+<span style="height: 56px; border-radius: 18px; background: #F4F4F5; color: #9A9AA0; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600">Done</span>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  state = { picked: null };
+  renderVals() {
+    const C = 69.12;
+    const list = [
+      { id: 'gone', title: 'Craving gone', sub: 'It passed', fill: 0 },
+      { id: 'lower', title: 'Lower', sub: 'Still there, but weaker', fill: 0.4 },
+      { id: 'same', title: 'Same', sub: 'About as strong as before', fill: 0.85 }
+    ];
+    const responses = {
+      gone: ['You rode that one out.', 'Waiting worked this time. Saved to your insights.'],
+      lower: ['That’s real progress.', 'A smaller craving is still one you handled. Saved to your insights.'],
+      same: ['That’s okay.', 'Cravings vary — noticing it is what matters. Tomorrow is another data point.']
+    };
+    const p = this.state.picked;
+    return {
+      options: list.map((o) => ({
+        title: o.title,
+        sub: o.sub,
+        checked: p === o.id ? 'true' : 'false',
+        border: p === o.id ? '#7FBF9A' : '#EAEAEA',
+        bg: p === o.id ? '#F4FAF6' : '#FFFFFF',
+        arc: (C * (1 - o.fill)).toFixed(2),
+        pick: () => this.setState({ picked: o.id })
+      })),
+      answered: p != null,
+      unanswered: p == null,
+      responseTitle: p ? responses[p][0] : '',
+      responseSub: p ? responses[p][1] : ''
+    };
+  }
+}
+</script>
+</body>
+</html>

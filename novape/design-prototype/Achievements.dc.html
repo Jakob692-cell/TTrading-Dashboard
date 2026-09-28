@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NoVape · Achievements</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111;text-decoration:none}a:hover{color:#111111}
+@keyframes ringIn{from{stroke-dashoffset:125.66}}
+.ring{animation:ringIn 1s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.fade{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both}
+</style>
+</helmet>
+<div style="width: 390px; height: 1000px; position: relative; overflow: hidden; background: #FFFFFF; color: #111111; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased">
+<div style="display: flex; flex-direction: column; padding: 52px 24px 0 24px; box-sizing: border-box">
+<a href="Profile.dc.html" style="align-self: flex-start; display: flex; align-items: center; gap: 2px; height: 40px; margin-left: -8px; padding-right: 8px; font-size: 16px; font-weight: 500">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>Profile</a>
+<div class="fade" style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 32px; line-height: 38px; font-weight: 700; letter-spacing: -0.035em">Achievements</h1>
+<p style="margin: 0; font-size: 15px; line-height: 20px; color: #777777">Quiet markers of progress · 4 of 6 reached</p>
+</div>
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{items}}" as="a" hint-placeholder-count="6">
+<div class="fade" style="background: {{a.bg}}; border: 1px solid #EFEFF0; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-height: 176px; box-sizing: border-box; animation-delay: {{a.delay}}ms">
+<div style="position: relative; width: 44px; height: 44px">
+<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
+<circle cx="22" cy="22" r="20" fill="none" stroke="#EDEDEF" stroke-width="3"></circle>
+<circle class="ring" cx="22" cy="22" r="20" fill="none" stroke="#7FBF9A" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" transform="rotate(-90 22 22)" style="stroke-dashoffset: {{a.offset}}; animation-delay: {{a.delay}}ms"></circle>
+</svg>
+<sc-if value="{{a.done}}" hint-placeholder-val="{{true}}">
+<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true" style="position: absolute; left: 0; top: 0"><path d="M15.5 22.5l4.5 4.5 9-9" fill="none" stroke="#4E8F6A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</sc-if>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{a.titleColor}}">{{a.title}}</span>
+<span style="font-size: 14px; line-height: 19px; color: #555555">{{a.desc}}</span>
+</div>
+<span style="font-size: 12px; color: #9A9AA0">{{a.meta}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<nav style="position: absolute; left: 0; bottom: 0; width: 390px; height: 84px; box-sizing: border-box; background: rgba(255,255,255,0.96); border-top: 1px solid #EFEFF0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 8px">
+<a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Home</span>
+</a>
+<a href="Statistics.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7" stroke-linecap="round"><path d="M5 20v-8M12 20V5M19 20v-5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 500">Statistics</span>
+</a>
+<a href="Goals.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #9A9AA0">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#9A9AA0" stroke-width="1.7"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+<span style="font-size: 10.5px; font-weight: 500">Goals</span>
+</a>
+<a href="Profile.dc.html" style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; color: #111111">
+<span style="position: absolute; top: -1px; width: 20px; height: 3px; border-radius: 0 0 3px 3px; background: #7FBF9A"></span>
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#111111" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1.2-3.6 4-5.5 7-5.5s5.8 1.9 7 5.5"></path></svg>
+<span style="font-size: 10.5px; font-weight: 600">Profile</span>
+</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = 125.66;
+    const list = [
+      { title: 'FIRST STEP', desc: 'First day tracked', p: 1, meta: 'Sep 8' },
+      { title: 'ONE WEEK', desc: '7 days of progress', p: 1, meta: 'Sep 14' },
+      { title: 'HALFWAY', desc: '50% below your starting baseline', p: 1, meta: 'Sep 25' },
+      { title: 'CONTROL', desc: 'Reached your daily goal 7 times', p: 1, meta: 'Sep 26' },
+      { title: 'THREE WEEKS', desc: '21 days of progress', p: 20 / 21, meta: '20 of 21 days' },
+      { title: 'INDEPENDENCE', desc: 'A full day without needing NoVape', p: 0.55, meta: 'Whenever you’re ready' }
+    ];
+    return {
+      items: list.map((a, i) => ({
+        title: a.title,
+        desc: a.desc,
+        meta: a.meta,
+        done: a.p >= 1,
+        bg: a.p >= 1 ? '#FFFFFF' : '#FAFAFA',
+        titleColor: a.p >= 1 ? '#111111' : '#777777',
+        offset: (C * (1 - a.p)).toFixed(2),
+        delay: 80 + i * 60
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
