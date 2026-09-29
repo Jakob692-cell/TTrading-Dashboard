@@ -29,11 +29,26 @@ function standaloneHtml(): Plugin {
   };
 }
 
+/** Ships the 3D hardware plan (novape/hardware) with the web build at /bauplan/. */
+function hardwarePlan(): Plugin {
+  return {
+    name: 'novape-hardware-plan',
+    apply: 'build',
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'bauplan/index.html',
+        source: readFileSync(new URL('../hardware/novape-one-bauplan.html', import.meta.url), 'utf8'),
+      });
+    },
+  };
+}
+
 // `vite build --mode single` emits one self-contained index.html
 // (JS, CSS, fonts and images inlined) that opens straight from disk.
 export default defineConfig(({ mode }) => ({
   base: './',
-  plugins: [react(), ...(mode === 'single' ? [viteSingleFile(), standaloneHtml()] : [])],
+  plugins: [react(), ...(mode === 'single' ? [viteSingleFile(), standaloneHtml()] : [hardwarePlan()])],
   build: {
     outDir: mode === 'single' ? 'dist-single' : 'dist',
     // Reach older iOS Safari / Android WebView versions too.

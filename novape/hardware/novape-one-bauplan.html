@@ -476,13 +476,13 @@ if (imZug &amp;&amp; dp &gt; -120) {
     { id: 'capMagnets', group: 'pod', bom: 'device', name: 'Kappen-Magnete (2 + 2)', dims: 'Ø 2,5 × 1,5 mm', part: 'NdFeB N52, vernickelt, eingegossen', cost: 0.12, text: 'Zwei Magnete im Kappenrand, zwei Gegenmagnete im Kopfring. Sie ziehen die Kappe mit spürbarem Klick in Position; der Hall-Sensor erkennt den aufgesetzten Kopf.' },
     { id: 'collar', group: 'pod', bom: 'device', name: 'Pod-Sockel (Aufsatz)', dims: 'Kopfring 25 × 15 · Flansch 18,9 × 12,4 · Turm 12,7 × 10,2 · 8 mm hoch', part: 'PC schwarz, hochglänzend · fest am Gerät', cost: 0.15, text: 'Das schwarze Stufenteil, das man durch die Kappe sieht – darauf wird der Kopf gesetzt. Der Turm hält die Kartusche mittig und dicht, im Kopfring sitzen die Gegenmagnete für die Kappe, und von unten strömt die Luft durch den Sockel in die Kartusche. Er bleibt immer am Gerät.' },
     // Gehäuse
-    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 74,5 mm · Wand 0,8', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
+    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 74,5 mm · Wand 0,8 · unten weich eingezogen', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
     { id: 'inlet', group: 'housing', name: 'Lufteinlass', dims: 'Ø 1,2 mm', part: 'Bohrung in der Hülse', cost: 0, text: 'Einziger Lufteintritt. Der Durchmesser bestimmt den Zugwiderstand (Prototyp: 1,0 / 1,2 / 1,4 mm testen).' },
     { id: 'seat', group: 'housing', name: 'Pod-Aufnahme', dims: '23,4 × 13,4 × 14 mm', part: 'PC/ABS schwarz, Spritzguss', cost: 0.20, text: 'Becher im oberen Gehäuse unter dem Sockel. Trennt den Mundkontakt-Bereich konstruktiv von der Elektronik und enthält den Sensor-Port.' },
     { id: 'membrane', group: 'housing', name: 'Sensor-Port mit Membran', dims: 'Ø 3,2 × 0,2 mm', part: 'ePTFE, hydrophob, luftdurchlässig', cost: 0.10, text: 'Überträgt den Unterdruck zum Sensor, hält Speichel und Feuchtigkeit zurück. So bleibt die Elektronik vom Mundbereich getrennt.' },
-    { id: 'button', group: 'housing', name: 'Taste', dims: '5,5 × 9 mm', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 3 s halten: mit der App koppeln.' },
+    { id: 'button', group: 'housing', name: 'Taste', dims: '5,4 × 12,4 mm (Kontur)', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 3 s halten: mit der App koppeln.' },
     { id: 'chassis', group: 'housing', name: 'Innenchassis', dims: '22,6 × 58 × 12,6 mm', part: 'PC/ABS, Schnappverbindungen', cost: 0.40, text: 'Hält Platine, Akku, Motor und Lichtleiter. Wird als Einheit in die Hülse geschoben.' },
-    { id: 'baseCap', group: 'housing', name: 'Bodenkappe', dims: '24,6 × 14,6 × 3 mm', part: 'PC schwarz, USB-C-Ausschnitt', cost: 0.15, text: 'Schließt das Gerät unten ab und führt die USB-C-Buchse.' },
+    { id: 'baseCap', group: 'housing', name: 'Bodenkappe', dims: '21,6 × 11,6 × 2,8 mm', part: 'PC schwarz, USB-C-Ausschnitt', cost: 0.15, text: 'Schließt das Gerät unten ab und führt die USB-C-Buchse.' },
     // Elektronik
     { id: 'pcb', group: 'electronics', name: 'Hauptplatine', dims: '20 × 56 × 0,8 mm', part: 'FR-4, 4 Lagen · inkl. Bestückung', cost: 2.50, text: 'Trägt alle Bauteile. Oben eine Freifläche für die Bluetooth-Antenne.' },
     { id: 'ble', group: 'electronics', name: 'Bluetooth-Modul', dims: '10 × 16 × 2,2 mm', part: 'Raytac MDBT42Q (Nordic nRF52832)', cost: 3.00, text: 'Vorzertifiziertes Modul: zählt Nutzungen, speichert offline und synchronisiert mit der App.' },
@@ -493,7 +493,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     { id: 'ldo', group: 'electronics', name: 'Spannungsregler 3,0 V', dims: '2 × 2 mm', part: 'z. B. TI TLV755', cost: 0.10, text: 'Stabile Versorgung für Modul und Sensor aus dem LiPo (3,0–4,2 V).' },
     { id: 'usbc', group: 'electronics', name: 'USB-C-Buchse', dims: '8,94 × 3,26 × 7,35 mm', part: '16-Pin, nur Laden', cost: 0.20, text: 'An der Unterseite. Nur zum Laden, keine Datenverbindung.' },
     { id: 'switch', group: 'electronics', name: 'Taster', dims: '3 × 4 × 2 mm', part: 'SMD-Taster, seitlich', cost: 0.08, text: 'Sitzt hinter der Aluminium-Taste.' },
-    { id: 'led', group: 'electronics', name: 'LED + Lichtleiter', dims: '1,2 × 7 × 4,6 mm', part: 'weiße 0603-LED, PC-Lichtleiter', cost: 0.10, text: 'Bildet den Lichtstreifen vorne: Rückmeldung bei Nutzung, Akkustand, Kopplung.' },
+    { id: 'led', group: 'electronics', name: 'LED + Lichtleiter', dims: 'Streifen 1 × 7 mm', part: 'weiße 0603-LED, PC-Lichtleiter', cost: 0.10, text: 'Bildet den Lichtstreifen vorne: Rückmeldung bei Nutzung, Akkustand, Kopplung.' },
     { id: 'hall', group: 'electronics', name: 'Hall-Sensor', dims: '1,1 × 1,4 mm', part: 'TI DRV5032', cost: 0.30, text: 'Erkennt über die Pod-Magnete, ob ein Pod eingesetzt ist – und zählt Pod-Wechsel.' },
   ];
   PARTS.forEach(function (p, i) { p.n = i + 1; });
@@ -719,7 +719,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
 
   /* --------------------------- Materials ---------------------------- */
   var M = {
-    alu: function () { return new THREE.MeshStandardMaterial({ color: 0xd8cdbc, metalness: 0.8, roughness: 0.36, envMapIntensity: 1.0 }); },
+    alu: function () { return new THREE.MeshStandardMaterial({ color: 0xe3c9a6, metalness: 0.74, roughness: 0.4, envMapIntensity: 1.0 }); },
     black: function () { return new THREE.MeshStandardMaterial({ color: 0x151517, metalness: 0.1, roughness: 0.5 }); },
     gloss: function () { return new THREE.MeshStandardMaterial({ color: 0x0b0b0c, metalness: 0.3, roughness: 0.16 }); },
     smoke: function () { return new THREE.MeshStandardMaterial({ color: 0x141416, metalness: 0.2, roughness: 0.12, transparent: true, opacity: 0.86, side: THREE.DoubleSide, envMapIntensity: 0.9 }); },
@@ -801,8 +801,15 @@ if (imZug &amp;&amp; dp &gt; -120) {
 
   // Housing
   var shellMat = M.alu();
-  var shell = mesh(prism(W, D, R, 74.5, { wall: 0.8 }), shellMat, 0, 2.5, 0);
-  addPart('shell', [shell], [0, 0, 0], { clip: true });
+  var shell = mesh(prism(W, D, R, 67, { wall: 0.8 }), shellMat, 0, 10, 0);
+  // Unten läuft die Hülse weich zur Bodenkappe ein (wie beim Original).
+  var shellFoot = [];
+  for (var sk = 0; sk <= 12; sk++) {
+    var sy = 2.5 + 7.5 * (sk / 12), si = 1.6 * Math.pow((10 - sy) / 7.5, 2.2);
+    shellFoot.push({ y: sy, w: W - 2 * si, d: D - 2 * si });
+  }
+  var shellLow = mesh(loft(shellFoot, 96), shellMat, 0, 0, 0);
+  addPart('shell', [shell, shellLow], [0, 0, 0], { clip: true });
 
   var inletMat = new THREE.MeshBasicMaterial({ color: 0x0c0c0d });
   var inlet = mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.6, 20), inletMat, 12.52, 69.5, 0);
@@ -818,15 +825,19 @@ if (imZug &amp;&amp; dp &gt; -120) {
   addPart('membrane', [membrane], [0, 8, 0]);
 
   var baseMat = M.black();
-  var baseCap = mesh(prism(24.6, 14.6, 7.3, 3.2, { bevel: 1.1 }), baseMat, 0, 0, 0);
-  var usbSlot = mesh(new THREE.PlaneGeometry(9.2, 3.5), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, -0.02, 0);
+  var baseCap = mesh(prism(21.6, 11.6, 5.8, 2.8, { bevel: 0.8 }), baseMat, 0, 0, 0);
+  var usbSlot = mesh(new THREE.ShapeGeometry(rrShape(9.2, 3.4, 1.7), 12), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, -0.02, 0);
   usbSlot.rotation.x = Math.PI / 2;
-  addPart('baseCap', [baseCap, usbSlot], [0, -14, 0], { clip: true });
+  var usbRim = mesh(new THREE.ShapeGeometry(rrShape(9.9, 4.1, 2.05), 12), M.steel(), 0, -0.01, 0);
+  usbRim.rotation.x = Math.PI / 2;
+  var pinhole = mesh(new THREE.CircleGeometry(0.4, 16), new THREE.MeshBasicMaterial({ color: 0x050505 }), -7.0, -0.02, 0);
+  pinhole.rotation.x = Math.PI / 2;
+  addPart('baseCap', [baseCap, usbRim, usbSlot, pinhole], [0, -14, 0], { clip: true });
 
   var buttonMat = M.alu();
-  var buttonGeo = new THREE.ExtrudeGeometry(rrShape(5.1, 8.6, 2.55), { depth: 0.35, bevelEnabled: true, bevelThickness: 0.2, bevelSize: 0.2, bevelSegments: 3, curveSegments: 20 });
-  var button = mesh(buttonGeo, buttonMat, 0, 42.5, 7.42);
-  var buttonRing = mesh(new THREE.ExtrudeGeometry(rrShape(6.2, 9.7, 3.1), { depth: 0.12, bevelEnabled: false, curveSegments: 20 }), M.black(), 0, 42.5, 7.46);
+  var buttonGeo = new THREE.ExtrudeGeometry(rrShape(4.4, 11.2, 2.2), { depth: 0.12, bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.15, bevelSegments: 3, curveSegments: 20 });
+  var button = mesh(buttonGeo, buttonMat, 0, 49, 7.44);
+  var buttonRing = mesh(new THREE.ExtrudeGeometry(rrShape(5.4, 12.4, 2.7), { depth: 0.1, bevelEnabled: false, curveSegments: 20 }), new THREE.MeshStandardMaterial({ color: 0x3a342d, metalness: 0.3, roughness: 0.6 }), 0, 49, 7.44);
   addPart('button', [button, buttonRing], [0, 0, 12]);
 
   var chassisMat = M.chassis();
@@ -837,44 +848,49 @@ if (imZug &amp;&amp; dp &gt; -120) {
   (function wordmark() {
     var c = document.createElement('canvas'); c.width = 512; c.height = 128;
     var g = c.getContext('2d');
-    g.fillStyle = 'rgba(60,56,50,0.85)';
-    g.font = '600 78px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    g.fillStyle = 'rgba(52,47,41,0.9)';
+    var fs = 100;
+    g.font = '500 ' + fs + 'px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    fs = Math.min(110, fs * 488 / Math.max(1, g.measureText('NoVape').width));
+    g.font = '500 ' + fs + 'px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
     g.textAlign = 'center'; g.textBaseline = 'middle';
     g.fillText('NoVape', 256, 66);
     var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
-    var m = new THREE.Mesh(new THREE.PlaneGeometry(10, 2.5), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
-    m.position.set(0, 9.5, 7.52);
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(12.4, 3.1), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
+    m.position.set(0, 11, 7.53);
     m.userData.partId = 'shell';
     partGroups.shell.add(m);
+    clipTargets.push(m.material);
   })();
 
   // Electronics (front of device = +z)
-  var pcb = mesh(box(20, 56, 0.8), M.pcb(), 0, 5, -5.6);
-  var antennaKeepout = mesh(box(20, 3.2, 0.82), new THREE.MeshStandardMaterial({ color: 0x1b4a39, roughness: 0.7 }), 0, 58, -5.6);
+  // Platine auf der Mittelebene: nur dort ist das runde Gehäuse breit genug für 20 mm.
+  var pcb = mesh(box(20, 56, 0.8), M.pcb(), 0, 5, -0.4);
+  var antennaKeepout = mesh(box(20, 3.2, 0.82), new THREE.MeshStandardMaterial({ color: 0x1b4a39, roughness: 0.7 }), 0, 58, -0.4);
   addPart('pcb', [pcb, antennaKeepout], [0, 0, 18]);
 
-  var bleShield = mesh(box(10, 16, 2.0), M.steel(), 0, 41.5, -4.2);
-  var blePcb = mesh(box(10, 16, 0.3), M.pcb(), 0, 41.5, -5.05);
+  var bleShield = mesh(box(10, 16, 2.0), M.steel(), 0, 41.5, 1.0);
+  var blePcb = mesh(box(10, 16, 0.3), M.pcb(), 0, 41.5, 0.15);
   addPart('ble', [bleShield, blePcb], [0, 0, 23]);
 
   var sensor = mesh(box(2, 0.75, 2), new THREE.MeshStandardMaterial({ color: 0xd4d4d8, metalness: 0.8, roughness: 0.3 }), -6, 61.2, -3);
-  var sensorRiser = mesh(box(3.5, 0.8, 3), M.pcb(), -6, 60.4, -3.5);
+  var sensorRiser = mesh(box(3.5, 0.8, 3), M.pcb(), -6, 60.4, -3.0);
   var tube = mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.4, 16), M.silicone(), -6, 63.1, -3);
   addPart('sensor', [sensor, sensorRiser, tube], [0, 4, 25]);
 
-  var charger = mesh(box(3, 1.1, 3), M.ic(), 4.5, 10, -4.7);
+  var charger = mesh(box(3, 3, 1.1), M.ic(), 4.5, 10, 0.55);
   addPart('charger', [charger], [0, 0, 23]);
-  var ldo = mesh(box(2, 0.6, 2), M.ic(), -5, 11, -4.9);
+  var ldo = mesh(box(2, 2, 0.6), M.ic(), -5, 11, 0.3);
   addPart('ldo', [ldo], [0, 0, 23]);
-  var hall = mesh(box(1.4, 0.6, 1.1), M.ic(), 6.5, 60.2, -4.9);
+  var hall = mesh(box(1.4, 1.1, 0.6), M.ic(), 6.5, 59.6, 0.3);
   addPart('hall', [hall], [0, 4, 25]);
 
   var usbc = mesh(box(8.94, 7.35, 3.26), M.steel(), 0, 0.6, 0);
   var usbTongue = mesh(box(6.7, 4.5, 0.7), M.black(), 0, 0.5, 0);
   addPart('usbc', [usbc, usbTongue], [0, -8, 20]);
 
-  var battery = mesh(box(12, 30, 4), M.pouch(), 0, 10, -1.2);
-  var batteryLabel = mesh(box(10, 18, 0.05), new THREE.MeshStandardMaterial({ color: 0x2a2a2d, roughness: 0.7 }), 0, 16, 0.83);
+  var battery = mesh(box(12, 30, 4), M.pouch(), 0, 10, -2.95); // hinter der Platine
+  var batteryLabel = mesh(box(10, 18, 0.05), new THREE.MeshStandardMaterial({ color: 0x2a2a2d, roughness: 0.7 }), 0, 16, -4.98);
   addPart('battery', [battery, batteryLabel], [-21, 0, 16]);
 
   var motorGeo = new THREE.CylinderGeometry(5, 5, 2.7, 36);
@@ -883,14 +899,16 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var motorFpc = mesh(box(2.5, 8, 0.2), new THREE.MeshStandardMaterial({ color: 0xc27a2c, roughness: 0.6 }), 3, 14, 3.1);
   addPart('motor', [motor, motorFpc], [21, 0, 16]);
 
-  var sw = mesh(box(3, 4, 2), M.ic(), 0, 40.5, 4.9);
-  var swPlunger = mesh(box(1.4, 1.4, 0.6), M.white(), 0, 41.8, 6.1);
+  var sw = mesh(box(3, 4, 2), M.ic(), 0, 47, 4.9);
+  var swPlunger = mesh(box(1.4, 1.4, 0.6), M.white(), 0, 48.3, 6.1);
   addPart('switch', [sw, swPlunger], [0, 0, 20]);
 
   var lpMat = M.lightpipe();
-  var lightpipe = mesh(box(1.2, 7, 4.66), lpMat, 0, 54, 5.24);
-  var ledChip = mesh(box(1.6, 0.8, 0.6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.1 }), 0, 57, 2.6);
-  addPart('led', [lightpipe, ledChip], [0, 0, 17]);
+  // Lichtstreifen wie beim Original: 1 × 7 mm, oberhalb der Taste; Fuß führt das Licht von der LED nach vorn.
+  var lightpipe = mesh(box(1.0, 7.1, 0.9), lpMat, 0, 60.6, 7.07);
+  var lightFoot = mesh(box(1.0, 1.2, 4.4), lpMat, 0, 59.4, 4.85);
+  var ledChip = mesh(box(1.6, 0.8, 0.6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.1 }), 0, 58.6, 2.9);
+  addPart('led', [lightpipe, lightFoot, ledChip], [0, 0, 17]);
 
   // Kopf: Pod-Sockel (bleibt am Gerät) → Aroma-Kartusche mit Y-Kanal → Mundstück-Kappe
   var collarMat = M.gloss();
@@ -1243,7 +1261,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
   resize();
   fitCamera(false);
   setMode('solid');
-  window.__nv = { camera: camera, controls: controls, state: state };
+  window.__nv = { camera: camera, controls: controls, state: state, partGroups: partGroups };
 
   /* --------------------------- Pressure HUD ------------------------- */
   var chart = document.getElementById('chart');
