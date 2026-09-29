@@ -1,6 +1,7 @@
 import { Icon } from '../components/ui/Icon';
 import { ListRow } from '../components/ui/primitives';
 import { productImages } from '../components/device/productImages';
+import { BACKDROP, Still3D } from '../components/three/Scene3D';
 import { useConnection, useData } from '../state/AppStore';
 import { useDerived } from '../state/useDerived';
 import { useNav } from '../navigation/Navigator';
@@ -62,7 +63,7 @@ export function ProfileScreen() {
         onClick={() => nav.push({ name: 'device' })}
       >
         <span className="device-card__thumb">
-          <img src={productImages.front} alt="" />
+          <Still3D spec={{ kind: 'device', finish: device?.finish ?? 'champagne', view: 'portrait' }} width={60} height={72} backdrop={BACKDROP.studio} yaw={0.1} alt="" fallback={productImages.front} className="still3d" />
         </span>
         <span className="grow stack" style={{ gap: 3 }}>
           <span style={{ fontSize: 16, fontWeight: 600 }}>My NoVape</span>

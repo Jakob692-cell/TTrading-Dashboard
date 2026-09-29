@@ -4,6 +4,7 @@ import { Icon } from '../components/ui/Icon';
 import { Callout, ListRow, SectionHeader, SegmentedControl, Stepper, Toggle } from '../components/ui/primitives';
 import { Sheet } from '../components/ui/Sheet';
 import { productImages } from '../components/device/productImages';
+import { BACKDROP, Scene3D } from '../components/three/Scene3D';
 import { useActions, useData } from '../state/AppStore';
 import { useUi } from '../state/Ui';
 import { useNav } from '../navigation/Navigator';
@@ -252,8 +253,14 @@ export function AboutScreen() {
   return (
     <>
       <PushedHeader back="Profile" title="About NoVape" />
-      <div className="photo enter" style={{ height: 240, ['--i' as string]: 1 }}>
-        <img src={productImages.inTheBox} alt="NoVape One in its box with charging cable and cartridges" style={{ objectPosition: '50% 50%' }} />
+      <div className="photo enter" style={{ height: 260, ['--i' as string]: 1 }}>
+        <Scene3D
+          style={{ height: '100%' }}
+          spec={{ kind: 'kit', finish: 'champagne' }}
+          options={{ backdrop: BACKDROP.soft, motion: 'oscillate', interactive: true }}
+          label="NoVape One with mint, lemon and berry cartridges"
+          fallback={<img src={productImages.inTheBox} alt="" style={{ objectPosition: '50% 50%' }} />}
+        />
       </div>
 
       <section className="stack enter" style={{ gap: 12, marginTop: 24, ['--i' as string]: 2 }}>

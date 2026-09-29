@@ -4,7 +4,9 @@ import { Icon } from '../components/ui/Icon';
 import { ListRow, ProgressBar, SectionHeader, SegmentedControl, Toggle } from '../components/ui/primitives';
 import { Sheet } from '../components/ui/Sheet';
 import { DeviceRender } from '../components/device/DeviceRender';
-import { deviceGallery, productImages } from '../components/device/productImages';
+import { productImages } from '../components/device/productImages';
+import { BACKDROP, Scene3D } from '../components/three/Scene3D';
+import type { DeviceView } from '../three/stage';
 import { useActions, useConnection, useData } from '../state/AppStore';
 import { useUi } from '../state/Ui';
 import { useNav } from '../navigation/Navigator';
@@ -30,16 +32,13 @@ function ConnectDevice() {
   return (
     <>
       <PushedHeader back="Profile" title="My NoVape" />
-      <div className="device-stage">
-        {busy && (
-          <>
-            <span className="device-stage__pulse" />
-            <span className="device-stage__pulse" />
-          </>
-        )}
-        <span className="device-stage__halo" />
-        <DeviceRender height={270} led={busy ? 'pulse' : 'off'} className="float" />
-      </div>
+      <Scene3D
+        className="device-stage3d"
+        spec={{ kind: 'device', finish: 'champagne', led: busy ? 'pulse' : 'off', searching: busy }}
+        options={{ backdrop: BACKDROP.page, motion: 'oscillate', float: true, interactive: true }}
+        label="NoVape One"
+        fallback={<DeviceRender height={270} led={busy ? 'pulse' : 'off'} className="float" />}
+      />
       <div className="stack" style={{ alignItems: 'center', gap: 10, textAlign: 'center' }}>
         <h2 className="title-md">{busy ? 'Looking for your NoVape…' : 'Connect your NoVape'}</h2>
         <p className="muted" style={{ fontSize: 15, lineHeight: '22px', maxWidth: 310 }}>
@@ -79,6 +78,7 @@ function PairedDevice() {
   const [finding, setFinding] = useState(false);
   const [renaming, setRenaming] = useState(false);
   const [firmwareOpen, setFirmwareOpen] = useState(false);
+  const [view, setView] = useState<DeviceView | 'colors'>('hero');
   if (!device) return null;
 
   const connected = connection === 'connected';
@@ -96,21 +96,45 @@ function PairedDevice() {
     <>
       <PushedHeader back="Profile" title="My NoVape" />
 
-      <div className={`device-photo enter${finding ? ' is-finding' : ''}`} style={{ ['--i' as string]: 1 }}>
-        <img src={productImages.front} alt={`${device.model} in ${FINISH_LABELS[device.finish].toLowerCase()}`} />
-        {connected && <span className={`device-photo__led ${finding ? 'led-blink' : 'led-pulse'}`} />}
+      <div className="device-photo device-photo--3d enter" style={{ ['--i' as string]: 1 }}>
+        <Scene3D
+          spec={
+            view === 'colors'
+              ? { kind: 'finishes', active: device.finish }
+              : {
+                  kind: 'device',
+                  finish: device.finish,
+                  flavor: cartridge?.flavorId,
+                  view,
+                  led: finding ? 'blink' : connected ? 'pulse' : 'off',
+                  buzz: finding,
+                }
+          }
+          options={{ backdrop: BACKDROP.studio, motion: 'oscillate', interactive: true }}
+          label={`${device.model} in ${FINISH_LABELS[device.finish].toLowerCase()}, 3D view`}
+          fallback={<img src={productImages.front} alt="" />}
+        />
         <span className={`pill device-photo__status ${connected ? 'pill--accent' : ''}`} style={{ background: connected ? 'rgba(238,246,241,.92)' : 'rgba(255,255,255,.9)' }}>
           <span className={`dot${connected ? '' : ' dot--off'}`} />
           {connected ? 'Connected' : busy ? 'Connecting…' : 'Not connected'}
         </span>
+        <span className="device-photo__hint" aria-hidden="true">
+          <Icon name="rotate" size={14} strokeWidth={2} /> Drag to turn
+        </span>
       </div>
 
-      <div className="gallery enter" style={{ marginTop: 10, ['--i' as string]: 2 }} aria-label="Product photos">
-        {deviceGallery.map((p) => (
-          <div key={p.src} className="photo">
-            <img src={p.src} alt={p.alt} loading="lazy" />
-          </div>
-        ))}
+      <div className="enter" style={{ marginTop: 12, ['--i' as string]: 2 }}>
+        <SegmentedControl
+          label="3D view"
+          value={view}
+          onChange={setView}
+          options={[
+            { value: 'hero', label: 'Device' },
+            { value: 'head', label: 'Close-up' },
+            { value: 'exploded', label: 'Cartridge' },
+            { value: 'colors', label: 'Colors' },
+          ]}
+        />
       </div>
 
       <div className="stack enter" style={{ alignItems: 'center', gap: 4, marginTop: 20, ['--i' as string]: 3 }}>

@@ -3,6 +3,7 @@ import { Logo } from '../../components/brand/Logo';
 import { Icon } from '../../components/ui/Icon';
 import { Callout, RangeSlider, Stepper } from '../../components/ui/primitives';
 import { DeviceRender } from '../../components/device/DeviceRender';
+import { BACKDROP, Scene3D } from '../../components/three/Scene3D';
 import { useActions, useConnection } from '../../state/AppStore';
 import { stepSizeFor, suggestWeeklyLimits } from '../../domain/plan';
 import type { Intention } from '../../models';
@@ -39,8 +40,16 @@ export function Onboarding() {
   if (step === 0) {
     return (
       <div className="onboarding anim-fade">
-        <div className="stack" style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 44, paddingTop: 40 }}>
+        <div className="stack" style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18, paddingTop: 28 }}>
           <Logo />
+          <Scene3D
+            className="hero3d enter"
+            style={{ ['--i' as string]: 2 }}
+            spec={{ kind: 'device', finish: 'champagne', led: 'on' }}
+            options={{ backdrop: BACKDROP.page, motion: 'oscillate', float: true, interactive: true }}
+            label="NoVape One, slowly turning"
+            fallback={<DeviceRender height={250} led="on" className="float" />}
+          />
           <div className="stack enter" style={{ alignItems: 'center', gap: 12, textAlign: 'center', ['--i' as string]: 4 }}>
             <h1>Take back control.</h1>
             <p className="lead" style={{ fontSize: 17, lineHeight: '25px', maxWidth: 290 }}>
@@ -181,16 +190,14 @@ function ConnectStep({ connected, onConnected, onSkip }: { connected: boolean; o
 
   return (
     <>
-      <div className="device-stage" style={{ marginTop: 16 }}>
-        {searching && (
-          <>
-            <span className="device-stage__pulse" />
-            <span className="device-stage__pulse" />
-          </>
-        )}
-        <span className="device-stage__halo" />
-        <DeviceRender height={272} led={connected ? 'on' : searching ? 'pulse' : 'off'} className="float" />
-      </div>
+      <Scene3D
+        className="device-stage3d"
+        style={{ marginTop: 8 }}
+        spec={{ kind: 'device', finish: 'champagne', led: connected ? 'on' : searching ? 'pulse' : 'off', searching }}
+        options={{ backdrop: BACKDROP.page, motion: 'oscillate', float: true, interactive: true }}
+        label={connected ? 'NoVape One, connected' : 'NoVape One'}
+        fallback={<DeviceRender height={272} led={connected ? 'on' : searching ? 'pulse' : 'off'} className="float" />}
+      />
       <div className="stack" style={{ alignItems: 'center', gap: 10, textAlign: 'center', marginTop: 8 }}>
         <h1 style={{ fontSize: 28, lineHeight: '34px' }}>{title}</h1>
         <p className="lead" style={{ maxWidth: 310 }}>

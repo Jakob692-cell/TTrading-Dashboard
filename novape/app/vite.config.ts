@@ -57,6 +57,8 @@ export default defineConfig(({ mode }) => ({
     outDir: mode === 'single' ? 'dist-single' : 'dist',
     // Reach older iOS Safari / Android WebView versions too.
     target: ['es2019', 'safari13', 'chrome80', 'firefox78', 'edge88'],
+    // three.js (≈ 600 kB, 150 kB gzipped) is its own chunk, loaded only when a 3D view appears.
+    chunkSizeWarningLimit: 700,
     rollupOptions: mode === 'single' ? { output: { format: 'iife' } } : undefined,
   },
   test: {

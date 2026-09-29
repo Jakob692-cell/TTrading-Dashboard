@@ -1,6 +1,16 @@
 import { PushedHeader } from '../components/navigation/TabBar';
 import { ProgressBar, SectionHeader } from '../components/ui/primitives';
 import { podImages } from '../components/device/productImages';
+import { Scene3D, Still3D } from '../components/three/Scene3D';
+import type { Flavor } from '../models';
+
+/** Backdrop in the flavour's own light tint, a touch darker at the floor. */
+const podBackdrop = (f: Flavor): [string, string] => [f.tint, shade(f.tint, 0.93)];
+function shade(hex: string, k: number) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.round(v * k));
+  return `#${c.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}
 import { useActions, useData } from '../state/AppStore';
 import { useDerived } from '../state/useDerived';
 import { useUi } from '../state/Ui';
@@ -27,9 +37,13 @@ export function FlavorsScreen() {
             Current cartridge
           </h2>
           <div className="row" style={{ gap: 18 }}>
-            <span className="pod-thumb pod-thumb--lg">
-              <img src={podImages[current.id]} alt={`${current.name} cartridge`} />
-            </span>
+            <Scene3D
+              className="pod-thumb pod-thumb--lg pod-thumb--live"
+              spec={{ kind: 'pod', flavor: current.id }}
+              options={{ backdrop: podBackdrop(current), motion: 'spin', interactive: true }}
+              label={`${current.name} cartridge, 3D`}
+              fallback={<img src={podImages[current.id]} alt="" />}
+            />
             <div className="stack grow" style={{ gap: 4 }}>
               <span className="title-md">{current.name}</span>
               <span className="small muted" style={{ fontSize: 14 }}>
@@ -75,7 +89,7 @@ export function FlavorsScreen() {
             return (
               <div key={f.id} className="flavor-card">
                 <span className="pod-thumb" style={{ background: f.tint }}>
-                  <img src={podImages[f.id]} alt="" />
+                  <Still3D spec={{ kind: 'pod', flavor: f.id }} width={56} height={72} backdrop={podBackdrop(f)} alt="" fallback={podImages[f.id]} />
                 </span>
                 <div className="stack grow" style={{ gap: 4 }}>
                   <span className="row" style={{ gap: 8 }}>

@@ -30,15 +30,15 @@ Your own changes (plan edits, craving check-ins, settings, simulated uses) are k
 
 | Area | What's there |
 |---|---|
-| Onboarding | Welcome, intention, starting point (slider), device pairing, first editable plan |
+| Onboarding | Welcome with the floating 3D device, intention, starting point (slider), device pairing (3D with search rings), first editable plan |
 | Home | Today ring with count-up, streak / reduction / savings, uses per hour, top insight |
 | Statistics | 7D / 30D / 3M / ALL, daily-uses line with goal steps and baseline (scrubbable), since-starting metrics, weekday × hour heatmap |
 | Goals | Current goal, supportive (never shaming) messaging, week-by-week plan; every week editable, observe-only weeks, add a week |
 | Craving? | Floating button → trigger → 2-minute breathing timer → "How do you feel?"; stored for insights |
 | Insights | Daily rhythm, craving triggers, outcomes after waiting, weekend pattern, lowest day |
 | Profile | Member since / baseline / current average, My NoVape, achievements, cartridges, notifications, privacy, account, help, about |
-| My NoVape | Product photo with live LED, gallery, battery / flavor / cartridge, haptics, light feedback, rename, firmware check, find my NoVape |
-| Cartridges | Current cartridge + estimate, Mint / Lemon / Berry, pick the next one |
+| My NoVape | Live 3D model (drag to turn, pulsing light strip, buzz on “find”), views: device · close-up · cartridge lifted out · all four colors; battery / flavor / cartridge, haptics, light feedback, rename, firmware check, find my NoVape |
+| Cartridges | Current cartridge turning in 3D + estimate, rendered Mint / Lemon / Berry cartridges, pick the next one, “I inserted a new cartridge” |
 
 ## Architecture
 
@@ -53,11 +53,20 @@ src/
     storage.ts       Guarded localStorage
   state/             AppStore (data + actions), useDerived (memoised selectors), Ui (toasts, craving sheet)
   navigation/        Tab + stack navigator with browser-back support
-  components/        ui/ (cards, ring, toggles, sheet, stepper …), charts/, device/, brand/, navigation/
+  components/        ui/ (cards, ring, toggles, sheet, stepper …), charts/, device/, three/ (3D), brand/, navigation/
+  three/             3D engine (three.js, loaded on demand): device and cartridge models, studio lighting, stills
   features/craving/  Craving check-in flow
   screens/           One file per screen
   styles/            tokens.css (design tokens) · base · components · charts · screens
 ```
+
+### 3D
+
+The device and cartridges are real 3D models (`src/three/models.ts`), built from the same dimensions as
+the hardware plan in `novape/hardware`. `Scene3D` shows a live scene (studio environment lighting,
+neutral tone mapping, contact shadows, drag to turn, pauses when off screen); `Still3D` renders small
+thumbnails once and caches them. three.js is loaded on first use, so the app starts as fast as before.
+Without WebGL the product photos are shown instead.
 
 ### Swapping in a backend
 

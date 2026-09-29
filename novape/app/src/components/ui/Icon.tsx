@@ -91,6 +91,12 @@ const PATHS = {
   bluetooth: <path d="M7 7.5l10 9-5 4.5V3l5 4.5-10 9" strokeLinecap="round" strokeLinejoin="round" />,
   sparkle: <path d="M12 4v4M12 16v4M4 12h4M16 12h4M7 7l2 2M15 15l2 2M17 7l-2 2M9 15l-2 2" strokeLinecap="round" />,
   refresh: <path d="M19 12a7 7 0 1 1-2.05-4.95M19 5v3.5h-3.5" strokeLinecap="round" strokeLinejoin="round" />,
+  rotate: (
+    <>
+      <path d="M20 12c0 2.2-3.6 4-8 4s-8-1.8-8-4 3.6-4 8-4c1.7 0 3.3.3 4.6.7" strokeLinecap="round" />
+      <path d="M14.6 6.3l2.3 2.3-2.4 1.9" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  ),
   leaf: (
     <>
       <path d="M4 14c3-1 5-4 8-4s5 3 8 4" strokeLinecap="round" />
