@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NoVape One Bauplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3f1;
+  --panel: #ffffff;
+  --ink: #111111;
+  --muted: #6e6e73;
+  --faint: #9a9aa0;
+  --line: #e6e4e0;
+  --line-soft: #efeeeb;
+  --accent: #7fbf9a;
+  --accent-strong: #5e9f7a;
+  --accent-ink: #3f7f5b;
+  --accent-soft: #eef6f1;
+  --warn: #b7852f;
+  --warn-soft: #fbf4e8;
+  --viewer-top: #eeece9;
+  --viewer-bottom: #e2dfdb;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius: 20px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: var(--accent-ink); }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
+.num, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.page { max-width: 1440px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 48px; }
+
+/* Header */
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; padding: 8px 4px 16px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand svg { flex-shrink: 0; }
+.brand h1 { font-size: clamp(22px, 3.2vw, 30px); line-height: 1.1; letter-spacing: -0.035em; font-weight: 700; }
+.brand p { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.chip b { font-family: var(--mono); font-weight: 500; }
+.chip--accent { background: var(--accent-soft); border-color: transparent; color: var(--accent-ink); }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 980px) {
+  .layout { grid-template-columns: minmax(0, 1.3fr) minmax(380px, 1fr); align-items: start; }
+  .viewer { position: sticky; top: 16px; }
+}
+
+/* Viewer */
+.viewer { position: relative; display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: linear-gradient(180deg, var(--viewer-top), var(--viewer-bottom)); height: clamp(520px, 80vh, 900px); border: 1px solid var(--line); }
+.stage3d { position: relative; flex: 1 1 auto; min-height: 0; }
+.viewer canvas { touch-action: none; }
+.viewer canvas { display: block; width: 100%; height: 100%; outline: none; }
+.overlay { position: absolute; pointer-events: none; }
+.overlay > * { pointer-events: auto; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding: 10px 12px 12px; border-top: 1px solid rgba(17,17,17,0.06); background: rgba(250,249,247,0.7); }
+.tb-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg { display: inline-grid; grid-auto-flow: column; gap: 2px; padding: 3px; border-radius: 12px; background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(17,17,17,0.06); }
+.seg button { border: 0; background: transparent; padding: 7px 12px; border-radius: 9px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(17,17,17,.08), 0 2px 8px rgba(17,17,17,.05); }
+.pillbtn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(17,17,17,0.08); background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-size: 13px; font-weight: 600; transition: transform .15s ease; }
+.pillbtn:active { transform: scale(.97); }
+.pillbtn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pillbtn--primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pillbtn--primary[disabled] { opacity: .55; }
+.slider { display: inline-flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px; border-radius: 999px; background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(17,17,17,0.06); font-size: 13px; font-weight: 600; }
+.slider input { width: 120px; accent-color: var(--accent-strong); }
+.aromas { display: inline-flex; gap: 6px; align-items: center; height: 38px; padding: 0 10px; border-radius: 999px; background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(17,17,17,0.06); }
+.aromas span { font-size: 12px; font-weight: 600; color: var(--muted); margin-right: 2px; }
+.aroma { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(17,17,17,.15); padding: 0; }
+.aroma[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); }
+
+.hud { top: 12px; right: 12px; width: 190px; padding: 10px 12px; border-radius: 16px; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(17,17,17,0.06); }
+.hud-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--muted); }
+.hud-row strong { color: var(--ink); font-size: 13px; }
+.hud canvas { width: 100%; height: 64px; display: block; margin-top: 6px; }
+.hud-note { font-size: 11px; color: var(--faint); margin-top: 4px; min-height: 16px; }
+.hud-note.is-live { color: var(--accent-ink); font-weight: 600; }
+
+.info { top: 12px; left: 12px; width: min(330px, calc(100% - 226px)); padding: 14px 16px; border-radius: 16px; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(17,17,17,0.06); box-shadow: 0 10px 30px rgba(17,17,17,0.08); }
+.info[hidden] { display: none; }
+.info-head { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+.info-num { font-family: var(--mono); font-size: 11px; color: var(--accent-ink); background: var(--accent-soft); border-radius: 6px; padding: 2px 6px; }
+.info h3 { font-size: 16px; letter-spacing: -0.015em; margin-top: 6px; }
+.info .close { border: 0; background: #f1f1f2; width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; font-size: 14px; line-height: 1; }
+.info dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 10px 0 0; font-size: 12.5px; }
+.info dt { color: var(--faint); }
+.info dd { margin: 0; }
+.info p { margin-top: 8px; font-size: 13px; color: #444; }
+
+.tag { position: absolute; transform: translate(-50%, calc(-100% - 10px)); padding: 4px 8px; border-radius: 8px; background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 600; white-space: nowrap; pointer-events: none; }
+.tag::after { content: ''; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; background: var(--ink); transform: translateX(-50%) rotate(45deg); }
+.dim { position: absolute; transform: translate(-50%, -50%); padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,.92); font-family: var(--mono); font-size: 11.5px; font-weight: 500; pointer-events: none; white-space: nowrap; border: 1px solid rgba(17,17,17,.1); }
+.hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 13px; color: var(--muted); }
+.toast { top: 88px; right: 12px; width: 190px; padding: 8px 12px; border-radius: 12px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 600; opacity: 0; transform: translateY(-6px); transition: opacity .25s ease, transform .25s ease; }
+.toast.is-on { opacity: 1; transform: none; }
+
+@media (max-width: 640px) {
+  .viewer { height: auto; }
+  .stage3d { flex: none; height: 60vh; min-height: 380px; max-height: 560px; }
+  .hud { width: 132px; padding: 8px 10px; top: 8px; right: 8px; }
+  .hud canvas { height: 36px; }
+  .hud-row { font-size: 11px; }
+  .info { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; }
+  .toast { top: auto; bottom: 8px; right: 8px; width: 150px; }
+  .toolbar { padding: 8px; gap: 6px; }
+  .hide-sm { display: none; }
+  .part-btn { grid-template-columns: 28px 1fr; }
+  .part-btn .d { grid-column: 2; text-align: left; }
+  .seg button { padding: 7px 10px; }
+  .slider input { width: 84px; }
+  .pillbtn { padding: 0 12px; }
+}
+
+/* Panel */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.tabs { display: flex; gap: 2px; overflow-x: auto; padding: 8px; border-bottom: 1px solid var(--line-soft); scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { border: 0; background: transparent; padding: 8px 12px; border-radius: 10px; font-size: 13.5px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.tabs button[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); }
+.tabpanel { padding: 18px 18px 22px; }
+.tabpanel[hidden] { display: none; }
+.lead { color: #444; font-size: 14.5px; line-height: 1.55; max-width: 62ch; }
+.section-title { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 22px 0 10px; }
+.section-title:first-child { margin-top: 0; }
+
+.parts { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line-soft); border-radius: 14px; overflow: hidden; }
+.parts li + li { border-top: 1px solid var(--line-soft); }
+.part-btn { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; width: 100%; padding: 10px 12px; border: 0; background: #fff; text-align: left; }
+.part-btn:hover { background: #fafaf9; }
+.part-btn[aria-pressed="true"] { background: var(--accent-soft); }
+.part-btn .n { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.part-btn .t { font-size: 14px; font-weight: 600; letter-spacing: -0.005em; }
+.part-btn .s { display: block; font-size: 12px; color: var(--muted); font-weight: 400; margin-top: 1px; }
+.part-btn .d { font-family: var(--mono); font-size: 11.5px; color: var(--muted); text-align: right; white-space: nowrap; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 12px 14px; border-radius: 14px; background: #fafaf9; border: 1px solid var(--line-soft); }
+.steps .k { width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 500; }
+.steps h4 { margin: 0; font-size: 14px; letter-spacing: -0.01em; }
+.steps p { font-size: 13.5px; color: #4a4a4a; margin-top: 2px; }
+
+.callout { display: grid; gap: 4px; padding: 14px 16px; border-radius: 14px; background: var(--accent-soft); color: #33503f; font-size: 13.5px; margin-top: 14px; }
+.callout strong { color: var(--ink); }
+.callout--warn { background: var(--warn-soft); color: #6d5226; }
+
+.options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 10px; }
+.option { padding: 14px; border-radius: 14px; border: 1px solid var(--line); }
+.option h4 { margin: 0 0 4px; font-size: 14px; }
+.option p { font-size: 13px; color: #4a4a4a; }
+.badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-ink); margin-bottom: 6px; }
+.badge--muted { background: #f1f1f2; color: var(--muted); }
+
+pre { margin: 10px 0 0; padding: 14px; border-radius: 14px; background: #151517; color: #e8e8ea; font-family: var(--mono); font-size: 12px; line-height: 1.55; overflow-x: auto; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+th { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: #fafaf9; white-space: nowrap; }
+td.r, th.r { text-align: right; font-family: var(--mono); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 1px solid var(--line); }
+.subtle { color: var(--muted); font-size: 12px; }
+.dims-line { display: block; margin-top: 2px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.check li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; font-size: 13.5px; }
+.check li::before { content: ''; width: 14px; height: 14px; margin-top: 3px; border-radius: 4px; border: 1.5px solid var(--accent-strong); }
+.check b { font-weight: 600; }
+.check span { color: var(--muted); }
+
+.sources { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; }
+.foot { margin-top: 16px; font-size: 12px; color: var(--muted); max-width: 90ch; padding: 0 4px; }
+
+:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="27" fill="none" stroke="#7FBF9A" stroke-width="7" stroke-linecap="round" stroke-dasharray="134 35.65" transform="rotate(-48 36 36)"/></svg>
+      <div>
+        <h1>NoVape One · Bauplan</h1>
+        <p>Interaktives 3D-Konzeptmodell mit Innenleben, Stückliste und Umsetzungsplan</p>
+      </div>
+    </div>
+    <div class="chips" aria-label="Eckdaten">
+      <span class="chip"><b>100 × 25 × 15</b> mm</span>
+      <span class="chip">≈ <b>30</b> g</span>
+      <span class="chip"><b>100</b> mAh · USB-C</span>
+      <span class="chip">Bluetooth LE</span>
+      <span class="chip chip--accent">0 mg Nikotin · kein Heizelement · kein Aerosol</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="viewer" id="viewer" aria-label="3D-Modell des NoVape One">
+      <div class="stage3d" id="stage3d">
+      <canvas id="gl" aria-label="3D-Ansicht. Ziehen zum Drehen, zwei Finger oder Mausrad zum Zoomen, antippen für Details." tabindex="0"></canvas>
+      <div class="hint" id="loading">3D-Modell wird geladen …</div>
+      <div id="labels" class="overlay" style="inset:0; pointer-events:none"></div>
+
+      <div class="overlay hud" aria-live="polite">
+        <div class="hud-row"><span><span class="hide-sm">Zugsensor </span>Δp</span><strong class="num" id="dpVal">0 Pa</strong></div>
+        <canvas id="chart" width="190" height="64" aria-label="Druckverlauf am Zugsensor"></canvas>
+        <div class="hud-row" style="margin-top:6px"><span><span class="hide-sm">Erkannte </span>Nutzungen</span><strong class="num" id="count">0</strong></div>
+        <div class="hud-note" id="hudNote">Schwelle −250 Pa</div>
+      </div>
+      <div class="overlay toast" id="toast">Nutzung erkannt · an App gesendet</div>
+
+      <div class="overlay info" id="info" hidden>
+        <div class="info-head">
+          <div>
+            <span class="info-num" id="infoNum">01</span>
+            <h3 id="infoTitle">Teil</h3>
+          </div>
+          <button class="close" id="infoClose" aria-label="Details schließen">✕</button>
+        </div>
+        <dl>
+          <dt>Maße</dt><dd class="mono" id="infoDims"></dd>
+          <dt>Bauteil</dt><dd id="infoPart"></dd>
+          <dt>Kosten</dt><dd class="mono" id="infoCost"></dd>
+        </dl>
+        <p id="infoText"></p>
+      </div>
+
+      </div>
+
+      <div class="toolbar">
+        <div class="tb-group">
+          <div class="seg" role="group" aria-label="Ansicht">
+            <button type="button" data-mode="solid" aria-pressed="true">Außen</button>
+            <button type="button" data-mode="xray" aria-pressed="false">Röntgen</button>
+            <button type="button" data-mode="section" aria-pressed="false">Schnitt</button>
+          </div>
+          <label class="slider">Explosion <input id="explode" type="range" min="0" max="100" value="0" aria-label="Explosionsansicht"></label>
+        </div>
+        <div class="tb-group">
+          <div class="aromas" role="group" aria-label="Aroma">
+            <span>Aroma</span>
+            <button type="button" class="aroma" data-aroma="mint" style="background:#7cc3a0" aria-label="Minze" aria-pressed="true"></button>
+            <button type="button" class="aroma" data-aroma="lemon" style="background:#e3c766" aria-label="Zitrone" aria-pressed="false"></button>
+            <button type="button" class="aroma" data-aroma="berry" style="background:#d98f9e" aria-label="Beere" aria-pressed="false"></button>
+          </div>
+          <button type="button" class="pillbtn" id="dimsBtn" aria-pressed="false">Maße</button>
+          <button type="button" class="pillbtn" id="resetBtn">Zurücksetzen</button>
+          <button type="button" class="pillbtn pillbtn--primary" id="drawBtn">▶ Zug simulieren</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Details">
+      <div class="tabs" role="tablist" aria-label="Bereiche">
+        <button role="tab" aria-selected="true" aria-controls="tab-aufbau" id="t-aufbau">Aufbau</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-funktion" id="t-funktion">Funktion</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-bom" id="t-bom">Stückliste</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-plan" id="t-plan">Bauplan</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-zulassung" id="t-zulassung">Zulassung</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-quellen" id="t-quellen">Quellen</button>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-aufbau" aria-labelledby="t-aufbau">
+        <p class="lead">Zwei klar getrennte Einheiten: ein <strong>wechselbarer Aroma-Pod</strong> (einziger Teil mit Mundkontakt) und das <strong>Hauptgerät</strong> mit Sensorik, Haptik und Bluetooth. Tippe ein Teil an – im Modell oder in der Liste.</p>
+        <h2 class="section-title">Aroma-Pod · wechselbar</h2>
+        <ul class="parts" id="list-pod"></ul>
+        <h2 class="section-title">Hauptgerät · Gehäuse</h2>
+        <ul class="parts" id="list-housing"></ul>
+        <h2 class="section-title">Hauptgerät · Elektronik</h2>
+        <ul class="parts" id="list-electronics"></ul>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-funktion" aria-labelledby="t-funktion" hidden>
+        <p class="lead">Ein bewusster <strong>Mundzug</strong> – wie durch einen Strohhalm, ohne Inhalation in die Lunge. Kein Heizen, kein Liquid, kein Aerosol. Probier oben „Zug simulieren“ in der Röntgen- oder Schnittansicht.</p>
+        <h2 class="section-title">Ablauf einer Nutzung</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Ansetzen und leicht ziehen</h4><p>Luft strömt durch den seitlichen Lufteinlass (Ø 1,2 mm) in die Pod-Aufnahme. Die Bohrung bestimmt den Zugwiderstand – im Prototyp 1,0 / 1,2 / 1,4 mm testen.</p></div></li>
+          <li><span class="k">2</span><div><h4>Geschmack bei Raumtemperatur</h4><p>Die Luft zieht durch den Aromaträger in der Kartusche und über den Kanal im Mundstück in den Mund. Der Geschmack entsteht im Mund – nichts wird erhitzt oder verdampft.</p></div></li>
+          <li><span class="k">3</span><div><h4>Zugsensor misst den Unterdruck</h4><p>Beim Zug fällt der Druck im Kanal um ca. 300–600 Pa. Über einen Port mit hydrophober ePTFE-Membran erreicht der Druck den MEMS-Sensor (BMP390) – Speichel und Feuchtigkeit bleiben draußen, die Elektronik ist vom Mundbereich getrennt.</p></div></li>
+          <li><span class="k">4</span><div><h4>Kurzes Feedback</h4><p>Die Firmware erkennt den Zug ab −250 Pa über mindestens 80 ms. Dann folgt ein 60-ms-Vibrationsimpuls und der Lichtstreifen glimmt kurz auf.</p></div></li>
+          <li><span class="k">5</span><div><h4>Zählen und synchronisieren</h4><p>Jede Nutzung wird mit Zeitstempel und Dauer im Flash gespeichert (auch offline) und per Bluetooth LE an die NoVape-App übertragen.</p></div></li>
+        </ol>
+        <div class="callout"><strong>Taste</strong><span>1× drücken: Akkustand über den Lichtstreifen · 3 s halten: mit der App koppeln · Laden über USB-C an der Unterseite.</span></div>
+
+        <h2 class="section-title">Geschmackssystem · zwei Wege</h2>
+        <div class="options">
+          <div class="option"><span class="badge">Empfohlen für V1</span><h4>A · Aroma-Luftstrom</h4><p>Lebensmitteltaugliches Aroma auf einem Cellulose- oder Polymerträger in der Kartusche. Einfach, günstig, erprobtes Prinzip, schnell testbar.</p></div>
+          <div class="option"><span class="badge badge--muted">Parallel erkunden</span><h4>B · Aroma-Mundstück</h4><p>Geschmack direkt über Lippen und Zunge, z. B. über ein aromatisiertes, lebensmittelechtes Mundstück-Insert. Stärkeres Alleinstellungsmerkmal, aber mehr Prüfaufwand bei Hygiene und Migration.</p></div>
+        </div>
+        <div class="callout callout--warn"><strong>Mit Fachpartner entwickeln</strong><span>Rezeptur, Aromaträger und Materialien mit Mundkontakt gehören in die Hand eines Aroma- und Lebensmittelpartners. Im eigenen Prototyp nur lebensmitteltaugliche Materialien verwenden und nichts an Dritte abgeben, bevor es geprüft ist.</span></div>
+
+        <h2 class="section-title">Firmware-Logik (vereinfacht)</h2>
+<pre><code>// 25 Hz, BMP390 im Low-Power-Modus
+p  = bmp390.read()                    // Pa
+if (!imZug) basis = 0.98*basis + 0.02*p
+dp = p - basis
+
+if (!imZug && dp &lt; -250 &amp;&amp; dauer(dp &lt; -250) &gt;= 80 ms) {
+  imZug = true;  start = jetzt()
+  motor.puls(60 ms);  led.aufglimmen()
+}
+if (imZug &amp;&amp; dp &gt; -120) {
+  imZug = false
+  speicher.anhaengen({ zeit: start, dauer: jetzt() - start })
+  ble.melden(usage)                   // u32 Sekunden + u16 ms
+}</code></pre>
+        <p class="subtle" style="margin-top:8px">Das Bluetooth-Protokoll (Service- und Characteristic-UUIDs, 6-Byte-Nutzungsdatensatz) ist in der NoVape-App schon vorbereitet: <span class="mono">novape/app/src/services/device/protocol.ts</span>.</p>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-bom" aria-labelledby="t-bom" hidden>
+        <p class="lead">Beispiel-Bauteile mit echten Datenblatt-Maßen. Die Kosten sind grobe Schätzungen je Stück bei 1.000 Stück, ohne Werkzeugkosten.</p>
+        <h2 class="section-title">Hauptgerät</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th class="r">#</th><th>Teil</th><th>Beispiel · Abmessungen</th><th class="r">≈ €</th></tr></thead>
+          <tbody id="bom-device"></tbody>
+          <tfoot><tr><td></td><td colspan="2">Summe Bauteile + Montage/Test (≈ 1,50 €)</td><td class="r" id="sum-device"></td></tr></tfoot>
+        </table></div>
+        <h2 class="section-title">Aroma-Pod</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th class="r">#</th><th>Teil</th><th>Beispiel · Abmessungen</th><th class="r">≈ €</th></tr></thead>
+          <tbody id="bom-pod"></tbody>
+          <tfoot><tr><td></td><td colspan="2">Summe inkl. Befüllen/Verschließen (≈ 0,20 €)</td><td class="r" id="sum-pod"></td></tr></tfoot>
+        </table></div>
+        <div class="callout"><strong>Abgleich mit dem Businessplan</strong><span id="bomCompare"></span></div>
+
+        <h2 class="section-title">Funktionsmuster V0 · Einkaufsliste</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Teil</th><th>Zweck</th><th class="r">≈ €</th></tr></thead>
+          <tbody>
+            <tr><td>Seeed XIAO nRF52840 (21 × 17,8 mm)</td><td>Mikrocontroller + Bluetooth + USB-C + Laderegler auf einer Platine</td><td class="r">10</td></tr>
+            <tr><td>BMP390-Breakout (I²C)</td><td>Zugsensor</td><td class="r">11</td></tr>
+            <tr><td>Vibrationsmotor 1027 (5er-Pack) + MOSFET AO3400 + Diode</td><td>Haptik</td><td class="r">7</td></tr>
+            <tr><td>LiPo 401230, 100 mAh, mit Schutzschaltung</td><td>Akku</td><td class="r">6</td></tr>
+            <tr><td>Taster, weiße LED, Litze, Silikonschlauch Ø 1 mm, ePTFE-Membran</td><td>Bedienung, Luftweg</td><td class="r">10</td></tr>
+            <tr><td>Gehäuse als SLA-Druck (Dienstleister), 2–3 Iterationen</td><td>Form und Ergonomie</td><td class="r">40–80</td></tr>
+            <tr><td>Lebensmitteltaugliche Pod-Muster und Aromen für interne Tests</td><td>Geschmackstest</td><td class="r">20–40</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="2">Gesamt – passt in das Prototyp-Budget des Plans (500–1.500 €)</td><td class="r">≈ 105–165</td></tr></tfoot>
+        </table></div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-plan" aria-labelledby="t-plan" hidden>
+        <p class="lead">Vom Steckbrett zur Kleinserie – jede Stufe beantwortet eine Frage, bevor Geld in Werkzeuge fließt.</p>
+        <h2 class="section-title">V0 · Funktionsmuster · 2–4 Wochen · ≈ 150 €</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Elektronik aufs Steckbrett</h4><p>XIAO nRF52840 + BMP390 per I²C, Vibrationsmotor über MOSFET, LED und Taster an GPIOs, LiPo an den Akku-Pads.</p></div></li>
+          <li><span class="k">2</span><div><h4>Firmware schreiben</h4><p>Arduino oder Zephyr: Druck mit 25 Hz lesen, gleitende Basislinie, Schwelle −250 Pa, 60-ms-Haptik, Speicher und BLE-Service mit den UUIDs aus der App.</p></div></li>
+          <li><span class="k">3</span><div><h4>Mit der App verbinden</h4><p>NoVape-App mit <span class="mono">VITE_DEVICE=bluetooth</span> starten (Chrome auf Android oder Desktop). Echte Züge erscheinen dann live auf dem Home-Screen.</p></div></li>
+          <li><span class="k">4</span><div><h4>Gehäuse drucken</h4><p>Zwei Halbschalen + Pod-Aufnahme nach den Maßen dieses Modells (Innenraum 23,4 × 13,4 mm). Innenraum auf Steckbrett-Bauteile anpassen.</p></div></li>
+          <li><span class="k">5</span><div><h4>Luftweg abdichten</h4><p>Lufteinlass bohren, Silikonschlauch von der Pod-Aufnahme zum Sensor, ePTFE-Membran davor. Ohne Dichtheit keine saubere Erkennung.</p></div></li>
+          <li><span class="k">6</span><div><h4>Zugwiderstand einstellen</h4><p>Einlass 1,0 / 1,2 / 1,4 mm vergleichen, dazu den Druckverlauf pro Variante mitschreiben.</p></div></li>
+          <li><span class="k">7</span><div><h4>Geschmack testen</h4><p>Varianten A und B mit lebensmitteltauglichen Materialien bauen und mit erwachsenen Testpersonen blind vergleichen.</p></div></li>
+          <li><span class="k">8</span><div><h4>Messen und festhalten</h4><p>Fehlauslösungen (Aufzug, Hosentasche, Pod-Wechsel), Akkulaufzeit, Haptik-Gefühl, Geschmacksdauer pro Pod.</p></div></li>
+        </ol>
+        <h2 class="section-title">V1 · Designmuster · 2–3 Monate</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Eigene Platine</h4><p>KiCad, 4 Lagen, 0,8 mm, 20 × 56 mm mit vorzertifiziertem Bluetooth-Modul. 5–10 Muster bestückt fertigen lassen.</p></div></li>
+          <li><span class="k">2</span><div><h4>Echtes Gehäuse</h4><p>Aluminiumhülse gefräst und eloxiert, Innenchassis und Pod-Aufnahme per Vakuumguss.</p></div></li>
+          <li><span class="k">3</span><div><h4>Pods in Kleinserie</h4><p>Mit Aroma-Partner: Kartusche und Mundstück aus Tritan, Silikondichtung, erste Migrationstests.</p></div></li>
+          <li><span class="k">4</span><div><h4>Vortests</h4><p>EMV-Vormessung, Akkutests, 20–30 erwachsene Testpersonen über 2–4 Wochen – das sind die Gate-Kriterien aus dem Businessplan.</p></div></li>
+        </ol>
+        <h2 class="section-title">V2 · Vorserie · nur nach positivem Test</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Werkzeuge</h4><p>Spritzguss für Pod, Pod-Aufnahme, Chassis und Bodenkappe; Strangpressprofil für die Hülse. Grob 15.000–40.000 € (Angebote einholen).</p></div></li>
+          <li><span class="k">2</span><div><h4>EVT → DVT → PVT</h4><p>Engineering-, Design- und Produktionsvalidierung, danach 500–1.000 Stück Kleinserie.</p></div></li>
+        </ol>
+        <h2 class="section-title">Montage in Serie</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Platine</h4><p>Bestückt und über Testpads geflasht.</p></div></li>
+          <li><span class="k">2</span><div><h4>Chassis bestücken</h4><p>Akku anschließen, Motor mit Klebepad, Taster und Lichtleiter einsetzen.</p></div></li>
+          <li><span class="k">3</span><div><h4>Pod-Aufnahme aufclipsen</h4><p>Mit Gegenmagneten, Membran und Sensorschlauch.</p></div></li>
+          <li><span class="k">4</span><div><h4>In die Hülse schieben</h4><p>Bodenkappe einclipsen oder kleben.</p></div></li>
+          <li><span class="k">5</span><div><h4>End-of-Line-Test</h4><p>Dichtheit und Druckerkennung, Haptik, Bluetooth, Ladestrom.</p></div></li>
+          <li><span class="k">6</span><div><h4>Pod</h4><p>Aromaträger in die Kartusche, Dichtung, Mundstück per Ultraschall verschweißen, aromadicht einzeln verpacken.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-zulassung" aria-labelledby="t-zulassung" hidden>
+        <p class="lead">Was vor einem Verkauf in der EU geklärt sein muss. Keine Rechtsberatung – die Liste ist die Grundlage für das Gespräch mit Prüflabor und Fachanwalt.</p>
+        <h2 class="section-title">Hauptgerät</h2>
+        <ul class="check">
+          <li><div><b>Produktsicherheit</b> <span>– Allgemeine Produktsicherheitsverordnung (EU) 2023/988</span></div></li>
+          <li><div><b>Funk, EMV, elektrische Sicherheit</b> <span>– Funkanlagenrichtlinie 2014/53/EU (RED) → CE-Kennzeichnung; vorzertifiziertes Modul verkürzt den Weg</span></div></li>
+          <li><div><b>Stoffbeschränkungen</b> <span>– RoHS 2011/65/EU und REACH</span></div></li>
+          <li><div><b>Akku</b> <span>– Batterieverordnung (EU) 2023/1542; Versand erfordert UN 38.3-Test</span></div></li>
+          <li><div><b>Elektroschrott</b> <span>– ElektroG/WEEE-Registrierung (stiftung ear) vor dem ersten Verkauf</span></div></li>
+          <li><div><b>App</b> <span>– DSGVO; Nutzungsdaten nur mit Einwilligung, Export und Löschen sind in der App schon vorhanden</span></div></li>
+        </ul>
+        <h2 class="section-title">Aroma-Pod und Mundkontakt</h2>
+        <ul class="check">
+          <li><div><b>Lebensmittelkontakt allgemein</b> <span>– Verordnung (EG) 1935/2004</span></div></li>
+          <li><div><b>Kunststoffe (Tritan, PC)</b> <span>– Verordnung (EU) 10/2011 inkl. Migrationsprüfung</span></div></li>
+          <li><div><b>Silikondichtung</b> <span>– LFGB-Prüfung bzw. Empfehlungen des BfR</span></div></li>
+          <li><div><b>Aromen</b> <span>– Aromenverordnung (EG) 1334/2008, Bezug über zertifizierten Lieferanten</span></div></li>
+          <li><div><b>Produktkategorie und Claims</b> <span>– fachlich prüfen lassen; keine Heil- oder Entwöhnungsversprechen</span></div></li>
+        </ul>
+        <div class="callout callout--warn"><strong>Wichtigster offener Punkt</strong><span>Wie genau der Geschmack in den Mund kommt (Variante A oder B), bestimmt Materialwahl, Prüfaufwand und Kosten des Pods. Deshalb früh mit einem Aroma- und Lebensmittelpartner klären.</span></div>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-quellen" aria-labelledby="t-quellen" hidden>
+        <p class="lead">Grundlagen für Maße und Bauteile. Gehäusemaße sind aus euren Produktbildern (Seitenverhältnis ≈ 1 : 4) und Referenzgeräten abgeleitet.</p>
+        <h2 class="section-title">Maße und Bauteile</h2>
+        <ol class="sources">
+          <li><a href="https://www.myvaporstore.com/Uwell-Caliburn-G2-Pod-System-Starter-Kit-p/uwc-cag40.htm" target="_blank" rel="noopener">Uwell Caliburn G2 – Referenzgerät, 110 × 22,5 × 13 mm</a></li>
+          <li><a href="https://mycapnos.com/products/legura" target="_blank" rel="noopener">CAPNOS Legura – Referenz 107 × 27 mm</a> · <a href="https://mycapnos.com/pages/faq" target="_blank" rel="noopener">CAPNOS FAQ: Ventil + Aroma-Docht, nur Luft</a></li>
+          <li><a href="https://wiki.seeedstudio.com/XIAO_BLE/" target="_blank" rel="noopener">Seeed XIAO nRF52840 – 21 × 17,8 mm</a></li>
+          <li><a href="https://www.raytac.com/product/ins.php?index_id=31" target="_blank" rel="noopener">Raytac MDBT42Q (nRF52832) – 10 × 16 × 2,2 mm</a></li>
+          <li><a href="https://www.bosch-sensortec.com/products/environmental-sensors/pressure-sensors/pressure-sensors-bmp390.html" target="_blank" rel="noopener">Bosch BMP390 – 2,0 × 2,0 × 0,75 mm, 3,2 µA bei 1 Hz</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10575377/" target="_blank" rel="noopener">Zugerkennung: typischer Unterdruck 300–600 Pa, Schwelle ≈ 300 Pa</a></li>
+          <li><a href="https://www.leader-w.com/10mm-dc-brush-motor.html" target="_blank" rel="noopener">Vibrationsmotor 1027 – Ø 10 × 2,7 mm, 3 V, 80 mA</a></li>
+          <li><a href="https://www.ti.com/product/DRV2605L" target="_blank" rel="noopener">TI DRV2605L – Haptik-Treiber für LRA (Upgrade)</a></li>
+          <li><a href="https://www.berrybase.de/en/lp-401230-lithium-polymer-lipo-battery-3.7v-100mah-with-2-pin-jst-connector" target="_blank" rel="noopener">LiPo 401230 – 4 × 12 × 30 mm, 100 mAh</a></li>
+          <li><a href="https://www.microchip.com/en-us/product/mcp73831" target="_blank" rel="noopener">Microchip MCP73831 – Laderegler, SOT-23-5</a></li>
+          <li><a href="https://www.usb.org/sites/default/files/USB%20Type-C%20Spec%20R2.0%20-%20August%202019.pdf" target="_blank" rel="noopener">USB Type-C Spezifikation – Buchse 8,94 × 3,26 mm</a></li>
+        </ol>
+        <h2 class="section-title">Regulierung</h2>
+        <ol class="sources">
+          <li><a href="https://eur-lex.europa.eu/eli/reg/2023/988/oj" target="_blank" rel="noopener">Produktsicherheitsverordnung (EU) 2023/988</a></li>
+          <li><a href="https://food.ec.europa.eu/food-safety/chemical-safety/food-contact-materials_en" target="_blank" rel="noopener">EU-Kommission: Lebensmittelkontaktmaterialien</a></li>
+          <li><a href="https://eur-lex.europa.eu/legal-content/en/ALL/?uri=CELEX%3A32011R0010" target="_blank" rel="noopener">Verordnung (EU) 10/2011 – Kunststoffe mit Lebensmittelkontakt</a></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot">Konzeptmodell für die StartUp Challenge SH. Gehäusemaße aus Produktbildern und Referenzgeräten abgeleitet; Bauteile sind Beispiele mit Datenblatt-Maßen; Kosten, Gewicht und Akkulaufzeit sind Schätzungen und vor der Fertigung durch Muster und Angebote zu bestätigen. NoVape ist kein Medizinprodukt.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ *
+   *  Parts: dimensions in millimetres, costs = rough estimate @ 1k pcs  *
+   * ------------------------------------------------------------------ */
+  var PARTS = [
+    // Aroma-Pod
+    { id: 'cap', group: 'pod', name: 'Mundstück', dims: '24,6 × 14,6 × 25 mm', part: 'Tritan™-Copolyester, rauchgrau', cost: 0.12, text: 'Einziger Teil mit Lippenkontakt. Abgerundete Lippenzone, Auslass-Schlitz 1 × 5 mm. Material für Lebensmittelkontakt nach EU 10/2011.' },
+    { id: 'stem', group: 'pod', name: 'Luftkanal im Mundstück', dims: 'Ø 4–6 × 18 mm', part: 'Tritan, angeformt', cost: 0, text: 'Führt die aromatisierte Luft von der Kartusche zum Auslass. Kein Heizelement, kein Docht, kein Liquid.' },
+    { id: 'cartridge', group: 'pod', name: 'Aroma-Kartusche', dims: '19 × 11 × 14 mm', part: 'Tritan, klar', cost: 0.08, text: 'Hält den Aromaträger. Die Luft strömt bei Raumtemperatur hindurch.' },
+    { id: 'core', group: 'pod', name: 'Aromaträger', dims: 'Ø 7,6 × 11 mm', part: 'Lebensmittelaroma auf Cellulose-/Polymerträger', cost: 0.15, text: 'Gibt Geschmack an die durchströmende Luft ab. Rezeptur und Träger mit einem Aroma-Partner entwickeln (Aromenverordnung EG 1334/2008).' },
+    { id: 'seal', group: 'pod', name: 'Dichtung Luftkanal', dims: '22 × 12,8 × 1,5 mm', part: 'LSR-Silikon, lebensmittelecht', cost: 0.05, text: 'Dichtet den Pod zur Aufnahme ab, damit der Zug nur über den definierten Lufteinlass läuft – Voraussetzung für eine saubere Druckmessung.' },
+    { id: 'podMagnets', group: 'pod', name: 'Pod-Magnete (2×)', dims: 'Ø 3 × 2 mm', part: 'NdFeB N52, vernickelt, eingegossen', cost: 0.10, text: 'Halten den Pod mit spürbarem Klick. Der Hall-Sensor im Gerät erkennt, ob ein Pod sitzt.' },
+    // Gehäuse
+    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 72,5 mm · Wand 0,8', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
+    { id: 'inlet', group: 'housing', name: 'Lufteinlass', dims: 'Ø 1,2 mm', part: 'Bohrung in der Hülse', cost: 0, text: 'Einziger Lufteintritt. Der Durchmesser bestimmt den Zugwiderstand (Prototyp: 1,0 / 1,2 / 1,4 mm testen).' },
+    { id: 'seat', group: 'housing', name: 'Pod-Aufnahme', dims: '23,4 × 13,4 × 12 mm', part: 'PC/ABS schwarz, Spritzguss', cost: 0.25, text: 'Trennt den Mundkontakt-Bereich konstruktiv von der Elektronik. Enthält die Gegenmagnete und den Sensor-Port.' },
+    { id: 'membrane', group: 'housing', name: 'Sensor-Port mit Membran', dims: 'Ø 3,2 × 0,2 mm', part: 'ePTFE, hydrophob, luftdurchlässig', cost: 0.10, text: 'Überträgt den Unterdruck zum Sensor, hält Speichel und Feuchtigkeit zurück. So bleibt die Elektronik vom Mundbereich getrennt.' },
+    { id: 'button', group: 'housing', name: 'Taste', dims: '5,5 × 9 mm', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 3 s halten: mit der App koppeln.' },
+    { id: 'chassis', group: 'housing', name: 'Innenchassis', dims: '22,6 × 58 × 12,6 mm', part: 'PC/ABS, Schnappverbindungen', cost: 0.40, text: 'Hält Platine, Akku, Motor und Lichtleiter. Wird als Einheit in die Hülse geschoben.' },
+    { id: 'baseCap', group: 'housing', name: 'Bodenkappe', dims: '24,6 × 14,6 × 3 mm', part: 'PC schwarz, USB-C-Ausschnitt', cost: 0.15, text: 'Schließt das Gerät unten ab und führt die USB-C-Buchse.' },
+    // Elektronik
+    { id: 'pcb', group: 'electronics', name: 'Hauptplatine', dims: '20 × 56 × 0,8 mm', part: 'FR-4, 4 Lagen · inkl. Bestückung', cost: 2.50, text: 'Trägt alle Bauteile. Oben eine Freifläche für die Bluetooth-Antenne.' },
+    { id: 'ble', group: 'electronics', name: 'Bluetooth-Modul', dims: '10 × 16 × 2,2 mm', part: 'Raytac MDBT42Q (Nordic nRF52832)', cost: 3.00, text: 'Vorzertifiziertes Modul: zählt Nutzungen, speichert offline und synchronisiert mit der App.' },
+    { id: 'sensor', group: 'electronics', name: 'Zugsensor', dims: '2,0 × 2,0 × 0,75 mm', part: 'Bosch BMP390 (MEMS-Drucksensor)', cost: 1.60, text: 'Erkennt den Zug als kurzen Druckabfall (typisch 300–600 Pa). Sitzt direkt unter dem Sensor-Port.' },
+    { id: 'motor', group: 'electronics', name: 'Vibrationsmotor', dims: 'Ø 10 × 2,7 mm', part: 'ERM 1027, 3 V, 80 mA', cost: 0.25, text: 'Kurzer Haptik-Impuls pro Nutzung, an der Griffseite eingeklebt. Upgrade: LRA + DRV2605L für präzisere Haptik (+ ≈ 1,20 €).' },
+    { id: 'battery', group: 'electronics', name: 'Akku', dims: '4 × 12 × 30 mm', part: 'LiPo 401230, 3,7 V, 100 mAh, mit Schutzschaltung', cost: 0.90, text: 'Reicht geschätzt 2–4 Wochen pro Ladung, abhängig von der Sensor-Abtastrate. Die Haptik verbraucht kaum Energie.' },
+    { id: 'charger', group: 'electronics', name: 'Laderegler', dims: '3 × 3 mm (SOT-23-5)', part: 'Microchip MCP73831, 100 mA', cost: 0.35, text: 'Lädt den LiPo sicher über USB-C (Konstantstrom/Konstantspannung).' },
+    { id: 'ldo', group: 'electronics', name: 'Spannungsregler 3,0 V', dims: '2 × 2 mm', part: 'z. B. TI TLV755', cost: 0.10, text: 'Stabile Versorgung für Modul und Sensor aus dem LiPo (3,0–4,2 V).' },
+    { id: 'usbc', group: 'electronics', name: 'USB-C-Buchse', dims: '8,94 × 3,26 × 7,35 mm', part: '16-Pin, nur Laden', cost: 0.20, text: 'An der Unterseite. Nur zum Laden, keine Datenverbindung.' },
+    { id: 'switch', group: 'electronics', name: 'Taster', dims: '3 × 4 × 2 mm', part: 'SMD-Taster, seitlich', cost: 0.08, text: 'Sitzt hinter der Aluminium-Taste.' },
+    { id: 'led', group: 'electronics', name: 'LED + Lichtleiter', dims: '1,2 × 7 × 4,6 mm', part: 'weiße 0603-LED, PC-Lichtleiter', cost: 0.10, text: 'Bildet den Lichtstreifen vorne: Rückmeldung bei Nutzung, Akkustand, Kopplung.' },
+    { id: 'hall', group: 'electronics', name: 'Hall-Sensor', dims: '1,1 × 1,4 mm', part: 'TI DRV5032', cost: 0.30, text: 'Erkennt über die Pod-Magnete, ob ein Pod eingesetzt ist – und zählt Pod-Wechsel.' },
+  ];
+  PARTS.forEach(function (p, i) { p.n = i + 1; });
+  var byId = {};
+  PARTS.forEach(function (p) { byId[p.id] = p; });
+
+  var fmt = function (v) { return v.toFixed(2).replace('.', ','); };
+
+  /* ------------------------- Panel content ------------------------- */
+  function renderLists() {
+    ['pod', 'housing', 'electronics'].forEach(function (g) {
+      var ul = document.getElementById('list-' + g);
+      PARTS.filter(function (p) { return p.group === g; }).forEach(function (p) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'part-btn';
+        b.dataset.part = p.id;
+        b.setAttribute('aria-pressed', 'false');
+        var n = document.createElement('span'); n.className = 'n'; n.textContent = String(p.n).padStart(2, '0');
+        var t = document.createElement('span'); t.className = 't'; t.textContent = p.name;
+        var s = document.createElement('span'); s.className = 's'; s.textContent = p.part; t.appendChild(s);
+        var d = document.createElement('span'); d.className = 'd'; d.textContent = p.dims;
+        b.appendChild(n); b.appendChild(t); b.appendChild(d);
+        b.addEventListener('click', function () { selectPart(p.id, true); });
+        li.appendChild(b); ul.appendChild(li);
+      });
+    });
+    var sums = { device: 1.5, pod: 0.2 };
+    [['device', ['housing', 'electronics']], ['pod', ['pod']]].forEach(function (pair) {
+      var body = document.getElementById('bom-' + pair[0]);
+      PARTS.filter(function (p) { return pair[1].indexOf(p.group) >= 0 && p.cost > 0; }).forEach(function (p) {
+        sums[pair[0]] += p.cost;
+        var tr = document.createElement('tr');
+        [String(p.n).padStart(2, '0'), p.name, p.part, fmt(p.cost)].forEach(function (v, i) {
+          var td = document.createElement('td');
+          td.textContent = v;
+          if (i === 0 || i === 3) td.className = 'r';
+          if (i === 2) {
+            var dm = document.createElement('span');
+            dm.className = 'dims-line';
+            dm.textContent = p.dims;
+            td.appendChild(dm);
+          }
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+      document.getElementById('sum-' + pair[0]).textContent = '≈ ' + fmt(sums[pair[0]]);
+    });
+    document.getElementById('bomCompare').textContent =
+      'Gerät ≈ ' + fmt(sums.device) + ' € statt 12,00 € Planannahme; Pod ≈ ' + fmt(sums.pod) + ' € je Stück. ' +
+      'Sparpotenzial ab höheren Stückzahlen: nRF52832-Chip statt Modul (≈ −1,50 €), Hülse als Strangpressprofil statt CNC. ' +
+      'Bei 3–5 Pods pro Refill-Packung (5,90–9,90 €) liegen die Pod-Kosten bei ≈ ' + fmt(sums.pod * 3) + '–' + fmt(sums.pod * 5) + ' € – plus Verpackung und Versand.';
+  }
+
+  function setupTabs() {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { activate(i); });
+      tab.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { activate((i + 1) % tabs.length); tabs[(i + 1) % tabs.length].focus(); }
+        if (e.key === 'ArrowLeft') { activate((i - 1 + tabs.length) % tabs.length); tabs[(i - 1 + tabs.length) % tabs.length].focus(); }
+      });
+    });
+    function activate(i) {
+      tabs.forEach(function (t, k) {
+        t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = k !== i;
+      });
+    }
+  }
+
+  renderLists();
+  setupTabs();
+
+  if (typeof THREE === 'undefined') {
+    document.getElementById('loading').textContent = '3D-Bibliothek konnte nicht geladen werden (Internetverbindung nötig).';
+    window.selectPart = function () {};
+    return;
+  }
+  document.getElementById('loading').remove();
+
+  /* --------------------------- Scene setup -------------------------- */
+  var viewer = document.getElementById('viewer');
+  var stage = document.getElementById('stage3d');
+  var canvas = document.getElementById('gl');
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.92;
+  renderer.localClippingEnabled = true;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(32, 1, 1, 2000);
+  var controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 60;
+  controls.maxDistance = 420;
+  controls.enablePan = false;
+
+  // Soft studio environment for the metal (procedural, no external files).
+  (function makeEnvironment() {
+    var c = document.createElement('canvas');
+    c.width = 512; c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, '#9c9994');
+    grad.addColorStop(0.5, '#6f6c67');
+    grad.addColorStop(1, '#3a3835');
+    g.fillStyle = grad; g.fillRect(0, 0, 512, 256);
+    g.fillStyle = 'rgba(255,255,255,0.9)';
+    g.fillRect(40, 50, 70, 100); g.fillRect(310, 36, 120, 44);
+    g.fillStyle = 'rgba(255,255,255,0.45)';
+    g.fillRect(205, 96, 30, 110);
+    var tex = new THREE.CanvasTexture(c);
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    tex.encoding = THREE.sRGBEncoding;
+    var pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromEquirectangular(tex).texture;
+    tex.dispose();
+  })();
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb9b3aa, 0.35));
+  var key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(60, 120, 90); scene.add(key);
+  var rim = new THREE.DirectionalLight(0xffffff, 0.45); rim.position.set(-80, 60, -60); scene.add(rim);
+
+  /* --------------------------- Geometry ----------------------------- */
+  function rrShape(w, d, r, ShapeClass) {
+    var s = new (ShapeClass || THREE.Shape)();
+    var x = -w / 2, y = -d / 2;
+    r = Math.min(r, w / 2, d / 2);
+    s.moveTo(x + r, y);
+    s.lineTo(x + w - r, y);
+    s.absarc(x + w - r, y + r, r, -Math.PI / 2, 0, false);
+    s.lineTo(x + w, y + d - r);
+    s.absarc(x + w - r, y + d - r, r, 0, Math.PI / 2, false);
+    s.lineTo(x + r, y + d);
+    s.absarc(x + r, y + d - r, r, Math.PI / 2, Math.PI, false);
+    s.lineTo(x, y + r);
+    s.absarc(x + r, y + r, r, Math.PI, 1.5 * Math.PI, false);
+    return s;
+  }
+  // Vertical prism with rounded-rectangle footprint (w along x, d along z), bottom at y=0.
+  function prism(w, d, r, h, opt) {
+    opt = opt || {};
+    var b = opt.bevel || 0;
+    var shape = rrShape(w - 2 * b, d - 2 * b, Math.max(0.2, r - b));
+    if (opt.wall) shape.holes.push(rrShape(w - 2 * opt.wall, d - 2 * opt.wall, Math.max(0.2, r - opt.wall), THREE.Path));
+    if (opt.holeR) {
+      var hp = new THREE.Path();
+      hp.absarc(opt.holeX || 0, opt.holeY || 0, opt.holeR, 0, Math.PI * 2, true);
+      shape.holes.push(hp);
+    }
+    var geo = new THREE.ExtrudeGeometry(shape, {
+      depth: Math.max(0.01, h - 2 * b),
+      bevelEnabled: b > 0,
+      bevelThickness: b,
+      bevelSize: b,
+      bevelSegments: 8,
+      curveSegments: 28,
+    });
+    geo.rotateX(-Math.PI / 2);
+    geo.translate(0, b, 0);
+    geo.computeVertexNormals();
+    return geo;
+  }
+  function box(w, h, d) { var g = new THREE.BoxGeometry(w, h, d); g.translate(0, h / 2, 0); return g; }
+  function disc(r, h, seg) { var g = new THREE.CylinderGeometry(r, r, h, seg || 32); g.translate(0, h / 2, 0); return g; }
+
+  /* --------------------------- Materials ---------------------------- */
+  var M = {
+    alu: function () { return new THREE.MeshStandardMaterial({ color: 0xd8cdbc, metalness: 0.8, roughness: 0.36, envMapIntensity: 1.0 }); },
+    black: function () { return new THREE.MeshStandardMaterial({ color: 0x151517, metalness: 0.1, roughness: 0.5 }); },
+    smoke: function () { return new THREE.MeshStandardMaterial({ color: 0x141416, metalness: 0.2, roughness: 0.12, transparent: true, opacity: 0.86, side: THREE.DoubleSide, envMapIntensity: 0.9 }); },
+    clear: function () { return new THREE.MeshStandardMaterial({ color: 0xe9f2ee, metalness: 0.05, roughness: 0.05, transparent: true, opacity: 0.32, side: THREE.DoubleSide, depthWrite: false }); },
+    silicone: function () { return new THREE.MeshStandardMaterial({ color: 0x3b3b40, metalness: 0, roughness: 0.9 }); },
+    steel: function () { return new THREE.MeshStandardMaterial({ color: 0xbfbfc4, metalness: 0.9, roughness: 0.3 }); },
+    pcb: function () { return new THREE.MeshStandardMaterial({ color: 0x123a2c, metalness: 0.05, roughness: 0.7 }); },
+    ic: function () { return new THREE.MeshStandardMaterial({ color: 0x1a1a1c, metalness: 0.2, roughness: 0.45 }); },
+    pouch: function () { return new THREE.MeshStandardMaterial({ color: 0xb4b2b6, metalness: 0.65, roughness: 0.42 }); },
+    white: function () { return new THREE.MeshStandardMaterial({ color: 0xf2f2f2, metalness: 0, roughness: 0.6 }); },
+    chassis: function () { return new THREE.MeshStandardMaterial({ color: 0xf4f4f2, metalness: 0, roughness: 0.7, transparent: true, opacity: 0.16, depthWrite: false, side: THREE.DoubleSide }); },
+    lightpipe: function () { return new THREE.MeshStandardMaterial({ color: 0xf1f1ee, emissive: 0xffffff, emissiveIntensity: 0.08, metalness: 0, roughness: 0.3 }); },
+    membrane: function () { return new THREE.MeshStandardMaterial({ color: 0xfafafa, metalness: 0, roughness: 1 }); },
+  };
+  var AROMA = { mint: 0x7cc3a0, lemon: 0xe3c766, berry: 0xd98f9e };
+
+  /* ------------------------------ Model ----------------------------- */
+  var root = new THREE.Group();
+  scene.add(root);
+  var partGroups = {};  // id -> Group
+  var meshesByPart = {}; // id -> [Mesh]
+  var clipTargets = []; // materials clipped in section mode
+  var shellParts = { shell: 1, seat: 1, baseCap: 1, cap: 1, chassis: 1, cartridge: 1 };
+
+  // explode: [dx, dy, dz] at 100 %
+  function addPart(id, meshes, explode, opts) {
+    opts = opts || {};
+    var g = new THREE.Group();
+    g.userData = { id: id, base: new THREE.Vector3(), off: new THREE.Vector3(explode[0], explode[1], explode[2]) };
+    meshes.forEach(function (m) {
+      m.userData.partId = id;
+      if (opts.clip) clipTargets.push(m.material);
+      g.add(m);
+    });
+    root.add(g);
+    partGroups[id] = g;
+    meshesByPart[id] = meshes;
+    return g;
+  }
+  function mesh(geo, mat, x, y, z) { var m = new THREE.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0); return m; }
+
+  var W = 25, D = 15, R = 7.5;
+
+  // Housing
+  var shellMat = M.alu();
+  var shell = mesh(prism(W, D, R, 72.5, { wall: 0.8 }), shellMat, 0, 2.5, 0);
+  addPart('shell', [shell], [0, 0, 0], { clip: true });
+
+  var inletMat = new THREE.MeshBasicMaterial({ color: 0x0c0c0d });
+  var inlet = mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.6, 20), inletMat, 12.52, 69.5, 0);
+  inlet.rotation.z = Math.PI / 2;
+  addPart('inlet', [inlet], [0, 0, 0]);
+
+  var seatMat = M.black();
+  var seatWall = mesh(prism(23.4, 13.4, 6.7, 12, { wall: 1.0 }), seatMat, 0, 63, 0);
+  var seatFloor = mesh(prism(21.6, 11.6, 5.8, 1.5, { holeR: 1.6, holeX: -6, holeY: 3 }), seatMat, 0, 63, 0);
+  var seatMagnets = [ -8.2, 8.2 ].map(function (x) { return mesh(disc(1.5, 1.2), M.steel(), x, 63.3, 0); });
+  addPart('seat', [seatWall, seatFloor].concat(seatMagnets), [0, 8, 0], { clip: true });
+
+  var membrane = mesh(disc(1.6, 0.25), M.membrane(), -6, 64.35, -3);
+  addPart('membrane', [membrane], [0, 8, 0]);
+
+  var baseMat = M.black();
+  var baseCap = mesh(prism(24.6, 14.6, 7.3, 3.2, { bevel: 1.1 }), baseMat, 0, 0, 0);
+  var usbSlot = mesh(new THREE.PlaneGeometry(9.2, 3.5), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, -0.02, 0);
+  usbSlot.rotation.x = Math.PI / 2;
+  addPart('baseCap', [baseCap, usbSlot], [0, -14, 0], { clip: true });
+
+  var buttonMat = M.alu();
+  var buttonGeo = new THREE.ExtrudeGeometry(rrShape(5.1, 8.6, 2.55), { depth: 0.35, bevelEnabled: true, bevelThickness: 0.2, bevelSize: 0.2, bevelSegments: 3, curveSegments: 20 });
+  var button = mesh(buttonGeo, buttonMat, 0, 42.5, 7.42);
+  var buttonRing = mesh(new THREE.ExtrudeGeometry(rrShape(6.2, 9.7, 3.1), { depth: 0.12, bevelEnabled: false, curveSegments: 20 }), M.black(), 0, 42.5, 7.46);
+  addPart('button', [button, buttonRing], [0, 0, 12]);
+
+  var chassisMat = M.chassis();
+  var chassis = mesh(prism(22.6, 12.6, 6.3, 58, { wall: 0.7 }), chassisMat, 0, 4.5, 0);
+  addPart('chassis', [chassis], [0, 0, 10], { clip: true });
+
+  // Wordmark decal
+  (function wordmark() {
+    var c = document.createElement('canvas'); c.width = 512; c.height = 128;
+    var g = c.getContext('2d');
+    g.fillStyle = 'rgba(60,56,50,0.85)';
+    g.font = '600 78px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('NoVape', 256, 66);
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(10, 2.5), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
+    m.position.set(0, 9.5, 7.52);
+    m.userData.partId = 'shell';
+    partGroups.shell.add(m);
+  })();
+
+  // Electronics (front of device = +z)
+  var pcb = mesh(box(20, 56, 0.8), M.pcb(), 0, 5, -5.6);
+  var antennaKeepout = mesh(box(20, 3.2, 0.82), new THREE.MeshStandardMaterial({ color: 0x1b4a39, roughness: 0.7 }), 0, 58, -5.6);
+  addPart('pcb', [pcb, antennaKeepout], [0, 0, 18]);
+
+  var bleShield = mesh(box(10, 16, 2.0), M.steel(), 0, 41.5, -4.2);
+  var blePcb = mesh(box(10, 16, 0.3), M.pcb(), 0, 41.5, -5.05);
+  addPart('ble', [bleShield, blePcb], [0, 0, 23]);
+
+  var sensor = mesh(box(2, 0.75, 2), new THREE.MeshStandardMaterial({ color: 0xd4d4d8, metalness: 0.8, roughness: 0.3 }), -6, 61.2, -3);
+  var sensorRiser = mesh(box(3.5, 0.8, 3), M.pcb(), -6, 60.4, -3.5);
+  var tube = mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.4, 16), M.silicone(), -6, 63.1, -3);
+  addPart('sensor', [sensor, sensorRiser, tube], [0, 4, 25]);
+
+  var charger = mesh(box(3, 1.1, 3), M.ic(), 4.5, 10, -4.7);
+  addPart('charger', [charger], [0, 0, 23]);
+  var ldo = mesh(box(2, 0.6, 2), M.ic(), -5, 11, -4.9);
+  addPart('ldo', [ldo], [0, 0, 23]);
+  var hall = mesh(box(1.4, 0.6, 1.1), M.ic(), 6.5, 60.2, -4.9);
+  addPart('hall', [hall], [0, 4, 25]);
+
+  var usbc = mesh(box(8.94, 7.35, 3.26), M.steel(), 0, 0.6, 0);
+  var usbTongue = mesh(box(6.7, 4.5, 0.7), M.black(), 0, 0.5, 0);
+  addPart('usbc', [usbc, usbTongue], [0, -8, 20]);
+
+  var battery = mesh(box(12, 30, 4), M.pouch(), 0, 10, -1.2);
+  var batteryLabel = mesh(box(10, 18, 0.05), new THREE.MeshStandardMaterial({ color: 0x2a2a2d, roughness: 0.7 }), 0, 16, 0.83);
+  addPart('battery', [battery, batteryLabel], [-21, 0, 16]);
+
+  var motorGeo = new THREE.CylinderGeometry(5, 5, 2.7, 36);
+  var motor = mesh(motorGeo, M.steel(), 0, 23, 4.2);
+  motor.rotation.x = Math.PI / 2;
+  var motorFpc = mesh(box(2.5, 8, 0.2), new THREE.MeshStandardMaterial({ color: 0xc27a2c, roughness: 0.6 }), 3, 14, 3.1);
+  addPart('motor', [motor, motorFpc], [21, 0, 16]);
+
+  var sw = mesh(box(3, 4, 2), M.ic(), 0, 40.5, 4.9);
+  var swPlunger = mesh(box(1.4, 1.4, 0.6), M.white(), 0, 41.8, 6.1);
+  addPart('switch', [sw, swPlunger], [0, 0, 20]);
+
+  var lpMat = M.lightpipe();
+  var lightpipe = mesh(box(1.2, 7, 4.66), lpMat, 0, 54, 5.24);
+  var ledChip = mesh(box(1.6, 0.8, 0.6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.1 }), 0, 57, 2.6);
+  addPart('led', [lightpipe, ledChip], [0, 0, 17]);
+
+  // Aroma-Pod
+  var capMat = M.smoke();
+  var cap = mesh(prism(24.6, 14.6, 7.3, 25, { bevel: 4.5 }), capMat, 0, 75, 0);
+  var outlet = mesh(new THREE.PlaneGeometry(5, 1), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, 100.02, 0);
+  outlet.rotation.x = -Math.PI / 2;
+  addPart('cap', [cap, outlet], [0, 34, 0], { clip: true });
+
+  var stemMat = new THREE.MeshStandardMaterial({ color: 0x0e0e10, metalness: 0.1, roughness: 0.2, transparent: true, opacity: 0.9 });
+  var stemGeo = new THREE.CylinderGeometry(2.2, 3.1, 18, 28, 1, true);
+  var stem = mesh(stemGeo, stemMat, 0, 90, 0);
+  stem.scale.set(1.5, 1, 1);
+  stemMat.side = THREE.DoubleSide;
+  addPart('stem', [stem], [0, 34, 0], { clip: true });
+
+  var cartMat = M.clear();
+  var cartridge = mesh(prism(19, 11, 5.5, 14), cartMat, 0, 67, 0);
+  addPart('cartridge', [cartridge], [0, 24, 0], { clip: true });
+
+  var coreMat = new THREE.MeshStandardMaterial({ color: AROMA.mint, roughness: 0.55, metalness: 0 });
+  var core = mesh(disc(3.8, 11, 36), coreMat, 0, 68.5, 0);
+  var coreRibs = [0, 1, 2].map(function (i) { return mesh(disc(4.1, 0.7, 36), coreMat, 0, 70 + i * 3.6, 0); });
+  addPart('core', [core].concat(coreRibs), [0, 24, 0]);
+
+  var seal = mesh(prism(22, 12.8, 6.4, 1.5, { holeR: 1.9 }), M.silicone(), 0, 65.5, 0);
+  addPart('seal', [seal], [0, 15, 0], { clip: true });
+
+  var podMagnets = [-8.2, 8.2].map(function (x) { return mesh(disc(1.5, 2), M.steel(), x, 65.4, 0); });
+  addPart('podMagnets', podMagnets, [0, 15, 0]);
+
+  // Air path (visual only)
+  var airCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(16, 69.5, 0), new THREE.Vector3(12.4, 69.5, 0), new THREE.Vector3(10.4, 68.6, 0),
+    new THREE.Vector3(9.4, 66, 0), new THREE.Vector3(5, 65.1, 0), new THREE.Vector3(0.6, 65.6, 0),
+    new THREE.Vector3(0, 67.4, 0), new THREE.Vector3(0, 74, 0), new THREE.Vector3(0, 81, 0),
+    new THREE.Vector3(0, 90, 0), new THREE.Vector3(0, 99.4, 0), new THREE.Vector3(0, 106, 0),
+  ]);
+  var airMat = new THREE.MeshBasicMaterial({ color: 0x7fbf9a, transparent: true, opacity: 0.28, depthWrite: false });
+  var airTube = new THREE.Mesh(new THREE.TubeGeometry(airCurve, 120, 0.6, 10, false), airMat);
+  root.add(airTube);
+  var pressCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0.6, 65.4, 0), new THREE.Vector3(-3.5, 65, -1.5), new THREE.Vector3(-6, 64.7, -3), new THREE.Vector3(-6, 62, -3),
+  ]);
+  var pressMat = new THREE.MeshBasicMaterial({ color: 0x3f7f5b, transparent: true, opacity: 0.0, depthWrite: false });
+  var pressTube = new THREE.Mesh(new THREE.TubeGeometry(pressCurve, 30, 0.35, 8, false), pressMat);
+  root.add(pressTube);
+  var particles = [];
+  var pGeo = new THREE.SphereGeometry(0.42, 10, 8);
+  var pMat = new THREE.MeshBasicMaterial({ color: 0x5e9f7a, transparent: true, opacity: 0.95, depthWrite: false });
+  for (var i = 0; i < 34; i++) {
+    var pm = new THREE.Mesh(pGeo, pMat);
+    pm.userData.u = i / 34;
+    pm.visible = false;
+    root.add(pm);
+    particles.push(pm);
+  }
+
+  // Contact shadow
+  (function floor() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createRadialGradient(128, 128, 8, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(17,17,17,0.32)'); grad.addColorStop(0.45, 'rgba(17,17,17,0.12)'); grad.addColorStop(1, 'rgba(17,17,17,0)');
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 256);
+    var t = new THREE.CanvasTexture(c);
+    var m = new THREE.Mesh(new THREE.PlaneGeometry(70, 46), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
+    m.rotation.x = -Math.PI / 2;
+    m.position.y = -0.2;
+    m.renderOrder = -1;
+    scene.add(m);
+    window.__floor = m;
+  })();
+
+  // Store rest positions; remember original emissive for highlighting.
+  Object.keys(partGroups).forEach(function (id) {
+    partGroups[id].userData.base.copy(partGroups[id].position);
+    meshesByPart[id].forEach(function (m) {
+      if (m.material && m.material.emissive) {
+        m.userData.emissive = m.material.emissive.getHex();
+        m.userData.emissiveIntensity = m.material.emissiveIntensity;
+      }
+    });
+  });
+
+  // Clipping plane for the section view (removes the front half, z > 0).
+  var cutPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0);
+
+  /* --------------------------- Dimensions --------------------------- */
+  var dimGroup = new THREE.Group();
+  dimGroup.visible = false;
+  scene.add(dimGroup);
+  var dimMat = new THREE.LineBasicMaterial({ color: 0x111111, transparent: true, opacity: 0.55 });
+  function dimLine(a, b, tickDir) {
+    var pts = [a, b,
+      a.clone().add(tickDir), a.clone().sub(tickDir),
+      b.clone().add(tickDir), b.clone().sub(tickDir)];
+    var geo = new THREE.BufferGeometry().setFromPoints(pts);
+    dimGroup.add(new THREE.LineSegments(geo, dimMat));
+  }
+  var DIMS = [
+    { a: new THREE.Vector3(-19, 0, 0), b: new THREE.Vector3(-19, 100, 0), tick: new THREE.Vector3(1.5, 0, 0), text: '100 mm' },
+    { a: new THREE.Vector3(-12.5, 106, 9), b: new THREE.Vector3(12.5, 106, 9), tick: new THREE.Vector3(0, 1.5, 0), text: '25 mm' },
+    { a: new THREE.Vector3(15, 106, -7.5), b: new THREE.Vector3(15, 106, 7.5), tick: new THREE.Vector3(0, 1.5, 0), text: '15 mm' },
+    { a: new THREE.Vector3(19, 75, 0), b: new THREE.Vector3(19, 100, 0), tick: new THREE.Vector3(1.5, 0, 0), text: 'Pod 25 mm' },
+  ];
+  DIMS.forEach(function (d) { dimLine(d.a, d.b, d.tick); });
+  var labelsEl = document.getElementById('labels');
+  var dimLabels = DIMS.map(function (d) {
+    var el = document.createElement('div'); el.className = 'dim'; el.textContent = d.text; el.hidden = true;
+    labelsEl.appendChild(el); return el;
+  });
+  var tagEl = document.createElement('div'); tagEl.className = 'tag'; tagEl.hidden = true; labelsEl.appendChild(tagEl);
+
+  /* ----------------------------- State ------------------------------ */
+  var state = {
+    mode: 'solid',
+    explode: 0, explodeTarget: 0,
+    selected: null,
+    dims: false,
+    sim: { running: false, t: 0 },
+    inDraw: false, belowSince: -1,
+    count: 0,
+    haptic: 0, led: 0,
+    history: [],
+    clock: 0,
+    focus: null,
+  };
+
+  function setMode(mode) {
+    state.mode = mode;
+    document.querySelectorAll('[data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false'); });
+    var xray = mode === 'xray';
+    var section = mode === 'section';
+    shellMat.transparent = xray; shellMat.opacity = xray ? 0.13 : 1; shellMat.depthWrite = !xray; shellMat.side = section ? THREE.DoubleSide : THREE.FrontSide;
+    [seatMat, baseMat].forEach(function (m) { m.transparent = xray; m.opacity = xray ? 0.22 : 1; m.depthWrite = !xray; m.side = section ? THREE.DoubleSide : THREE.FrontSide; });
+    buttonMat.transparent = xray; buttonMat.opacity = xray ? 0.25 : 1;
+    capMat.opacity = xray ? 0.32 : 0.86;
+    chassisMat.opacity = 0.16;
+    chassis.visible = xray || section;
+    clipTargets.forEach(function (m) { m.clippingPlanes = section ? [cutPlane] : null; m.needsUpdate = true; });
+    [shellMat, seatMat, baseMat, buttonMat, capMat, chassisMat].forEach(function (m) { m.needsUpdate = true; });
+  }
+
+  function setExplode(v) {
+    state.explodeTarget = v;
+    document.getElementById('explode').value = String(Math.round(v * 100));
+  }
+
+  function highlight(id, on) {
+    (meshesByPart[id] || []).forEach(function (m) {
+      if (!m.material || !m.material.emissive) return;
+      if (on) { m.material.emissive.setHex(0x3f7f5b); m.material.emissiveIntensity = 0.55; }
+      else { m.material.emissive.setHex(m.userData.emissive); m.material.emissiveIntensity = m.userData.emissiveIntensity; }
+    });
+  }
+
+  var INTERNAL = { pcb: 1, ble: 1, sensor: 1, charger: 1, ldo: 1, hall: 1, usbc: 1, battery: 1, motor: 1, switch: 1, led: 1, chassis: 1, membrane: 1, seat: 1, seal: 1, podMagnets: 1, cartridge: 1, core: 1, stem: 1 };
+
+  function selectPart(id, fromList) {
+    if (state.selected) highlight(state.selected, false);
+    state.selected = id;
+    document.querySelectorAll('.part-btn').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.part === id ? 'true' : 'false'); });
+    var info = document.getElementById('info');
+    if (!id) { info.hidden = true; tagEl.hidden = true; state.focus = null; return; }
+    highlight(id, true);
+    var p = byId[id];
+    document.getElementById('infoNum').textContent = String(p.n).padStart(2, '0');
+    document.getElementById('infoTitle').textContent = p.name;
+    document.getElementById('infoDims').textContent = p.dims;
+    document.getElementById('infoPart').textContent = p.part;
+    document.getElementById('infoCost').textContent = p.cost ? '≈ ' + fmt(p.cost) + ' € (1.000 Stk.)' : 'im Nachbarteil enthalten';
+    document.getElementById('infoText').textContent = p.text;
+    info.hidden = false;
+    tagEl.textContent = p.name;
+    if (INTERNAL[id] && state.mode === 'solid') setMode('xray');
+    if (INTERNAL[id] && state.explodeTarget < 0.35 && id !== 'seat' && id !== 'membrane') setExplode(0.55);
+    state.focus = id;
+    if (fromList && window.matchMedia('(max-width: 979px)').matches) viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  window.selectPart = selectPart;
+
+  /* ----------------------------- Input ------------------------------ */
+  document.querySelectorAll('[data-mode]').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+  document.getElementById('explode').addEventListener('input', function (e) { state.explodeTarget = Number(e.target.value) / 100; });
+  document.getElementById('infoClose').addEventListener('click', function () { selectPart(null); });
+  document.getElementById('dimsBtn').addEventListener('click', function () {
+    state.dims = !state.dims;
+    this.setAttribute('aria-pressed', state.dims ? 'true' : 'false');
+  });
+  document.querySelectorAll('[data-aroma]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      coreMat.color.setHex(AROMA[b.dataset.aroma]);
+      document.querySelectorAll('[data-aroma]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    });
+  });
+  var drawBtn = document.getElementById('drawBtn');
+  drawBtn.addEventListener('click', function () {
+    if (state.sim.running) return;
+    if (state.explodeTarget > 0.05) setExplode(0);
+    if (state.mode === 'solid') setMode('xray');
+    state.sim.running = true; state.sim.t = 0;
+    drawBtn.disabled = true;
+  });
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    setMode('solid'); setExplode(0); selectPart(null); fitCamera(true);
+    state.dims = false; document.getElementById('dimsBtn').setAttribute('aria-pressed', 'false');
+  });
+
+  var raycaster = new THREE.Raycaster();
+  var down = null;
+  canvas.addEventListener('pointerdown', function (e) { down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  canvas.addEventListener('pointerup', function (e) {
+    if (!down) return;
+    var moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
+    var quick = performance.now() - down.t < 450;
+    down = null;
+    if (moved > 6 || !quick) return;
+    var rect = canvas.getBoundingClientRect();
+    var ndc = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+    raycaster.setFromCamera(ndc, camera);
+    var hits = raycaster.intersectObjects(root.children, true).filter(function (h) {
+      var id = h.object.userData.partId;
+      if (!id || !h.object.visible) return false;
+      if (state.mode === 'section' && shellParts[id] && h.point.z > 0.05) return false;
+      return true;
+    });
+    if (state.mode !== 'solid') {
+      var inner = hits.filter(function (h) { return !shellParts[h.object.userData.partId]; });
+      if (inner.length) hits = inner;
+    }
+    selectPart(hits.length ? hits[0].object.userData.partId : null);
+  });
+
+  /* ----------------------------- Camera ----------------------------- */
+  var camGoal = null;
+  function fitCamera(animate) {
+    var rect = stage.getBoundingClientRect();
+    var aspect = rect.width / Math.max(1, rect.height);
+    var dist = aspect < 0.8 ? 320 : aspect < 1.2 ? 255 : 235;
+    var dir = new THREE.Vector3(0.55, 0.28, 1).normalize();
+    var target = new THREE.Vector3(0, 44, 0);
+    var pos = target.clone().add(dir.multiplyScalar(dist));
+    if (animate) camGoal = { pos: pos, target: target };
+    else { camera.position.copy(pos); controls.target.copy(target); controls.update(); }
+  }
+
+  function resize() {
+    var rect = stage.getBoundingClientRect();
+    renderer.setSize(rect.width, rect.height, false);
+    camera.aspect = rect.width / Math.max(1, rect.height);
+    camera.updateProjectionMatrix();
+  }
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize).observe(stage);
+  window.addEventListener('resize', resize);
+  resize();
+  fitCamera(false);
+  setMode('solid');
+
+  /* --------------------------- Pressure HUD ------------------------- */
+  var chart = document.getElementById('chart');
+  var cctx = chart.getContext('2d');
+  function drawChart() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = chart.clientWidth, h = chart.clientHeight;
+    if (chart.width !== Math.round(w * dpr)) { chart.width = Math.round(w * dpr); chart.height = Math.round(h * dpr); }
+    cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cctx.clearRect(0, 0, w, h);
+    var yOf = function (v) { return 4 + ((100 - v) / 700) * (h - 8); }; // range +100 … −600 Pa
+    cctx.strokeStyle = '#ecebe8'; cctx.lineWidth = 1;
+    cctx.beginPath(); cctx.moveTo(0, yOf(0)); cctx.lineTo(w, yOf(0)); cctx.stroke();
+    cctx.setLineDash([3, 3]); cctx.strokeStyle = '#b7852f';
+    cctx.beginPath(); cctx.moveTo(0, yOf(-250)); cctx.lineTo(w, yOf(-250)); cctx.stroke();
+    cctx.setLineDash([]);
+    var hist = state.history;
+    if (hist.length > 1) {
+      var t1 = state.clock, t0 = t1 - 3;
+      cctx.beginPath();
+      hist.forEach(function (s, i) {
+        var x = ((s.t - t0) / 3) * w;
+        if (i === 0) cctx.moveTo(x, yOf(s.v)); else cctx.lineTo(x, yOf(s.v));
+      });
+      cctx.strokeStyle = '#5e9f7a'; cctx.lineWidth = 2; cctx.lineJoin = 'round'; cctx.stroke();
+    }
+  }
+
+  var toastEl = document.getElementById('toast');
+  var toastTimer = 0;
+  function onDetected() {
+    state.count += 1;
+    state.haptic = 0.3;
+    state.led = 1;
+    document.getElementById('count').textContent = String(state.count);
+    var note = document.getElementById('hudNote');
+    note.textContent = 'Zug erkannt · Vibration 60 ms';
+    note.classList.add('is-live');
+    toastEl.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove('is-on');
+      note.textContent = 'Schwelle −250 Pa'; note.classList.remove('is-live');
+    }, 1800);
+  }
+
+  /* ------------------------------ Loop ------------------------------ */
+  var smooth = function (a, b, x) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  var tmp = new THREE.Vector3();
+  var last = performance.now();
+
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    state.clock += dt;
+
+    // Explosion easing; dolly the camera out as parts spread so everything stays in view.
+    var prevE = state.explode;
+    state.explode += (state.explodeTarget - state.explode) * Math.min(1, dt * 7);
+    var e = state.explode;
+    if (Math.abs(e - prevE) > 1e-4) {
+      tmp.subVectors(camera.position, controls.target).setLength(75 * (e - prevE));
+      camera.position.add(tmp);
+    }
+    Object.keys(partGroups).forEach(function (id) {
+      var g = partGroups[id];
+      g.position.copy(g.userData.base).addScaledVector(g.userData.off, e);
+    });
+    window.__floor.position.y = -0.2 - 14 * e;
+
+    // Draw simulation: pressure profile
+    var dp = (Math.random() - 0.5) * 14;
+    if (state.sim.running) {
+      state.sim.t += dt;
+      var t = state.sim.t;
+      dp += -520 * smooth(0.12, 0.5, t) * (1 - smooth(1.35, 1.85, t));
+      if (t > 2.3) { state.sim.running = false; drawBtn.disabled = false; }
+    }
+    if (!state.inDraw && dp < -250) {
+      if (state.belowSince < 0) state.belowSince = state.clock;
+      if (state.clock - state.belowSince >= 0.08) { state.inDraw = true; onDetected(); }
+    } else if (dp >= -250) { state.belowSince = -1; }
+    if (state.inDraw && dp > -120) state.inDraw = false;
+    state.history.push({ t: state.clock, v: dp });
+    while (state.history.length && state.history[0].t < state.clock - 3) state.history.shift();
+    document.getElementById('dpVal').textContent = Math.round(dp) + ' Pa';
+
+    // Air path visibility + particles
+    var showAir = e < 0.08 && (state.mode !== 'solid' || state.sim.running);
+    airTube.visible = showAir;
+    airMat.opacity = state.sim.running ? 0.34 : 0.2;
+    pressTube.visible = showAir;
+    pressMat.opacity = Math.min(0.75, Math.max(0, -dp / 520) * 0.9);
+    var flow = Math.max(0, -dp / 520);
+    particles.forEach(function (p) {
+      p.visible = showAir && flow > 0.05;
+      if (!p.visible) return;
+      p.userData.u = (p.userData.u + dt * 0.55 * flow) % 1;
+      airCurve.getPointAt(p.userData.u, tmp);
+      p.position.copy(tmp);
+    });
+
+    // Haptic + LED
+    if (state.haptic > 0) {
+      state.haptic -= dt;
+      root.position.x = Math.sin(state.clock * 260) * 0.35 * (state.haptic > 0 ? 1 : 0);
+      partGroups.motor.children[0].rotation.y += dt * 60;
+    } else { root.position.x = 0; }
+    state.led = Math.max(0, state.led - dt * 0.9);
+    lpMat.emissiveIntensity = 0.08 + state.led * 2.4;
+
+    // Camera animation
+    if (camGoal) {
+      camera.position.lerp(camGoal.pos, Math.min(1, dt * 5));
+      controls.target.lerp(camGoal.target, Math.min(1, dt * 5));
+      if (camera.position.distanceTo(camGoal.pos) < 0.5) camGoal = null;
+    } else if (state.focus) {
+      var box3 = new THREE.Box3().setFromObject(partGroups[state.focus]);
+      box3.getCenter(tmp);
+      controls.target.lerp(tmp, Math.min(1, dt * 3));
+    } else {
+      // Keep the exploded stack in frame.
+      tmp.set(0, 44 + 16 * e, 0);
+      controls.target.lerp(tmp, Math.min(1, dt * 4));
+    }
+    controls.update();
+    renderer.render(scene, camera);
+
+    // Labels
+    var rect = stage.getBoundingClientRect();
+    var project = function (v, el) {
+      var p = v.clone().project(camera);
+      var hidden = p.z > 1;
+      el.hidden = hidden;
+      if (!hidden) { el.style.left = ((p.x + 1) / 2) * rect.width + 'px'; el.style.top = ((1 - p.y) / 2) * rect.height + 'px'; }
+    };
+    dimGroup.visible = state.dims && e < 0.08;
+    DIMS.forEach(function (d, i) {
+      if (!dimGroup.visible) { dimLabels[i].hidden = true; return; }
+      project(d.a.clone().add(d.b).multiplyScalar(0.5), dimLabels[i]);
+    });
+    if (state.selected) {
+      var b3 = new THREE.Box3().setFromObject(partGroups[state.selected]);
+      var c3 = new THREE.Vector3(); b3.getCenter(c3); c3.y = b3.max.y;
+      project(c3, tagEl);
+    }
+    drawChart();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
