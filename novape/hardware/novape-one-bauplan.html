@@ -109,6 +109,8 @@ h1, h2, h3 { text-wrap: balance; }
 
 .tag { position: absolute; transform: translate(-50%, calc(-100% - 10px)); padding: 4px 8px; border-radius: 8px; background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 600; white-space: nowrap; pointer-events: none; }
 .tag::after { content: ''; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; background: var(--ink); transform: translateX(-50%) rotate(45deg); }
+.side-tag.flip { border-left: 1px solid rgba(17,17,17,.12); border-right: 3px solid var(--accent-strong); }
+.side-tag { position: absolute; z-index: 2; transform: translateY(-50%); padding: 4px 9px 4px 8px; border-radius: 8px; background: rgba(255,255,255,.95); border: 1px solid rgba(17,17,17,.12); border-left: 3px solid var(--accent-strong); font-size: 12px; font-weight: 600; white-space: nowrap; pointer-events: none; box-shadow: 0 4px 14px rgba(17,17,17,.08); }
 .dim { position: absolute; transform: translate(-50%, -50%); padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,.92); font-family: var(--mono); font-size: 11.5px; font-weight: 500; pointer-events: none; white-space: nowrap; border: 1px solid rgba(17,17,17,.1); }
 .hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 13px; color: var(--muted); }
 .toast { top: 88px; right: 12px; width: 190px; padding: 8px 12px; border-radius: 12px; background: var(--ink); color: #fff; font-size: 12px; font-weight: 600; opacity: 0; transform: translateY(-6px); transition: opacity .25s ease, transform .25s ease; }
@@ -263,6 +265,7 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
             <button type="button" class="aroma" data-aroma="lemon" style="background:#e3c766" aria-label="Zitrone" aria-pressed="false"></button>
             <button type="button" class="aroma" data-aroma="berry" style="background:#d98f9e" aria-label="Beere" aria-pressed="false"></button>
           </div>
+          <button type="button" class="pillbtn" id="headBtn" data-head-toggle aria-pressed="false">Kopf abnehmen</button>
           <button type="button" class="pillbtn" id="dimsBtn" aria-pressed="false">Maße</button>
           <button type="button" class="pillbtn" id="resetBtn">Zurücksetzen</button>
           <button type="button" class="pillbtn pillbtn--primary" id="drawBtn">▶ Zug simulieren</button>
@@ -281,8 +284,16 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
       </div>
 
       <div class="tabpanel" role="tabpanel" id="tab-aufbau" aria-labelledby="t-aufbau">
-        <p class="lead">Zwei klar getrennte Einheiten: ein <strong>wechselbarer Aroma-Pod</strong> (einziger Teil mit Mundkontakt) und das <strong>Hauptgerät</strong> mit Sensorik, Haptik und Bluetooth. Tippe ein Teil an – im Modell oder in der Liste.</p>
-        <h2 class="section-title">Aroma-Pod · wechselbar</h2>
+        <p class="lead">Oben der <strong>Kopf</strong> – Kappe, Aroma-Kartusche und der schwarze Sockel, auf dem alles sitzt. Darunter das <strong>Hauptgerät</strong> mit Sensorik, Haptik und Bluetooth. Tippe ein Teil an – im Modell oder in der Liste.</p>
+        <h2 class="section-title">So wird der Kopf aufgesetzt</h2>
+        <ol class="steps">
+          <li><span class="k">1</span><div><h4>Pod-Sockel – bleibt am Gerät</h4><p>Das schwarze Stufenteil oben auf dem Gehäuse: unten der glänzende Kopfring (die schwarze Fuge unter der Kappe), darüber Flansch und Turm. Er trägt alles, was man aufsetzt.</p></div></li>
+          <li><span class="k">2</span><div><h4>Aroma-Kartusche einstecken</h4><p>Von oben in den Turm des Sockels drücken, bis die Silikondichtung unten anliegt. Der angeformte Y-Kanal zeigt nach oben.</p></div></li>
+          <li><span class="k">3</span><div><h4>Kappe aufsetzen – Klick</h4><p>Die Kappe über Kanal und Sockel schieben. Zwei Magnete im Kappenrand ziehen sie auf den Kopfring; der Kanal endet genau unter dem Auslass-Schlitz.</p></div></li>
+          <li><span class="k">4</span><div><h4>Wechseln</h4><p>Kappe abziehen, Kartusche am Kanal herausziehen, neue einsetzen, Kappe wieder aufsetzen. Die Kappe ist abwaschbar und wird weiterverwendet.</p></div></li>
+        </ol>
+        <button type="button" class="pillbtn" data-head-toggle style="margin-top:12px">Kopf im Modell abnehmen</button>
+        <h2 class="section-title">Kopf · Kappe, Kartusche, Sockel</h2>
         <ul class="parts" id="list-pod"></ul>
         <h2 class="section-title">Hauptgerät · Gehäuse</h2>
         <ul class="parts" id="list-housing"></ul>
@@ -295,7 +306,7 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
         <h2 class="section-title">Ablauf einer Nutzung</h2>
         <ol class="steps">
           <li><span class="k">1</span><div><h4>Ansetzen und leicht ziehen</h4><p>Luft strömt durch den seitlichen Lufteinlass (Ø 1,2 mm) in die Pod-Aufnahme. Die Bohrung bestimmt den Zugwiderstand – im Prototyp 1,0 / 1,2 / 1,4 mm testen.</p></div></li>
-          <li><span class="k">2</span><div><h4>Geschmack bei Raumtemperatur</h4><p>Die Luft zieht durch den Aromaträger in der Kartusche und über den Kanal im Mundstück in den Mund. Der Geschmack entsteht im Mund – nichts wird erhitzt oder verdampft.</p></div></li>
+          <li><span class="k">2</span><div><h4>Geschmack bei Raumtemperatur</h4><p>Die Luft zieht von unten durch den Sockel in die Kartusche, am Aromaträger vorbei und über den Y-Kanal zum Auslass-Schlitz der Kappe in den Mund. Der Geschmack entsteht im Mund – nichts wird erhitzt oder verdampft.</p></div></li>
           <li><span class="k">3</span><div><h4>Zugsensor misst den Unterdruck</h4><p>Beim Zug fällt der Druck im Kanal um ca. 300–600 Pa. Über einen Port mit hydrophober ePTFE-Membran erreicht der Druck den MEMS-Sensor (BMP390) – Speichel und Feuchtigkeit bleiben draußen, die Elektronik ist vom Mundbereich getrennt.</p></div></li>
           <li><span class="k">4</span><div><h4>Kurzes Feedback</h4><p>Die Firmware erkennt den Zug ab −250 Pa über mindestens 80 ms. Dann folgt ein 60-ms-Vibrationsimpuls und der Lichtstreifen glimmt kurz auf.</p></div></li>
           <li><span class="k">5</span><div><h4>Zählen und synchronisieren</h4><p>Jede Nutzung wird mit Zeitstempel und Dauer im Flash gespeichert (auch offline) und per Bluetooth LE an die NoVape-App übertragen.</p></div></li>
@@ -329,13 +340,13 @@ if (imZug &amp;&amp; dp &gt; -120) {
 
       <div class="tabpanel" role="tabpanel" id="tab-bom" aria-labelledby="t-bom" hidden>
         <p class="lead">Beispiel-Bauteile mit echten Datenblatt-Maßen. Die Kosten sind grobe Schätzungen je Stück bei 1.000 Stück, ohne Werkzeugkosten.</p>
-        <h2 class="section-title">Hauptgerät</h2>
+        <h2 class="section-title">Hauptgerät inkl. Mundstück-Kappe</h2>
         <div class="table-wrap"><table>
           <thead><tr><th class="r">#</th><th>Teil</th><th>Beispiel · Abmessungen</th><th class="r">≈ €</th></tr></thead>
           <tbody id="bom-device"></tbody>
           <tfoot><tr><td></td><td colspan="2">Summe Bauteile + Montage/Test (≈ 1,50 €)</td><td class="r" id="sum-device"></td></tr></tfoot>
         </table></div>
-        <h2 class="section-title">Aroma-Pod</h2>
+        <h2 class="section-title">Aroma-Kartusche · Verbrauchsteil</h2>
         <div class="table-wrap"><table>
           <thead><tr><th class="r">#</th><th>Teil</th><th>Beispiel · Abmessungen</th><th class="r">≈ €</th></tr></thead>
           <tbody id="bom-pod"></tbody>
@@ -456,17 +467,18 @@ if (imZug &amp;&amp; dp &gt; -120) {
    *  Parts: dimensions in millimetres, costs = rough estimate @ 1k pcs  *
    * ------------------------------------------------------------------ */
   var PARTS = [
-    // Aroma-Pod
-    { id: 'cap', group: 'pod', name: 'Mundstück', dims: '24,6 × 14,6 × 25 mm', part: 'Tritan™-Copolyester, rauchgrau', cost: 0.12, text: 'Einziger Teil mit Lippenkontakt. Abgerundete Lippenzone, Auslass-Schlitz 1 × 5 mm. Material für Lebensmittelkontakt nach EU 10/2011.' },
-    { id: 'stem', group: 'pod', name: 'Luftkanal im Mundstück', dims: 'Ø 4–6 × 18 mm', part: 'Tritan, angeformt', cost: 0, text: 'Führt die aromatisierte Luft von der Kartusche zum Auslass. Kein Heizelement, kein Docht, kein Liquid.' },
-    { id: 'cartridge', group: 'pod', name: 'Aroma-Kartusche', dims: '19 × 11 × 14 mm', part: 'Tritan, klar', cost: 0.08, text: 'Hält den Aromaträger. Die Luft strömt bei Raumtemperatur hindurch.' },
-    { id: 'core', group: 'pod', name: 'Aromaträger', dims: 'Ø 7,6 × 11 mm', part: 'Lebensmittelaroma auf Cellulose-/Polymerträger', cost: 0.15, text: 'Gibt Geschmack an die durchströmende Luft ab. Rezeptur und Träger mit einem Aroma-Partner entwickeln (Aromenverordnung EG 1334/2008).' },
-    { id: 'seal', group: 'pod', name: 'Dichtung Luftkanal', dims: '22 × 12,8 × 1,5 mm', part: 'LSR-Silikon, lebensmittelecht', cost: 0.05, text: 'Dichtet den Pod zur Aufnahme ab, damit der Zug nur über den definierten Lufteinlass läuft – Voraussetzung für eine saubere Druckmessung.' },
-    { id: 'podMagnets', group: 'pod', name: 'Pod-Magnete (2×)', dims: 'Ø 3 × 2 mm', part: 'NdFeB N52, vernickelt, eingegossen', cost: 0.10, text: 'Halten den Pod mit spürbarem Klick. Der Hall-Sensor im Gerät erkennt, ob ein Pod sitzt.' },
+    // Kopf
+    { id: 'cap', group: 'pod', bom: 'device', name: 'Mundstück-Kappe', dims: '24,4 × 14,6 × 22,2 mm · leicht konisch', part: 'Tritan™-Copolyester, rauchgrau transparent', cost: 0.12, text: 'Wird von oben aufgesteckt und von zwei Magneten auf dem Kopfring gehalten. Abnehmbar und abwaschbar. Verjüngt sich nach oben auf 22,4 × 13,4 mm, flach gewölbte Oberseite mit Auslass-Schlitz 7,2 × 2 mm. Lebensmittelkontakt nach EU 10/2011.' },
+    { id: 'stem', group: 'pod', bom: 'pod', name: 'Mundstück-Kanal (Y-Trichter)', dims: 'Ø 3,6 mm → 9,8 × 2,8 mm · 14,6 mm hoch', part: 'schwarz, an die Kartusche angeformt', cost: 0, text: 'Führt die Luft aus der Kartusche nach oben und weitet sich flach zum Auslass-Schlitz der Kappe auf. Durch die getönte Kappe sieht man ihn als Y.' },
+    { id: 'cartridge', group: 'pod', bom: 'pod', name: 'Aroma-Kartusche', dims: '10,6 × 8,2 × 17,4 mm', part: 'Tritan klar · Verbrauchsteil', cost: 0.10, text: 'Das Teil, das gewechselt wird: steckt im Sockel, oben mit angeformtem Y-Kanal. Zum Wechseln Kappe abziehen und die Kartusche am Kanal herausziehen.' },
+    { id: 'core', group: 'pod', bom: 'pod', name: 'Aromaträger', dims: 'Ø 6 × 12,5 mm', part: 'Lebensmittelaroma auf Cellulose-/Polymerträger', cost: 0.15, text: 'Gibt Geschmack an die durchströmende Luft ab. Rezeptur und Träger mit einem Aroma-Partner entwickeln (Aromenverordnung EG 1334/2008).' },
+    { id: 'seal', group: 'pod', bom: 'pod', name: 'Dichtung Kartusche', dims: '11,4 × 9 × 1,4 mm', part: 'LSR-Silikon, lebensmittelecht', cost: 0.05, text: 'Dichtet die Kartusche unten im Sockel ab, damit der Zug nur über den Lufteinlass läuft – Voraussetzung für eine saubere Druckmessung.' },
+    { id: 'capMagnets', group: 'pod', bom: 'device', name: 'Kappen-Magnete (2 + 2)', dims: 'Ø 2,5 × 1,5 mm', part: 'NdFeB N52, vernickelt, eingegossen', cost: 0.12, text: 'Zwei Magnete im Kappenrand, zwei Gegenmagnete im Kopfring. Sie ziehen die Kappe mit spürbarem Klick in Position; der Hall-Sensor erkennt den aufgesetzten Kopf.' },
+    { id: 'collar', group: 'pod', bom: 'device', name: 'Pod-Sockel (Aufsatz)', dims: 'Kopfring 25 × 15 · Flansch 18,9 × 12,4 · Turm 12,7 × 10,2 · 8 mm hoch', part: 'PC schwarz, hochglänzend · fest am Gerät', cost: 0.15, text: 'Das schwarze Stufenteil, das man durch die Kappe sieht – darauf wird der Kopf gesetzt. Der Turm hält die Kartusche mittig und dicht, im Kopfring sitzen die Gegenmagnete für die Kappe, und von unten strömt die Luft durch den Sockel in die Kartusche. Er bleibt immer am Gerät.' },
     // Gehäuse
-    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 72,5 mm · Wand 0,8', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
+    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 74,5 mm · Wand 0,8', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
     { id: 'inlet', group: 'housing', name: 'Lufteinlass', dims: 'Ø 1,2 mm', part: 'Bohrung in der Hülse', cost: 0, text: 'Einziger Lufteintritt. Der Durchmesser bestimmt den Zugwiderstand (Prototyp: 1,0 / 1,2 / 1,4 mm testen).' },
-    { id: 'seat', group: 'housing', name: 'Pod-Aufnahme', dims: '23,4 × 13,4 × 12 mm', part: 'PC/ABS schwarz, Spritzguss', cost: 0.25, text: 'Trennt den Mundkontakt-Bereich konstruktiv von der Elektronik. Enthält die Gegenmagnete und den Sensor-Port.' },
+    { id: 'seat', group: 'housing', name: 'Pod-Aufnahme', dims: '23,4 × 13,4 × 14 mm', part: 'PC/ABS schwarz, Spritzguss', cost: 0.20, text: 'Becher im oberen Gehäuse unter dem Sockel. Trennt den Mundkontakt-Bereich konstruktiv von der Elektronik und enthält den Sensor-Port.' },
     { id: 'membrane', group: 'housing', name: 'Sensor-Port mit Membran', dims: 'Ø 3,2 × 0,2 mm', part: 'ePTFE, hydrophob, luftdurchlässig', cost: 0.10, text: 'Überträgt den Unterdruck zum Sensor, hält Speichel und Feuchtigkeit zurück. So bleibt die Elektronik vom Mundbereich getrennt.' },
     { id: 'button', group: 'housing', name: 'Taste', dims: '5,5 × 9 mm', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 3 s halten: mit der App koppeln.' },
     { id: 'chassis', group: 'housing', name: 'Innenchassis', dims: '22,6 × 58 × 12,6 mm', part: 'PC/ABS, Schnappverbindungen', cost: 0.40, text: 'Hält Platine, Akku, Motor und Lichtleiter. Wird als Einheit in die Hülse geschoben.' },
@@ -511,9 +523,11 @@ if (imZug &amp;&amp; dp &gt; -120) {
       });
     });
     var sums = { device: 1.5, pod: 0.2 };
-    [['device', ['housing', 'electronics']], ['pod', ['pod']]].forEach(function (pair) {
-      var body = document.getElementById('bom-' + pair[0]);
-      PARTS.filter(function (p) { return pair[1].indexOf(p.group) >= 0 && p.cost > 0; }).forEach(function (p) {
+    var bomOf = function (p) { return p.bom || (p.group === 'pod' ? 'pod' : 'device'); };
+    ['device', 'pod'].forEach(function (kind) {
+      var pair = [kind];
+      var body = document.getElementById('bom-' + kind);
+      PARTS.filter(function (p) { return bomOf(p) === kind && p.cost > 0; }).forEach(function (p) {
         sums[pair[0]] += p.cost;
         var tr = document.createElement('tr');
         [String(p.n).padStart(2, '0'), p.name, p.part, fmt(p.cost)].forEach(function (v, i) {
@@ -533,9 +547,9 @@ if (imZug &amp;&amp; dp &gt; -120) {
       document.getElementById('sum-' + pair[0]).textContent = '≈ ' + fmt(sums[pair[0]]);
     });
     document.getElementById('bomCompare').textContent =
-      'Gerät ≈ ' + fmt(sums.device) + ' € statt 12,00 € Planannahme; Pod ≈ ' + fmt(sums.pod) + ' € je Stück. ' +
+      'Gerät inkl. Kappe ≈ ' + fmt(sums.device) + ' € statt 12,00 € Planannahme; Aroma-Kartusche ≈ ' + fmt(sums.pod) + ' € je Stück. ' +
       'Sparpotenzial ab höheren Stückzahlen: nRF52832-Chip statt Modul (≈ −1,50 €), Hülse als Strangpressprofil statt CNC. ' +
-      'Bei 3–5 Pods pro Refill-Packung (5,90–9,90 €) liegen die Pod-Kosten bei ≈ ' + fmt(sums.pod * 3) + '–' + fmt(sums.pod * 5) + ' € – plus Verpackung und Versand.';
+      'Bei 3–5 Kartuschen pro Refill-Packung (5,90–9,90 €) liegen die Kosten bei ≈ ' + fmt(sums.pod * 3) + '–' + fmt(sums.pod * 5) + ' € – plus Verpackung und Versand.';
   }
 
   function setupTabs() {
@@ -607,6 +621,15 @@ if (imZug &amp;&amp; dp &gt; -120) {
     tex.dispose();
   })();
 
+  (function background() {
+    var c = document.createElement('canvas'); c.width = 4; c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, '#eeece9'); grad.addColorStop(1, '#e2dfdb');
+    g.fillStyle = grad; g.fillRect(0, 0, 4, 256);
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding;
+    scene.background = t;
+  })();
   scene.add(new THREE.HemisphereLight(0xffffff, 0xb9b3aa, 0.35));
   var key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(60, 120, 90); scene.add(key);
   var rim = new THREE.DirectionalLight(0xffffff, 0.45); rim.position.set(-80, 60, -60); scene.add(rim);
@@ -633,6 +656,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     var b = opt.bevel || 0;
     var shape = rrShape(w - 2 * b, d - 2 * b, Math.max(0.2, r - b));
     if (opt.wall) shape.holes.push(rrShape(w - 2 * opt.wall, d - 2 * opt.wall, Math.max(0.2, r - opt.wall), THREE.Path));
+    if (opt.hole) shape.holes.push(rrShape(opt.hole[0], opt.hole[1], opt.hole[2], THREE.Path));
     if (opt.holeR) {
       var hp = new THREE.Path();
       hp.absarc(opt.holeX || 0, opt.holeY || 0, opt.holeR, 0, Math.PI * 2, true);
@@ -651,6 +675,45 @@ if (imZug &amp;&amp; dp &gt; -120) {
     geo.computeVertexNormals();
     return geo;
   }
+  // Points around a stadium (w along x ≥ d along z), evenly spaced by arc length, starting at +x.
+  function stadiumPts(w, d, n) {
+    var r = Math.min(w, d) / 2, L = Math.max(0, w - d), P = 2 * L + 2 * Math.PI * r, out = [];
+    for (var i = 0; i < n; i++) {
+      var s = (i / n) * P, q = (Math.PI * r) / 2, a;
+      if (s < q) { a = s / r; out.push([L / 2 + r * Math.cos(a), r * Math.sin(a)]); continue; }
+      s -= q;
+      if (s < L) { out.push([L / 2 - s, r]); continue; }
+      s -= L;
+      if (s < Math.PI * r) { a = Math.PI / 2 + s / r; out.push([-L / 2 + r * Math.cos(a), r * Math.sin(a)]); continue; }
+      s -= Math.PI * r;
+      if (s < L) { out.push([-L / 2 + s, -r]); continue; }
+      s -= L;
+      a = 1.5 * Math.PI + s / r;
+      out.push([L / 2 + r * Math.cos(a), r * Math.sin(a)]);
+    }
+    return out;
+  }
+  // Skin through stadium cross-sections [{y, w, d}], optionally closed at the top.
+  function loft(sections, n, topY) {
+    var pos = [], idx = [], i, k;
+    sections.forEach(function (sec) { stadiumPts(sec.w, sec.d, n).forEach(function (p) { pos.push(p[0], sec.y, p[1]); }); });
+    for (k = 0; k < sections.length - 1; k++) {
+      for (i = 0; i < n; i++) {
+        var a = k * n + i, b = k * n + ((i + 1) % n), c = (k + 1) * n + i, d = (k + 1) * n + ((i + 1) % n);
+        idx.push(a, c, b, b, c, d);
+      }
+    }
+    if (topY != null) {
+      var base = (sections.length - 1) * n, ci = pos.length / 3;
+      pos.push(0, topY, 0);
+      for (i = 0; i < n; i++) idx.push(base + i, ci, base + ((i + 1) % n));
+    }
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setIndex(idx);
+    geo.computeVertexNormals();
+    return geo;
+  }
   function box(w, h, d) { var g = new THREE.BoxGeometry(w, h, d); g.translate(0, h / 2, 0); return g; }
   function disc(r, h, seg) { var g = new THREE.CylinderGeometry(r, r, h, seg || 32); g.translate(0, h / 2, 0); return g; }
 
@@ -658,6 +721,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var M = {
     alu: function () { return new THREE.MeshStandardMaterial({ color: 0xd8cdbc, metalness: 0.8, roughness: 0.36, envMapIntensity: 1.0 }); },
     black: function () { return new THREE.MeshStandardMaterial({ color: 0x151517, metalness: 0.1, roughness: 0.5 }); },
+    gloss: function () { return new THREE.MeshStandardMaterial({ color: 0x0b0b0c, metalness: 0.3, roughness: 0.16 }); },
     smoke: function () { return new THREE.MeshStandardMaterial({ color: 0x141416, metalness: 0.2, roughness: 0.12, transparent: true, opacity: 0.86, side: THREE.DoubleSide, envMapIntensity: 0.9 }); },
     clear: function () { return new THREE.MeshStandardMaterial({ color: 0xe9f2ee, metalness: 0.05, roughness: 0.05, transparent: true, opacity: 0.32, side: THREE.DoubleSide, depthWrite: false }); },
     silicone: function () { return new THREE.MeshStandardMaterial({ color: 0x3b3b40, metalness: 0, roughness: 0.9 }); },
@@ -671,6 +735,42 @@ if (imZug &amp;&amp; dp &gt; -120) {
     membrane: function () { return new THREE.MeshStandardMaterial({ color: 0xfafafa, metalness: 0, roughness: 1 }); },
   };
   var AROMA = { mint: 0x7cc3a0, lemon: 0xe3c766, berry: 0xd98f9e };
+
+  // Smoked glass: multiplies whatever is behind it (so black parts stay black and
+  // the background turns grey-brown) and darkens towards the silhouette like real tinted plastic.
+  function tintedGlass(r, g, b, edge, power) {
+    return new THREE.ShaderMaterial({
+      uniforms: { tint: { value: new THREE.Color(r, g, b) }, edge: { value: edge == null ? 0.92 : edge }, power: { value: power || 2.4 } },
+      vertexShader: [
+        '#include <clipping_planes_pars_vertex>',
+        'varying vec3 vN; varying vec3 vV;',
+        'void main() {',
+        '  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);',
+        '  vV = -mvPosition.xyz; vN = normalize(normalMatrix * normal);',
+        '  gl_Position = projectionMatrix * mvPosition;',
+        '  #include <clipping_planes_vertex>',
+        '}',
+      ].join('\n'),
+      fragmentShader: [
+        '#include <clipping_planes_pars_fragment>',
+        'uniform vec3 tint; uniform float edge; uniform float power; varying vec3 vN; varying vec3 vV;',
+        'void main() {',
+        '  #include <clipping_planes_fragment>',
+        '  float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), power);',
+        '  gl_FragColor = vec4(mix(tint, vec3(0.015), f * edge), 1.0);',
+        '}',
+      ].join('\n'),
+      transparent: true,
+      depthWrite: false,
+      premultipliedAlpha: true,
+      blending: THREE.MultiplyBlending,
+      side: THREE.DoubleSide,
+      clipping: true,
+    });
+  }
+  function glassGloss() {
+    return new THREE.MeshStandardMaterial({ color: 0x000000, metalness: 0, roughness: 0.07, envMapIntensity: 1.6, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.FrontSide });
+  }
 
   /* ------------------------------ Model ----------------------------- */
   var root = new THREE.Group();
@@ -701,7 +801,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
 
   // Housing
   var shellMat = M.alu();
-  var shell = mesh(prism(W, D, R, 72.5, { wall: 0.8 }), shellMat, 0, 2.5, 0);
+  var shell = mesh(prism(W, D, R, 74.5, { wall: 0.8 }), shellMat, 0, 2.5, 0);
   addPart('shell', [shell], [0, 0, 0], { clip: true });
 
   var inletMat = new THREE.MeshBasicMaterial({ color: 0x0c0c0d });
@@ -710,10 +810,9 @@ if (imZug &amp;&amp; dp &gt; -120) {
   addPart('inlet', [inlet], [0, 0, 0]);
 
   var seatMat = M.black();
-  var seatWall = mesh(prism(23.4, 13.4, 6.7, 12, { wall: 1.0 }), seatMat, 0, 63, 0);
+  var seatWall = mesh(prism(23.4, 13.4, 6.7, 14, { wall: 1.0 }), seatMat, 0, 63, 0);
   var seatFloor = mesh(prism(21.6, 11.6, 5.8, 1.5, { holeR: 1.6, holeX: -6, holeY: 3 }), seatMat, 0, 63, 0);
-  var seatMagnets = [ -8.2, 8.2 ].map(function (x) { return mesh(disc(1.5, 1.2), M.steel(), x, 63.3, 0); });
-  addPart('seat', [seatWall, seatFloor].concat(seatMagnets), [0, 8, 0], { clip: true });
+  addPart('seat', [seatWall, seatFloor], [0, 8, 0], { clip: true });
 
   var membrane = mesh(disc(1.6, 0.25), M.membrane(), -6, 64.35, -3);
   addPart('membrane', [membrane], [0, 8, 0]);
@@ -793,41 +892,90 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var ledChip = mesh(box(1.6, 0.8, 0.6), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.1 }), 0, 57, 2.6);
   addPart('led', [lightpipe, ledChip], [0, 0, 17]);
 
-  // Aroma-Pod
-  var capMat = M.smoke();
-  var cap = mesh(prism(24.6, 14.6, 7.3, 25, { bevel: 4.5 }), capMat, 0, 75, 0);
-  var outlet = mesh(new THREE.PlaneGeometry(5, 1), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, 100.02, 0);
-  outlet.rotation.x = -Math.PI / 2;
-  addPart('cap', [cap, outlet], [0, 34, 0], { clip: true });
+  // Kopf: Pod-Sockel (bleibt am Gerät) → Aroma-Kartusche mit Y-Kanal → Mundstück-Kappe
+  var collarMat = M.gloss();
+  var band = mesh(prism(25, 15, 7.5, 0.8, { wall: 2.6 }), collarMat, 0, 77, 0);
+  var flange = mesh(prism(18.9, 12.4, 6.2, 2.6, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 77.8, 0);
+  var tower = mesh(prism(12.7, 10.2, 5.1, 4.0, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 80.4, 0);
+  var lip = mesh(prism(11.9, 9.4, 4.7, 0.6, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 84.4, 0);
+  var counterMagnets = [-10.3, 10.3].map(function (x) { return mesh(disc(1.25, 1.5), M.steel(), x, 76.3, 0); });
+  addPart('collar', [band, flange, tower, lip].concat(counterMagnets), [0, 8, 0], { clip: true });
 
-  var stemMat = new THREE.MeshStandardMaterial({ color: 0x0e0e10, metalness: 0.1, roughness: 0.2, transparent: true, opacity: 0.9 });
-  var stemGeo = new THREE.CylinderGeometry(2.2, 3.1, 18, 28, 1, true);
-  var stem = mesh(stemGeo, stemMat, 0, 90, 0);
-  stem.scale.set(1.5, 1, 1);
-  stemMat.side = THREE.DoubleSide;
-  addPart('stem', [stem], [0, 34, 0], { clip: true });
+  // Kappe: Rauchglas mit ~0,9 mm Wand – außen und innen je eine Fläche, damit die Wand
+  // an den Kanten dunkel abgesetzt wirkt wie beim Original.
+  function capSections(w0, d0, y0, yTop, rTop, inset0) {
+    var secs = [{ y: y0, w: w0, d: d0 }, { y: y0 + (yTop - rTop - y0) * 0.5, w: w0 - inset0 / 2, d: d0 - inset0 * 0.3 }, { y: yTop - rTop, w: w0 - inset0, d: d0 - inset0 * 0.6 }];
+    var wT = w0 - inset0, dT = d0 - inset0 * 0.6;
+    for (var k = 1; k <= 14; k++) {
+      var phi = (k / 14) * (Math.PI / 2), inset = rTop * (1 - Math.cos(phi));
+      secs.push({ y: yTop - rTop + rTop * Math.sin(phi), w: wT - 2 * inset, d: Math.max(1.2, dT - 1.75 * inset) });
+    }
+    return secs;
+  }
+  var capTint = tintedGlass(0.72, 0.705, 0.69, 1.0, 1.1);
+  var capInnerTint = tintedGlass(0.95, 0.948, 0.945, 0.9, 2.0);
+  var capMat = glassGloss();
+  var capGeo = loft(capSections(24.4, 14.6, 77.8, 100, 5.3, 2.0), 112, 100);
+  var cap = mesh(capGeo, capTint, 0, 0, 0);
+  cap.renderOrder = 2;
+  var capInner = mesh(loft(capSections(22.6, 12.8, 79.0, 99.75, 5.1, 2.0), 112, 99.75), capInnerTint, 0, 0, 0);
+  capInner.renderOrder = 2;
+  var capShine = mesh(capGeo, capMat, 0, 0, 0);
+  capShine.renderOrder = 3;
+  var capRimTint = tintedGlass(0.16, 0.15, 0.14, 0.9, 2.0);
+  var capRim = mesh(prism(24.3, 14.5, 7.25, 1.3, { wall: 1.0 }), capRimTint, 0, 77.8, 0);
+  capRim.renderOrder = 2;
+  var outlet = mesh(new THREE.ShapeGeometry(rrShape(7.2, 2.0, 1.0), 12), new THREE.MeshBasicMaterial({ color: 0x050505 }), 0, 100.03, 0);
+  outlet.rotation.x = -Math.PI / 2;
+  addPart('cap', [cap, capInner, capShine, capRim, outlet], [0, 30, 0], { clip: true });
+
+  var capMagnets = [-10.3, 10.3].map(function (x) { return mesh(disc(1.25, 1.5), M.steel(), x, 77.9, 0); });
+  addPart('capMagnets', capMagnets, [0, 30, 0]);
+
+  // Mundstück-Kanal: kräftiger Stiel aus dem Sockel, der sich in zwei Arme (Y) teilt;
+  // dazwischen ein dünner, rauchiger Steg mit dem V-förmigen Luftkanal.
+  var stemMat = M.gloss();
+  var stemProfile = [[0, 84.5], [2.7, 84.5], [2.25, 84.9], [2.02, 85.6], [1.95, 87.2], [1.98, 88.2], [1.9, 89.0], [1.5, 89.7], [0.8, 90.0], [0, 90.1]]
+    .map(function (p) { return new THREE.Vector2(p[0], p[1]); });
+  var neck = mesh(new THREE.LatheGeometry(stemProfile, 40), stemMat, 0, 0, 0);
+  neck.scale.z = 0.9;
+  var arms = [-1, 1].map(function (sx) {
+    var curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(sx * 0.6, 88.9, 0), new THREE.Vector3(sx * 2.4, 93.6, 0), new THREE.Vector3(sx * 4.55, 99.15, 0));
+    var arm = mesh(new THREE.TubeGeometry(curve, 28, 0.88, 14, false), stemMat, 0, 0, 0);
+    arm.scale.z = 1.45;
+    return arm;
+  });
+  var webMat = tintedGlass(0.86, 0.85, 0.84, 0.55, 2.6);
+  var web = mesh(loft([
+    { y: 90.4, w: 2.6, d: 2.1 }, { y: 92.8, w: 4.4, d: 2.2 }, { y: 95.8, w: 6.6, d: 2.35 }, { y: 99.15, w: 9.0, d: 2.5 },
+  ], 48), webMat, 0, 0, 0);
+  web.renderOrder = 1;
+  var vLines = [-1, 1].map(function (sx) {
+    var curve = new THREE.LineCurve3(new THREE.Vector3(0, 91.7, -0.95), new THREE.Vector3(sx * 3.35, 98.6, -1.05));
+    return mesh(new THREE.TubeGeometry(curve, 8, 0.2, 8, false), stemMat, 0, 0, 0);
+  });
+  var rimPts = stadiumPts(10.3, 3.1, 44).map(function (p) { return new THREE.Vector3(p[0], 99.3, p[1]); });
+  var slotRim = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rimPts, true), 88, 0.62, 10, true), stemMat, 0, 0, 0);
+  addPart('stem', [neck, web, slotRim].concat(arms, vLines), [0, 18, 0], { clip: true });
 
   var cartMat = M.clear();
-  var cartridge = mesh(prism(19, 11, 5.5, 14), cartMat, 0, 67, 0);
-  addPart('cartridge', [cartridge], [0, 24, 0], { clip: true });
+  var cartridge = mesh(prism(10.6, 8.2, 4.1, 17.4), cartMat, 0, 67.2, 0);
+  addPart('cartridge', [cartridge], [0, 18, 0], { clip: true });
 
   var coreMat = new THREE.MeshStandardMaterial({ color: AROMA.mint, roughness: 0.55, metalness: 0 });
-  var core = mesh(disc(3.8, 11, 36), coreMat, 0, 68.5, 0);
-  var coreRibs = [0, 1, 2].map(function (i) { return mesh(disc(4.1, 0.7, 36), coreMat, 0, 70 + i * 3.6, 0); });
-  addPart('core', [core].concat(coreRibs), [0, 24, 0]);
+  var core = mesh(disc(3.0, 12.5, 36), coreMat, 0, 69, 0);
+  var coreRibs = [0, 1, 2].map(function (i) { return mesh(disc(3.3, 0.7, 36), coreMat, 0, 70.6 + i * 3.6, 0); });
+  addPart('core', [core].concat(coreRibs), [0, 18, 0]);
 
-  var seal = mesh(prism(22, 12.8, 6.4, 1.5, { holeR: 1.9 }), M.silicone(), 0, 65.5, 0);
-  addPart('seal', [seal], [0, 15, 0], { clip: true });
-
-  var podMagnets = [-8.2, 8.2].map(function (x) { return mesh(disc(1.5, 2), M.steel(), x, 65.4, 0); });
-  addPart('podMagnets', podMagnets, [0, 15, 0]);
+  var seal = mesh(prism(11.4, 9.0, 4.5, 1.4, { holeR: 1.5 }), M.silicone(), 0, 65.8, 0);
+  addPart('seal', [seal], [0, 14, 0], { clip: true });
 
   // Air path (visual only)
   var airCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(16, 69.5, 0), new THREE.Vector3(12.4, 69.5, 0), new THREE.Vector3(10.4, 68.6, 0),
-    new THREE.Vector3(9.4, 66, 0), new THREE.Vector3(5, 65.1, 0), new THREE.Vector3(0.6, 65.6, 0),
-    new THREE.Vector3(0, 67.4, 0), new THREE.Vector3(0, 74, 0), new THREE.Vector3(0, 81, 0),
-    new THREE.Vector3(0, 90, 0), new THREE.Vector3(0, 99.4, 0), new THREE.Vector3(0, 106, 0),
+    new THREE.Vector3(16, 69.5, 0), new THREE.Vector3(12.4, 69.5, 0), new THREE.Vector3(10.4, 68.8, 0),
+    new THREE.Vector3(9, 66.2, 0), new THREE.Vector3(5, 65.2, 0), new THREE.Vector3(1, 65.4, 0),
+    new THREE.Vector3(0, 67.4, 0), new THREE.Vector3(0, 75, 0), new THREE.Vector3(0, 84.6, 0),
+    new THREE.Vector3(0, 89, 0), new THREE.Vector3(0, 95, 0), new THREE.Vector3(0, 99.9, 0), new THREE.Vector3(0, 106, 0),
   ]);
   var airMat = new THREE.MeshBasicMaterial({ color: 0x7fbf9a, transparent: true, opacity: 0.28, depthWrite: false });
   var airTube = new THREE.Mesh(new THREE.TubeGeometry(airCurve, 120, 0.6, 10, false), airMat);
@@ -895,7 +1043,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     { a: new THREE.Vector3(-19, 0, 0), b: new THREE.Vector3(-19, 100, 0), tick: new THREE.Vector3(1.5, 0, 0), text: '100 mm' },
     { a: new THREE.Vector3(-12.5, 106, 9), b: new THREE.Vector3(12.5, 106, 9), tick: new THREE.Vector3(0, 1.5, 0), text: '25 mm' },
     { a: new THREE.Vector3(15, 106, -7.5), b: new THREE.Vector3(15, 106, 7.5), tick: new THREE.Vector3(0, 1.5, 0), text: '15 mm' },
-    { a: new THREE.Vector3(19, 75, 0), b: new THREE.Vector3(19, 100, 0), tick: new THREE.Vector3(1.5, 0, 0), text: 'Pod 25 mm' },
+    { a: new THREE.Vector3(19, 77.8, 0), b: new THREE.Vector3(19, 100, 0), tick: new THREE.Vector3(1.5, 0, 0), text: 'Kopf 22 mm' },
   ];
   DIMS.forEach(function (d) { dimLine(d.a, d.b, d.tick); });
   var labelsEl = document.getElementById('labels');
@@ -904,11 +1052,21 @@ if (imZug &amp;&amp; dp &gt; -120) {
     labelsEl.appendChild(el); return el;
   });
   var tagEl = document.createElement('div'); tagEl.className = 'tag'; tagEl.hidden = true; labelsEl.appendChild(tagEl);
+  var HEAD_TAGS = [
+    { id: 'cap', text: '① Kappe abziehen' },
+    { id: 'cartridge', text: '② Kartusche mit Y-Kanal' },
+    { id: 'collar', text: '③ Pod-Sockel – bleibt am Gerät' },
+  ].map(function (t) {
+    var el = document.createElement('div'); el.className = 'side-tag'; el.textContent = t.text; el.hidden = true;
+    labelsEl.appendChild(el); t.el = el; return t;
+  });
 
   /* ----------------------------- State ------------------------------ */
   var state = {
     mode: 'solid',
     explode: 0, explodeTarget: 0,
+    head: 0, headTarget: 0,
+    frameUntil: 0,
     selected: null,
     dims: false,
     sim: { running: false, t: 0 },
@@ -928,15 +1086,21 @@ if (imZug &amp;&amp; dp &gt; -120) {
     shellMat.transparent = xray; shellMat.opacity = xray ? 0.13 : 1; shellMat.depthWrite = !xray; shellMat.side = section ? THREE.DoubleSide : THREE.FrontSide;
     [seatMat, baseMat].forEach(function (m) { m.transparent = xray; m.opacity = xray ? 0.22 : 1; m.depthWrite = !xray; m.side = section ? THREE.DoubleSide : THREE.FrontSide; });
     buttonMat.transparent = xray; buttonMat.opacity = xray ? 0.25 : 1;
-    capMat.opacity = xray ? 0.32 : 0.86;
+    collarMat.transparent = xray; collarMat.opacity = xray ? 0.35 : 1; collarMat.depthWrite = !xray;
+    capTint.uniforms.tint.value.setRGB(xray ? 0.93 : 0.72, xray ? 0.92 : 0.705, xray ? 0.91 : 0.69);
+    capTint.uniforms.edge.value = xray ? 0.5 : 1.0;
+    capTint.uniforms.power.value = xray ? 2.4 : 1.1;
+    capInnerTint.uniforms.edge.value = xray ? 0.25 : 0.9;
+    capRimTint.uniforms.tint.value.setRGB(xray ? 0.7 : 0.16, xray ? 0.68 : 0.15, xray ? 0.66 : 0.14);
     chassisMat.opacity = 0.16;
     chassis.visible = xray || section;
     clipTargets.forEach(function (m) { m.clippingPlanes = section ? [cutPlane] : null; m.needsUpdate = true; });
-    [shellMat, seatMat, baseMat, buttonMat, capMat, chassisMat].forEach(function (m) { m.needsUpdate = true; });
+    [shellMat, seatMat, baseMat, buttonMat, capMat, chassisMat, collarMat].forEach(function (m) { m.needsUpdate = true; });
   }
 
   function setExplode(v) {
     state.explodeTarget = v;
+    state.frameUntil = state.clock + 1.4;
     document.getElementById('explode').value = String(Math.round(v * 100));
   }
 
@@ -948,7 +1112,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     });
   }
 
-  var INTERNAL = { pcb: 1, ble: 1, sensor: 1, charger: 1, ldo: 1, hall: 1, usbc: 1, battery: 1, motor: 1, switch: 1, led: 1, chassis: 1, membrane: 1, seat: 1, seal: 1, podMagnets: 1, cartridge: 1, core: 1, stem: 1 };
+  var INTERNAL = { pcb: 1, ble: 1, sensor: 1, charger: 1, ldo: 1, hall: 1, usbc: 1, battery: 1, motor: 1, switch: 1, led: 1, chassis: 1, membrane: 1, seat: 1, seal: 1, capMagnets: 1, cartridge: 1, core: 1, stem: 1 };
 
   function selectPart(id, fromList) {
     if (state.selected) highlight(state.selected, false);
@@ -969,13 +1133,14 @@ if (imZug &amp;&amp; dp &gt; -120) {
     if (INTERNAL[id] && state.mode === 'solid') setMode('xray');
     if (INTERNAL[id] && state.explodeTarget < 0.35 && id !== 'seat' && id !== 'membrane') setExplode(0.55);
     state.focus = id;
+    state.frameUntil = state.clock + 1.2;
     if (fromList && window.matchMedia('(max-width: 979px)').matches) viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   window.selectPart = selectPart;
 
   /* ----------------------------- Input ------------------------------ */
   document.querySelectorAll('[data-mode]').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
-  document.getElementById('explode').addEventListener('input', function (e) { state.explodeTarget = Number(e.target.value) / 100; });
+  document.getElementById('explode').addEventListener('input', function (e) { state.explodeTarget = Number(e.target.value) / 100; state.frameUntil = state.clock + 1.4; });
   document.getElementById('infoClose').addEventListener('click', function () { selectPart(null); });
   document.getElementById('dimsBtn').addEventListener('click', function () {
     state.dims = !state.dims;
@@ -987,16 +1152,42 @@ if (imZug &amp;&amp; dp &gt; -120) {
       document.querySelectorAll('[data-aroma]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
     });
   });
+  function setHead(open) {
+    state.headTarget = open ? 1 : 0;
+    state.frameUntil = state.clock + 2;
+    // Wide screens: also open the Sockel card; on phones it would cover the model, the side tags explain it there.
+    if (open) {
+      setExplode(0);
+      selectPart(stage.clientWidth >= 560 ? 'collar' : null);
+      state.focus = null;
+      // Step back a little so the lifted cap stays in view.
+      var dir = camera.position.clone().sub(controls.target);
+      var dist = Math.max(dir.length(), fitDist() * 1.22);
+      var target = new THREE.Vector3(0, 62, 0);
+      camGoal = { pos: target.clone().add(dir.normalize().multiplyScalar(dist)), target: target };
+    }
+    document.querySelectorAll('[data-head-toggle]').forEach(function (b) {
+      b.setAttribute('aria-pressed', open ? 'true' : 'false');
+      b.textContent = b.id === 'headBtn' ? (open ? 'Kopf aufsetzen' : 'Kopf abnehmen') : (open ? 'Kopf im Modell aufsetzen' : 'Kopf im Modell abnehmen');
+    });
+  }
+  document.querySelectorAll('[data-head-toggle]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      setHead(state.headTarget < 0.5);
+      if (b.id !== 'headBtn' && window.matchMedia('(max-width: 979px)').matches) viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
   var drawBtn = document.getElementById('drawBtn');
   drawBtn.addEventListener('click', function () {
     if (state.sim.running) return;
     if (state.explodeTarget > 0.05) setExplode(0);
+    if (state.headTarget > 0) setHead(false);
     if (state.mode === 'solid') setMode('xray');
     state.sim.running = true; state.sim.t = 0;
     drawBtn.disabled = true;
   });
   document.getElementById('resetBtn').addEventListener('click', function () {
-    setMode('solid'); setExplode(0); selectPart(null); fitCamera(true);
+    setMode('solid'); setExplode(0); setHead(false); selectPart(null); fitCamera(true);
     state.dims = false; document.getElementById('dimsBtn').setAttribute('aria-pressed', 'false');
   });
 
@@ -1027,10 +1218,13 @@ if (imZug &amp;&amp; dp &gt; -120) {
 
   /* ----------------------------- Camera ----------------------------- */
   var camGoal = null;
-  function fitCamera(animate) {
+  function fitDist() {
     var rect = stage.getBoundingClientRect();
     var aspect = rect.width / Math.max(1, rect.height);
-    var dist = aspect < 0.8 ? 320 : aspect < 1.2 ? 255 : 235;
+    return aspect < 0.8 ? 320 : aspect < 1.2 ? 255 : 235;
+  }
+  function fitCamera(animate) {
+    var dist = fitDist();
     var dir = new THREE.Vector3(0.55, 0.28, 1).normalize();
     var target = new THREE.Vector3(0, 44, 0);
     var pos = target.clone().add(dir.multiplyScalar(dist));
@@ -1049,6 +1243,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
   resize();
   fitCamera(false);
   setMode('solid');
+  window.__nv = { camera: camera, controls: controls, state: state };
 
   /* --------------------------- Pressure HUD ------------------------- */
   var chart = document.getElementById('chart');
@@ -1100,8 +1295,9 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var tmp = new THREE.Vector3();
   var last = performance.now();
 
-  function frame(now) {
-    var dt = Math.min(0.05, (now - last) / 1000);
+  function frame() {
+    var now = performance.now();
+    var dt = Math.max(0, Math.min(0.05, (now - last) / 1000));
     last = now;
     state.clock += dt;
 
@@ -1118,6 +1314,14 @@ if (imZug &amp;&amp; dp &gt; -120) {
       g.position.copy(g.userData.base).addScaledVector(g.userData.off, e);
     });
     window.__floor.position.y = -0.2 - 14 * e;
+
+    // Head off/on: cap lifts first, then the cartridge with its Y-channel.
+    state.head += (state.headTarget - state.head) * Math.min(1, dt * 3.2);
+    var hh = state.head;
+    var ease = function (x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+    var capLift = 24 * ease(hh / 0.6), podLift = 13 * ease((hh - 0.45) / 0.55);
+    ['cap', 'capMagnets'].forEach(function (id) { partGroups[id].position.y += capLift; });
+    ['cartridge', 'core', 'stem', 'seal'].forEach(function (id) { partGroups[id].position.y += podLift; });
 
     // Draw simulation: pressure profile
     var dp = (Math.random() - 0.5) * 14;
@@ -1137,7 +1341,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     document.getElementById('dpVal').textContent = Math.round(dp) + ' Pa';
 
     // Air path visibility + particles
-    var showAir = e < 0.08 && (state.mode !== 'solid' || state.sim.running);
+    var showAir = e < 0.08 && hh < 0.05 && (state.mode !== 'solid' || state.sim.running);
     airTube.visible = showAir;
     airMat.opacity = state.sim.running ? 0.34 : 0.2;
     pressTube.visible = showAir;
@@ -1165,13 +1369,15 @@ if (imZug &amp;&amp; dp &gt; -120) {
       camera.position.lerp(camGoal.pos, Math.min(1, dt * 5));
       controls.target.lerp(camGoal.target, Math.min(1, dt * 5));
       if (camera.position.distanceTo(camGoal.pos) < 0.5) camGoal = null;
+    } else if (state.clock > state.frameUntil) {
+      // user is in control
     } else if (state.focus) {
       var box3 = new THREE.Box3().setFromObject(partGroups[state.focus]);
       box3.getCenter(tmp);
       controls.target.lerp(tmp, Math.min(1, dt * 3));
     } else {
       // Keep the exploded stack in frame.
-      tmp.set(0, 44 + 16 * e, 0);
+      tmp.set(0, 44 + 16 * e + 18 * hh, 0);
       controls.target.lerp(tmp, Math.min(1, dt * 4));
     }
     controls.update();
@@ -1185,7 +1391,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
       el.hidden = hidden;
       if (!hidden) { el.style.left = ((p.x + 1) / 2) * rect.width + 'px'; el.style.top = ((1 - p.y) / 2) * rect.height + 'px'; }
     };
-    dimGroup.visible = state.dims && e < 0.08;
+    dimGroup.visible = state.dims && e < 0.08 && hh < 0.05;
     DIMS.forEach(function (d, i) {
       if (!dimGroup.visible) { dimLabels[i].hidden = true; return; }
       project(d.a.clone().add(d.b).multiplyScalar(0.5), dimLabels[i]);
@@ -1195,6 +1401,24 @@ if (imZug &amp;&amp; dp &gt; -120) {
       var c3 = new THREE.Vector3(); b3.getCenter(c3); c3.y = b3.max.y;
       project(c3, tagEl);
     }
+    var lastTagTop = -Infinity; // top → bottom; keep the tags from overlapping
+    HEAD_TAGS.forEach(function (t) {
+      if (hh < 0.7) { t.el.hidden = true; return; }
+      var bb = new THREE.Box3().setFromObject(partGroups[t.id]);
+      var cy = (bb.min.y + bb.max.y) / 2;
+      project(new THREE.Vector3(bb.max.x + 1, cy, 0), t.el);
+      if (t.el.hidden) return;
+      // Right of the part if it fits, else left of it; clamp so the tag stays inside the stage.
+      var w = t.el.offsetWidth, right = parseFloat(t.el.style.left) + 10;
+      project(new THREE.Vector3(bb.min.x - 1, cy, 0), t.el);
+      var left = parseFloat(t.el.style.left) - 10 - w;
+      var flip = right + w > rect.width - 6 && 6 - left < right + w - (rect.width - 6);
+      t.el.style.left = (flip ? Math.max(6, left) : Math.max(6, Math.min(right, rect.width - 6 - w))) + 'px';
+      t.el.classList.toggle('flip', flip);
+      var top = Math.max(parseFloat(t.el.style.top) || 0, lastTagTop + 32);
+      t.el.style.top = top + 'px';
+      lastTagTop = top;
+    });
     drawChart();
     requestAnimationFrame(frame);
   }
