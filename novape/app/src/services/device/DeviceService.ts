@@ -52,6 +52,8 @@ export interface DeviceService {
   rename(name: string): Promise<void>;
   /** Make the device vibrate and glow so it can be found. */
   find(durationMs?: number): Promise<void>;
+  /** A fresh cartridge was inserted: reset the device's aroma estimate. */
+  startCartridge(usesPerCartridge: number): Promise<void>;
   checkFirmware(): Promise<FirmwareStatus>;
 
   subscribe(listener: DeviceListener): () => void;

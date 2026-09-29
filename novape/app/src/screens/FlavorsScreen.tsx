@@ -46,7 +46,23 @@ export function FlavorsScreen() {
             {daysLeft != null && (
               <span className="small muted">About {daysLeft} days at your current pace — and it lasts longer as you need it less.</span>
             )}
+            {cartridge.remainingPct <= 15 && (
+              <span className="small" style={{ color: 'var(--warning)' }}>
+                Almost empty — the aroma gets fainter from here. Swap in a fresh cartridge when you’re ready.
+              </span>
+            )}
           </div>
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm"
+            onClick={async () => {
+              const next = cartridge.nextFlavorId ? flavorById(cartridge.nextFlavorId).name : current.name;
+              await actions.insertCartridge();
+              toast(`Fresh ${next} cartridge — counter reset`);
+            }}
+          >
+            I inserted a new cartridge
+          </button>
         </section>
       )}
 

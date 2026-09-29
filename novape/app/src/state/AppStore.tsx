@@ -78,6 +78,8 @@ export interface AppActions {
   findDevice(): Promise<void>;
   checkFirmware(): Promise<FirmwareStatus>;
   setNextFlavor(flavorId: FlavorId | null): Promise<void>;
+  /** The user put a fresh cartridge in (the one marked "up next", if any). */
+  insertCartridge(): Promise<void>;
   updateNotificationPreferences(prefs: NotificationPreferences): Promise<void>;
   exportData(): Promise<string>;
   resetAll(): Promise<void>;
@@ -227,6 +229,13 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       },
       async setNextFlavor(flavorId) {
         patch({ cartridge: await api.updateCartridge({ nextFlavorId: flavorId }) });
+      },
+      async insertCartridge() {
+        const cart = current()?.cartridge;
+        if (!cart) return;
+        const flavorId = cart.nextFlavorId ?? cart.flavorId;
+        patch({ cartridge: await api.updateCartridge({ flavorId, nextFlavorId: null, remainingPct: 100, insertedAt: Date.now() }) });
+        await deviceService.startCartridge(cart.usesPerCartridge).catch(() => undefined);
       },
       async updateNotificationPreferences(prefs) {
         patch({ notificationPreferences: await api.updateNotificationPreferences(prefs) });

@@ -7,6 +7,7 @@ import {
   DEVICE_INFO_SERVICE,
   FIRMWARE_REVISION,
   NOVAPE_SERVICE,
+  SYNC_PAGE_RECORDS,
   decodeUsageRecord,
   decodeUsageRecords,
   encodeEpochSeconds,
@@ -89,6 +90,10 @@ export class WebBluetoothDeviceService implements DeviceService {
       this.setState('connecting');
       const server = await this.device.gatt!.connect();
       this.service = await server.getPrimaryService(NOVAPE_SERVICE);
+      // The device has no real-time clock: give it the time before anything is recorded.
+      await this.characteristic(CHARACTERISTICS.clock)
+        .then((clock) => clock.writeValue(encodeEpochSeconds(Date.now())))
+        .catch(() => undefined); // firmware without a clock characteristic
 
       const battery = await (await server.getPrimaryService(BATTERY_SERVICE)).getCharacteristic(BATTERY_LEVEL);
       const batteryLevel = (await battery.readValue()).getUint8(0);
@@ -139,8 +144,18 @@ export class WebBluetoothDeviceService implements DeviceService {
 
   async syncOfflineUsage(since: Timestamp) {
     const sync = await this.characteristic(CHARACTERISTICS.usageSync);
-    await sync.writeValue(encodeEpochSeconds(since));
-    return decodeUsageRecords(await sync.readValue());
+    const out: Array<{ timestamp: Timestamp; durationMs: number }> = [];
+    let from = since;
+    // The device answers in pages of up to 40 records, oldest first.
+    for (let page = 0; page < 50; page++) {
+      await sync.writeValue(encodeEpochSeconds(from));
+      await new Promise((r) => setTimeout(r, 60));
+      const records = decodeUsageRecords(await sync.readValue());
+      out.push(...records);
+      if (records.length < SYNC_PAGE_RECORDS) break;
+      from = records[records.length - 1].timestamp + 1000;
+    }
+    return out;
   }
 
   async applySettings(settings: DeviceSettings) {
@@ -157,6 +172,11 @@ export class WebBluetoothDeviceService implements DeviceService {
 
   async find(durationMs = 6000) {
     await (await this.characteristic(CHARACTERISTICS.find)).writeValue(encodeUint16(durationMs));
+  }
+
+  async startCartridge(usesPerCartridge: number) {
+    await (await this.characteristic(CHARACTERISTICS.cartridge)).writeValue(encodeUint16(usesPerCartridge));
+    this.emit({ type: 'cartridge', level: 100 });
   }
 
   async checkFirmware(): Promise<FirmwareStatus> {

@@ -69,6 +69,11 @@ export class MockDeviceService implements DeviceService {
     await wait(durationMs);
   }
 
+  async startCartridge(_usesPerCartridge: number) {
+    this.info = { ...this.info, cartridgeLevel: 100 };
+    this.emit({ type: 'cartridge', level: 100 });
+  }
+
   async checkFirmware(): Promise<FirmwareStatus> {
     await wait(900);
     return { current: this.info.firmwareVersion, latest: '1.4.2', updateAvailable: false };

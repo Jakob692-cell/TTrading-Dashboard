@@ -12,7 +12,7 @@ import type {
 } from '../../models';
 
 export type UserPatch = Partial<Pick<User, 'firstName' | 'weeklySpendBefore' | 'intention' | 'baselinePerDay'>>;
-export type CartridgePatch = Partial<Pick<Cartridge, 'nextFlavorId' | 'remainingPct' | 'flavorId'>>;
+export type CartridgePatch = Partial<Pick<Cartridge, 'nextFlavorId' | 'remainingPct' | 'flavorId' | 'insertedAt'>>;
 
 /**
  * Everything the app reads or writes goes through this interface.

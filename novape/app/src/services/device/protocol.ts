@@ -13,7 +13,7 @@ export const CHARACTERISTICS = {
   usage: '6e6f7661-7065-4f6e-6500-000000000010',
   /** read/write — u32 epoch seconds; writing requests all buffered records since then */
   usageSync: '6e6f7661-7065-4f6e-6500-000000000011',
-  /** read/notify — u8 remaining cartridge percent */
+  /** read/notify — u8 remaining cartridge percent; write u16 = a fresh cartridge rated for N standard draws */
   cartridge: '6e6f7661-7065-4f6e-6500-000000000020',
   /** write — u8 haptic level (0–3), u8 light feedback flag */
   settings: '6e6f7661-7065-4f6e-6500-000000000030',
@@ -21,6 +21,8 @@ export const CHARACTERISTICS = {
   name: '6e6f7661-7065-4f6e-6500-000000000031',
   /** write — u16 find duration ms */
   find: '6e6f7661-7065-4f6e-6500-000000000032',
+  /** write — u32 current epoch seconds; the device has no clock until the app sets it */
+  clock: '6e6f7661-7065-4f6e-6500-000000000033',
 } as const;
 
 /** Standard Bluetooth SIG services. */
@@ -30,6 +32,8 @@ export const DEVICE_INFO_SERVICE = 'device_information';
 export const FIRMWARE_REVISION = 'firmware_revision_string';
 
 export const USAGE_RECORD_BYTES = 6;
+/** Records per usageSync read; a full page means there may be more. */
+export const SYNC_PAGE_RECORDS = 40;
 
 const HAPTIC_LEVELS: HapticStrength[] = ['off', 'light', 'medium', 'strong'];
 

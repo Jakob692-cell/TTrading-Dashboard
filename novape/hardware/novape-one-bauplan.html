@@ -136,6 +136,7 @@ h1, h2, h3 { text-wrap: balance; }
 /* Panel */
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .tabs { display: flex; gap: 2px; overflow-x: auto; padding: 8px; border-bottom: 1px solid var(--line-soft); scrollbar-width: none; }
+@media (min-width: 980px) { .tabs { flex-wrap: wrap; overflow-x: visible; } }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs button { border: 0; background: transparent; padding: 8px 12px; border-radius: 10px; font-size: 13.5px; font-weight: 600; color: var(--muted); white-space: nowrap; }
 .tabs button[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); }
@@ -177,7 +178,8 @@ pre { margin: 10px 0 0; padding: 14px; border-radius: 14px; background: #151517;
 .table-wrap { overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 14px; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-th { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: #fafaf9; white-space: nowrap; }
+th { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: #fafaf9; }
+th.unit { text-transform: none; letter-spacing: 0; }
 td.r, th.r { text-align: right; font-family: var(--mono); white-space: nowrap; }
 tbody tr:last-child td { border-bottom: 0; }
 tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 1px solid var(--line); }
@@ -193,6 +195,50 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
 .sources { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; }
 .foot { margin-top: 16px; font-size: 12px; color: var(--muted); max-width: 90ch; padding: 0 4px; }
 
+
+/* Rechner, Kacheln, Diagramm, Downloads */
+.linkbtn { border: 0; background: none; padding: 0; color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; font: inherit; }
+.airway { list-style: none; margin: 0; padding: 0; counter-reset: aw; border: 1px solid var(--line-soft); border-radius: 14px; overflow: hidden; }
+.airway li { counter-increment: aw; display: grid; grid-template-columns: 24px 1fr; column-gap: 10px; padding: 9px 12px; font-size: 13.5px; }
+.airway li + li { border-top: 1px solid var(--line-soft); }
+.airway li::before { content: counter(aw); grid-row: span 2; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); font-family: var(--mono); font-size: 11px; display: flex; align-items: center; justify-content: center; }
+.airway b { font-weight: 600; }
+.airway span { color: var(--muted); font-size: 12.5px; }
+.calc { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px 18px; padding: 14px; border-radius: 14px; background: #fafaf9; border: 1px solid var(--line-soft); }
+.field { display: grid; gap: 6px; font-size: 13px; color: #444; }
+.field > span { display: flex; justify-content: space-between; gap: 8px; }
+.field output { font-family: var(--mono); color: var(--ink); font-weight: 500; white-space: nowrap; }
+.field input[type="range"] { width: 100%; accent-color: var(--accent-strong); margin: 0; }
+.field select { font: inherit; padding: 7px 10px; border-radius: 10px; border: 1px solid var(--line); background: #fff; color: var(--ink); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 10px; }
+.tile { display: grid; gap: 2px; align-content: start; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); }
+.tile-k { font-size: 12px; color: var(--muted); }
+.tile-v { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+.tile-n { font-size: 12px; color: var(--muted); }
+.tile.is-warn { border-color: #e9d3aa; background: var(--warn-soft); }
+.tile.is-warn .tile-n { color: #6d5226; }
+.viz { margin: 10px 0 0; padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 14px; background: #fff; --s1: #2a78d6; --s2: #eb6834; }
+.viz figcaption { font-size: 13px; font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin: 4px 0 6px; }
+.legend i { display: inline-block; width: 14px; height: 2px; border-radius: 1px; vertical-align: middle; margin-right: 6px; }
+.legend i.dash { background: repeating-linear-gradient(90deg, #9a9aa0 0 3px, transparent 3px 6px); }
+.viz-plot { position: relative; }
+.viz svg { display: block; width: 100%; height: 230px; overflow: visible; touch-action: pan-y; }
+.viz svg:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 4px; border-radius: 6px; }
+.viz-tip { position: absolute; top: 4px; pointer-events: none; padding: 8px 10px; border-radius: 10px; background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(17,17,17,.1); font-size: 12px; min-width: 150px; }
+.viz-tip .h { color: var(--muted); margin-bottom: 4px; }
+.viz-tip .row { display: flex; align-items: center; gap: 8px; }
+.viz-tip .row i { width: 12px; height: 2px; border-radius: 1px; flex-shrink: 0; }
+.viz-tip .row b { font-family: var(--mono); font-weight: 600; min-width: 42px; }
+.viz-tip .row span { color: var(--muted); }
+.viz-table { margin-top: 8px; font-size: 12.5px; }
+.viz-table summary { cursor: pointer; color: var(--accent-ink); margin-bottom: 6px; }
+.dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.dl { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); font-size: 13px; }
+a.dl:hover { background: #fafaf9; }
+.dl b { font-family: var(--mono); font-weight: 500; font-size: 12.5px; overflow-wrap: anywhere; }
+.dl span { color: var(--muted); font-size: 12px; }
+.dl--accent { background: var(--accent-soft); border-color: transparent; }
 :focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -227,7 +273,7 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
         <div class="hud-row"><span><span class="hide-sm">Zugsensor </span>Δp</span><strong class="num" id="dpVal">0 Pa</strong></div>
         <canvas id="chart" width="190" height="64" aria-label="Druckverlauf am Zugsensor"></canvas>
         <div class="hud-row" style="margin-top:6px"><span><span class="hide-sm">Erkannte </span>Nutzungen</span><strong class="num" id="count">0</strong></div>
-        <div class="hud-note" id="hudNote">Schwelle −250 Pa</div>
+        <div class="hud-note" id="hudNote">Schwelle −150 Pa</div>
       </div>
       <div class="overlay toast" id="toast">Nutzung erkannt · an App gesendet</div>
 
@@ -277,8 +323,10 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
       <div class="tabs" role="tablist" aria-label="Bereiche">
         <button role="tab" aria-selected="true" aria-controls="tab-aufbau" id="t-aufbau">Aufbau</button>
         <button role="tab" aria-selected="false" aria-controls="tab-funktion" id="t-funktion">Funktion</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-luft" id="t-luft">Luft &amp; Geschmack</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-elektronik" id="t-elektronik">Elektronik</button>
         <button role="tab" aria-selected="false" aria-controls="tab-bom" id="t-bom">Stückliste</button>
-        <button role="tab" aria-selected="false" aria-controls="tab-plan" id="t-plan">Bauplan</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-plan" id="t-plan">Nachbauen</button>
         <button role="tab" aria-selected="false" aria-controls="tab-zulassung" id="t-zulassung">Zulassung</button>
         <button role="tab" aria-selected="false" aria-controls="tab-quellen" id="t-quellen">Quellen</button>
       </div>
@@ -287,10 +335,10 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
         <p class="lead">Oben der <strong>Kopf</strong> – Kappe, Aroma-Kartusche und der schwarze Sockel, auf dem alles sitzt. Darunter das <strong>Hauptgerät</strong> mit Sensorik, Haptik und Bluetooth. Tippe ein Teil an – im Modell oder in der Liste.</p>
         <h2 class="section-title">So wird der Kopf aufgesetzt</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Pod-Sockel – bleibt am Gerät</h4><p>Das schwarze Stufenteil oben auf dem Gehäuse: unten der glänzende Kopfring (die schwarze Fuge unter der Kappe), darüber Flansch und Turm. Er trägt alles, was man aufsetzt.</p></div></li>
-          <li><span class="k">2</span><div><h4>Aroma-Kartusche einstecken</h4><p>Von oben in den Turm des Sockels drücken, bis die Silikondichtung unten anliegt. Der angeformte Y-Kanal zeigt nach oben.</p></div></li>
-          <li><span class="k">3</span><div><h4>Kappe aufsetzen – Klick</h4><p>Die Kappe über Kanal und Sockel schieben. Zwei Magnete im Kappenrand ziehen sie auf den Kopfring; der Kanal endet genau unter dem Auslass-Schlitz.</p></div></li>
-          <li><span class="k">4</span><div><h4>Wechseln</h4><p>Kappe abziehen, Kartusche am Kanal herausziehen, neue einsetzen, Kappe wieder aufsetzen. Die Kappe ist abwaschbar und wird weiterverwendet.</p></div></li>
+          <li><span class="k">1</span><div><h4>Pod-Sockel – bleibt am Gerät</h4><p>Das schwarze Stufenteil oben auf dem Gehäuse: unten der glänzende Kopfring (die schwarze Fuge unter der Kappe), darüber Flansch und Turm. Tief im Turm liegen die Kartuschendichtung und darunter die Einlasskammer mit dem Sensor-Port.</p></div></li>
+          <li><span class="k">2</span><div><h4>Aroma-Kartusche einstecken</h4><p>Von oben in den Turm stecken, bis sie auf der Dichtung aufsitzt. Unten holt sie die Luft aus der Einlasskammer, oben ragt der Y-Kanal heraus – mit dem Entenschnabelventil im Stiel.</p></div></li>
+          <li><span class="k">3</span><div><h4>Kappe aufsetzen – Klick</h4><p>Zwei Magnete in der Kappe ziehen sie auf die Stahlscheiben im Kopfring. Dabei drückt die Lippendichtung unter dem Kappendach 0,2 mm auf den Y-Kanal und die Kartusche auf ihre Dichtung – der Luftweg ist dicht.</p></div></li>
+          <li><span class="k">4</span><div><h4>Wechseln</h4><p>Kappe abziehen, Kartusche am Kanal herausziehen, neue einsetzen, Kappe aufsetzen. Dann in der App „Neue Kartusche“ tippen oder die Taste zweimal drücken – der Zähler startet bei 100 %.</p></div></li>
         </ol>
         <button type="button" class="pillbtn" data-head-toggle style="margin-top:12px">Kopf im Modell abnehmen</button>
         <h2 class="section-title">Kopf · Kappe, Kartusche, Sockel</h2>
@@ -305,37 +353,160 @@ tfoot td { font-weight: 700; background: #fafaf9; border-bottom: 0; border-top: 
         <p class="lead">Ein bewusster <strong>Mundzug</strong> – wie durch einen Strohhalm, ohne Inhalation in die Lunge. Kein Heizen, kein Liquid, kein Aerosol. Probier oben „Zug simulieren“ in der Röntgen- oder Schnittansicht.</p>
         <h2 class="section-title">Ablauf einer Nutzung</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Ansetzen und leicht ziehen</h4><p>Luft strömt durch den seitlichen Lufteinlass (Ø 1,2 mm) in die Pod-Aufnahme. Die Bohrung bestimmt den Zugwiderstand – im Prototyp 1,0 / 1,2 / 1,4 mm testen.</p></div></li>
-          <li><span class="k">2</span><div><h4>Geschmack bei Raumtemperatur</h4><p>Die Luft zieht von unten durch den Sockel in die Kartusche, am Aromaträger vorbei und über den Y-Kanal zum Auslass-Schlitz der Kappe in den Mund. Der Geschmack entsteht im Mund – nichts wird erhitzt oder verdampft.</p></div></li>
-          <li><span class="k">3</span><div><h4>Zugsensor misst den Unterdruck</h4><p>Beim Zug fällt der Druck im Kanal um ca. 300–600 Pa. Über einen Port mit hydrophober ePTFE-Membran erreicht der Druck den MEMS-Sensor (BMP390) – Speichel und Feuchtigkeit bleiben draußen, die Elektronik ist vom Mundbereich getrennt.</p></div></li>
-          <li><span class="k">4</span><div><h4>Kurzes Feedback</h4><p>Die Firmware erkennt den Zug ab −250 Pa über mindestens 80 ms. Dann folgt ein 60-ms-Vibrationsimpuls und der Lichtstreifen glimmt kurz auf.</p></div></li>
-          <li><span class="k">5</span><div><h4>Zählen und synchronisieren</h4><p>Jede Nutzung wird mit Zeitstempel und Dauer im Flash gespeichert (auch offline) und per Bluetooth LE an die NoVape-App übertragen.</p></div></li>
+          <li><span class="k">1</span><div><h4>Ansetzen und ziehen</h4><p>Luft strömt durch die Einlassbohrung (Ø 1,0 mm, rechts) in die Einlasskammer unter der Kartusche. Die Bohrung ist die Messblende: Sie bestimmt den Zugwiderstand und das Sensorsignal.</p></div></li>
+          <li><span class="k">2</span><div><h4>Geschmack bei Raumtemperatur</h4><p>Durch die Dichtung in die Kartusche, durch den Aroma-Docht (ein kleiner Teil über die Bypass-Rille daneben), durch das Entenschnabelventil in den Y-Kanal und zum Auslass-Schlitz. Nichts wird erhitzt oder verdampft.</p></div></li>
+          <li><span class="k">3</span><div><h4>Zugsensor misst den Unterdruck</h4><p>Bei einem normalen Zug (17,5 ml/s) fällt der Druck in der Einlasskammer um ≈ 600 Pa. Ein Port mit ePTFE-Membran führt ihn zum BMP390 – Speichel und Feuchtigkeit bleiben draußen.</p></div></li>
+          <li><span class="k">4</span><div><h4>Erkennen statt raten</h4><p>Ein Zug zählt, wenn der Druck schnell (&lt; 0,6 s) unter −150 Pa fällt und dort mindestens 100 ms bleibt; er endet über −60 Pa. Unter 0,3 s oder über 8 s wird verworfen. Aufzug, Wetter und Autotüren filtert die Firmware heraus – 14 Fälle sind getestet.</p></div></li>
+          <li><span class="k">5</span><div><h4>Sofortiges Feedback</h4><p>Schon beim Erkennen, nicht erst am Ende: ein Vibrationsimpuls (35–90 ms je nach Einstellung), der Lichtstreifen glimmt auf.</p></div></li>
+          <li><span class="k">6</span><div><h4>Zählen und synchronisieren</h4><p>Jede Nutzung wird mit Uhrzeit und Dauer gespeichert (bis 1.024 Züge offline) und per Bluetooth an die App geschickt. Aus dem Druckverlauf schätzt die Firmware das Luftvolumen – daraus ergibt sich, wie voll die Kartusche noch ist.</p></div></li>
         </ol>
-        <div class="callout"><strong>Taste</strong><span>1× drücken: Akkustand über den Lichtstreifen · 3 s halten: mit der App koppeln · Laden über USB-C an der Unterseite.</span></div>
+        <div class="callout"><strong>Taste</strong><span>1× drücken: Akkustand (1–4 Blinker) · 2×: neue Kartusche eingesetzt · 3 s halten: mit der App koppeln · Laden über USB-C an der Unterseite.</span></div>
 
         <h2 class="section-title">Geschmackssystem · zwei Wege</h2>
         <div class="options">
-          <div class="option"><span class="badge">Empfohlen für V1</span><h4>A · Aroma-Luftstrom</h4><p>Lebensmitteltaugliches Aroma auf einem Cellulose- oder Polymerträger in der Kartusche. Einfach, günstig, erprobtes Prinzip, schnell testbar.</p></div>
+          <div class="option"><span class="badge">Umgesetzt in V0/V1</span><h4>A · Durchströmter Aroma-Docht</h4><p>Aroma in einem Faserdocht, die Luft muss hindurch. Ventil gegen Verdunsten, Bypass zum Einstellen. Durchgerechnet unter <button type="button" class="linkbtn" data-goto="t-luft">Luft &amp; Geschmack</button>.</p></div>
           <div class="option"><span class="badge badge--muted">Parallel erkunden</span><h4>B · Aroma-Mundstück</h4><p>Geschmack direkt über Lippen und Zunge, z. B. über ein aromatisiertes, lebensmittelechtes Mundstück-Insert. Stärkeres Alleinstellungsmerkmal, aber mehr Prüfaufwand bei Hygiene und Migration.</p></div>
         </div>
-        <div class="callout callout--warn"><strong>Mit Fachpartner entwickeln</strong><span>Rezeptur, Aromaträger und Materialien mit Mundkontakt gehören in die Hand eines Aroma- und Lebensmittelpartners. Im eigenen Prototyp nur lebensmitteltaugliche Materialien verwenden und nichts an Dritte abgeben, bevor es geprüft ist.</span></div>
 
-        <h2 class="section-title">Firmware-Logik (vereinfacht)</h2>
-<pre><code>// 25 Hz, BMP390 im Low-Power-Modus
-p  = bmp390.read()                    // Pa
-if (!imZug) basis = 0.98*basis + 0.02*p
-dp = p - basis
-
-if (!imZug && dp &lt; -250 &amp;&amp; dauer(dp &lt; -250) &gt;= 80 ms) {
-  imZug = true;  start = jetzt()
-  motor.puls(60 ms);  led.aufglimmen()
-}
-if (imZug &amp;&amp; dp &gt; -120) {
+        <h2 class="section-title">Firmware-Logik (Auszug)</h2>
+<pre><code>// alle 100 ms (in Ruhe) bzw. 40 ms (um einen Zug herum)
+dp = druck - basis
+if (dp &gt; -40)  ruhigSeit = jetzt
+langsam = jetzt - ruhigSeit &gt; 600 ms        // Aufzug, Wetter: kein Zug
+if (!imZug &amp;&amp; (dp &gt; -40 || langsam)) basis += (druck - basis) · dt / τ
+if (!imZug &amp;&amp; !langsam &amp;&amp; dp &lt; -150 seit ≥ 100 ms) { imZug = true; vibrieren(); leuchten() }
+if (imZug) { basis += drift · dt;  volumen += K · √|dp| · dt }   // Umgebungsdrift weiterführen
+if (imZug &amp;&amp; dp &gt; -60 seit ≥ 150 ms) {
   imZug = false
-  speicher.anhaengen({ zeit: start, dauer: jetzt() - start })
-  ble.melden(usage)                   // u32 Sekunden + u16 ms
+  if (0,3 s ≤ dauer ≤ 8 s) speichern({ zeit, dauer }); kartusche -= volumen / 35 ml
 }</code></pre>
-        <p class="subtle" style="margin-top:8px">Das Bluetooth-Protokoll (Service- und Characteristic-UUIDs, 6-Byte-Nutzungsdatensatz) ist in der NoVape-App schon vorbereitet: <span class="mono">novape/app/src/services/device/protocol.ts</span>.</p>
+        <p class="subtle" style="margin-top:8px">Vollständige Firmware mit Tests unter <button type="button" class="linkbtn" data-goto="t-plan">Nachbauen</button>. Das Bluetooth-Protokoll ist in der App umgesetzt: <span class="mono">novape/app/src/services/device/protocol.ts</span>.</p>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-luft" aria-labelledby="t-luft" hidden>
+        <p class="lead">Wie die Luft durchs Gerät läuft, wie stark man ziehen muss und wie lange der Geschmack hält – durchgerechnet mit den Maßen aus dem CAD. Es sind Auslegungswerte: Die Prüfungen unter „Nachbauen“ bestätigen sie am Muster.</p>
+
+        <h2 class="section-title">Der Luftweg</h2>
+        <ol class="airway">
+          <li><b>Einlassbohrung Ø 1,0</b><span>Messblende in der Hülse, rechts auf 65 mm Höhe</span></li>
+          <li><b>Einlasskammer</b><span>9,4 × 7 × 1,3 mm unter der Dichtung · Sensor-Port mit ePTFE-Membran</span></li>
+          <li><b>Kartuschendichtung</b><span>Loch Ø 3 · trennt Kammer und Kappenraum</span></li>
+          <li><b>Aroma-Docht Ø 6 × 12,5</b><span>≈ 83 % der Luft · daneben die Bypass-Rille 0,5 × 0,5 (≈ 17 %)</span></li>
+          <li><b>Entenschnabelventil</b><span>öffnet beim Ziehen, schließt in Ruhe und beim Hineinblasen</span></li>
+          <li><b>Stiel Ø 2,8 → Y-Trichter</b><span>weitet sich flach auf 7,4 × 1,8 mm</span></li>
+          <li><b>Lippendichtung → Auslass 7,2 × 2</b><span>keine Nebenluft aus der Kappe</span></li>
+        </ol>
+
+        <h2 class="section-title">Rechner · Zugwiderstand und Sensor</h2>
+        <div class="calc">
+          <label class="field"><span>Einlass-Ø <output id="oInlet">1,0 mm</output></span><input type="range" id="inInlet" min="0.8" max="1.6" step="0.1" value="1.0"></label>
+          <label class="field"><span>Zugstärke <output id="oFlow">17,5 ml/s</output></span><input type="range" id="inFlow" min="5" max="30" step="0.5" value="17.5"></label>
+          <label class="field"><span>Bypass-Rille <output id="oBypass">0,5 mm</output></span><input type="range" id="inBypass" min="0" max="0.8" step="0.1" value="0.5"></label>
+          <label class="field"><span>Docht-Widerstand bei 17,5 ml/s <output id="oWick">400 Pa</output></span><input type="range" id="inWick" min="100" max="1000" step="50" value="400"></label>
+        </div>
+        <div class="tiles">
+          <div class="tile"><span class="tile-k">Sensorsignal</span><strong class="tile-v num" id="rSensor">–</strong><span class="tile-n" id="rSensorN"></span></div>
+          <div class="tile"><span class="tile-k">Zugwiderstand gesamt</span><strong class="tile-v num" id="rTotal">–</strong><span class="tile-n">Zigarette ≈ 900–1.300 Pa bei 17,5 ml/s</span></div>
+          <div class="tile"><span class="tile-k">Luft durch den Docht</span><strong class="tile-v num" id="rWick">–</strong><span class="tile-n" id="rWickN"></span></div>
+        </div>
+        <div class="table-wrap" style="margin-top:10px"><table>
+          <thead><tr><th>Druckbudget bei gewählter Zugstärke</th><th class="r unit">Pa</th></tr></thead>
+          <tbody id="rBudget"></tbody>
+        </table></div>
+        <p class="subtle" style="margin-top:8px">Blende: Δp = ρ/2 · (Q / (C<sub>d</sub>·A))², C<sub>d</sub> ≈ 0,7 · Docht linear (Darcy) · Rille laminar, R = 28,45 · μ · L / a⁴ · Ventil ≈ 60 Pa Öffnungsdruck. Der Sensor sieht nur den Abfall an der Einlassbohrung – deshalb ist sie die Messblende.</p>
+
+        <h2 class="section-title">Rechner · Geschmack über die Lebensdauer</h2>
+        <div class="calc">
+          <label class="field"><span>Aroma</span><select id="inAroma">
+            <option value="minze">Minze · Menthol</option>
+            <option value="zitrone" selected>Zitrone · Limonen</option>
+            <option value="beere">Beere · Fruchtester (Ethylbutyrat)</option>
+          </select></label>
+          <label class="field"><span>Aroma im Docht <output id="oLoad">10 mg</output></span><input type="range" id="inLoad" min="2" max="30" step="1" value="10"></label>
+        </div>
+        <figure class="viz" id="flavorViz">
+          <figcaption>Aromaabgabe pro Zug, in % des ersten Zugs ohne Verkapselung</figcaption>
+          <div class="legend" aria-hidden="true"><span><i style="background:var(--s1)"></i>frei im Docht</span><span><i style="background:var(--s2)"></i>verkapselt</span><span><i class="dash"></i>Kartusche wechseln (600 Züge)</span></div>
+          <div class="viz-plot"><svg id="flavorSvg" role="img" aria-label="Verlauf der Aromaabgabe pro Zug" tabindex="0"></svg><div class="viz-tip" id="flavorTip" hidden></div></div>
+          <details class="viz-table"><summary>Als Tabelle anzeigen</summary><div class="table-wrap"><table><thead><tr><th class="r">Zug</th><th class="r">frei</th><th class="r">verkapselt</th></tr></thead><tbody id="flavorRows"></tbody></table></div></details>
+        </figure>
+        <div class="tiles">
+          <div class="tile"><span class="tile-k">Halb so stark (frei)</span><strong class="tile-v num" id="rHalfFree">–</strong><span class="tile-n" id="rHalfFreeN"></span></div>
+          <div class="tile"><span class="tile-k">Halb so stark (verkapselt)</span><strong class="tile-v num" id="rHalfEnc">–</strong><span class="tile-n" id="rHalfEncN"></span></div>
+          <div class="tile"><span class="tile-k">Verlust in der Tasche</span><strong class="tile-v num" id="rLoss">–</strong><span class="tile-n" id="rLossN"></span></div>
+        </div>
+        <div class="callout"><strong>Was daraus folgt</strong><span id="flavorVerdict"></span></div>
+        <div class="callout callout--warn"><strong>Modell, keine Messung</strong><span>Annahmen: Aroma gelöst in 50 mg Trägeröl (Raoult), Luft im Docht zu 30 % gesättigt, Dampfdrücke bei 25 °C (PubChem), Diffusion durch Einlass Ø 1,0 und Stiel Ø 2,8. „Verkapselt“ heißt hier: Abgabe auf 35 % des freien Startwerts gebremst (z. B. Cyclodextrin). Das Modell zeigt Richtung und Größenordnung – die echte Kurve liefert der Geschmackstest (Nachbauen → Prüfplan).</span></div>
+
+        <h2 class="section-title">So bleibt der Geschmack gleichmäßig</h2>
+        <ul class="check">
+          <li><div><b>Flüchtige Noten verkapseln</b> <span>– Zitrus und Fruchtester in Cyclodextrin oder Mikrokapseln: gleichmäßige Abgabe statt Spitze am Anfang</span></div></li>
+          <li><div><b>Rezeptur mischen</b> <span>– leichte Kopfnoten für den Anfang, schwerere Noten für die Dauer (Aroma-Partner)</span></div></li>
+          <li><div><b>Ventil im Stiel</b> <span>– verringert den Verlust in Ruhe etwa um den Faktor 10 und hält Atemfeuchte vom Docht fern</span></div></li>
+          <li><div><b>Aromadicht verpacken</b> <span>– Einzelbeutel aus Alu-Verbundfolie, erst beim Einsetzen öffnen</span></div></li>
+          <li><div><b>Bypass-Rille als Stellschraube</b> <span>– 0,4 mm = intensiver, 0,6 mm = milder; wird mit dem Geschmackstest festgelegt</span></div></li>
+          <li><div><b>Nach Luftmenge wechseln</b> <span>– das Gerät zählt Standardzüge à 35 ml; die App meldet „fast leer“ bei 15 %, bevor es fade wird</span></div></li>
+        </ul>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="tab-elektronik" aria-labelledby="t-elektronik" hidden>
+        <p class="lead">Zwei Stufen: <strong>V0</strong> aus fertigen Modulen – heute baubar und im echten Gehäuse. <strong>V1</strong> mit eigener Platine für die Serie. Die Firmware ist für beide dieselbe.</p>
+
+        <h2 class="section-title">V0 · Verdrahtung (Seeed XIAO nRF52840)</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Pin</th><th>an</th><th>Hinweis</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">D1</td><td>Taster → GND</td><td>interner Pull-up</td></tr>
+            <tr><td class="mono">D2</td><td>Gate AO3400 (100 Ω in Serie, 100 kΩ → GND)</td><td>Motor zwischen 3V3 und Drain, 1N4148 antiparallel</td></tr>
+            <tr><td class="mono">D3</td><td>weiße LED → 68 Ω → GND</td><td>Lichtstreifen, per PWM gedimmt</td></tr>
+            <tr><td class="mono">D4 / D5</td><td>SDA / SCL des BMP390</td><td>3V3 + GND; Adresse 0x77 (0x76 bei SDO an GND)</td></tr>
+            <tr><td class="mono">BAT+ / BAT−</td><td>LiPo 401230 mit Schutzschaltung</td><td>Pads unten; Laden über USB-C mit 50 mA</td></tr>
+            <tr><td class="mono">Port-Stutzen</td><td>Silikonschlauch 1,0 × 2,0 → BMP390</td><td>mit einem Tropfen Silikon dicht machen</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="section-title">V1 · Schaltung der eigenen Platine</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Block</th><th>Bauteil</th><th>Anschluss</th></tr></thead>
+          <tbody>
+            <tr><td>Funk + Rechner</td><td>Raytac MDBT42Q (nRF52832), vorzertifiziert</td><td>SWD auf Testpads (Tag-Connect TC2030), Updates per Bluetooth-DFU</td></tr>
+            <tr><td>Zugsensor</td><td>BMP390 auf Riser-Platine unter dem Port</td><td>I²C P0.26 / P0.27, 4,7 kΩ Pull-ups, 100 nF</td></tr>
+            <tr><td>Haptik</td><td>ERM 1027 · AO3400A · 1N4148WS</td><td>Gate P0.19 (PWM), Motor an VBAT</td></tr>
+            <tr><td>Licht</td><td>weiße 0603-LED + Lichtleiter</td><td>P0.17 (PWM), 100 Ω</td></tr>
+            <tr><td>Taste</td><td>SMD-Taster 3 × 4 mm, seitlich</td><td>P0.13 (weckt aus dem Schlaf)</td></tr>
+            <tr><td>Laden</td><td>USB-C 16-Pin · MCP73831 (50 mA) · ESD-Schutz</td><td>CC1/CC2 je 5,1 kΩ nach GND · STAT an P0.15</td></tr>
+            <tr><td>Akku</td><td>LiPo 401230 mit Schutz-IC (DW01A + FS8205)</td><td>VBAT-Messung: 1 MΩ / 1 MΩ an AIN2 (P0.04), per FET abschaltbar</td></tr>
+            <tr><td>Versorgung</td><td>TPS7A02 3,3 V (25 nA Ruhestrom)</td><td>für Modul und Sensor; Motor direkt an VBAT</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="section-title">V1 · Strombudget</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Verbraucher</th><th>Annahme</th><th class="r unit">µA im Mittel</th></tr></thead>
+          <tbody>
+            <tr><td>Drucksensor</td><td>10 Hz, Oversampling ×2 (≈ 6,9 ms à 0,7 mA)</td><td class="r">48</td></tr>
+            <tr><td>Rechner wacht pro Messung auf</td><td>10 × 0,3 ms à 3 mA</td><td class="r">9</td></tr>
+            <tr><td>Bluetooth</td><td>Werben alle ≈ 1 s, 0 dBm</td><td class="r">10</td></tr>
+            <tr><td>Schutz-IC, Laderegler, Regler</td><td>Ruheströme laut Datenblatt</td><td class="r">4</td></tr>
+            <tr><td>Feedback</td><td>30 Züge/Tag · 60 ms × 80 mA + LED</td><td class="r">3</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="2">Summe ≈ 1,8 mAh am Tag → bei 80 mAh nutzbar ≈ 45 Tage</td><td class="r">≈ 74</td></tr></tfoot>
+        </table></div>
+        <p class="subtle" style="margin-top:8px">Größter Posten ist der Sensor. Mit Oversampling ×4 (wie in der V0-Firmware) sind es ≈ 100 µA und ≈ 33 Tage. Das Muster V0 (XIAO-Board) braucht deutlich mehr – dort egal. Ziel mit Reserve: mindestens 2 Wochen pro Ladung.</p>
+
+        <h2 class="section-title">Firmware · geprüft am PC</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Simulierter Fall</th><th>Ergebnis</th></tr></thead>
+          <tbody>
+            <tr><td>normaler Zug 35 ml · sanfter Zug 10,5 ml/s · kurzer kräftiger Zug · langer ruhiger Zug 5 s</td><td>je 1 Zug gezählt</td></tr>
+            <tr><td>zwei Züge mit 0,8 s Pause</td><td>2 Züge</td></tr>
+            <tr><td>Zug während einer Aufzugfahrt, abwärts und aufwärts</td><td>je 1 Zug</td></tr>
+            <tr><td>Stoß 60 ms · Autotür-Druckwelle · Aufzug −25 und −60 Pa/s · 10 min Ruhe mit Wetterdrift</td><td>0 Züge</td></tr>
+            <tr><td>sehr schwacher Zug 7 ml/s (≈ 100 Pa)</td><td>0 Züge – bewusst unter der Schwelle</td></tr>
+            <tr><td>12 s Dauer-Unterdruck (verstopft, Störung)</td><td>verworfen</td></tr>
+          </tbody>
+        </table></div>
+        <p class="subtle" style="margin-top:8px">14 von 14 Fällen bestanden (<span class="mono">firmware/test/puff_detector_test.cpp</span>). Die Firmware kompiliert ohne Warnungen für den XIAO nRF52840 (132 KB Flash); auf echter Hardware ist sie noch nicht erprobt.</p>
       </div>
 
       <div class="tabpanel" role="tabpanel" id="tab-bom" aria-labelledby="t-bom" hidden>
@@ -358,51 +529,109 @@ if (imZug &amp;&amp; dp &gt; -120) {
         <div class="table-wrap"><table>
           <thead><tr><th>Teil</th><th>Zweck</th><th class="r">≈ €</th></tr></thead>
           <tbody>
-            <tr><td>Seeed XIAO nRF52840 (21 × 17,8 mm)</td><td>Mikrocontroller + Bluetooth + USB-C + Laderegler auf einer Platine</td><td class="r">10</td></tr>
+            <tr><td>Seeed XIAO nRF52840 (21 × 17,8 mm)</td><td>Rechner, Bluetooth, USB-C und Laderegler auf einer Platine</td><td class="r">10</td></tr>
             <tr><td>BMP390-Breakout (I²C)</td><td>Zugsensor</td><td class="r">11</td></tr>
-            <tr><td>Vibrationsmotor 1027 (5er-Pack) + MOSFET AO3400 + Diode</td><td>Haptik</td><td class="r">7</td></tr>
+            <tr><td>Vibrationsmotor 1027, MOSFET AO3400, Diode 1N4148, Widerstände</td><td>Haptik</td><td class="r">7</td></tr>
             <tr><td>LiPo 401230, 100 mAh, mit Schutzschaltung</td><td>Akku</td><td class="r">6</td></tr>
-            <tr><td>Taster, weiße LED, Litze, Silikonschlauch Ø 1 mm, ePTFE-Membran</td><td>Bedienung, Luftweg</td><td class="r">10</td></tr>
-            <tr><td>Gehäuse als SLA-Druck (Dienstleister), 2–3 Iterationen</td><td>Form und Ergonomie</td><td class="r">40–80</td></tr>
-            <tr><td>Lebensmitteltaugliche Pod-Muster und Aromen für interne Tests</td><td>Geschmackstest</td><td class="r">20–40</td></tr>
+            <tr><td>SMD-Taster 3 × 6 × 2,5, weiße LED 1206, Litze 0,1 mm²</td><td>Bedienung, Lichtstreifen</td><td class="r">5</td></tr>
+            <tr><td>Magnete Ø 2 × 2 mm N52 (10 Stück), Stahlscheiben Ø 2,5 × 0,5</td><td>Kappe</td><td class="r">6</td></tr>
+            <tr><td>Silikonplatten 1,5 und 0,5 mm (lebensmittelecht), Silikonschlauch 1 × 2 mm, ePTFE-Membran</td><td>Dichtungen, Sensorweg</td><td class="r">15</td></tr>
+            <tr><td>Entenschnabelventile, Flansch Ø 4 mm (Muster beim Hersteller anfragen)</td><td>Kartusche</td><td class="r">0–20</td></tr>
+            <tr><td>Slim-Filter 6 mm (Celluloseacetat)</td><td>Aroma-Docht für Muster</td><td class="r">3</td></tr>
+            <tr><td>Lebensmittelaromen Minze, Zitrone, Beere + Trägeröl (z. B. MCT), Mikropipette 10–100 µl</td><td>Geschmackstest</td><td class="r">30–50</td></tr>
+            <tr><td>SLA-Druck beim Dienstleister, Kappe in biokompatiblem Harz, 2–3 Durchgänge</td><td>alle Druckteile</td><td class="r">60–120</td></tr>
           </tbody>
-          <tfoot><tr><td colspan="2">Gesamt – passt in das Prototyp-Budget des Plans (500–1.500 €)</td><td class="r">≈ 105–165</td></tr></tfoot>
+          <tfoot><tr><td colspan="2">Gesamt – passt in das Prototyp-Budget des Plans (500–1.500 €)</td><td class="r">≈ 155–255</td></tr></tfoot>
         </table></div>
       </div>
 
       <div class="tabpanel" role="tabpanel" id="tab-plan" aria-labelledby="t-plan" hidden>
-        <p class="lead">Vom Steckbrett zur Kleinserie – jede Stufe beantwortet eine Frage, bevor Geld in Werkzeuge fließt.</p>
-        <h2 class="section-title">V0 · Funktionsmuster · 2–4 Wochen · ≈ 150 €</h2>
+        <p class="lead">Alles für ein funktionierendes Muster in echter Größe: Dateien, Schritte und Prüfungen. Jede Stufe beantwortet eine Frage, bevor Geld in Werkzeuge fließt.</p>
+
+        <h2 class="section-title">Dateien</h2>
+        <div class="dl-grid">
+          <a class="dl" href="cad/novape-one.scad" download><b>novape-one.scad</b><span>Parametrisches CAD (OpenSCAD) – alle Maße an einer Stelle</span></a>
+          <a class="dl" href="cad/README.md" download><b>CAD-Anleitung</b><span>Teile, Export, Druck, Toleranzen</span></a>
+          <a class="dl" href="cad/stl/kopfteil.stl" download><b>kopfteil.stl</b><span>Pod-Aufnahme + Sockel, ein Teil · 188 KB</span></a>
+          <a class="dl" href="cad/stl/kappe.stl" download><b>kappe.stl</b><span>Mundstück-Kappe · 215 KB</span></a>
+          <a class="dl" href="cad/stl/kartusche_unterteil.stl" download><b>kartusche_unterteil.stl</b><span>Docht-Bohrung + Bypass · 33 KB</span></a>
+          <a class="dl" href="cad/stl/kartusche_oberteil.stl" download><b>kartusche_oberteil.stl</b><span>Deckel, Stiel, Y-Trichter · 59 KB</span></a>
+          <a class="dl" href="cad/stl/huelse.stl" download><b>huelse.stl</b><span>Gehäuse, 1,2 mm Wand · 211 KB</span></a>
+          <a class="dl" href="cad/stl/chassis_v0.stl" download><b>chassis_v0.stl</b><span>Innenleben für XIAO, Akku, Motor · 39 KB</span></a>
+          <a class="dl" href="cad/stl/bodenkappe_v0.stl" download><b>bodenkappe_v0.stl</b><span>mit USB-C-Öffnung · 39 KB</span></a>
+          <a class="dl" href="cad/stl/taste.stl" download><b>taste.stl · lichtleiter.stl</b><span>Kleinteile · 29 KB / 2 KB</span></a>
+          <a class="dl" href="cad/stl/dichtung.dxf" download><b>dichtung.dxf · lippendichtung.dxf</b><span>2D für Laser oder Stanze</span></a>
+          <a class="dl dl--accent" href="../firmware/build/novape-one-v0.uf2" download><b>novape-one-v0.uf2</b><span>Firmware zum Aufspielen per Drag-and-drop · 261 KB</span></a>
+          <div class="dl"><b>Firmware-Quellcode</b><span><a href="../firmware/novape-one/novape-one.ino" download>novape-one.ino</a> · <a href="../firmware/novape-one/puff_detector.h" download>puff_detector.h</a> · <a href="../firmware/novape-one/config.h" download>config.h</a></span></div>
+          <a class="dl" href="../firmware/README.md" download><b>Firmware-Anleitung</b><span>Bauen, Verdrahten, Kalibrieren, Protokoll</span></a>
+        </div>
+        <p class="subtle" style="margin-top:8px">Die zweite Datei bei Taste und Dichtungen: <a href="cad/stl/lichtleiter.stl" download>lichtleiter.stl</a> · <a href="cad/stl/lippendichtung.dxf" download>lippendichtung.dxf</a> · Test der Zugerkennung: <a href="../firmware/test/puff_detector_test.cpp" download>puff_detector_test.cpp</a></p>
+
+        <h2 class="section-title">V0 · Muster in echter Größe bauen</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Elektronik aufs Steckbrett</h4><p>XIAO nRF52840 + BMP390 per I²C, Vibrationsmotor über MOSFET, LED und Taster an GPIOs, LiPo an den Akku-Pads.</p></div></li>
-          <li><span class="k">2</span><div><h4>Firmware schreiben</h4><p>Arduino oder Zephyr: Druck mit 25 Hz lesen, gleitende Basislinie, Schwelle −250 Pa, 60-ms-Haptik, Speicher und BLE-Service mit den UUIDs aus der App.</p></div></li>
-          <li><span class="k">3</span><div><h4>Mit der App verbinden</h4><p>NoVape-App mit <span class="mono">VITE_DEVICE=bluetooth</span> starten (Chrome auf Android oder Desktop). Echte Züge erscheinen dann live auf dem Home-Screen.</p></div></li>
-          <li><span class="k">4</span><div><h4>Gehäuse drucken</h4><p>Zwei Halbschalen + Pod-Aufnahme nach den Maßen dieses Modells (Innenraum 23,4 × 13,4 mm). Innenraum auf Steckbrett-Bauteile anpassen.</p></div></li>
-          <li><span class="k">5</span><div><h4>Luftweg abdichten</h4><p>Lufteinlass bohren, Silikonschlauch von der Pod-Aufnahme zum Sensor, ePTFE-Membran davor. Ohne Dichtheit keine saubere Erkennung.</p></div></li>
-          <li><span class="k">6</span><div><h4>Zugwiderstand einstellen</h4><p>Einlass 1,0 / 1,2 / 1,4 mm vergleichen, dazu den Druckverlauf pro Variante mitschreiben.</p></div></li>
-          <li><span class="k">7</span><div><h4>Geschmack testen</h4><p>Varianten A und B mit lebensmitteltauglichen Materialien bauen und mit erwachsenen Testpersonen blind vergleichen.</p></div></li>
-          <li><span class="k">8</span><div><h4>Messen und festhalten</h4><p>Fehlauslösungen (Aufzug, Hosentasche, Pod-Wechsel), Akkulaufzeit, Haptik-Gefühl, Geschmacksdauer pro Pod.</p></div></li>
+          <li><span class="k">1</span><div><h4>Teile drucken</h4><p>SLA mit 0,05 mm Schichtdicke. Kopfteil, Hülse, Chassis, Bodenkappe und Taste in Standard-Harz; beide Kartuschenteile und den Lichtleiter klar. Die Kappe berührt den Mund: nur biokompatibles Harz (ISO 10993, z. B. BioMed) oder als Frästeil. Waschen und nachhärten nach Herstellerangabe.</p></div></li>
+          <li><span class="k">2</span><div><h4>Nacharbeiten</h4><p>Einlass mit 1,0-mm-Bohrer im Handbohrer auf Maß bringen, Sensor-Port Ø 1,0 durchstoßen. Docht-Bohrung prüfen: Der Docht muss stramm sitzen, sonst mit 5,9 mm nachbohren. Bypass-Rille frei von Harzresten.</p></div></li>
+          <li><span class="k">3</span><div><h4>Silikonteile schneiden</h4><p>Dichtung aus 1,5-mm-Platte (Loch mit 3-mm-Locheisen), Lippendichtung aus 0,5–0,6-mm-Platte – Vorlage sind die DXF-Dateien, per Laser oder Cutter. ePTFE-Membran Ø 3,4 ausstanzen.</p></div></li>
+          <li><span class="k">4</span><div><h4>Magnete setzen</h4><p>Zwei Magnete Ø 2 × 2 in die Taschen der Kappe, zwei Stahlscheiben in den Kopfring, jeweils mit einem Tropfen Harz fixieren. Die Polung ist egal.</p></div></li>
+          <li><span class="k">5</span><div><h4>Elektronik verdrahten</h4><p>Nach der Tabelle unter „Elektronik“: Motor, LED, Taster und Sensor-Breakout ins Chassis, Litze an den XIAO. Den Akku zuletzt anlöten und die Pole isolieren.</p></div></li>
+          <li><span class="k">6</span><div><h4>Firmware aufspielen</h4><p>XIAO per USB-C anschließen, Reset zweimal schnell drücken, <span class="mono">novape-one-v0.uf2</span> auf das Laufwerk ziehen. Fünfmal schnelles Blinken heißt: Drucksensor nicht gefunden.</p></div></li>
+          <li><span class="k">7</span><div><h4>Gerät zusammensetzen</h4><p>Membran auf den Port kleben, Kopfteil von oben in die Hülse, den Übergang am Einlass mit einem Tropfen Silikon abdichten. Silikonschlauch vom Port-Stutzen zum Sensor. Taste und Lichtleiter einsetzen, Chassis mit XIAO von unten einschieben, Bodenkappe einrasten.</p></div></li>
+          <li><span class="k">8</span><div><h4>Kartusche bauen</h4><p>Entenschnabelventil von unten in die Deckeltasche drücken, Schnabel nach oben. Den Slimfilter auf 12,5 mm kürzen und ins Unterteil schieben, 60 µl Aromamischung auftropfen (≈ 10 mg Aroma in 50 mg Trägeröl). Oberteil aufsetzen, verkleben, 24 h verschlossen ruhen lassen.</p></div></li>
+          <li><span class="k">9</span><div><h4>Einsetzen und kalibrieren</h4><p>Dichtung in den Schacht, Kartusche drauf, Kappe aufsetzen. Mit einer Spritze 35 ml in etwa 2 s ziehen und <span class="mono">INLET_K</span> anpassen, bis die Firmware ≈ 35 ml meldet (Anleitung in der Firmware-README).</p></div></li>
+          <li><span class="k">10</span><div><h4>Mit der App verbinden</h4><p>NoVape-App mit <span class="mono">VITE_DEVICE=bluetooth</span> in Chrome (Android oder Desktop) öffnen und koppeln. Die App stellt die Uhr des Geräts, holt Offline-Züge ab und meldet neue Kartuschen.</p></div></li>
         </ol>
+
+        <h2 class="section-title">Druck-Hinweise</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Teil</th><th>Harz</th><th>Hinweis</th></tr></thead>
+          <tbody>
+            <tr><td>Kopfteil</td><td>Standard, schwarz</td><td>Kopfring nach oben, Stützen außen; Einlasskanal und Port nach dem Waschen durchspülen</td></tr>
+            <tr><td>Kappe</td><td>biokompatibel, getönt</td><td>Dach nach oben; innen keine Stützen an der Dichtfläche um den Schlitz</td></tr>
+            <tr><td>Kartuschen-Unterteil</td><td>klar</td><td>stehend; die Bypass-Rille darf nicht zugesetzt sein</td></tr>
+            <tr><td>Kartuschen-Oberteil</td><td>klar oder schwarz</td><td>Trichter nach oben; Stiel innen Ø 2,8 und Ventiltasche Ø 3,9 prüfen</td></tr>
+            <tr><td>Hülse</td><td>Standard</td><td>stehend; danach schleifen und champagnerfarben lackieren; Einlass nachbohren</td></tr>
+            <tr><td>Chassis, Bodenkappe, Taste, Lichtleiter</td><td>Standard / klar</td><td>Maße der eigenen Module in <span class="mono">novape-one.scad</span> eintragen und neu exportieren</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 class="section-title">Prüfplan</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Prüfung</th><th>So geht's</th><th>Ziel</th></tr></thead>
+          <tbody>
+            <tr><td>Dichtheit</td><td>Einlass mit dem Finger zuhalten und ziehen</td><td>kein Luftstrom, Sensor unter −1.500 Pa</td></tr>
+            <tr><td>Zugwiderstand</td><td>35 ml in 2 s mit Spritze, Spitzenwert im Debug-Log</td><td>500–700 Pa in der Kammer, fühlt sich an wie eine Zigarette</td></tr>
+            <tr><td>Erkennung</td><td>100 Züge unterschiedlicher Stärke</td><td>mindestens 98 gezählt</td></tr>
+            <tr><td>Fehlauslösung</td><td>24 h in Hosentasche, Auto, Aufzug, Treppenhaus</td><td>0 Züge</td></tr>
+            <tr><td>Ventil</td><td>hineinblasen; Öffnungsdruck mit Spritze + Sensor</td><td>rückwärts dicht, öffnet bei höchstens 100 Pa</td></tr>
+            <tr><td>Geschmack über die Lebensdauer</td><td>3 Personen bewerten die Intensität 0–10, alle 50 Züge bis 600</td><td>nie unter 60 % des Startwerts</td></tr>
+            <tr><td>Lagerung</td><td>Kartusche 14 Tage im Gerät, ohne Nutzung</td><td>mindestens 80 % der Intensität einer frischen</td></tr>
+            <tr><td>Kappe</td><td>Abziehkraft mit Federwaage, Schütteltest</td><td>1–3 N, fällt nicht ab</td></tr>
+            <tr><td>Akku (V1)</td><td>Laufzeit mit 30 Zügen am Tag</td><td>mindestens 2 Wochen</td></tr>
+            <tr><td>Fall</td><td>1,5 m auf Holz, 10× in verschiedenen Lagen</td><td>funktioniert, nichts löst sich</td></tr>
+            <tr><td>Hygiene</td><td>Kappe 20× von Hand bei 60 °C spülen</td><td>keine Risse, Lippendichtung sitzt</td></tr>
+          </tbody>
+        </table></div>
+
         <h2 class="section-title">V1 · Designmuster · 2–3 Monate</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Eigene Platine</h4><p>KiCad, 4 Lagen, 0,8 mm, 20 × 56 mm mit vorzertifiziertem Bluetooth-Modul. 5–10 Muster bestückt fertigen lassen.</p></div></li>
-          <li><span class="k">2</span><div><h4>Echtes Gehäuse</h4><p>Aluminiumhülse gefräst und eloxiert, Innenchassis und Pod-Aufnahme per Vakuumguss.</p></div></li>
-          <li><span class="k">3</span><div><h4>Pods in Kleinserie</h4><p>Mit Aroma-Partner: Kartusche und Mundstück aus Tritan, Silikondichtung, erste Migrationstests.</p></div></li>
+          <li><span class="k">1</span><div><h4>Eigene Platine</h4><p>KiCad, 4 Lagen, 0,8 mm, 20 × 56 mm mit vorzertifiziertem Bluetooth-Modul nach der Schaltung unter „Elektronik“. 5–10 Muster bestückt fertigen lassen.</p></div></li>
+          <li><span class="k">2</span><div><h4>Echtes Gehäuse</h4><p>Aluminiumhülse gefräst und eloxiert (<span class="mono">wall = 0.8</span> im CAD), Innenchassis und Kopfteil per Vakuumguss.</p></div></li>
+          <li><span class="k">3</span><div><h4>Kartuschen in Kleinserie</h4><p>Mit Aroma-Partner: Rezeptur mit Verkapselung, Kartusche aus Tritan, Ventil und Docht vom Hersteller, erste Migrationstests.</p></div></li>
           <li><span class="k">4</span><div><h4>Vortests</h4><p>EMV-Vormessung, Akkutests, 20–30 erwachsene Testpersonen über 2–4 Wochen – das sind die Gate-Kriterien aus dem Businessplan.</p></div></li>
         </ol>
         <h2 class="section-title">V2 · Vorserie · nur nach positivem Test</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Werkzeuge</h4><p>Spritzguss für Pod, Pod-Aufnahme, Chassis und Bodenkappe; Strangpressprofil für die Hülse. Grob 15.000–40.000 € (Angebote einholen).</p></div></li>
+          <li><span class="k">1</span><div><h4>Werkzeuge</h4><p>Spritzguss für Kartuschenteile, Kopfteil, Kappe, Chassis und Bodenkappe; Strangpressprofil für die Hülse. Grob 15.000–40.000 € (Angebote einholen).</p></div></li>
           <li><span class="k">2</span><div><h4>EVT → DVT → PVT</h4><p>Engineering-, Design- und Produktionsvalidierung, danach 500–1.000 Stück Kleinserie.</p></div></li>
         </ol>
         <h2 class="section-title">Montage in Serie</h2>
         <ol class="steps">
-          <li><span class="k">1</span><div><h4>Platine</h4><p>Bestückt und über Testpads geflasht.</p></div></li>
+          <li><span class="k">1</span><div><h4>Platine</h4><p>Bestückt, über Testpads geflasht, Sensor kalibriert (K-Wert je Gerät speichern).</p></div></li>
           <li><span class="k">2</span><div><h4>Chassis bestücken</h4><p>Akku anschließen, Motor mit Klebepad, Taster und Lichtleiter einsetzen.</p></div></li>
-          <li><span class="k">3</span><div><h4>Pod-Aufnahme aufclipsen</h4><p>Mit Gegenmagneten, Membran und Sensorschlauch.</p></div></li>
+          <li><span class="k">3</span><div><h4>Kopfteil einsetzen</h4><p>Membran, Stahlscheiben und Dichtung vormontiert; Einlass zur Hülse abgedichtet.</p></div></li>
           <li><span class="k">4</span><div><h4>In die Hülse schieben</h4><p>Bodenkappe einclipsen oder kleben.</p></div></li>
-          <li><span class="k">5</span><div><h4>End-of-Line-Test</h4><p>Dichtheit und Druckerkennung, Haptik, Bluetooth, Ladestrom.</p></div></li>
-          <li><span class="k">6</span><div><h4>Pod</h4><p>Aromaträger in die Kartusche, Dichtung, Mundstück per Ultraschall verschweißen, aromadicht einzeln verpacken.</p></div></li>
+          <li><span class="k">5</span><div><h4>End-of-Line-Test</h4><p>Dichtheit und Zugerkennung mit einem definierten Prüfzug, Haptik, Bluetooth, Ladestrom.</p></div></li>
+          <li><span class="k">6</span><div><h4>Kartusche</h4><p>Ventil einpressen, Docht mit Aroma einsetzen, Oberteil ultraschallverschweißen, Dichtheit prüfen, aromadicht einzeln verpacken (Alu-Verbund, Chargennummer).</p></div></li>
         </ol>
       </div>
 
@@ -425,7 +654,20 @@ if (imZug &amp;&amp; dp &gt; -120) {
           <li><div><b>Aromen</b> <span>– Aromenverordnung (EG) 1334/2008, Bezug über zertifizierten Lieferanten</span></div></li>
           <li><div><b>Produktkategorie und Claims</b> <span>– fachlich prüfen lassen; keine Heil- oder Entwöhnungsversprechen</span></div></li>
         </ul>
-        <div class="callout callout--warn"><strong>Wichtigster offener Punkt</strong><span>Wie genau der Geschmack in den Mund kommt (Variante A oder B), bestimmt Materialwahl, Prüfaufwand und Kosten des Pods. Deshalb früh mit einem Aroma- und Lebensmittelpartner klären.</span></div>
+        <h2 class="section-title">Aromen zum Einatmen</h2>
+        <ul class="check">
+          <li><div><b>Lebensmittelaroma ≠ unbedenklich beim Einatmen</b> <span>– Aromen sind für den Verzehr bewertet. Auch beim Mundzug gelangt Luft in die Atemwege, und frühere Raucher ziehen oft aus Gewohnheit in die Lunge.</span></div></li>
+          <li><div><b>Ausschlussliste</b> <span>– keine Stoffe mit bekannter Wirkung auf die Atemwege, z. B. Diacetyl, 2,3-Pentandion, Acetoin, Zimtaldehyd</span></div></li>
+          <li><div><b>Toxikologische Bewertung</b> <span>– Rezeptur und Konzentration pro Zug (siehe Rechner unter „Luft &amp; Geschmack“) von Fachtoxikologen für den ungünstigsten Fall bewerten lassen</span></div></li>
+          <li><div><b>Vorteil ohne Hitze</b> <span>– es entstehen keine Zersetzungsprodukte wie beim Verdampfen</span></div></li>
+        </ul>
+        <h2 class="section-title">Einordnung und Unterlagen</h2>
+        <ul class="check">
+          <li><div><b>Kein Verdampfer</b> <span>– ohne Heizelement und Aerosol fällt NoVape voraussichtlich nicht unter die E-Zigaretten-Regeln (TabakerzG) und nicht unter § 10 Abs. 4 JuSchG. Trotzdem: Verkauf erst ab 18 empfehlen und die Einordnung anwaltlich bestätigen lassen.</span></div></li>
+          <li><div><b>Technische Dokumentation</b> <span>– Risikoanalyse, Prüfberichte (Prüfplan unter „Nachbauen“), Materialnachweise, Bedienungsanleitung und Warnhinweise</span></div></li>
+          <li><div><b>Rückverfolgbarkeit</b> <span>– Chargennummer auf jeder Kartuschenverpackung, Seriennummer im Gerät (Bluetooth „Device Information“)</span></div></li>
+        </ul>
+        <div class="callout callout--warn"><strong>Wichtigster offener Punkt</strong><span>Die Aroma-Rezeptur: Sie entscheidet über Geschmacksverlauf, Sicherheit beim Einatmen, Prüfaufwand und Kosten der Kartusche. Deshalb früh mit einem Aroma- und Lebensmittelpartner klären.</span></div>
       </div>
 
       <div class="tabpanel" role="tabpanel" id="tab-quellen" aria-labelledby="t-quellen" hidden>
@@ -443,6 +685,17 @@ if (imZug &amp;&amp; dp &gt; -120) {
           <li><a href="https://www.berrybase.de/en/lp-401230-lithium-polymer-lipo-battery-3.7v-100mah-with-2-pin-jst-connector" target="_blank" rel="noopener">LiPo 401230 – 4 × 12 × 30 mm, 100 mAh</a></li>
           <li><a href="https://www.microchip.com/en-us/product/mcp73831" target="_blank" rel="noopener">Microchip MCP73831 – Laderegler, SOT-23-5</a></li>
           <li><a href="https://www.usb.org/sites/default/files/USB%20Type-C%20Spec%20R2.0%20-%20August%202019.pdf" target="_blank" rel="noopener">USB Type-C Spezifikation – Buchse 8,94 × 3,26 mm</a></li>
+        </ol>
+        <h2 class="section-title">Luft, Geschmack, Firmware, CAD</h2>
+        <ol class="sources">
+          <li><a href="https://www.iso.org/standard/60404.html" target="_blank" rel="noopener">ISO 3308 – Standardzug 35 ml in 2 s</a> · <a href="https://www.iso.org/standard/54447.html" target="_blank" rel="noopener">ISO 6565 – Zugwiderstand bei 17,5 ml/s</a></li>
+          <li><a href="https://de.wikipedia.org/wiki/Blende_(Str%C3%B6mungslehre)" target="_blank" rel="noopener">Messblende – Durchfluss aus dem Druckabfall</a> · <a href="https://de.wikipedia.org/wiki/Gesetz_von_Hagen-Poiseuille" target="_blank" rel="noopener">Hagen-Poiseuille – laminare Kanäle</a></li>
+          <li><a href="https://pubchem.ncbi.nlm.nih.gov/compound/Menthol" target="_blank" rel="noopener">PubChem Menthol</a> · <a href="https://pubchem.ncbi.nlm.nih.gov/compound/Limonene" target="_blank" rel="noopener">Limonen</a> · <a href="https://pubchem.ncbi.nlm.nih.gov/compound/Ethyl-butyrate" target="_blank" rel="noopener">Ethylbutyrat</a> – Dampfdrücke bei 25 °C</li>
+          <li><a href="https://de.wikipedia.org/wiki/Raoultsches_Gesetz" target="_blank" rel="noopener">Raoultsches Gesetz – Dampfdruck in Lösung</a> · <a href="https://de.wikipedia.org/wiki/Cyclodextrine" target="_blank" rel="noopener">Cyclodextrine – Verkapselung von Aromen</a></li>
+          <li><a href="https://www.cdc.gov/niosh/topics/flavorings/" target="_blank" rel="noopener">NIOSH: Aromastoffe und Atemwege (Diacetyl, 2,3-Pentandion)</a></li>
+          <li><a href="https://www.gesetze-im-internet.de/juschg/__10.html" target="_blank" rel="noopener">§ 10 JuSchG – Rauchen, Tabakwaren, nikotinfreie Verdampfer</a></li>
+          <li><a href="https://github.com/adafruit/Adafruit_BMP3XX" target="_blank" rel="noopener">Adafruit BMP3XX-Bibliothek</a> · <a href="https://github.com/Seeed-Studio/Adafruit_nRF52_Arduino" target="_blank" rel="noopener">Seeed nRF52 Arduino-Core</a></li>
+          <li><a href="https://openscad.org/" target="_blank" rel="noopener">OpenSCAD – parametrisches CAD</a> · <a href="https://formlabs.com/store/materials/biomed-clear-resin/" target="_blank" rel="noopener">Beispiel für biokompatibles SLA-Harz</a></li>
         </ol>
         <h2 class="section-title">Regulierung</h2>
         <ol class="sources">
@@ -468,33 +721,34 @@ if (imZug &amp;&amp; dp &gt; -120) {
    * ------------------------------------------------------------------ */
   var PARTS = [
     // Kopf
-    { id: 'cap', group: 'pod', bom: 'device', name: 'Mundstück-Kappe', dims: '24,4 × 14,6 × 22,2 mm · leicht konisch', part: 'Tritan™-Copolyester, rauchgrau transparent', cost: 0.12, text: 'Wird von oben aufgesteckt und von zwei Magneten auf dem Kopfring gehalten. Abnehmbar und abwaschbar. Verjüngt sich nach oben auf 22,4 × 13,4 mm, flach gewölbte Oberseite mit Auslass-Schlitz 7,2 × 2 mm. Lebensmittelkontakt nach EU 10/2011.' },
-    { id: 'stem', group: 'pod', bom: 'pod', name: 'Mundstück-Kanal (Y-Trichter)', dims: 'Ø 3,6 mm → 9,8 × 2,8 mm · 14,6 mm hoch', part: 'schwarz, an die Kartusche angeformt', cost: 0, text: 'Führt die Luft aus der Kartusche nach oben und weitet sich flach zum Auslass-Schlitz der Kappe auf. Durch die getönte Kappe sieht man ihn als Y.' },
-    { id: 'cartridge', group: 'pod', bom: 'pod', name: 'Aroma-Kartusche', dims: '10,6 × 8,2 × 17,4 mm', part: 'Tritan klar · Verbrauchsteil', cost: 0.10, text: 'Das Teil, das gewechselt wird: steckt im Sockel, oben mit angeformtem Y-Kanal. Zum Wechseln Kappe abziehen und die Kartusche am Kanal herausziehen.' },
-    { id: 'core', group: 'pod', bom: 'pod', name: 'Aromaträger', dims: 'Ø 6 × 12,5 mm', part: 'Lebensmittelaroma auf Cellulose-/Polymerträger', cost: 0.15, text: 'Gibt Geschmack an die durchströmende Luft ab. Rezeptur und Träger mit einem Aroma-Partner entwickeln (Aromenverordnung EG 1334/2008).' },
-    { id: 'seal', group: 'pod', bom: 'pod', name: 'Dichtung Kartusche', dims: '11,4 × 9 × 1,4 mm', part: 'LSR-Silikon, lebensmittelecht', cost: 0.05, text: 'Dichtet die Kartusche unten im Sockel ab, damit der Zug nur über den Lufteinlass läuft – Voraussetzung für eine saubere Druckmessung.' },
-    { id: 'capMagnets', group: 'pod', bom: 'device', name: 'Kappen-Magnete (2 + 2)', dims: 'Ø 2,5 × 1,5 mm', part: 'NdFeB N52, vernickelt, eingegossen', cost: 0.12, text: 'Zwei Magnete im Kappenrand, zwei Gegenmagnete im Kopfring. Sie ziehen die Kappe mit spürbarem Klick in Position; der Hall-Sensor erkennt den aufgesetzten Kopf.' },
-    { id: 'collar', group: 'pod', bom: 'device', name: 'Pod-Sockel (Aufsatz)', dims: 'Kopfring 25 × 15 · Flansch 18,9 × 12,4 · Turm 12,7 × 10,2 · 8 mm hoch', part: 'PC schwarz, hochglänzend · fest am Gerät', cost: 0.15, text: 'Das schwarze Stufenteil, das man durch die Kappe sieht – darauf wird der Kopf gesetzt. Der Turm hält die Kartusche mittig und dicht, im Kopfring sitzen die Gegenmagnete für die Kappe, und von unten strömt die Luft durch den Sockel in die Kartusche. Er bleibt immer am Gerät.' },
+    { id: 'cap', group: 'pod', bom: 'device', name: 'Mundstück-Kappe', dims: '24,4 × 14,6 × 22,2 mm · Wand 0,9', part: 'Tritan™-Copolyester, rauchgrau transparent', cost: 0.12, text: 'Wird von oben aufgesteckt; zwei Magnete ziehen sie auf den Kopfring. Verjüngt sich auf 22,4 × 13,4 mm, gewölbtes Dach mit Auslass-Schlitz 7,2 × 2 mm. Abnehmbar und abwaschbar, Lebensmittelkontakt nach EU 10/2011.' },
+    { id: 'lipSeal', group: 'pod', bom: 'device', name: 'Lippendichtung', dims: '10,6 × 3,6 × 0,6 mm · Öffnung 7,6 × 2,2', part: 'LSR-Silikon Shore 30–40A, unter das Kappendach geklebt', cost: 0.03, text: 'Dichtet Y-Kanal und Auslass-Schlitz gegeneinander ab (0,2 mm Vorspannung). Ohne sie zieht man Nebenluft aus der Kappe: weniger Geschmack und ein schwächeres Sensorsignal.' },
+    { id: 'stem', group: 'pod', bom: 'pod', name: 'Kartuschen-Oberteil mit Y-Kanal', dims: 'Deckel 10,6 × 8,2 × 1 · Stiel Ø 4,2 / 2,8 · Trichter → 10,3 × 3,1', part: 'Tritan schwarz, mit dem Unterteil verschweißt', cost: 0.06, text: 'Führt die Luft aus der Kartusche nach oben und weitet sich flach zum Auslass-Schlitz. Durch die getönte Kappe sieht man ihn als Y. Unten im Deckel sitzt das Entenschnabelventil.' },
+    { id: 'valve', group: 'pod', bom: 'pod', name: 'Entenschnabelventil', dims: 'Flansch Ø 4,0 × 0,5 · Körper ≤ Ø 2,6 × 3', part: 'LSR-Silikon, Öffnungsdruck ≤ 100 Pa (Muster anfragen)', cost: 0.05, text: 'Öffnet nur beim Ziehen. In Ruhe und beim Hineinblasen ist es zu: Das Aroma verdunstet nicht in die Tasche und Atemfeuchte kommt nicht an den Docht. Rechnung dazu unter „Luft & Geschmack“.' },
+    { id: 'cartridge', group: 'pod', bom: 'pod', name: 'Kartuschen-Unterteil', dims: '10,6 × 8,2 × 15,1 mm · Bohrung Ø 5,9 · Bypass-Rille 0,5 × 0,5', part: 'Tritan klar · Verbrauchsteil', cost: 0.07, text: 'Hält den Docht so eng, dass die Luft durch ihn hindurch muss. Die Rille daneben lässt ≈ 17 % der Luft vorbei: Das macht den ersten Zug milder und ist die Stellschraube für die Intensität.' },
+    { id: 'core', group: 'pod', bom: 'pod', name: 'Aroma-Docht', dims: 'Ø 6,0 × 12,5 mm', part: 'Faserdocht (PE/PET) oder Celluloseacetat · inkl. ≈ 10 mg Aroma in 50 mg Trägeröl', cost: 0.10, text: 'Wie ein feiner Schwamm: Das Aroma steckt zwischen den Fasern, die Luft strömt hindurch. Für Muster reicht ein gekürzter 6-mm-Slimfilter. Rezeptur und Verkapselung mit einem Aroma-Partner (Aromenverordnung EG 1334/2008).' },
+    { id: 'seal', group: 'pod', bom: 'device', name: 'Kartuschendichtung', dims: '11,4 × 9 × 1,4 mm · Loch Ø 3', part: 'LSR-Silikon Shore 40A · liegt im Dichtschacht', cost: 0.04, text: 'Die Kartusche sitzt darauf, die Kappe drückt sie an. Trennt die Einlasskammer vom Kappenraum – nur so läuft jeder Zug über die Messblende und den Docht.' },
+    { id: 'capMagnets', group: 'pod', bom: 'device', name: 'Kappen-Magnete + Stahlscheiben', dims: '2× Ø 2 × 2 mm N52 · 2× Ø 2,5 × 0,5 mm', part: 'NdFeB vernickelt in der Kappe · Stahlscheiben im Kopfring', cost: 0.08, text: 'Zwei Magnete an den Schmalseiten der Kappe ziehen auf zwei Stahlscheiben im Kopfring: spürbarer Klick, Haltekraft ≈ 1–2 N (messen). Im Gerät nur Stahl – keine Polung, die Kappe passt in beide Richtungen.' },
+    { id: 'collar', group: 'pod', bom: 'device', name: 'Pod-Sockel (Aufsatz)', dims: 'Kopfring 25 × 15 · Flansch 18,9 × 12,4 · Turm 12,7 × 10,2 · 8 mm hoch', part: 'PC schwarz, hochglänzend · fest am Gerät', cost: 0.15, text: 'Das schwarze Stufenteil, das man durch die Kappe sieht – darauf wird der Kopf gesetzt. Der Turm führt die Kartusche, im Kopfring sitzen die Stahlscheiben für die Kappe. Im Muster mit der Pod-Aufnahme ein einziges Druckteil („Kopfteil“).' },
     // Gehäuse
-    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 74,5 mm · Wand 0,8 · unten weich eingezogen', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Lufteinlass seitlich.' },
-    { id: 'inlet', group: 'housing', name: 'Lufteinlass', dims: 'Ø 1,2 mm', part: 'Bohrung in der Hülse', cost: 0, text: 'Einziger Lufteintritt. Der Durchmesser bestimmt den Zugwiderstand (Prototyp: 1,0 / 1,2 / 1,4 mm testen).' },
-    { id: 'seat', group: 'housing', name: 'Pod-Aufnahme', dims: '23,4 × 13,4 × 14 mm', part: 'PC/ABS schwarz, Spritzguss', cost: 0.20, text: 'Becher im oberen Gehäuse unter dem Sockel. Trennt den Mundkontakt-Bereich konstruktiv von der Elektronik und enthält den Sensor-Port.' },
-    { id: 'membrane', group: 'housing', name: 'Sensor-Port mit Membran', dims: 'Ø 3,2 × 0,2 mm', part: 'ePTFE, hydrophob, luftdurchlässig', cost: 0.10, text: 'Überträgt den Unterdruck zum Sensor, hält Speichel und Feuchtigkeit zurück. So bleibt die Elektronik vom Mundbereich getrennt.' },
-    { id: 'button', group: 'housing', name: 'Taste', dims: '5,4 × 12,4 mm (Kontur)', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 3 s halten: mit der App koppeln.' },
+    { id: 'shell', group: 'housing', name: 'Gehäusehülse', dims: '25 × 15 × 74,5 mm · Wand 0,8 · unten weich eingezogen', part: 'Aluminium 6063, gestrahlt, champagner eloxiert', cost: 1.80, text: 'Tragende Außenhülle. Strangpressprofil oder CNC, Fenster für Lichtstreifen und Taste, Einlassbohrung rechts. Im Muster SLA-Druck mit 1,2 mm Wand.' },
+    { id: 'inlet', group: 'housing', name: 'Einlassbohrung (Messblende)', dims: 'Ø 1,0 mm · Höhe 65,15 mm', part: 'Bohrung in der Hülse', cost: 0, text: 'Einziger Lufteintritt und zugleich Messblende: Bei 17,5 ml/s fallen hier ≈ 600 Pa ab – genau das misst der Sensor. Ø 1,0 ergibt ungefähr den Zugwiderstand einer Zigarette, 1,2 mm ist lockerer.' },
+    { id: 'seat', group: 'housing', name: 'Pod-Aufnahme mit Einlasskammer', dims: '23,4 × 13,4 × 14 mm · Dichtschacht 13,8 × 11,4', part: 'PC/ABS schwarz, Spritzguss', cost: 0.22, text: 'Becher unter dem Sockel. Unten der Dichtschacht mit der Einlasskammer: Einlasskanal von der Hülse, Sensor-Port mit Membran, darüber die Kartuschendichtung. Trennt den Luftweg konstruktiv von der Elektronik.' },
+    { id: 'membrane', group: 'housing', name: 'Sensor-Port mit Membran', dims: 'Port Ø 1,0 · Membran Ø 3,4 × 0,2 mm', part: 'ePTFE, hydrophob, selbstklebend', cost: 0.10, text: 'Überträgt den Unterdruck zum Sensor, hält Speichel und Feuchtigkeit zurück. So bleibt die Elektronik vom Mundbereich getrennt.' },
+    { id: 'button', group: 'housing', name: 'Taste', dims: '5,4 × 12,4 mm (Kontur)', part: 'Aluminium, eloxiert', cost: 0.12, text: '1× drücken: Akkustand · 2×: neue Kartusche · 3 s halten: mit der App koppeln.' },
     { id: 'chassis', group: 'housing', name: 'Innenchassis', dims: '22,6 × 58 × 12,6 mm', part: 'PC/ABS, Schnappverbindungen', cost: 0.40, text: 'Hält Platine, Akku, Motor und Lichtleiter. Wird als Einheit in die Hülse geschoben.' },
-    { id: 'baseCap', group: 'housing', name: 'Bodenkappe', dims: '21,6 × 11,6 × 2,8 mm', part: 'PC schwarz, USB-C-Ausschnitt', cost: 0.15, text: 'Schließt das Gerät unten ab und führt die USB-C-Buchse.' },
+    { id: 'baseCap', group: 'housing', name: 'Bodenkappe', dims: '21,6 × 11,6 × 2,8 mm', part: 'PC schwarz, USB-C-Ausschnitt', cost: 0.15, text: 'Schließt das Gerät unten ab und führt die USB-C-Buchse. Das kleine Loch daneben ist das Fenster der Lade-LED.' },
     // Elektronik
-    { id: 'pcb', group: 'electronics', name: 'Hauptplatine', dims: '20 × 56 × 0,8 mm', part: 'FR-4, 4 Lagen · inkl. Bestückung', cost: 2.50, text: 'Trägt alle Bauteile. Oben eine Freifläche für die Bluetooth-Antenne.' },
-    { id: 'ble', group: 'electronics', name: 'Bluetooth-Modul', dims: '10 × 16 × 2,2 mm', part: 'Raytac MDBT42Q (Nordic nRF52832)', cost: 3.00, text: 'Vorzertifiziertes Modul: zählt Nutzungen, speichert offline und synchronisiert mit der App.' },
-    { id: 'sensor', group: 'electronics', name: 'Zugsensor', dims: '2,0 × 2,0 × 0,75 mm', part: 'Bosch BMP390 (MEMS-Drucksensor)', cost: 1.60, text: 'Erkennt den Zug als kurzen Druckabfall (typisch 300–600 Pa). Sitzt direkt unter dem Sensor-Port.' },
+    { id: 'pcb', group: 'electronics', name: 'Hauptplatine', dims: '20 × 56 × 0,8 mm', part: 'FR-4, 4 Lagen · inkl. Bestückung', cost: 2.50, text: 'Trägt alle Bauteile, sitzt auf der Mittelebene (nur dort ist das runde Gehäuse 20 mm breit). Oben eine Freifläche für die Bluetooth-Antenne.' },
+    { id: 'ble', group: 'electronics', name: 'Bluetooth-Modul', dims: '10 × 16 × 2,2 mm', part: 'Raytac MDBT42Q (Nordic nRF52832)', cost: 3.00, text: 'Vorzertifiziertes Modul: erkennt Züge, speichert offline und synchronisiert mit der App. Firmware-Updates per Bluetooth.' },
+    { id: 'sensor', group: 'electronics', name: 'Zugsensor', dims: '2,0 × 2,0 × 0,75 mm', part: 'Bosch BMP390 (MEMS-Drucksensor)', cost: 1.60, text: 'Sitzt auf einer kleinen Riser-Platine direkt unter dem Port, mit einer Silikonmanschette angeschlossen. Misst den Unterdruck der Einlasskammer: ≈ 600 Pa bei einem normalen Zug.' },
     { id: 'motor', group: 'electronics', name: 'Vibrationsmotor', dims: 'Ø 10 × 2,7 mm', part: 'ERM 1027, 3 V, 80 mA', cost: 0.25, text: 'Kurzer Haptik-Impuls pro Nutzung, an der Griffseite eingeklebt. Upgrade: LRA + DRV2605L für präzisere Haptik (+ ≈ 1,20 €).' },
-    { id: 'battery', group: 'electronics', name: 'Akku', dims: '4 × 12 × 30 mm', part: 'LiPo 401230, 3,7 V, 100 mAh, mit Schutzschaltung', cost: 0.90, text: 'Reicht geschätzt 2–4 Wochen pro Ladung, abhängig von der Sensor-Abtastrate. Die Haptik verbraucht kaum Energie.' },
-    { id: 'charger', group: 'electronics', name: 'Laderegler', dims: '3 × 3 mm (SOT-23-5)', part: 'Microchip MCP73831, 100 mA', cost: 0.35, text: 'Lädt den LiPo sicher über USB-C (Konstantstrom/Konstantspannung).' },
-    { id: 'ldo', group: 'electronics', name: 'Spannungsregler 3,0 V', dims: '2 × 2 mm', part: 'z. B. TI TLV755', cost: 0.10, text: 'Stabile Versorgung für Modul und Sensor aus dem LiPo (3,0–4,2 V).' },
-    { id: 'usbc', group: 'electronics', name: 'USB-C-Buchse', dims: '8,94 × 3,26 × 7,35 mm', part: '16-Pin, nur Laden', cost: 0.20, text: 'An der Unterseite. Nur zum Laden, keine Datenverbindung.' },
+    { id: 'battery', group: 'electronics', name: 'Akku', dims: '4 × 12 × 30 mm', part: 'LiPo 401230, 3,7 V, 100 mAh, mit Schutzschaltung', cost: 0.90, text: 'Hinter der Platine. Rechnerisch 4–6 Wochen pro Ladung (Strombudget unter „Elektronik“), Ziel mit Reserve: mindestens 2 Wochen.' },
+    { id: 'charger', group: 'electronics', name: 'Laderegler', dims: '3 × 3 mm (SOT-23-5)', part: 'Microchip MCP73831, 50 mA', cost: 0.35, text: 'Lädt den LiPo sicher über USB-C (Konstantstrom/Konstantspannung, 0,5 C).' },
+    { id: 'ldo', group: 'electronics', name: 'Spannungsregler 3,3 V', dims: '1 × 1 mm (DQN)', part: 'TI TPS7A02, 25 nA Ruhestrom', cost: 0.25, text: 'Versorgt Modul und Sensor aus dem LiPo. Der winzige Ruhestrom zählt, wenn das Gerät wochenlang durchläuft.' },
+    { id: 'usbc', group: 'electronics', name: 'USB-C-Buchse', dims: '8,94 × 3,26 × 7,35 mm', part: '16-Pin, nur Laden', cost: 0.20, text: 'An der Unterseite. Nur zum Laden (CC1/CC2 mit 5,1 kΩ), keine Datenverbindung – Updates laufen über Bluetooth.' },
     { id: 'switch', group: 'electronics', name: 'Taster', dims: '3 × 4 × 2 mm', part: 'SMD-Taster, seitlich', cost: 0.08, text: 'Sitzt hinter der Aluminium-Taste.' },
-    { id: 'led', group: 'electronics', name: 'LED + Lichtleiter', dims: 'Streifen 1 × 7 mm', part: 'weiße 0603-LED, PC-Lichtleiter', cost: 0.10, text: 'Bildet den Lichtstreifen vorne: Rückmeldung bei Nutzung, Akkustand, Kopplung.' },
-    { id: 'hall', group: 'electronics', name: 'Hall-Sensor', dims: '1,1 × 1,4 mm', part: 'TI DRV5032', cost: 0.30, text: 'Erkennt über die Pod-Magnete, ob ein Pod eingesetzt ist – und zählt Pod-Wechsel.' },
+    { id: 'led', group: 'electronics', name: 'LED + Lichtleiter', dims: 'Streifen 1 × 7 mm', part: 'weiße 0603-LED, PC-Lichtleiter', cost: 0.10, text: 'Bildet den Lichtstreifen vorne: Rückmeldung bei Nutzung, Akkustand, Kopplung, „Kartusche fast leer“.' },
   ];
   PARTS.forEach(function (p, i) { p.n = i + 1; });
   var byId = {};
@@ -547,7 +801,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
       document.getElementById('sum-' + pair[0]).textContent = '≈ ' + fmt(sums[pair[0]]);
     });
     document.getElementById('bomCompare').textContent =
-      'Gerät inkl. Kappe ≈ ' + fmt(sums.device) + ' € statt 12,00 € Planannahme; Aroma-Kartusche ≈ ' + fmt(sums.pod) + ' € je Stück. ' +
+      'Gerät inkl. Kappe ≈ ' + fmt(sums.device) + ' € statt 12,00 € Planannahme; Aroma-Kartusche (Unter- und Oberteil, Docht mit Aroma, Ventil) ≈ ' + fmt(sums.pod) + ' € je Stück. ' +
       'Sparpotenzial ab höheren Stückzahlen: nRF52832-Chip statt Modul (≈ −1,50 €), Hülse als Strangpressprofil statt CNC. ' +
       'Bei 3–5 Kartuschen pro Refill-Packung (5,90–9,90 €) liegen die Kosten bei ≈ ' + fmt(sums.pod * 3) + '–' + fmt(sums.pod * 5) + ' € – plus Verpackung und Versand.';
   }
@@ -566,8 +820,197 @@ if (imZug &amp;&amp; dp &gt; -120) {
         t.setAttribute('aria-selected', k === i ? 'true' : 'false');
         document.getElementById(t.getAttribute('aria-controls')).hidden = k !== i;
       });
+      if (tabs[i].id === 't-luft') renderFlavor();
     }
+    document.querySelectorAll('[data-goto]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = tabs.findIndex(function (t) { return t.id === b.dataset.goto; });
+        if (i >= 0) { activate(i); tabs[i].scrollIntoView({ block: 'nearest', inline: 'center' }); tabs[i].focus(); }
+      });
+    });
   }
+
+
+  /* ---------------------- Luft & Geschmack: Rechner ---------------------- */
+  var RHO = 1.2, MU = 1.81e-5, CD = 0.7, VALVE_PA = 60;
+  var de = function (v, d) { return v.toLocaleString('de-DE', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
+  function airModel(inletD, q, bypassA, wickPa) {
+    var Q = q * 1e-6, A = Math.PI / 4 * Math.pow(inletD * 1e-3, 2);
+    var dpIn = RHO / 2 * Math.pow(Q / (CD * A), 2);
+    var Rw = wickPa / 17.5e-6;
+    var Rb = bypassA > 0 ? 28.45 * MU * 13.5e-3 / Math.pow(bypassA * 1e-3, 4) : Infinity;
+    var Rpar = 1 / (1 / Rw + 1 / Rb);
+    var vNeck = Q / (Math.PI / 4 * Math.pow(2.8e-3, 2));
+    var dpNeck = 128 * MU * 6.3e-3 * Q / (Math.PI * Math.pow(2.8e-3, 4)) + RHO / 2 * vNeck * vNeck;
+    var dpPar = Q * Rpar;
+    return {
+      dpIn: dpIn, dpPar: dpPar, dpNeck: dpNeck, total: dpIn + VALVE_PA + dpPar + dpNeck,
+      fracWick: Rb === Infinity ? 1 : Rb / (Rw + Rb),
+      qDetect: CD * A * Math.sqrt(2 * 150 / RHO) * 1e6,
+    };
+  }
+  var AROMAS = {
+    minze: { name: 'Menthol', pSat: 8.5, M: 156.3, D: 5.5e-6 },
+    zitrone: { name: 'Limonen', pSat: 264, M: 136.2, D: 6.0e-6 },
+    beere: { name: 'Ethylbutyrat', pSat: 1700, M: 116.2, D: 7.0e-6 },
+  };
+  var PUFFS = 800, CART_USES = 600, ETA = 0.3, CARRIER_MG = 50, ENC_CAP = 0.35;
+  function flavorModel(key, loadMg, fracWick) {
+    var a = AROMAS[key];
+    var cKg = a.pSat * (a.M / 1000) / (8.314 * 298);           // kg/m³ gesättigt
+    var cUg = cKg * 1000;                                       // µg/ml
+    var V = 35 * fracWick;                                      // ml je Standardzug durch den Docht
+    function run(enc) {
+      var m = loadMg * 1000, out = [], first = V * ETA * (m / (m + CARRIER_MG * 1000)) * cUg;
+      for (var n = 0; n < PUFFS; n++) {
+        var r = V * ETA * (m / (m + CARRIER_MG * 1000)) * cUg;
+        if (enc) r = Math.min(r, first * ENC_CAP);
+        r = Math.min(r, m); m -= r; out.push(r);
+      }
+      return out;
+    }
+    var free = run(false), enc = run(true), ref = free[0];
+    var half = function (arr, base) { for (var i = 0; i < arr.length; i++) if (arr[i] < base / 2) return i; return null; };
+    var w0 = loadMg / (loadMg + CARRIER_MG);
+    var perDay = function (al) { return a.D * w0 * cKg * al * 86400 * 1e6; }; // mg pro Tag
+    return {
+      free: free.map(function (v) { return v / ref * 100; }), enc: enc.map(function (v) { return v / ref * 100; }),
+      firstUg: ref, halfFree: half(free, free[0]), halfEnc: half(enc, enc[0]),
+      lossOpen: perDay(1.09e-3), lossValve: perDay(1.12e-4), loadMg: loadMg,
+    };
+  }
+  var calcState = { fracWick: 0.83 };
+  function renderAir() {
+    var inlet = +document.getElementById('inInlet').value, q = +document.getElementById('inFlow').value;
+    var byp = +document.getElementById('inBypass').value, wick = +document.getElementById('inWick').value;
+    document.getElementById('oInlet').textContent = de(inlet, 1) + ' mm';
+    document.getElementById('oFlow').textContent = de(q, 1) + ' ml/s';
+    document.getElementById('oBypass').textContent = byp ? de(byp, 1) + ' mm' : 'keine';
+    document.getElementById('oWick').textContent = de(wick) + ' Pa';
+    var r = airModel(inlet, q, byp, wick);
+    calcState.fracWick = r.fracWick;
+    var ok = r.dpIn >= 150;
+    document.getElementById('rSensor').textContent = '−' + de(r.dpIn) + ' Pa';
+    document.getElementById('rSensorN').textContent = (ok ? 'erkannt' : 'zu schwach – wird nicht gezählt') + ' · Schwelle −150 Pa ab ≈ ' + de(r.qDetect, 1) + ' ml/s';
+    document.getElementById('rSensor').parentNode.classList.toggle('is-warn', !ok);
+    document.getElementById('rTotal').textContent = de(Math.round(r.total / 10) * 10) + ' Pa';
+    document.getElementById('rWick').textContent = de(r.fracWick * 100) + ' %';
+    document.getElementById('rWickN').textContent = de(35 * r.fracWick, 1) + ' ml je 35-ml-Zug · Rest über die Rille';
+    var rows = [['Einlassbohrung (Messblende, misst der Sensor)', r.dpIn], ['Entenschnabelventil (Öffnungsdruck)', VALVE_PA], ['Docht und Bypass-Rille parallel', r.dpPar], ['Stiel und Y-Trichter', r.dpNeck]];
+    var tb = document.getElementById('rBudget'); tb.textContent = '';
+    rows.concat([['Summe = Zugwiderstand', r.total]]).forEach(function (row, i) {
+      var tr = document.createElement('tr');
+      var a = document.createElement('td'); a.textContent = row[0];
+      var b = document.createElement('td'); b.className = 'r'; b.textContent = de(row[1]);
+      if (i === rows.length) { a.style.fontWeight = '600'; b.style.fontWeight = '600'; }
+      tr.appendChild(a); tr.appendChild(b); tb.appendChild(tr);
+    });
+    renderFlavor();
+  }
+
+  var flavorData = null, hoverIdx = null;
+  function renderFlavor() {
+    var svg = document.getElementById('flavorSvg');
+    if (!svg || svg.getBoundingClientRect().width === 0) return;
+    var key = document.getElementById('inAroma').value, load = +document.getElementById('inLoad').value;
+    document.getElementById('oLoad').textContent = de(load) + ' mg';
+    var f = flavorData = flavorModel(key, load, calcState.fracWick);
+    var a = AROMAS[key];
+    var halfTxt = function (n) { return n == null ? 'über 800 Züge' : 'nach ' + de(n) + ' Zügen'; };
+    document.getElementById('rHalfFree').textContent = halfTxt(f.halfFree);
+    document.getElementById('rHalfFreeN').textContent = 'erster Zug ≈ ' + (f.firstUg < 10 ? de(f.firstUg, 1) : de(f.firstUg)) + ' µg ' + a.name;
+    document.getElementById('rHalfEnc').textContent = halfTxt(f.halfEnc);
+    document.getElementById('rHalfEncN').textContent = 'gleichmäßig auf ' + de(ENC_CAP * 100) + ' % gebremst';
+    document.getElementById('rLoss').textContent = (f.lossOpen < 0.1 ? de(f.lossOpen, 2) : de(f.lossOpen, 1)) + ' mg/Tag';
+    document.getElementById('rLossN').textContent = 'ohne Ventil · mit Ventil ' + (f.lossValve < 0.1 ? de(f.lossValve, 3) : de(f.lossValve, 2)) + ' mg/Tag (bei ' + de(load) + ' mg im Docht)';
+    var at600 = f.free[CART_USES - 1], enc600 = f.enc[CART_USES - 1];
+    var verdict;
+    if (at600 > 60) verdict = a.name + ' verdunstet kaum: Nach 600 Zügen gibt der Docht noch ≈ ' + de(at600) + ' % ab. Kein Handlungsbedarf außer der Dosierung.';
+    else if (enc600 > 25 && f.lossValve < load / 20) verdict = a.name + ' ist flüchtig: frei im Docht nach 600 Zügen nur noch ≈ ' + de(at600) + ' %. Verkapselt bleibt die Abgabe bis zum Wechsel gleichmäßig (≈ ' + de(enc600) + ' %). Mit Ventil verliert die Kartusche in der Tasche ≈ ' + de(f.lossValve, 2) + ' mg am Tag statt ' + de(f.lossOpen, 1) + ' mg.';
+    else verdict = a.name + ' ist sehr flüchtig: frei ist die Hälfte ' + halfTxt(f.halfFree) + ' weg, und ohne Ventil verdunsten ≈ ' + de(f.lossOpen, 1) + ' mg am Tag. Nur verkapselt, mit mehr Aroma im Docht und mit Ventil – oder die Fruchtnote aus schwereren Stoffen aufbauen (Aroma-Partner).';
+    document.getElementById('flavorVerdict').textContent = verdict;
+    drawFlavor();
+    var rowsEl = document.getElementById('flavorRows'); rowsEl.textContent = '';
+    [0, 50, 100, 200, 300, 400, 500, 600, 700, 799].forEach(function (n) {
+      var tr = document.createElement('tr');
+      [de(n + 1), de(f.free[n], 1) + ' %', de(f.enc[n], 1) + ' %'].forEach(function (v) { var td = document.createElement('td'); td.className = 'r'; td.textContent = v; tr.appendChild(td); });
+      rowsEl.appendChild(tr);
+    });
+  }
+  function drawFlavor() {
+    var svg = document.getElementById('flavorSvg'), f = flavorData;
+    if (!f) return;
+    var W = svg.getBoundingClientRect().width, H = 230, m = { l: 38, r: 14, t: 10, b: 26 };
+    var pw = W - m.l - m.r, ph = H - m.t - m.b;
+    var x = function (n) { return m.l + n / (PUFFS - 1) * pw; }, y = function (v) { return m.t + (1 - Math.min(100, v) / 100) * ph; };
+    var NS = 'http://www.w3.org/2000/svg';
+    var el = function (tag, attrs, parent) { var e = document.createElementNS(NS, tag); Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); }); (parent || svg).appendChild(e); return e; };
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: v === 0 ? '#cfcdc8' : '#efeeeb', 'stroke-width': 1 });
+      var t = el('text', { x: m.l - 6, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: '#6e6e73' }); t.textContent = v + ' %';
+    });
+    [0, 200, 400, 600, 800].forEach(function (n) {
+      var t = el('text', { x: x(Math.min(n, PUFFS - 1)), y: H - 8, 'text-anchor': n === 0 ? 'start' : n === 800 ? 'end' : 'middle', 'font-size': 11, fill: '#6e6e73' }); t.textContent = n === 800 ? '800 Züge' : String(n);
+    });
+    el('line', { x1: x(CART_USES - 1), x2: x(CART_USES - 1), y1: m.t, y2: m.t + ph, stroke: '#9a9aa0', 'stroke-width': 1, 'stroke-dasharray': '3 3' });
+    var path = function (arr) { var d = ''; for (var i = 0; i < arr.length; i += 2) d += (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(arr[i]).toFixed(1); return d; };
+    el('path', { d: path(f.enc), fill: 'none', stroke: 'var(--s2)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    el('path', { d: path(f.free), fill: 'none', stroke: 'var(--s1)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+    // direkte Beschriftung am Zug 600
+    // Beschriftung dort, wo die Linien am weitesten auseinanderliegen
+    var li = 40, best = -1;
+    for (var k = 40; k < CART_USES; k += 5) { var dd = Math.abs(f.free[k] - f.enc[k]); if (dd > best) { best = dd; li = k; } }
+    var freeUp = f.free[li] >= f.enc[li];
+    [['frei', f.free[li], freeUp], ['verkapselt', f.enc[li], !freeUp]].forEach(function (lb) {
+      var ty = lb[2] ? y(lb[1]) - 7 : y(lb[1]) + 15;
+      var t = el('text', { x: x(li) + 4, y: Math.max(m.t + 10, Math.min(m.t + ph - 4, ty)), 'font-size': 11.5, fill: '#444', 'paint-order': 'stroke', stroke: '#fff', 'stroke-width': 3 }); t.textContent = lb[0];
+    });
+    if (hoverIdx != null) {
+      el('line', { x1: x(hoverIdx), x2: x(hoverIdx), y1: m.t, y2: m.t + ph, stroke: '#111', 'stroke-opacity': 0.35, 'stroke-width': 1 });
+      [[f.free, 'var(--s1)'], [f.enc, 'var(--s2)']].forEach(function (sr) { el('circle', { cx: x(hoverIdx), cy: y(sr[0][hoverIdx]), r: 4, fill: sr[1], stroke: '#fff', 'stroke-width': 2 }); });
+    }
+    svg._x = x; svg._pw = pw; svg._ml = m.l;
+  }
+  function showTip(idx) {
+    var svg = document.getElementById('flavorSvg'), tip = document.getElementById('flavorTip'), f = flavorData;
+    hoverIdx = idx; drawFlavor();
+    if (idx == null || !f) { tip.hidden = true; return; }
+    tip.textContent = '';
+    var h = document.createElement('div'); h.className = 'h'; h.textContent = 'Zug ' + de(idx + 1); tip.appendChild(h);
+    [[f.free[idx], 'frei im Docht', 'var(--s1)'], [f.enc[idx], 'verkapselt', 'var(--s2)']].forEach(function (r) {
+      var row = document.createElement('div'); row.className = 'row';
+      var i = document.createElement('i'); i.style.background = r[2];
+      var b = document.createElement('b'); b.textContent = de(r[0]) + ' %';
+      var sp = document.createElement('span'); sp.textContent = r[1];
+      row.appendChild(i); row.appendChild(b); row.appendChild(sp); tip.appendChild(row);
+    });
+    tip.hidden = false;
+    var px = svg._x(idx), W = svg.getBoundingClientRect().width, tw = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(W - tw, px + (px > W / 2 ? -tw - 12 : 12))) + 'px';
+  }
+  (function setupCalc() {
+    ['inInlet', 'inFlow', 'inBypass', 'inWick'].forEach(function (id) { document.getElementById(id).addEventListener('input', renderAir); });
+    ['inAroma', 'inLoad'].forEach(function (id) { document.getElementById(id).addEventListener('input', renderFlavor); });
+    var svg = document.getElementById('flavorSvg');
+    var idxAt = function (clientX) {
+      var r = svg.getBoundingClientRect();
+      return Math.max(0, Math.min(PUFFS - 1, Math.round((clientX - r.left - svg._ml) / svg._pw * (PUFFS - 1))));
+    };
+    svg.addEventListener('pointermove', function (e) { if (svg._pw) showTip(idxAt(e.clientX)); });
+    svg.addEventListener('pointerleave', function () { showTip(null); });
+    svg.addEventListener('focus', function () { showTip(hoverIdx == null ? CART_USES - 1 : hoverIdx); });
+    svg.addEventListener('blur', function () { showTip(null); });
+    svg.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      var i = hoverIdx == null ? CART_USES - 1 : hoverIdx;
+      showTip(Math.max(0, Math.min(PUFFS - 1, i + (e.key === 'ArrowRight' ? 25 : -25))));
+    });
+    window.addEventListener('resize', function () { drawFlavor(); });
+    renderAir();
+  })();
 
   renderLists();
   setupTabs();
@@ -812,16 +1255,19 @@ if (imZug &amp;&amp; dp &gt; -120) {
   addPart('shell', [shell, shellLow], [0, 0, 0], { clip: true });
 
   var inletMat = new THREE.MeshBasicMaterial({ color: 0x0c0c0d });
-  var inlet = mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.6, 20), inletMat, 12.52, 69.5, 0);
+  var inlet = mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.6, 20), inletMat, 12.52, 65.15, 0);
   inlet.rotation.z = Math.PI / 2;
   addPart('inlet', [inlet], [0, 0, 0]);
 
   var seatMat = M.black();
   var seatWall = mesh(prism(23.4, 13.4, 6.7, 14, { wall: 1.0 }), seatMat, 0, 63, 0);
-  var seatFloor = mesh(prism(21.6, 11.6, 5.8, 1.5, { holeR: 1.6, holeX: -6, holeY: 3 }), seatMat, 0, 63, 0);
-  addPart('seat', [seatWall, seatFloor], [0, 8, 0], { clip: true });
+  var seatFloor = mesh(prism(21.6, 11.6, 5.8, 1.5, { holeR: 0.5, holeX: -2.5, holeY: 0 }), seatMat, 0, 63, 0);
+  // Dichtschacht: darin liegen Einlasskammer (unten) und Kartuschendichtung (oben)
+  var well = mesh(prism(13.8, 11.4, 5.7, 4.0, { hole: [11.6, 9.2, 4.6] }), seatMat, 0, 64.5, 0);
+  var inletRib = mesh(box(4.8, 3.8, 3.2), seatMat, 9.3, 63, 0); // Steg mit Einlasskanal Ø 1,2 zur Kammer
+  addPart('seat', [seatWall, seatFloor, well, inletRib], [0, 8, 0], { clip: true });
 
-  var membrane = mesh(disc(1.6, 0.25), M.membrane(), -6, 64.35, -3);
+  var membrane = mesh(disc(1.7, 0.25), M.membrane(), -2.5, 64.2, 0);
   addPart('membrane', [membrane], [0, 8, 0]);
 
   var baseMat = M.black();
@@ -873,17 +1319,15 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var blePcb = mesh(box(10, 16, 0.3), M.pcb(), 0, 41.5, 0.15);
   addPart('ble', [bleShield, blePcb], [0, 0, 23]);
 
-  var sensor = mesh(box(2, 0.75, 2), new THREE.MeshStandardMaterial({ color: 0xd4d4d8, metalness: 0.8, roughness: 0.3 }), -6, 61.2, -3);
-  var sensorRiser = mesh(box(3.5, 0.8, 3), M.pcb(), -6, 60.4, -3.0);
-  var tube = mesh(new THREE.CylinderGeometry(0.9, 0.9, 2.4, 16), M.silicone(), -6, 63.1, -3);
+  var sensor = mesh(box(2, 0.75, 2), new THREE.MeshStandardMaterial({ color: 0xd4d4d8, metalness: 0.8, roughness: 0.3 }), -2.5, 61.8, -0.4);
+  var sensorRiser = mesh(box(4.5, 0.8, 3.4), M.pcb(), -2.5, 61.0, -0.4);
+  var tube = mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.5, 16), M.silicone(), -2.5, 62.8, -0.2);
   addPart('sensor', [sensor, sensorRiser, tube], [0, 4, 25]);
 
   var charger = mesh(box(3, 3, 1.1), M.ic(), 4.5, 10, 0.55);
   addPart('charger', [charger], [0, 0, 23]);
   var ldo = mesh(box(2, 2, 0.6), M.ic(), -5, 11, 0.3);
   addPart('ldo', [ldo], [0, 0, 23]);
-  var hall = mesh(box(1.4, 1.1, 0.6), M.ic(), 6.5, 59.6, 0.3);
-  addPart('hall', [hall], [0, 4, 25]);
 
   var usbc = mesh(box(8.94, 7.35, 3.26), M.steel(), 0, 0.6, 0);
   var usbTongue = mesh(box(6.7, 4.5, 0.7), M.black(), 0, 0.5, 0);
@@ -916,8 +1360,8 @@ if (imZug &amp;&amp; dp &gt; -120) {
   var flange = mesh(prism(18.9, 12.4, 6.2, 2.6, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 77.8, 0);
   var tower = mesh(prism(12.7, 10.2, 5.1, 4.0, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 80.4, 0);
   var lip = mesh(prism(11.9, 9.4, 4.7, 0.6, { hole: [10.9, 8.5, 4.2] }), collarMat, 0, 84.4, 0);
-  var counterMagnets = [-10.3, 10.3].map(function (x) { return mesh(disc(1.25, 1.5), M.steel(), x, 76.3, 0); });
-  addPart('collar', [band, flange, tower, lip].concat(counterMagnets), [0, 8, 0], { clip: true });
+  var washers = [-10.65, 10.65].map(function (x) { return mesh(disc(1.25, 0.5), M.steel(), x, 77.3, 0); });
+  addPart('collar', [band, flange, tower, lip].concat(washers), [0, 8, 0], { clip: true });
 
   // Kappe: Rauchglas mit ~0,9 mm Wand – außen und innen je eine Fläche, damit die Wand
   // an den Kanten dunkel abgesetzt wirkt wie beim Original.
@@ -947,59 +1391,80 @@ if (imZug &amp;&amp; dp &gt; -120) {
   outlet.rotation.x = -Math.PI / 2;
   addPart('cap', [cap, capInner, capShine, capRim, outlet], [0, 30, 0], { clip: true });
 
-  var capMagnets = [-10.3, 10.3].map(function (x) { return mesh(disc(1.25, 1.5), M.steel(), x, 77.9, 0); });
+  var capMagnets = [-10.65, 10.65].map(function (x) { return mesh(disc(1.0, 2.0), M.steel(), x, 77.8, 0); });
   addPart('capMagnets', capMagnets, [0, 30, 0]);
+  var lipSeal = mesh(prism(10.6, 3.6, 1.8, 0.6, { hole: [7.6, 2.2, 1.0] }), M.silicone(), 0, 98.5, 0);
+  addPart('lipSeal', [lipSeal], [0, 30, 0], { clip: true });
 
   // Mundstück-Kanal: kräftiger Stiel aus dem Sockel, der sich in zwei Arme (Y) teilt;
   // dazwischen ein dünner, rauchiger Steg mit dem V-förmigen Luftkanal.
   var stemMat = M.gloss();
-  var stemProfile = [[0, 84.5], [2.7, 84.5], [2.25, 84.9], [2.02, 85.6], [1.95, 87.2], [1.98, 88.2], [1.9, 89.0], [1.5, 89.7], [0.8, 90.0], [0, 90.1]]
+  var stemProfile = [[0, 83.3], [2.1, 83.3], [2.1, 84.6], [2.45, 85.0], [2.15, 85.4], [2.05, 86.0], [2.02, 87.2], [2.02, 88.2], [1.92, 89.0], [1.5, 89.7], [0.8, 90.0], [0, 90.1]]
     .map(function (p) { return new THREE.Vector2(p[0], p[1]); });
   var neck = mesh(new THREE.LatheGeometry(stemProfile, 40), stemMat, 0, 0, 0);
-  neck.scale.z = 0.9;
+  var lid = mesh(prism(10.6, 8.2, 4.1, 1.0), stemMat, 0, 82.3, 0);
   var arms = [-1, 1].map(function (sx) {
-    var curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(sx * 0.6, 88.9, 0), new THREE.Vector3(sx * 2.4, 93.6, 0), new THREE.Vector3(sx * 4.55, 99.15, 0));
+    var curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(sx * 0.6, 88.9, 0), new THREE.Vector3(sx * 2.4, 93.6, 0), new THREE.Vector3(sx * 4.45, 98.55, 0));
     var arm = mesh(new THREE.TubeGeometry(curve, 28, 0.88, 14, false), stemMat, 0, 0, 0);
     arm.scale.z = 1.45;
     return arm;
   });
   var webMat = tintedGlass(0.86, 0.85, 0.84, 0.55, 2.6);
   var web = mesh(loft([
-    { y: 90.4, w: 2.6, d: 2.1 }, { y: 92.8, w: 4.4, d: 2.2 }, { y: 95.8, w: 6.6, d: 2.35 }, { y: 99.15, w: 9.0, d: 2.5 },
+    { y: 90.4, w: 2.6, d: 2.1 }, { y: 92.8, w: 4.4, d: 2.2 }, { y: 95.6, w: 6.5, d: 2.35 }, { y: 98.6, w: 8.8, d: 2.5 },
   ], 48), webMat, 0, 0, 0);
   web.renderOrder = 1;
   var vLines = [-1, 1].map(function (sx) {
-    var curve = new THREE.LineCurve3(new THREE.Vector3(0, 91.7, -0.95), new THREE.Vector3(sx * 3.35, 98.6, -1.05));
+    var curve = new THREE.LineCurve3(new THREE.Vector3(0, 91.7, -0.95), new THREE.Vector3(sx * 3.3, 98.1, -1.05));
     return mesh(new THREE.TubeGeometry(curve, 8, 0.2, 8, false), stemMat, 0, 0, 0);
   });
-  var rimPts = stadiumPts(10.3, 3.1, 44).map(function (p) { return new THREE.Vector3(p[0], 99.3, p[1]); });
-  var slotRim = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rimPts, true), 88, 0.62, 10, true), stemMat, 0, 0, 0);
-  addPart('stem', [neck, web, slotRim].concat(arms, vLines), [0, 18, 0], { clip: true });
+  var rimPts = stadiumPts(10.0, 2.9, 44).map(function (p) { return new THREE.Vector3(p[0], 98.3, p[1]); });
+  var slotRim = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(rimPts, true), 88, 0.4, 10, true), stemMat, 0, 0, 0);
+  addPart('stem', [lid, neck, web, slotRim].concat(arms, vLines), [0, 18, 0], { clip: true });
+
+  // Entenschnabelventil: Flansch in der Deckeltasche, Schnabel zeigt in den Stiel
+  var valveMat = new THREE.MeshStandardMaterial({ color: 0x9aa3a0, roughness: 0.6, metalness: 0, transparent: true, opacity: 0.9 });
+  var valveFlange = mesh(disc(2.0, 0.5, 32), valveMat, 0, 82.3, 0);
+  var billGeo = new THREE.CylinderGeometry(0.35, 1.2, 3.0, 24); billGeo.translate(0, 1.5, 0);
+  var valveBill = mesh(billGeo, valveMat, 0, 82.8, 0);
+  valveBill.scale.z = 0.7;
+  addPart('valve', [valveFlange, valveBill], [0, 22, 0], { clip: true });
 
   var cartMat = M.clear();
-  var cartridge = mesh(prism(10.6, 8.2, 4.1, 17.4), cartMat, 0, 67.2, 0);
-  addPart('cartridge', [cartridge], [0, 18, 0], { clip: true });
+  var cartBody = mesh(prism(10.6, 8.2, 4.1, 14.1, { holeR: 2.95 }), cartMat, 0, 68.2, 0);
+  var cartFloor = mesh(prism(10.6, 8.2, 4.1, 1.0, { holeR: 1.2 }), cartMat, 0, 67.2, 0);
+  var bypass = mesh(box(0.5, 14.1, 0.5), new THREE.MeshBasicMaterial({ color: 0x6e8f84, transparent: true, opacity: 0.55, depthWrite: false }), 3.2, 68.2, 0);
+  addPart('cartridge', [cartBody, cartFloor, bypass], [0, 18, 0], { clip: true });
 
-  var coreMat = new THREE.MeshStandardMaterial({ color: AROMA.mint, roughness: 0.55, metalness: 0 });
-  var core = mesh(disc(3.0, 12.5, 36), coreMat, 0, 69, 0);
-  var coreRibs = [0, 1, 2].map(function (i) { return mesh(disc(3.3, 0.7, 36), coreMat, 0, 70.6 + i * 3.6, 0); });
-  addPart('core', [core].concat(coreRibs), [0, 18, 0]);
+  var fiberTex = (function () {
+    var c = document.createElement('canvas'); c.width = 128; c.height = 128;
+    var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 128, 128);
+    for (var f = 0; f < 260; f++) {
+      var x = Math.random() * 128, l = 18 + Math.random() * 60, y = Math.random() * 128;
+      g.strokeStyle = 'rgba(0,0,0,' + (0.05 + Math.random() * 0.12) + ')'; g.lineWidth = 0.6 + Math.random();
+      g.beginPath(); g.moveTo(x, y); g.lineTo(x + (Math.random() - 0.5) * 6, y + l); g.stroke();
+    }
+    var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2, 1); return t;
+  })();
+  var coreMat = new THREE.MeshStandardMaterial({ color: AROMA.mint, map: fiberTex, roughness: 0.85, metalness: 0 });
+  var core = mesh(disc(3.0, 12.5, 36), coreMat, 0, 68.8, 0);
+  addPart('core', [core], [0, 18, 0]);
 
   var seal = mesh(prism(11.4, 9.0, 4.5, 1.4, { holeR: 1.5 }), M.silicone(), 0, 65.8, 0);
-  addPart('seal', [seal], [0, 14, 0], { clip: true });
+  addPart('seal', [seal], [0, 12, 0], { clip: true });
 
   // Air path (visual only)
   var airCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(16, 69.5, 0), new THREE.Vector3(12.4, 69.5, 0), new THREE.Vector3(10.4, 68.8, 0),
-    new THREE.Vector3(9, 66.2, 0), new THREE.Vector3(5, 65.2, 0), new THREE.Vector3(1, 65.4, 0),
-    new THREE.Vector3(0, 67.4, 0), new THREE.Vector3(0, 75, 0), new THREE.Vector3(0, 84.6, 0),
-    new THREE.Vector3(0, 89, 0), new THREE.Vector3(0, 95, 0), new THREE.Vector3(0, 99.9, 0), new THREE.Vector3(0, 106, 0),
+    new THREE.Vector3(16, 65.15, 0), new THREE.Vector3(12.4, 65.15, 0), new THREE.Vector3(8, 65.15, 0),
+    new THREE.Vector3(4, 65.1, 0), new THREE.Vector3(1.2, 65.3, 0), new THREE.Vector3(0, 66.5, 0),
+    new THREE.Vector3(0, 68.4, 0), new THREE.Vector3(0, 75, 0), new THREE.Vector3(0, 82, 0), new THREE.Vector3(0, 84.6, 0),
+    new THREE.Vector3(0, 89, 0), new THREE.Vector3(0, 95, 0), new THREE.Vector3(0, 99.6, 0), new THREE.Vector3(0, 106, 0),
   ]);
   var airMat = new THREE.MeshBasicMaterial({ color: 0x7fbf9a, transparent: true, opacity: 0.28, depthWrite: false });
   var airTube = new THREE.Mesh(new THREE.TubeGeometry(airCurve, 120, 0.6, 10, false), airMat);
   root.add(airTube);
   var pressCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.6, 65.4, 0), new THREE.Vector3(-3.5, 65, -1.5), new THREE.Vector3(-6, 64.7, -3), new THREE.Vector3(-6, 62, -3),
+    new THREE.Vector3(0.6, 65.2, 0), new THREE.Vector3(-1.6, 65.0, 0), new THREE.Vector3(-2.5, 64.2, 0), new THREE.Vector3(-2.5, 62.6, -0.2),
   ]);
   var pressMat = new THREE.MeshBasicMaterial({ color: 0x3f7f5b, transparent: true, opacity: 0.0, depthWrite: false });
   var pressTube = new THREE.Mesh(new THREE.TubeGeometry(pressCurve, 30, 0.35, 8, false), pressMat);
@@ -1113,7 +1578,8 @@ if (imZug &amp;&amp; dp &gt; -120) {
     chassisMat.opacity = 0.16;
     chassis.visible = xray || section;
     clipTargets.forEach(function (m) { m.clippingPlanes = section ? [cutPlane] : null; m.needsUpdate = true; });
-    [shellMat, seatMat, baseMat, buttonMat, capMat, chassisMat, collarMat].forEach(function (m) { m.needsUpdate = true; });
+    stemMat.side = section ? THREE.DoubleSide : THREE.FrontSide;
+    [shellMat, seatMat, baseMat, buttonMat, capMat, chassisMat, collarMat, stemMat].forEach(function (m) { m.needsUpdate = true; });
   }
 
   function setExplode(v) {
@@ -1130,7 +1596,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     });
   }
 
-  var INTERNAL = { pcb: 1, ble: 1, sensor: 1, charger: 1, ldo: 1, hall: 1, usbc: 1, battery: 1, motor: 1, switch: 1, led: 1, chassis: 1, membrane: 1, seat: 1, seal: 1, capMagnets: 1, cartridge: 1, core: 1, stem: 1 };
+  var INTERNAL = { pcb: 1, ble: 1, sensor: 1, charger: 1, ldo: 1, usbc: 1, battery: 1, motor: 1, switch: 1, led: 1, chassis: 1, membrane: 1, seat: 1, seal: 1, capMagnets: 1, cartridge: 1, core: 1, stem: 1, valve: 1, lipSeal: 1 };
 
   function selectPart(id, fromList) {
     if (state.selected) highlight(state.selected, false);
@@ -1272,11 +1738,11 @@ if (imZug &amp;&amp; dp &gt; -120) {
     if (chart.width !== Math.round(w * dpr)) { chart.width = Math.round(w * dpr); chart.height = Math.round(h * dpr); }
     cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cctx.clearRect(0, 0, w, h);
-    var yOf = function (v) { return 4 + ((100 - v) / 700) * (h - 8); }; // range +100 … −600 Pa
+    var yOf = function (v) { return 4 + ((100 - v) / 800) * (h - 8); }; // range +100 … −700 Pa
     cctx.strokeStyle = '#ecebe8'; cctx.lineWidth = 1;
     cctx.beginPath(); cctx.moveTo(0, yOf(0)); cctx.lineTo(w, yOf(0)); cctx.stroke();
     cctx.setLineDash([3, 3]); cctx.strokeStyle = '#b7852f';
-    cctx.beginPath(); cctx.moveTo(0, yOf(-250)); cctx.lineTo(w, yOf(-250)); cctx.stroke();
+    cctx.beginPath(); cctx.moveTo(0, yOf(-150)); cctx.lineTo(w, yOf(-150)); cctx.stroke();
     cctx.setLineDash([]);
     var hist = state.history;
     if (hist.length > 1) {
@@ -1304,7 +1770,7 @@ if (imZug &amp;&amp; dp &gt; -120) {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () {
       toastEl.classList.remove('is-on');
-      note.textContent = 'Schwelle −250 Pa'; note.classList.remove('is-live');
+      note.textContent = 'Schwelle −150 Pa'; note.classList.remove('is-live');
     }, 1800);
   }
 
@@ -1338,22 +1804,22 @@ if (imZug &amp;&amp; dp &gt; -120) {
     var hh = state.head;
     var ease = function (x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
     var capLift = 24 * ease(hh / 0.6), podLift = 13 * ease((hh - 0.45) / 0.55);
-    ['cap', 'capMagnets'].forEach(function (id) { partGroups[id].position.y += capLift; });
-    ['cartridge', 'core', 'stem', 'seal'].forEach(function (id) { partGroups[id].position.y += podLift; });
+    ['cap', 'capMagnets', 'lipSeal'].forEach(function (id) { partGroups[id].position.y += capLift; });
+    ['cartridge', 'core', 'stem', 'valve'].forEach(function (id) { partGroups[id].position.y += podLift; });
 
     // Draw simulation: pressure profile
     var dp = (Math.random() - 0.5) * 14;
     if (state.sim.running) {
       state.sim.t += dt;
       var t = state.sim.t;
-      dp += -520 * smooth(0.12, 0.5, t) * (1 - smooth(1.35, 1.85, t));
+      dp += -600 * smooth(0.12, 0.5, t) * (1 - smooth(1.35, 1.85, t));
       if (t > 2.3) { state.sim.running = false; drawBtn.disabled = false; }
     }
-    if (!state.inDraw && dp < -250) {
+    if (!state.inDraw && dp < -150) {
       if (state.belowSince < 0) state.belowSince = state.clock;
-      if (state.clock - state.belowSince >= 0.08) { state.inDraw = true; onDetected(); }
-    } else if (dp >= -250) { state.belowSince = -1; }
-    if (state.inDraw && dp > -120) state.inDraw = false;
+      if (state.clock - state.belowSince >= 0.1) { state.inDraw = true; onDetected(); }
+    } else if (dp >= -150) { state.belowSince = -1; }
+    if (state.inDraw && dp > -60) state.inDraw = false;
     state.history.push({ t: state.clock, v: dp });
     while (state.history.length && state.history[0].t < state.clock - 3) state.history.shift();
     document.getElementById('dpVal').textContent = Math.round(dp) + ' Pa';
