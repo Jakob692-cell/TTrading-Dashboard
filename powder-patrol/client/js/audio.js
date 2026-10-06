@@ -69,6 +69,28 @@ export class Sound {
     this.carve.gain.gain.setTargetAtTime(c, t, 0.06);
   }
 
+  // continuous engine drone for the vehicle the local player drives
+  updateEngine(on, load, throttle) {
+    if (!this.ctx) return;
+    const ctx = this.ctx, t = ctx.currentTime;
+    if (!this.engine) {
+      const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 45;
+      const o2 = ctx.createOscillator(); o2.type = 'square'; o2.frequency.value = 90;
+      const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 500;
+      const g = ctx.createGain(); g.gain.value = 0;
+      const g2 = ctx.createGain(); g2.gain.value = 0.35;
+      o.connect(f); o2.connect(g2).connect(f); f.connect(g).connect(this.sfx);
+      o.start(); o2.start();
+      this.engine = { o, o2, f, g };
+    }
+    const e = this.engine;
+    const rpm = 40 + Math.min(1.2, load) * 110 + (throttle ? 15 : 0);
+    e.o.frequency.setTargetAtTime(rpm, t, 0.08);
+    e.o2.frequency.setTargetAtTime(rpm * 2.01, t, 0.08);
+    e.f.frequency.setTargetAtTime(350 + load * 1300, t, 0.1);
+    e.g.gain.setTargetAtTime(on ? 0.06 + (throttle ? 0.05 : 0) : 0, t, 0.12);
+  }
+
   noiseBurst({ dur = 0.3, freq = 800, type = 'lowpass', gain = 0.5, q = 1, sweep = 0, at = 0, buffer = 'white' }) {
     if (!this.ctx) return;
     const ctx = this.ctx, t = ctx.currentTime + at;
@@ -142,6 +164,8 @@ export class Sound {
       case 'trick': [0, 0.07, 0.14, 0.21].forEach((at, i) => this.tone({ freq: [784, 988, 1175, 1568][i], dur: 0.15, type: 'square', gain: 0.07 * vol, at })); break;
       case 'tick': this.tone({ freq: 880, dur: 0.06, type: 'square', gain: 0.1 * vol }); break;
       case 'go': this.tone({ freq: 1320, dur: 0.4, type: 'square', gain: 0.12 * vol }); break;
+      case 'engine': this.noiseBurst({ dur: 0.6, freq: 180, gain: 0.5 * vol, buffer: 'brown' }); this.tone({ freq: 55, dur: 0.7, type: 'sawtooth', gain: 0.18 * vol, slide: 1.8 }); break;
+      case 'horn': this.tone({ freq: 392, dur: 0.45, type: 'square', gain: 0.12 * vol }); this.tone({ freq: 494, dur: 0.45, type: 'square', gain: 0.1 * vol }); break;
     }
   }
 

@@ -1,6 +1,7 @@
 // DOM user interface: screens, HUD widgets, world-anchored labels, trail map, results.
-import { JACKET_COLORS, HATS, SHOP_ITEMS } from '/shared/constants.js';
+import { JACKET_COLORS, CHARACTERS, SHOP_ITEMS } from '/shared/constants.js';
 import { renderPortrait } from './models.js';
+import { Character } from './characters.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -49,20 +50,20 @@ export class UI {
     }
     const hp = $('hat-picker');
     hp.innerHTML = '';
-    for (const h of HATS) {
+    for (const h of CHARACTERS) {
       const b = document.createElement('button');
-      b.className = 'chip' + (h === profile.hat ? ' on' : '');
-      b.textContent = h === 'none' ? 'no hat' : h;
-      b.onclick = () => { profile.hat = h; onChange(); this.buildProfile(profile, onChange); };
+      b.className = 'chip' + (h === profile.char ? ' on' : '');
+      b.textContent = h;
+      b.onclick = () => { profile.char = h; onChange(); this.buildProfile(profile, onChange); };
       hp.appendChild(b);
     }
     $('name-input').value = profile.name;
   }
 
   portrait(p) {
-    const key = `${p.color}|${p.hat}`;
-    if (!this.portraits.has(key)) this.portraits.set(key, renderPortrait({ jacket: p.color, hat: p.hat, hatColor: p.hat === 'beanie' ? '#ffd23f' : p.color }, 220));
-    return this.portraits.get(key);
+    const key = `${p.color}|${p.char}`;
+    if (!this.portraits.has(key) && this.assets) this.portraits.set(key, renderPortrait(() => new Character(this.assets, { model: p.char, color: p.color }), 220));
+    return this.portraits.get(key) || '';
   }
 
   // ---------------------------------------------------------------- lobby

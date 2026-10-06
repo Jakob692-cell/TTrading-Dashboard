@@ -1,10 +1,13 @@
 // One patrol shift: local physics, networked entities, rescue loop, avalanches, HUD.
 import * as THREE from 'three';
 import { Skier } from './skier.js';
-import { makeCharacter, makeTourist, makeToboggan, makeHelicopter, makeCharge, makeChair } from './models.js';
+import { makeToboggan, makeHelicopter, makeCharge, makeChair } from './models.js';
+import { Character } from './characters.js';
+import { TOURISTS } from './assets.js';
 import { Slide } from './avalanche.js';
 import { distToPolyline } from '/shared/mountain.js';
-import { PLAYER_SEND_RATE, PATIENT_TYPES, AIR_SUPPLY, DIG_TIME } from '/shared/constants.js';
+import { PLAYER_SEND_RATE, PATIENT_TYPES, AIR_SUPPLY, DIG_TIME, VEHICLE_TYPES } from '/shared/constants.js';
+import { VehicleView, VehiclePhysics } from './vehicles.js';
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const lerpAngle = (a, b, t) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * t;
@@ -32,14 +35,14 @@ export class Game {
     this.group = new THREE.Group();
     this.scene.add(this.group);
 
-    const me = app.lobbyPlayers().find((p) => p.id === this.myId) || { color: '#e63946', hat: 'beanie', name: 'You' };
+    const me = app.lobbyPlayers().find((p) => p.id === this.myId) || { color: '#e63946', hat: 'beanie', char: 'sam', name: 'You' };
     this.meInfo = me;
     this.skier = new Skier(this.m);
     this.skier.upgrades = this.upgrades;
     const sp = this.m.sites.spawn;
     const slot = app.lobbyPlayers().findIndex((p) => p.id === this.myId);
     this.skier.spawn(sp.x + (slot - 1.5) * 3, sp.z, 0);
-    this.myModel = makeCharacter({ jacket: me.color, hat: me.hat, hatColor: me.hat === 'beanie' ? '#ffd23f' : me.color });
+    this.myModel = new Character(app.assets, { model: me.char, color: me.color });
     this.group.add(this.myModel.root);
     this.myChair = makeChair();
     this.myChair.visible = false;
@@ -81,6 +84,9 @@ export class Game {
     this.ropes = new THREE.LineSegments(this.ropeGeo, new THREE.LineBasicMaterial({ color: '#ffd23f' }));
     this.ropes.frustumCulled = false;
     this.group.add(this.ropes);
+    this.vehicles = new Map();
+    this.myVeh = null;
+    for (const v of start.vehicles || []) this.ensureVehicle(v.id, v.type, v.x, v.y, v.z, v.yaw);
     for (const a of this.m.avalanches) this.world.setCornice(a.id, true);
     this.fx.clear();
     this.ui.prepareMap(this.m, this.mountainName);
@@ -194,6 +200,24 @@ export class Game {
         break;
       }
       case 'charges': this.chargesLeft = e.n; break;
+      case 'veh': {
+        const view = this.vehicles.get(e.id);
+        if (view) view.seats = e.seats;
+        const idx = e.seats.indexOf(this.myId);
+        if (idx >= 0 && (!this.myVeh || this.myVeh.id !== e.id || this.myVeh.seat !== idx)) this.enterVehicle(e.id, idx);
+        else if (idx < 0 && this.myVeh && this.myVeh.id === e.id) this.leaveVehicle(false);
+        break;
+      }
+      case 'vehEject':
+        if (this.myVeh && this.myVeh.id === e.id && e.riders.includes(this.myId)) this.leaveVehicle(true, e.v);
+        break;
+      case 'ambulance':
+        this.sound.play('load');
+        if (e.by === this.myId && s.sled) {
+          s.sled.hasPatient = false;
+          this.ui.banner('PATIENT IN THE RESCUE TRUCK', 'Drive them down to the clinic!', '', 2.6);
+        }
+        break;
       case 'bumped':
         s.crash('bumped');
         s.vel.x += e.vx * 0.6; s.vel.z += e.vz * 0.6;
@@ -225,6 +249,65 @@ export class Game {
     this.group.add(h.root);
     this.helis.push({ h, from, target: new THREE.Vector3(x, y, z), t: 0, playerId });
     this.sound.play('heli', this.distVol(x, z, 500) * 0.8 + 0.2);
+  }
+
+  ensureVehicle(id, type, x, y, z, yaw) {
+    let view = this.vehicles.get(id);
+    if (!view) {
+      view = new VehicleView(this.app.assets, type, id);
+      view.seats = VEHICLE_TYPES[type].seats.map(() => null);
+      view.setPose(x, y, z, yaw, 0, 0);
+      view.speed = 0;
+      view.hornWas = false;
+      this.group.add(view.root);
+      this.vehicles.set(id, view);
+    }
+    return view;
+  }
+
+  enterVehicle(id, seat) {
+    const view = this.vehicles.get(id);
+    if (!view) return;
+    const s = this.skier;
+    const T = VEHICLE_TYPES[view.type];
+    if (s.sled && !T.tow) this.dropSled();
+    s.mode = 'vehicle';
+    s.seat = seat;
+    s.vel.set(0, 0, 0);
+    this.fx.trails.cut('meL'); this.fx.trails.cut('meR');
+    const r = view.root;
+    this.myVeh = { id, seat, phys: seat === 0 ? new VehiclePhysics(this.m, view.type, r.position.x, r.position.y, r.position.z, r.rotation.y) : null };
+    this.sound.play('clunk');
+    if (seat === 0) {
+      this.sound.play('engine');
+      this.ui.toast(`${T.label}: W/S drive · A/D steer · Space handbrake · H horn · E get out`, 'info', 4);
+    } else this.ui.toast(`Riding along in the ${T.label} — E to hop off`, 'info', 3);
+  }
+
+  leaveVehicle(crash, vel) {
+    const s = this.skier;
+    const mv = this.myVeh;
+    if (!mv) return;
+    const view = this.vehicles.get(mv.id);
+    this.myVeh = null;
+    s.anchor = null;
+    if (!crash) this.net.send({ t: 'exitVeh' });
+    if (view) {
+      const yaw = view.root.rotation.y;
+      const side = mv.seat % 2 === 0 ? 1 : -1;
+      const x = view.root.position.x + Math.cos(yaw) * 1.7 * side, z = view.root.position.z - Math.sin(yaw) * 1.7 * side;
+      s.pos.set(x, this.m.heightAt(x, z) + (crash ? 1.2 : 0.05), z);
+      s.heading = yaw;
+    }
+    s.mode = 'ski';
+    if (crash) {
+      const v = vel || [0, 4, 0];
+      s.vel.set(v[0] * 0.8 + (Math.random() - 0.5) * 4, Math.max(4, v[1]), v[2] * 0.8 + (Math.random() - 0.5) * 4);
+      s.mode = 'air';
+      s.crash('vehicle');
+      this.ui.banner('WIPEOUT!', 'Everybody off the vehicle', 'alert', 1.8);
+    } else s.vel.set(0, 0, 0);
+    this.sound.stopEngine?.();
   }
 
   dropSled() {
@@ -275,6 +358,7 @@ export class Game {
     };
     s.update(dt, inp);
     this.handleSkierEvents();
+    if (this.myVeh) this.driveVehicle(dt, inp, input, locked);
 
     if (!locked) this.handleActions(input, dt);
     else this.ui.prompt(null);
@@ -286,7 +370,8 @@ export class Game {
       this.earned = latest.earned;
       this.danger = latest.danger;
     }
-    this.updateRemotes(dt, br);
+    this.updateVehicles(dt, br, latest);
+    this.updateRemotes(dt, br, latest);
     this.updateSleds(dt, br, latest);
     this.updatePatients(dt, latest);
     this.updateCharges(dt, br);
@@ -301,6 +386,8 @@ export class Game {
       this.sendAcc = 0;
       const msg = { t: 'st', p: [s.pos.x, s.pos.y, s.pos.z].map((v) => Math.round(v * 100) / 100), yaw: Math.round(s.heading * 100) / 100, a: s.animCode(), sp: Math.round(s.speed * 10) / 10 };
       if (s.sled) msg.sled = { id: s.sled.id, p: [s.sled.pos.x, s.sled.pos.y, s.sled.pos.z].map((v) => Math.round(v * 100) / 100), yaw: Math.round(s.sled.yaw * 100) / 100, tip: s.sled.tip };
+      const ph = this.myVeh?.phys;
+      if (ph) msg.veh = { id: this.myVeh.id, p: [ph.pos.x, ph.pos.y, ph.pos.z].map((v) => Math.round(v * 100) / 100), r: [ph.yaw, ph.pitch, ph.roll].map((v) => Math.round(v * 1000) / 1000), sp: Math.round(ph.speed * 10) / 10, horn: !!this.horn };
       net.send(msg);
     }
 
@@ -308,10 +395,76 @@ export class Game {
     const tod = THREE.MathUtils.clamp(elapsed / this.cfg.duration, 0, 1);
     const weather = Math.max(0, (this.danger - 1) / 4) * 0.6;
     this.r.setTimeOfDay(tod, weather);
-    this.world.update(dt, this.time, tod);
+    this.world.update(dt, this.time, tod, this.r.camera.position);
     this.fx.update(dt, this.r.camera.position, weather);
     this.updateCamera(dt);
     this.updateHud(tod, latest, br);
+  }
+
+  driveVehicle(dt, inp, input, locked) {
+    const s = this.skier, mv = this.myVeh;
+    const view = this.vehicles.get(mv.id);
+    if (!view) return;
+    this.horn = !locked && input.held('KeyH');
+    if (mv.phys) {
+      const ph = mv.phys;
+      const vin = locked ? { left: false, right: false, up: false, down: false, jump: false } : { ...inp, jump: input.held('Space') };
+      ph.update(dt, vin, (h) => {
+        if (s.sled) { s.anchor = ph.hitch(); s.stepSled(h); }
+      });
+      for (const e of ph.events) {
+        if (e.type === 'crash') {
+          this.sound.play('crash');
+          this.shake = Math.max(this.shake, 0.6);
+          this.net.send({ t: 'vehCrash', vx: e.v[0], vy: e.v[1], vz: e.v[2] });
+          if (s.sled?.hasPatient) this.net.send({ t: 'sledHit', mag: 12 });
+        } else if (e.type === 'bonk') this.sound.play('bonk', Math.min(1, e.mag / 8));
+        else if (e.type === 'land') this.sound.play('land', Math.min(1, e.impact / 10));
+      }
+      ph.events.length = 0;
+      view.setPose(ph.pos.x, ph.pos.y, ph.pos.z, ph.yaw, ph.pitch, ph.roll);
+      view.speed = ph.speed;
+      view.steerVis = ph.steer;
+      s.vel.copy(ph.vel);
+      this.sound.updateEngine?.(true, ph.speed / VEHICLE_TYPES[view.type].maxSpeed, inp.up);
+      // run over teammates
+      for (const [id, r] of this.remotes) {
+        if (r.a === 8 || r.a === 9 || r.a === 4) continue;
+        if (ph.speed > 6 && Math.hypot(r.pos.x - ph.pos.x, r.pos.z - ph.pos.z) < VEHICLE_TYPES[view.type].radius + 0.4 && this.bumpCd <= 0) {
+          this.bumpCd = 2;
+          this.net.send({ t: 'bump', id, vx: ph.vel.x, vz: ph.vel.z });
+          this.sound.play('bonk');
+        }
+      }
+    }
+    view.seatWorld(mv.seat, s.pos);
+    s.heading = view.root.rotation.y;
+  }
+
+  updateVehicles(dt, br, latest) {
+    if (!latest?.vh) return;
+    for (const vh of latest.vh) {
+      const view = this.ensureVehicle(vh.id, vh.ty, vh.p[0], vh.p[1], vh.p[2], vh.r[0]);
+      view.seats = vh.s;
+      view.cargo = vh.c;
+      const driving = this.myVeh && this.myVeh.id === vh.id && this.myVeh.phys;
+      if (!driving) {
+        let pose = vh;
+        let t = 1, prev = vh;
+        if (br) {
+          const pb = br.b.vh?.find((q) => q.id === vh.id) || vh;
+          prev = br.a.vh?.find((q) => q.id === vh.id) || pb;
+          pose = pb; t = br.t;
+        }
+        view.setPose(lerp(prev.p[0], pose.p[0], t), lerp(prev.p[1], pose.p[1], t), lerp(prev.p[2], pose.p[2], t),
+          lerpAngle(prev.r[0], pose.r[0], t), lerp(prev.r[1], pose.r[1], t), lerp(prev.r[2], pose.r[2], t));
+        view.speed = vh.sp;
+        view.steerVis = 0;
+        if (vh.h && !view.hornWas) this.sound.play('horn', this.distVol(vh.p[0], vh.p[2], 250));
+        view.hornWas = vh.h;
+      }
+      view.update(dt, view.speed || 0, view.steerVis || 0, this.time);
+    }
   }
 
   handleSkierEvents() {
@@ -382,6 +535,15 @@ export class Game {
         }
       }
     }
+    for (const view of this.vehicles.values()) {
+      const T = VEHICLE_TYPES[view.type];
+      const d = dist(view.root.position.x, view.root.position.z);
+      if (T.ambulance && s.sled?.hasPatient && !view.cargo && d < T.len * 0.5 + 5) return { kind: 'ambulance', id: view.id, label: `Load patient into the ${T.label}` };
+      if (d < T.len * 0.5 + 1.8 && view.seats && view.seats.includes(null)) {
+        const driverFree = view.seats[0] === null;
+        return { kind: 'enterVeh', id: view.id, label: driverFree ? `Drive the ${T.label}` : `Ride along (${T.label})` };
+      }
+    }
     const ll = this.world.liftLoad;
     if (dist(ll.x, ll.z) < 6) return { kind: 'lift', label: 'Ride the chairlift' };
     if (dist(m.sites.crate.x, m.sites.crate.z) < 5.5) return { kind: 'crate', label: 'Grab avalanche charges' };
@@ -391,7 +553,8 @@ export class Game {
   handleActions(input, dt) {
     const s = this.skier;
     const latest = this.net.latest();
-    const act = s.mode === 'ski' || s.mode === 'crash' ? this.findAction(latest) : null;
+    const act = s.mode === 'vehicle' ? { kind: 'exitVeh', label: this.myVeh?.seat === 0 ? 'Get out (H = horn)' : 'Hop off' }
+      : s.mode === 'ski' || s.mode === 'crash' ? this.findAction(latest) : null;
     const eHeld = input.held('KeyE');
     const ePressed = input.pressed('KeyE');
     if (act) {
@@ -422,6 +585,9 @@ export class Game {
             case 'grab': this.net.send({ t: 'grabSled', id: act.id }); break;
             case 'lift': s.boardLift(); this.fx.trails.cut('meL'); this.fx.trails.cut('meR'); break;
             case 'crate': this.net.send({ t: 'refill' }); this.sound.play('load'); this.ui.toast('Charges restocked. Throw with G!', 'good'); break;
+            case 'enterVeh': this.net.send({ t: 'enterVeh', id: act.id }); break;
+            case 'exitVeh': this.leaveVehicle(false); break;
+            case 'ambulance': this.net.send({ t: 'loadAmbulance', id: act.id }); break;
           }
         }
       }
@@ -430,9 +596,9 @@ export class Game {
       this.ui.prompt(null);
     }
     if (input.pressed('KeyQ') && s.sled) { this.dropSled(); this.ui.toast('Toboggan dropped', 'info', 2); }
-    if (input.pressed('KeyG') && s.mode !== 'buried' && s.mode !== 'lift') this.throwCharge();
+    if (input.pressed('KeyG') && s.mode !== 'buried' && s.mode !== 'lift' && s.mode !== 'vehicle') this.throwCharge();
     if (input.pressed('KeyF')) this.ping();
-    if (input.held('KeyR') && s.mode !== 'buried' && s.mode !== 'lift') {
+    if (input.held('KeyR') && s.mode !== 'buried' && s.mode !== 'lift' && s.mode !== 'vehicle') {
       this.respawnHold += dt;
       this.ui.prompt('Hold to return to the summit hut', 'R', this.respawnHold / 1.2);
       if (this.respawnHold > 1.2) {
@@ -465,10 +631,10 @@ export class Game {
 
   // ------------------------------------------------------------------ entities
   remoteInfo(id) {
-    return this.app.lobbyPlayers().find((p) => p.id === id) || { name: 'Patroller', color: '#888888', hat: 'beanie' };
+    return this.app.lobbyPlayers().find((p) => p.id === id) || { name: 'Patroller', color: '#888888', hat: 'beanie', char: 'matt' };
   }
 
-  updateRemotes(dt, br) {
+  updateRemotes(dt, br, latest) {
     const seen = new Set();
     if (br) {
       const { a, b, t } = br;
@@ -479,7 +645,7 @@ export class Game {
         let r = this.remotes.get(pb.id);
         if (!r) {
           const info = this.remoteInfo(pb.id);
-          const ch = makeCharacter({ jacket: info.color, hat: info.hat, hatColor: info.hat === 'beanie' ? '#ffd23f' : info.color });
+          const ch = new Character(this.app.assets, { model: info.char, color: info.color });
           this.group.add(ch.root);
           const chair = makeChair();
           chair.visible = false;
@@ -493,6 +659,13 @@ export class Game {
         r.a = pb.a; r.sp = pb.sp; r.b = pb.b;
         const yawRate = Math.atan2(Math.sin(r.yaw - r.prevYaw), Math.cos(r.yaw - r.prevYaw)) / Math.max(dt, 0.001);
         r.lean = lerp(r.lean, THREE.MathUtils.clamp(-yawRate * 0.5, -1, 1) * Math.min(1, r.sp / 8), Math.min(1, dt * 6));
+        if (r.a === 8 || r.a === 9) {
+          // sit them exactly on their seat of the (interpolated) vehicle
+          for (const view of this.vehicles.values()) {
+            const idx = view.seats ? view.seats.indexOf(pb.id) : -1;
+            if (idx >= 0) { view.seatWorld(idx, r.pos); r.yaw = view.root.rotation.y; break; }
+          }
+        }
         r.ch.root.position.copy(r.pos);
         r.ch.root.rotation.y = r.yaw;
         r.ch.root.visible = r.a !== 4;
@@ -501,7 +674,7 @@ export class Game {
         const a2 = r.a;
         r.ch.animate(dt, {
           speed: r.sp, lean: a2 === 0 || a2 === 5 ? r.lean : 0, tuck: a2 === 5 ? 1 : 0, plough: a2 === 6 ? 1 : 0,
-          air: a2 === 1, crash: a2 === 2, sit: a2 === 3, skate: a2 === 7,
+          air: a2 === 1, crash: a2 === 2, sit: a2 === 3 || a2 === 9, drive: a2 === 8, skate: a2 === 7,
         });
         // trails + spray for remotes
         const grounded = a2 === 0 || a2 === 5 || a2 === 6 || a2 === 7;
@@ -584,13 +757,13 @@ export class Game {
       seen.add(p.id);
       let v = this.patients.get(p.id);
       if (!v) {
-        v = { model: makeTourist(p.lk), data: p };
+        v = { model: new Character(this.app.assets, { kind: 'tourist', model: TOURISTS[p.lk % TOURISTS.length], look: p.lk }), data: p };
         this.group.add(v.model.root);
         this.patients.set(p.id, v);
       }
       v.data = p;
       const root = v.model.root;
-      root.visible = p.s !== 'buried';
+      root.visible = p.s !== 'buried' && p.s !== 'veh';
       if (p.s === 'sled') {
         const sl = this.sleds.get(p.sl);
         if (sl) {
@@ -717,6 +890,7 @@ export class Game {
     model.root.rotation.y = s.heading;
     model.root.visible = s.mode !== 'buried';
     this.myChair.visible = s.mode === 'lift';
+    if (s.mode === 'vehicle') { this.fx.trails.cut('meL'); this.fx.trails.cut('meR'); }
     if (s.mode === 'lift') { this.myChair.position.copy(s.pos); this.myChair.rotation.y = s.heading; }
     const pose = s.pose();
     pose.dig = !!this.digging;
@@ -742,7 +916,8 @@ export class Game {
       if (mine?.b) this.buriedAir = mine.b[3];
       this.ui.buried(true, this.buriedAir, AIR_SUPPLY);
     }
-    this.sound.updateMotion(s.mode === 'lift' ? 3 : s.speed, s.skid, s.mode === 'air', s.mode === 'buried');
+    this.sound.updateMotion(s.mode === 'lift' ? 3 : s.mode === 'vehicle' ? s.speed * 0.5 : s.speed, s.mode === 'vehicle' ? 0 : s.skid, s.mode === 'air', s.mode === 'buried');
+    if (!this.myVeh?.phys) this.sound.updateEngine?.(false, 0, false);
   }
 
   updateRopes() {
@@ -751,7 +926,8 @@ export class Game {
     for (const v of this.sleds.values()) {
       if (v.owner === null || v.owner === undefined || n >= 8) continue;
       let px, py, pz;
-      if (v.owner === this.myId) { px = this.skier.pos.x; py = this.skier.pos.y; pz = this.skier.pos.z; }
+      if (v.owner === this.myId && this.myVeh?.phys && this.skier.anchor) { const a = this.skier.anchor; px = a.x; pz = a.z; py = this.m.heightAt(a.x, a.z) - 0.4; }
+      else if (v.owner === this.myId) { px = this.skier.pos.x; py = this.skier.pos.y; pz = this.skier.pos.z; }
       else { const r = this.remotes.get(v.owner); if (!r) continue; px = r.pos.x; py = r.pos.y; pz = r.pos.z; }
       arr.set([px, py + 0.95, pz, v.x + Math.sin(v.yaw) * 1.1, v.y + 0.45, v.z + Math.cos(v.yaw) * 1.1], n * 6);
       n++;
@@ -763,13 +939,14 @@ export class Game {
   // ------------------------------------------------------------------ camera
   updateCamera(dt) {
     const s = this.skier, cam = this.r.camera;
-    const moving = s.speed > 4 && (s.mode === 'ski' || s.mode === 'air' || s.mode === 'crash');
+    const moving = s.speed > (s.mode === 'vehicle' ? 2 : 4) && (s.mode === 'ski' || s.mode === 'air' || s.mode === 'crash' || s.mode === 'vehicle');
     if (moving && this.time - this.lastMouse > 0.8) {
       const target = s.mode === 'crash' ? Math.atan2(s.vel.x, s.vel.z) : s.heading;
       this.camYaw = lerpAngle(this.camYaw, target, Math.min(1, dt * 2.2));
       this.camPitch = lerp(this.camPitch, 0.26, Math.min(1, dt * 1.2));
     }
-    const dist = (s.mode === 'lift' ? 7 : 5.6) + Math.min(s.speed, 30) * 0.05 + (s.sled ? 1.2 : 0);
+    const vehT = this.myVeh ? VEHICLE_TYPES[this.vehicles.get(this.myVeh.id)?.type] : null;
+    const dist = (vehT ? vehT.len + 4.2 : s.mode === 'lift' ? 7 : 5.6) + Math.min(s.speed, 30) * 0.05 + (s.sled ? 1.2 : 0);
     const cp = Math.cos(this.camPitch), sp = Math.sin(this.camPitch);
     fwd.set(Math.sin(this.camYaw) * cp, -sp, Math.cos(this.camYaw) * cp);
     const target = v3.copy(s.pos).add(new THREE.Vector3(0, s.mode === 'buried' ? 0.6 : 1.55, 0));
@@ -927,6 +1104,7 @@ export class Game {
 
   dispose() {
     this.disposed = true;
+    this.sound.updateEngine?.(false, 0, false);
     this.scene.remove(this.group);
     for (const sl of this.slides) sl.dispose();
     this.fx.clear();

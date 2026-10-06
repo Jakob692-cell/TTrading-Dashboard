@@ -401,9 +401,9 @@ export function makeCharge() {
   return { root: g, spark };
 }
 
-// Character portrait rendered to a data URL (for lobby lift passes)
+// Character portrait rendered to a data URL (for lobby lift passes). `build` returns an object with root + animate().
 let portraitRenderer = null;
-export function renderPortrait(opts, size = 160) {
+export function renderPortrait(build, size = 160) {
   try {
     if (!portraitRenderer) {
       portraitRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
@@ -412,21 +412,22 @@ export function renderPortrait(opts, size = 160) {
     }
     portraitRenderer.setSize(size, size, false);
     const scene = new THREE.Scene();
-    scene.add(new THREE.HemisphereLight('#ffffff', '#b8c8e0', 1.6));
-    const d = new THREE.DirectionalLight('#fff4e2', 2.4);
+    scene.add(new THREE.HemisphereLight('#ffffff', '#b8c8e0', 1.8));
+    const d = new THREE.DirectionalLight('#fff4e2', 2.6);
     d.position.set(2, 3, 4);
     scene.add(d);
-    const ch = makeCharacter(opts);
-    ch.animate(0.016, { lean: 0 });
-    ch.parts.armL.pole.visible = ch.parts.armR.pole.visible = false;
-    ch.root.rotation.y = 0.45;
+    const ch = build();
+    ch.animate(0.5, { lean: 0, noSkis: true, noPoles: true, wave: true });
+    ch.root.rotation.y = 0.35;
     scene.add(ch.root);
+    const head = ch.boneWorld ? ch.boneWorld('Head') : new THREE.Vector3(0, 1.6, 0);
     const cam = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
-    cam.position.set(0, 1.62, 2.4);
-    cam.lookAt(0, 1.5, 0);
+    cam.position.set(0.3, head.y + 0.25, 2.3);
+    cam.lookAt(0, head.y + 0.05, 0);
     portraitRenderer.render(scene, cam);
     return portraitRenderer.domElement.toDataURL('image/png');
-  } catch {
+  } catch (e) {
+    console.warn('portrait failed', e);
     return '';
   }
 }

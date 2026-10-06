@@ -20,7 +20,7 @@ const MOUNTS = [
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.woff': 'font/woff',
-  '.ico': 'image/x-icon',
+  '.ico': 'image/x-icon', '.glb': 'model/gltf-binary', '.webp': 'image/webp', '.md': 'text/markdown; charset=utf-8',
 };
 
 const server = http.createServer((req, res) => {
@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
     if (!file.startsWith(dir)) break;
     fs.stat(file, (err, st) => {
       if (err || !st.isFile()) { res.writeHead(404); res.end('not found'); return; }
-      res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
+      res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream', 'Cache-Control': url.startsWith('/assets/') || url.startsWith('/vendor/') ? 'public, max-age=3600' : 'no-cache' });
       fs.createReadStream(file).pipe(res);
     });
     return;

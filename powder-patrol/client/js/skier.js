@@ -14,7 +14,9 @@ export class Skier {
     this.pos = new THREE.Vector3();
     this.vel = new THREE.Vector3();
     this.heading = 0;
-    this.mode = 'ski'; // ski | air | crash | lift | buried
+    this.mode = 'ski'; // ski | air | crash | lift | buried | vehicle
+    this.anchor = null; // when set, a towed toboggan hooks here (vehicle hitch) instead of the skier
+    this.seat = 0;
     this.crashT = 0;
     this.airT = 0;
     this.airSpin = 0;
@@ -111,7 +113,7 @@ export class Skier {
 
   step(h, inp) {
     const m = this.m, p = this.pos, v = this.vel;
-    if (this.mode === 'buried') return;
+    if (this.mode === 'buried' || this.mode === 'vehicle') return;
     if (this.mode === 'lift') {
       this.liftT += h / LIFT_RIDE_TIME;
       const a = m.lift.at(Math.min(this.liftT, 1));
@@ -290,16 +292,18 @@ export class Skier {
     sp.addScaledVector(sv, h);
     const g = m.heightAt(sp.x, sp.z);
     sp.y = g;
-    // rope to the skier
-    const ax = p.x - Math.sin(this.heading) * 0.7, az = p.z - Math.cos(this.heading) * 0.7;
+    // rope to the skier (or to a vehicle hitch)
+    const anc = this.anchor;
+    const ax = anc ? anc.x : p.x - Math.sin(this.heading) * 0.7, az = anc ? anc.z : p.z - Math.cos(this.heading) * 0.7;
+    const avx = anc ? anc.vx : this.vel.x, avz = anc ? anc.vz : this.vel.z;
     let dx = sp.x - ax, dz = sp.z - az;
     const dist = Math.hypot(dx, dz) || 0.001;
-    const L = 2.7;
+    const L = anc ? 3.2 : 2.7;
     if (dist > L) {
       dx /= dist; dz /= dist;
       sp.x = ax + dx * L; sp.z = az + dz * L;
       sp.y = m.heightAt(sp.x, sp.z);
-      const rel = (sv.x - this.vel.x) * dx + (sv.z - this.vel.z) * dz;
+      const rel = (sv.x - avx) * dx + (sv.z - avz) * dz;
       if (rel > 0) {
         sv.x -= dx * rel; sv.z -= dz * rel;
         if (rel > 10 && s.hitCd <= 0 && s.hasPatient) { this.events.push({ type: 'sledHit', mag: rel * 0.6 }); s.hitCd = 0.5; }
@@ -338,6 +342,7 @@ export class Skier {
 
   // Pose information for the character animator
   pose() {
+    if (this.mode === 'vehicle') return { sit: true, drive: this.seat === 0, speed: 0 };
     return {
       speed: this.speed,
       lean: this.mode === 'ski' ? -this.leanV : 0,
@@ -357,6 +362,7 @@ export class Skier {
       case 'crash': return 2;
       case 'lift': return 3;
       case 'buried': return 4;
+      case 'vehicle': return this.seat === 0 ? 8 : 9;
       default: return this.tuck > 0.5 ? 5 : this.plough > 0.5 ? 6 : this.skating ? 7 : 0;
     }
   }

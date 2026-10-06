@@ -83,6 +83,9 @@ export function generateMountain(seedStr) {
     lodge: { x: -48, z: 918 },
     clinic: { x: -8, z: 896 },
     spawn: { x: summit.x - 6, z: 66 },
+    garageTop: { x: summit.x + 18, z: 34 },
+    garageBase: { x: -95, z: 905 },
+    parking: { x: 40, z: 925 },
   };
   sites.clinicRadius = 15;
 
@@ -174,10 +177,12 @@ export function generateMountain(seedStr) {
     { x: sites.liftTop.x, z: sites.liftTop.z, r: 12, h: null },
     { x: sites.liftBottom.x, z: sites.liftBottom.z, r: 14, h: null },
     { x: 0, z: 905, r: 95, h: null },
+    { x: sites.garageTop.x, z: sites.garageTop.z, r: 14, h: null },
   ];
   for (const f of flatten) f.h = baseH(f.x, f.z);
   flatten[1].h = flatten[0].h; // hut sits on the summit plateau
   flatten[4].h = H_BASE + 2;
+  flatten[5].h = flatten[0].h;
 
   const rawHeight = (x, z) => {
     let h = baseH(x, z);
@@ -363,6 +368,7 @@ export function generateMountain(seedStr) {
   for (const tw of towers) addCol(tw, 0.7, 'tower');
   addCol(sites.hut, 6.5, 'building');
   addCol({ x: sites.lodge.x, z: sites.lodge.z }, 10, 'building');
+  const addCollider = (x, z, r, kind = 'building') => addCol({ x, z }, r, kind);
   const collidersNear = (x, z, out = []) => {
     out.length = 0;
     const cx = Math.floor(x / HC), cz = Math.floor(z / HC);
@@ -395,7 +401,7 @@ export function generateMountain(seedStr) {
     seed: seedStr, world: WORLD, cell, nx, nz, heights, pisteGrid,
     heightAt, terrainAt, normalAt, pisteAt, pisteMaskAt,
     pistes, avalanches, cliffs, kickers, trees, rocks, towers, lift, sites, spots,
-    collidersNear,
+    collidersNear, addCollider,
   };
 }
 

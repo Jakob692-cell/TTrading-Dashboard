@@ -79,6 +79,17 @@ export class Renderer {
     sky.renderOrder = -10;
     this.sky = sky;
     this.scene.add(sky);
+    // a tiny scene with the same sky + a snowy ground plane, used to bake image-based lighting
+    this.envScene = new THREE.Scene();
+    const envSky = new THREE.Mesh(new THREE.SphereGeometry(40, 32, 16), sky.material);
+    this.envScene.add(envSky);
+    const envGround = new THREE.Mesh(new THREE.CircleGeometry(39, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: '#dfe6ee' }));
+    envGround.position.y = -2;
+    this.envGround = envGround;
+    this.envScene.add(envGround);
+    this.pmrem = new THREE.PMREMGenerator(this.renderer);
+    this.envTod = -1;
+    this.envRT = null;
 
     // Lights
     this.hemi = new THREE.HemisphereLight('#c8dcf3', '#eef2f8', 1.1);
@@ -88,8 +99,9 @@ export class Renderer {
     this.sun.shadow.mapSize.set(2048, 2048);
     const sc = this.sun.shadow.camera;
     sc.left = -70; sc.right = 70; sc.top = 70; sc.bottom = -70; sc.near = 1; sc.far = 900;
-    this.sun.shadow.bias = -0.0004;
-    this.sun.shadow.normalBias = 0.6;
+    this.sun.shadow.bias = -0.0003;
+    this.sun.shadow.normalBias = 0.5;
+    this.sun.shadow.radius = 3;
     this.scene.add(this.sun);
     this.scene.add(this.sun.target);
     this.sunDir = new THREE.Vector3(0, 1, 0);
@@ -195,6 +207,19 @@ export class Renderer {
       this.fog.color.lerp(grey, weather * 0.3);
     }
     this.fog.density = this.baseFogDensity * (1 + weather * 0.9);
+    this.hemi.intensity *= 0.55; // most ambient light now comes from the sky environment map
+    if (Math.abs(t - this.envTod) > 0.012 || this.envWeather !== Math.round(weather * 10)) this.updateEnvironment(t, weather);
+  }
+
+  updateEnvironment(t, weather) {
+    this.envTod = t;
+    this.envWeather = Math.round(weather * 10);
+    this.envGround.material.color.copy(this.fog.color).lerp(new THREE.Color('#ffffff'), 0.4);
+    const rt = this.pmrem.fromScene(this.envScene, 0.02, 0.1, 100);
+    this.scene.environment = rt.texture;
+    this.scene.environmentIntensity = 0.75;
+    if (this.envRT) this.envRT.dispose();
+    this.envRT = rt;
   }
 
   followShadow(center) {

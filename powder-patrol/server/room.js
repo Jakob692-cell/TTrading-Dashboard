@@ -1,8 +1,8 @@
 import { generateMountain, distToPolyline, avalancheFront, pointAlong, mountainName } from '../shared/mountain.js';
 import { mulberry32, hashString, dailySeedString } from '../shared/rng.js';
 import {
-  MAX_PLAYERS, TICK_RATE, SNAP_RATE, COUNTDOWN, JACKET_COLORS, HATS, SHOP_ITEMS, shiftConfig, emptyStats,
-  AWARDS, PATIENT_LINES, TOURIST_NAMES, AIR_SUPPLY, DIG_TIME, CHARGE_FUSE, CHARGES_PER_REFILL, PATIENT_TYPES,
+  MAX_PLAYERS, TICK_RATE, SNAP_RATE, COUNTDOWN, JACKET_COLORS, HATS, CHARACTERS, SHOP_ITEMS, shiftConfig, emptyStats,
+  AWARDS, PATIENT_LINES, TOURIST_NAMES, AIR_SUPPLY, DIG_TIME, CHARGE_FUSE, CHARGES_PER_REFILL, PATIENT_TYPES, VEHICLE_TYPES,
 } from '../shared/constants.js';
 
 const now = () => performance.now() / 1000;
@@ -49,6 +49,7 @@ export class Room {
       name: clampStr(profile?.name || 'Patroller', 16) || 'Patroller',
       color,
       hat: HATS.includes(profile?.hat) ? profile.hat : 'beanie',
+      char: CHARACTERS.includes(profile?.char) ? profile.char : CHARACTERS[this.players.size % CHARACTERS.length],
       ready: false,
       st: null,
       stats: emptyStats(),
@@ -70,6 +71,10 @@ export class Room {
     this.players.delete(id);
     if (this.shift) {
       for (const s of this.shift.sleds) if (s.owner === id) s.owner = null;
+      for (const v of this.shift.vehicles) {
+        const i = v.seats.indexOf(id);
+        if (i >= 0) { v.seats[i] = null; this.event({ k: 'veh', id: v.id, seats: v.seats }); }
+      }
     }
     if (this.hostId === id) this.hostId = this.players.size ? this.players.keys().next().value : null;
     if (this.players.size === 0) {
@@ -95,7 +100,7 @@ export class Room {
     return {
       t: 'lobby', code: this.code, hostId: this.hostId, phase: this.phase, mode: this.mode,
       run: this.run,
-      players: [...this.players.values()].map((p) => ({ id: p.id, name: p.name, color: p.color, hat: p.hat, ready: p.ready })),
+      players: [...this.players.values()].map((p) => ({ id: p.id, name: p.name, color: p.color, hat: p.hat, char: p.char, ready: p.ready })),
     };
   }
   broadcastLobby() { this.broadcast(this.lobbyState()); }
@@ -112,6 +117,7 @@ export class Room {
       case 'profile': {
         if (msg.name) p.name = clampStr(msg.name, 16) || p.name;
         if (HATS.includes(msg.hat)) p.hat = msg.hat;
+        if (CHARACTERS.includes(msg.char)) p.char = msg.char;
         if (JACKET_COLORS.includes(msg.color) && ![...this.players.values()].some((o) => o !== p && o.color === msg.color)) p.color = msg.color;
         this.broadcastLobby();
         break;
@@ -175,6 +181,69 @@ export class Room {
           if (s && s.owner === p.id && Array.isArray(msg.sled.p) && msg.sled.p.every(Number.isFinite)) {
             s.x = msg.sled.p[0]; s.y = msg.sled.p[1]; s.z = msg.sled.p[2]; s.yaw = +msg.sled.yaw || 0; s.tip = !!msg.sled.tip;
           }
+        }
+        if (msg.veh && typeof msg.veh === 'object') {
+          const v = sh.vehicles.find((x) => x.id === msg.veh.id);
+          if (v && v.seats[0] === p.id && Array.isArray(msg.veh.p) && msg.veh.p.every(Number.isFinite) && Array.isArray(msg.veh.r)) {
+            v.x = msg.veh.p[0]; v.y = msg.veh.p[1]; v.z = msg.veh.p[2];
+            v.yaw = +msg.veh.r[0] || 0; v.pitch = +msg.veh.r[1] || 0; v.roll = +msg.veh.r[2] || 0;
+            v.sp = +msg.veh.sp || 0; v.horn = !!msg.veh.horn;
+          }
+        }
+        break;
+      }
+      case 'enterVeh': {
+        if (!p.st || sh.vehicles.some((v) => v.seats.includes(p.id))) return;
+        const v = sh.vehicles.find((x) => x.id === msg.id);
+        if (!v) return;
+        if (Math.hypot(v.x - p.st.p[0], v.z - p.st.p[2]) > 6) return;
+        let seat = Number.isInteger(msg.seat) && v.seats[msg.seat] === null ? msg.seat : v.seats.indexOf(null);
+        if (seat < 0) return;
+        v.seats[seat] = p.id;
+        this.event({ k: 'veh', id: v.id, seats: v.seats });
+        break;
+      }
+      case 'exitVeh': {
+        const v = sh.vehicles.find((x) => x.seats.includes(p.id));
+        if (!v) return;
+        v.seats[v.seats.indexOf(p.id)] = null;
+        this.event({ k: 'veh', id: v.id, seats: v.seats });
+        break;
+      }
+      case 'vehCrash': {
+        const v = sh.vehicles.find((x) => x.seats[0] === p.id);
+        if (!v) return;
+        const riders = v.seats.filter((x) => x !== null);
+        v.seats = v.seats.map(() => null);
+        for (const r of riders) { const pl = this.players.get(r); if (pl) pl.stats.crashes++; }
+        this.event({ k: 'vehEject', id: v.id, riders, v: [+msg.vx || 0, +msg.vy || 0, +msg.vz || 0] });
+        this.event({ k: 'veh', id: v.id, seats: v.seats });
+        if (riders.length > 1) this.toast(`${p.name} crashed the ${VEHICLE_TYPES[v.type].label} with everyone on board!`, 'crash');
+        break;
+      }
+      case 'loadAmbulance': {
+        // move the patient from my toboggan into a rescue truck parked next to me
+        const s = sh.sleds.find((x) => x.owner === p.id);
+        const v = sh.vehicles.find((x) => x.id === msg.id && VEHICLE_TYPES[x.type].ambulance);
+        if (!s || !v || s.patient === null || v.cargo) return;
+        if (Math.hypot(v.x - s.x, v.z - s.z) > 8) return;
+        const pt = sh.patients.find((x) => x.id === s.patient);
+        if (!pt) return;
+        s.patient = null;
+        pt.state = 'veh'; pt.sled = null; pt.veh = v.id;
+        v.cargo = pt.id;
+        this.event({ k: 'ambulance', id: pt.id, veh: v.id, by: p.id });
+        break;
+      }
+      case 'injureTourist': {
+        if (!Array.isArray(msg.p) || !msg.p.every(Number.isFinite)) return;
+        const active = sh.patients.filter((x) => x.state === 'waiting' || x.state === 'buried').length;
+        if (active >= sh.cfg.maxActiveCalls + 2) return;
+        const pt = this.spawnPatient(sh, { x: msg.p[0], z: msg.p[2], kind: 'injured' });
+        if (pt) {
+          sh.penalties += 10;
+          this.event({ k: 'call', id: pt.id, type: 'injured', name: pt.name, line: 'You ran me OVER!', x: pt.x, z: pt.z });
+          this.toast(`${p.name} flattened a tourist (-$10). Rescue them!`, 'crash');
         }
         break;
       }
@@ -323,6 +392,16 @@ export class Room {
       const x = r.x + i * 2.4 - (sledCount - 1) * 1.2, z = r.z;
       sleds.push({ id: i + 1, x, y: mountain.heightAt(x, z), z, yaw: 0, owner: null, patient: null, tip: false });
     }
+    // vehicles parked at the two patrol garages
+    const vehicles = [];
+    const park = (type, site, dx, dz, yaw) => {
+      const x = site.x + dx, z = site.z + dz;
+      vehicles.push({ id: vehicles.length + 1, type, x, y: mountain.heightAt(x, z), z, yaw, pitch: 0, roll: 0, sp: 0, seats: VEHICLE_TYPES[type].seats.map(() => null), cargo: null, horn: false });
+    };
+    const T = mountain.sites.garageTop, B = mountain.sites.garageBase, P = mountain.sites.parking;
+    park('snowmobile', T, -4, 0, 0.2); park('snowmobile', T, 0, 1, 0); park('quad', T, 4.5, 0, -0.2);
+    park('snowmobile', B, -3, 1, Math.PI); park('quad', B, 2, 1, Math.PI);
+    park('pickup', P, -4, 0, Math.PI * 0.9); park('truck', P, 5, 0, Math.PI * 1.1);
     // natural avalanche schedule
     const zones = mountain.avalanches.map((a) => ({ id: a.id, released: false, controlled: false, at: null, warned: false, t0: null, buriedCheck: new Set() }));
     const order = zones.map((z) => z.id).sort(() => rand() - 0.5).slice(0, cfg.naturalAvalanches);
@@ -333,7 +412,7 @@ export class Room {
 
     this.shift = {
       cfg, mountain, rand, startAt: t0, elapsed: -5, earned: 0, penalties: 0,
-      patients: [], sleds, charges: [], zones, slides: [],
+      patients: [], sleds, vehicles, charges: [], zones, slides: [],
       nextCallAt: cfg.firstCallAt, delivered: 0, airlifted: 0, controlled: 0,
     };
     for (const p of this.players.values()) {
@@ -345,7 +424,7 @@ export class Room {
     this.phase = 'playing';
     this.broadcast({
       t: 'start', seed: this.run.seed, day: this.run.day, cfg, startAt: t0, upgrades: this.run.upgrades,
-      sleds, mountainName: this.mountainName(), money: this.run.money,
+      sleds, vehicles, mountainName: this.mountainName(), money: this.run.money,
     });
     this.broadcastLobby();
   }
@@ -433,7 +512,25 @@ export class Room {
       if (pt.state === 'waiting') pt.condition -= waitDecay * dt;
       else if (pt.state === 'buried') pt.condition -= waitDecay * 1.5 * dt;
       else if (pt.state === 'sled') pt.condition -= 0.1 * dt;
+      else if (pt.state === 'veh') pt.condition -= 0.05 * dt;
       else continue;
+      if (pt.state === 'veh') {
+        const v = sh.vehicles.find((x) => x.id === pt.veh);
+        if (v) {
+          pt.x = v.x; pt.y = v.y; pt.z = v.z;
+          if (Math.hypot(v.x - m.sites.clinic.x, v.z - m.sites.clinic.z) < m.sites.clinicRadius + 6) {
+            const reward = Math.round(50 + Math.max(0, pt.condition) * 0.6);
+            sh.earned += reward;
+            sh.delivered++;
+            pt.state = 'delivered';
+            v.cargo = null;
+            const driver = this.players.get(v.seats[0]);
+            if (driver) { driver.stats.rescues++; driver.stats.conditionSum += pt.condition; }
+            this.event({ k: 'delivered', id: pt.id, reward, by: v.seats[0], name: pt.name, condition: Math.round(pt.condition) });
+            continue;
+          }
+        }
+      }
       if (pt.state === 'sled') {
         const s = sh.sleds.find((x) => x.id === pt.sled);
         if (s) {
@@ -454,6 +551,7 @@ export class Room {
       if (pt.condition <= 0) {
         pt.condition = 0;
         if (pt.sled) { const s = sh.sleds.find((x) => x.id === pt.sled); if (s) s.patient = null; }
+        if (pt.veh) { const v = sh.vehicles.find((x) => x.id === pt.veh); if (v) v.cargo = null; }
         pt.state = 'airlifted';
         sh.airlifted++;
         this.event({ k: 'airlift', id: pt.id, name: pt.name, x: pt.x, y: pt.y, z: pt.z });
@@ -547,6 +645,7 @@ export class Room {
       })),
       sl: sh.sleds.map((s) => ({ id: s.id, p: [r2(s.x), r2(s.y), r2(s.z)], yaw: r2(s.yaw), o: s.owner, pt: s.patient, tip: s.tip })),
       ch: sh.charges.map((c) => ({ id: c.id, p: [r2(c.x), r2(c.y), r2(c.z)], f: r2(c.fuse) })),
+      vh: sh.vehicles.map((v) => ({ id: v.id, ty: v.type, p: [r2(v.x), r2(v.y), r2(v.z)], r: [r2(v.yaw), r2(v.pitch), r2(v.roll)], s: v.seats, sp: r2(v.sp), c: v.cargo, h: v.horn })),
     };
   }
 
@@ -579,7 +678,7 @@ export class Room {
     this.lastResults = {
       t: 'results', day: this.run.day, earned, quota: sh.cfg.quota, passed, delivered: sh.delivered, airlifted: sh.airlifted,
       controlled: sh.controlled, penalties: sh.penalties, money: this.run.money,
-      players: players.map((p) => ({ id: p.id, name: p.name, color: p.color, hat: p.hat, stats: p.stats, award: awards[p.id] })),
+      players: players.map((p) => ({ id: p.id, name: p.name, color: p.color, hat: p.hat, char: p.char, stats: p.stats, award: awards[p.id] })),
     };
     this.phase = 'results';
     this.broadcast(this.lastResults);

@@ -7,10 +7,11 @@ import { Net } from './net.js';
 import { UI } from './ui.js';
 import { Game } from './game.js';
 import { Skier } from './skier.js';
-import { makeCharacter } from './models.js';
+import { Character } from './characters.js';
+import { Assets } from './assets.js';
 import { generateMountain, mountainName, distToPolyline, pointAlong } from '/shared/mountain.js';
 import { dailySeedString } from '/shared/rng.js';
-import { JACKET_COLORS } from '/shared/constants.js';
+import { JACKET_COLORS, CHARACTERS } from '/shared/constants.js';
 
 const $ = (id) => document.getElementById(id);
 const store = {
@@ -37,7 +38,7 @@ class Input {
 const app = {
   state: 'boot',
   settings: { quality: 'high', sens: 1, volume: 0.8, music: 0.5, invert: false, ...store.get('pp-settings', {}) },
-  profile: store.get('pp-profile', null) || { name: `Patroller${Math.floor(Math.random() * 90 + 10)}`, color: JACKET_COLORS[Math.floor(Math.random() * 4)], hat: 'beanie' },
+  profile: { name: `Patroller${Math.floor(Math.random() * 90 + 10)}`, color: JACKET_COLORS[Math.floor(Math.random() * 4)], hat: 'beanie', char: CHARACTERS[Math.floor(Math.random() * 4)], ...store.get('pp-profile', {}) },
   input: new Input(),
   lobby: null,
   game: null,
@@ -66,13 +67,13 @@ function setupMenuScene() {
   for (const s of menu.skiers) renderer.scene.remove(s.model.root);
   menu.skiers = [];
   const m = app.mountain;
-  const looks = [['#e63946', 'helmet'], ['#2f6fd6', 'beanie'], ['#f2b134', 'viking']];
-  looks.forEach(([color, hat], i) => {
+  const looks = [['#e63946', 'sam'], ['#2f6fd6', 'lis'], ['#f2b134', 'shaun']];
+  looks.forEach(([color, char], i) => {
     const sk = new Skier(m);
     const piste = m.pistes[(i + 1) % m.pistes.length];
     const start = pointAlong(piste.points, 40 + i * 25);
     sk.spawn(start.x + i * 2, start.z, 0);
-    const model = makeCharacter({ jacket: color, hat, hatColor: '#ffd23f' });
+    const model = new Character(app.assets, { model: char, color });
     renderer.scene.add(model.root);
     menu.skiers.push({ sk, model, piste, id: `ai${i}`, sprayAcc: 0 });
   });
@@ -128,7 +129,7 @@ function updateMenuScene(dt) {
     renderer.followShadow(lead.pos);
   }
   renderer.setTimeOfDay(0.8, 0.1);
-  app.world.update(dt, menu.t, 0.8);
+  app.world.update(dt, menu.t, 0.8, renderer.camera.position);
   app.fx.update(dt, renderer.camera.position, 0.12);
 }
 
@@ -160,13 +161,17 @@ function rebuildPreview() {
   if (!preview.scene) return;
   if (preview.model) preview.scene.remove(preview.model.root);
   const p = app.profile;
-  preview.model = makeCharacter({ jacket: p.color, hat: p.hat, hatColor: p.hat === 'beanie' ? '#ffd23f' : p.color });
+  preview.model = new Character(app.assets, { model: p.char, color: p.color });
   preview.scene.add(preview.model.root);
+  const box = new THREE.Box3().setFromObject(preview.model.root);
+  const h = box.max.y;
+  preview.cam.position.set(0, h * 0.62, h * 2.6);
+  preview.cam.lookAt(0, h * 0.5, 0);
 }
 function renderPreview(dt, t) {
   if (!preview.renderer || app.state !== 'menu') return;
   preview.model.root.rotation.y = t * 0.6;
-  preview.model.animate(dt, { skate: false, wave: Math.sin(t * 0.7) > 0.6 });
+  preview.model.animate(dt, { noSkis: false, wave: Math.sin(t * 0.7) > 0.6 });
   preview.renderer.render(preview.scene, preview.cam);
 }
 
@@ -177,12 +182,15 @@ async function boot() {
   await nextFrame();
   const seed = dailySeedString();
   $('daily-label').textContent = `Daily mountain: ${mountainName(seed)}`;
-  ui.setLoading(0.35, 'Piling up snow…');
+  app.assets = new Assets();
+  ui.assets = app.assets;
+  await app.assets.load((f) => ui.setLoading(0.1 + f * 0.45, 'Loading models & textures…'));
+  ui.setLoading(0.6, 'Piling up snow…');
   await nextFrame();
   app.mountain = generateMountain(seed);
-  ui.setLoading(0.6, 'Planting 2,000 pine trees…');
+  ui.setLoading(0.75, 'Planting 2,000 pine trees & building chalets…');
   await nextFrame();
-  app.world = new World(renderer, app.mountain);
+  app.world = new World(renderer, app.mountain, app.assets);
   ui.setLoading(0.9, 'Starting the chairlift…');
   await nextFrame();
   setupMenuScene();
@@ -209,7 +217,7 @@ async function ensureWorld(seed) {
   app.mountain = generateMountain(seed);
   ui.setLoading(0.7, 'Planting trees…');
   await nextFrame();
-  app.world = new World(renderer, app.mountain);
+  app.world = new World(renderer, app.mountain, app.assets);
   setupMenuScene();
 }
 
@@ -403,7 +411,7 @@ function loop(now) {
     updateMenuScene(dt);
   }
   renderPreview(dt, time);
-  renderer.render(dt, time);
+  if (!window.__ppNoRender) renderer.render(dt, time); // tests can pause rendering to fast-forward game logic
   app.input.endFrame();
   requestAnimationFrame(loop);
 }

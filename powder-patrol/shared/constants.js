@@ -18,6 +18,7 @@ export const JACKET_COLORS = [
 ];
 
 export const HATS = ['beanie', 'helmet', 'cap', 'ushanka', 'viking', 'tophat', 'cowboy', 'none'];
+export const CHARACTERS = ['sam', 'lis', 'matt', 'shaun'];
 
 export const LIFT_RIDE_TIME = 20; // seconds bottom -> top
 export const CHARGE_FUSE = 3.5;
@@ -94,3 +95,23 @@ export const AWARDS = [
   { key: 'ejections', title: 'Toboggan Tosser', desc: 'Launched patients off the sled' },
   { key: 'liftRides', title: 'Chairlift Romantic', desc: 'Most chairlift rides' },
 ];
+
+// Drivable vehicles. Seats are [x, y, z] offsets in the vehicle frame (+z = forward); seat 0 is the driver.
+export const VEHICLE_TYPES = {
+  snowmobile: {
+    label: 'Snowmobile', seats: [[0, 0.82, -0.15], [0, 0.95, -0.8]], maxSpeed: 25, accel: 9, climb: 0.75, grip: 5.5, turn: 1.9,
+    radius: 1.2, len: 3.0, wid: 1.1, tow: true, mass: 1,
+  },
+  quad: {
+    label: 'Quad', seats: [[0, 0.98, -0.1], [0, 1.1, -0.65]], maxSpeed: 22, accel: 10.5, climb: 0.55, grip: 6.5, turn: 2.2,
+    radius: 1.1, len: 2.1, wid: 1.25, tow: true, mass: 1,
+  },
+  pickup: {
+    label: 'Patrol Pickup', seats: [[-0.42, 1.05, 0.15], [0.42, 1.05, 0.15], [-0.4, 1.15, -1.3], [0.4, 1.15, -1.3]], maxSpeed: 27, accel: 7, climb: 0.34,
+    grip: 3.6, turn: 1.25, radius: 2.0, len: 4.9, wid: 2.1, tow: false, mass: 2.5, model: 'pickup', scale: 0.85,
+  },
+  truck: {
+    label: 'Rescue Truck', seats: [[-0.5, 1.45, 1.35], [0.5, 1.45, 1.35]], maxSpeed: 22, accel: 6, climb: 0.3,
+    grip: 3.4, turn: 1.1, radius: 2.3, len: 5.0, wid: 2.5, tow: false, mass: 3.5, model: 'truck', scale: 0.85, ambulance: true,
+  },
+};
