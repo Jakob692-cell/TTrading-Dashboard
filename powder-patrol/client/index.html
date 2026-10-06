@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Powder Patrol</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e63946'/%3E%3Cpath d='M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/vendor/three/build/three.module.js",
+        "three/addons/": "/vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene"></canvas>
+    <div id="labels"></div>
+
+    <!-- ============ LOADING ============ -->
+    <div id="loading" class="screen show">
+      <div class="loader-card">
+        <div class="logo small"><span class="cross"></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
+        <div class="loader-bar"><div id="loader-fill"></div></div>
+        <div id="loader-text">Waxing skis…</div>
+      </div>
+    </div>
+
+    <!-- ============ MAIN MENU ============ -->
+    <div id="menu" class="screen">
+      <div class="menu-left">
+        <div class="logo"><span class="cross"></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
+        <div class="tagline">Co-op ski rescue chaos for 1–4 patrollers</div>
+        <div class="menu-buttons">
+          <button class="sign green" id="btn-host"><i class="ico circle"></i><span>Start a Patrol</span><small>host a new room</small></button>
+          <div class="join-row">
+            <button class="sign blue" id="btn-join"><i class="ico square"></i><span>Join Patrol</span><small>enter a room code</small></button>
+            <input id="join-code" maxlength="4" placeholder="CODE" autocomplete="off" spellcheck="false" />
+          </div>
+          <button class="sign black" id="btn-how"><i class="ico diamond"></i><span>How to Patrol</span><small>controls &amp; tips</small></button>
+          <button class="sign plain" id="btn-settings"><i class="ico gear">⚙</i><span>Settings</span></button>
+        </div>
+        <div class="menu-foot">Prototype build · <span id="daily-label"></span></div>
+      </div>
+      <div class="menu-right">
+        <div class="card profile-card">
+          <div class="card-title">Your Patroller</div>
+          <canvas id="preview" width="300" height="300"></canvas>
+          <label class="field"><span>Name</span><input id="name-input" maxlength="16" autocomplete="off" spellcheck="false" /></label>
+          <div class="field"><span>Jacket</span><div id="color-picker" class="swatches"></div></div>
+          <div class="field"><span>Hat</span><div id="hat-picker" class="chips"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HOW TO ============ -->
+    <div id="howto" class="screen modal">
+      <div class="card wide">
+        <div class="card-title">How to Patrol</div>
+        <div class="how-grid">
+          <div class="how-col">
+            <h3><i class="ico circle"></i> The Job</h3>
+            <p>Radio calls pop up all over the mountain. Follow the <b class="red">red smoke</b>, grab a <b>toboggan</b> from the rack at the summit hut, load the patient and get them to the <b>clinic</b> at the base — fast <i>and</i> gentle.</p>
+            <p>Every crash on the way hurts your patient. Tip the sled and they go flying.</p>
+            <p>Earn the <b>daily quota</b> before the lifts close at 16:30 or you're fired.</p>
+          </div>
+          <div class="how-col">
+            <h3><i class="ico square"></i> Avalanches</h3>
+            <p>Orange flags mark <b>avalanche zones</b>. The danger rises all day. Toss <b>charges</b> (crate at the hut) onto a cornice to trigger a controlled slide for cash.</p>
+            <p>If someone gets <b>buried</b>, your <b>beacon</b> turns on. Follow the beeps, then everyone hold <kbd>E</kbd> to dig — together it's faster. Air runs out!</p>
+          </div>
+          <div class="how-col">
+            <h3><i class="ico diamond"></i> Controls</h3>
+            <table class="keys">
+              <tr><td><kbd>A</kbd><kbd>D</kbd></td><td>Carve left / right</td></tr>
+              <tr><td><kbd>W</kbd></td><td>Tuck (fast) / skate</td></tr>
+              <tr><td><kbd>S</kbd></td><td>Brake (snowplough)</td></tr>
+              <tr><td><kbd>Space</kbd></td><td>Jump (spin in the air!)</td></tr>
+              <tr><td><kbd>E</kbd></td><td>Interact / grab sled / dig / ride lift</td></tr>
+              <tr><td><kbd>Q</kbd></td><td>Drop toboggan</td></tr>
+              <tr><td><kbd>G</kbd></td><td>Throw avalanche charge</td></tr>
+              <tr><td><kbd>F</kbd></td><td>Ping location</td></tr>
+              <tr><td><kbd>Tab</kbd></td><td>Trail map</td></tr>
+              <tr><td><kbd>T</kbd></td><td>Chat</td></tr>
+              <tr><td><kbd>R</kbd> (hold)</td><td>Back to summit hut</td></tr>
+            </table>
+          </div>
+        </div>
+        <button class="btn" data-close>Got it</button>
+      </div>
+    </div>
+
+    <!-- ============ SETTINGS ============ -->
+    <div id="settings" class="screen modal">
+      <div class="card">
+        <div class="card-title">Settings</div>
+        <label class="field row"><span>Graphics</span>
+          <select id="set-quality"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+        </label>
+        <label class="field row"><span>Mouse sensitivity</span><input type="range" id="set-sens" min="0.3" max="2.5" step="0.05" /></label>
+        <label class="field row"><span>Master volume</span><input type="range" id="set-vol" min="0" max="1" step="0.05" /></label>
+        <label class="field row"><span>Music</span><input type="range" id="set-music" min="0" max="1" step="0.05" /></label>
+        <label class="field row"><span>Invert mouse Y</span><input type="checkbox" id="set-invert" /></label>
+        <button class="btn" data-close>Done</button>
+      </div>
+    </div>
+
+    <!-- ============ LOBBY ============ -->
+    <div id="lobby" class="screen">
+      <div class="lobby-wrap">
+        <div class="lobby-head">
+          <div>
+            <div class="eyebrow">Patrol room code</div>
+            <button id="room-code" class="room-code" title="Click to copy">----</button>
+          </div>
+          <div class="lobby-mtn">
+            <div class="eyebrow">Today's mountain</div>
+            <div id="lobby-mountain" class="mtn-name">—</div>
+            <div class="mode-toggle" id="mode-toggle">
+              <button data-mode="daily" class="on">Daily Mountain</button>
+              <button data-mode="random">Random</button>
+            </div>
+          </div>
+        </div>
+        <div id="lobby-players" class="passes"></div>
+        <div class="lobby-foot">
+          <button class="btn ghost" id="btn-leave">Leave</button>
+          <div class="lobby-hint" id="lobby-hint">Share the code with up to 3 friends.</div>
+          <button class="btn" id="btn-ready">Ready</button>
+          <button class="btn red" id="btn-start">Start Shift</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HUD ============ -->
+    <div id="hud" class="hidden">
+      <div id="compass"><div id="compass-strip"></div><div class="compass-center"></div></div>
+      <div class="hud-tl">
+        <div class="clock-card">
+          <div class="clock-row"><span id="clock">09:00</span><span class="clock-sub">LIFTS CLOSE 16:30</span></div>
+          <div class="quota"><div class="quota-fill" id="quota-fill"></div><div class="quota-mark"></div></div>
+          <div class="money-row"><span id="money">$0</span><span class="quota-text">/ <span id="quota">$200</span> quota</span></div>
+        </div>
+        <div class="danger" id="danger"><div class="danger-num" id="danger-num"><span>1</span></div><div class="danger-txt"><b>Avalanche danger</b><span id="danger-label">Low</span></div></div>
+      </div>
+      <div class="hud-tr"><div id="radio"></div></div>
+      <div id="crosshair"></div>
+      <div id="prompt" class="hidden"><kbd id="prompt-key">E</kbd><span id="prompt-text"></span><div id="prompt-bar"><i></i></div></div>
+      <div id="banner" class="hidden"></div>
+      <div id="trick" class="hidden"></div>
+      <div class="hud-bc">
+        <div class="speed"><span id="speed">0</span><small>km/h</small></div>
+        <div class="gear">
+          <div class="gear-item" id="gear-charges"><span class="gi tnt"></span><b id="charges">2</b></div>
+          <div class="gear-item" id="gear-sled"><span class="gi sled"></span><b id="sled-status">—</b></div>
+        </div>
+      </div>
+      <div id="beacon" class="hidden">
+        <div class="beacon-brand">PATROL·BEACON</div>
+        <div class="beacon-screen">
+          <div id="beacon-arrow">▲</div>
+          <div id="beacon-dist">--</div>
+          <div id="beacon-sub">SEARCH</div>
+        </div>
+        <div class="beacon-leds"><i></i><i></i><i></i></div>
+      </div>
+      <div id="chat"><div id="chat-log"></div><input id="chat-input" maxlength="140" placeholder="Say something…" autocomplete="off" /></div>
+      <div id="toasts"></div>
+      <div id="buried" class="hidden">
+        <div class="buried-inner">
+          <div class="buried-title">YOU'RE BURIED</div>
+          <div class="buried-sub">Stay calm. Your team has beacons.</div>
+          <div class="air"><div id="air-fill"></div></div>
+          <div class="buried-air">AIR <span id="air-text">75</span>s</div>
+        </div>
+      </div>
+      <div id="map" class="hidden">
+        <div class="map-card">
+          <div class="map-title"><span id="map-name">Trail Map</span><span class="map-legend"><i class="ico circle"></i>Easy <i class="ico square"></i>Intermediate <i class="ico diamond"></i>Expert <i class="lg-av"></i>Avalanche zone <i class="lg-pt">✚</i>Patient</span></div>
+          <canvas id="map-canvas" width="640" height="960"></canvas>
+        </div>
+      </div>
+      <div id="vignette-hurt"></div>
+      <div id="click-hint" class="hidden">Click to control the camera</div>
+    </div>
+
+    <!-- ============ PAUSE ============ -->
+    <div id="pause" class="screen modal">
+      <div class="card">
+        <div class="card-title">Paused</div>
+        <p class="muted">The mountain keeps going — your friends are still out there.</p>
+        <button class="btn" id="btn-resume">Resume</button>
+        <button class="btn ghost" id="btn-pause-settings">Settings</button>
+        <button class="btn ghost" id="btn-pause-how">How to Patrol</button>
+        <button class="btn red" id="btn-quit">Leave Patrol</button>
+      </div>
+    </div>
+
+    <!-- ============ RESULTS ============ -->
+    <div id="results" class="screen">
+      <div class="report">
+        <div class="clip"></div>
+        <div class="report-head">
+          <div>
+            <div class="eyebrow">Incident report · Shift <span id="res-day">1</span></div>
+            <div class="report-title" id="res-mountain">Mount Kaboom</div>
+          </div>
+          <div class="stamp" id="res-stamp">QUOTA MET</div>
+        </div>
+        <div class="report-stats">
+          <div><b id="res-earned">$0</b><span>earned</span></div>
+          <div><b id="res-quota">$0</b><span>quota</span></div>
+          <div><b id="res-delivered">0</b><span>patients saved</span></div>
+          <div><b id="res-airlift">0</b><span>airlifted</span></div>
+          <div><b id="res-controlled">0</b><span>slides controlled</span></div>
+        </div>
+        <div class="awards" id="res-awards"></div>
+        <div id="shop" class="shop">
+          <div class="shop-head"><span>Patrol Supply</span><span class="wallet">Team wallet: <b id="res-money">$0</b></span></div>
+          <div class="shop-items" id="shop-items"></div>
+        </div>
+        <div class="report-foot">
+          <button class="btn ghost" id="btn-res-lobby">Back to Lobby</button>
+          <div class="muted" id="res-wait"></div>
+          <button class="btn red" id="btn-next">Next Shift →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-toast" class="hidden"></div>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
