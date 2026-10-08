@@ -4,7 +4,14 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { WORLD, distToPolyline } from '/shared/mountain.js';
 import { mulberry32, hashString, makeNoise2D } from '/shared/rng.js';
-import { mat } from './models.js';
+import { DANGER_DE } from '/shared/constants.js';
+import { mat, drawEmblem, makeEmblemTexture, makeToboggan, makeWindsock, afterFonts, BRAND } from './models.js';
+
+const SIGN_FONT = '"Lilita One", "Arial Black", sans-serif';
+// avalanche danger level colours (European scale) and our bulletin hint lines
+const DANGER_COLORS = ['#cccccc', '#9bd54a', '#ffe14a', '#ff9a2e', '#ff3b30', '#b0002a'];
+const DANGER_HINTS = ['', 'Allgemein sichere Verhältnisse', 'Steilhänge vorsichtig befahren', 'Steilhänge über 30° meiden',
+  'Nur mäßig steiles Gelände, Auslauf beachten', 'Verzicht auf Skitouren'];
 
 const tmpM = new THREE.Matrix4(), tmpQ = new THREE.Quaternion(), tmpS = new THREE.Vector3(), tmpP = new THREE.Vector3();
 const UP = new THREE.Vector3(0, 1, 0);
@@ -111,6 +118,7 @@ export class World {
     this.buildBuildings();
     this.buildMarkers();
     this.buildBackdrop();
+    this.setBulletin(1);
     renderer.scene.add(this.group);
   }
 
@@ -467,29 +475,34 @@ export class World {
     prop('Prop_Crate', S.hut.x + 7, S.hut.z + 6.2, 0.2, 0.8);
     this.flushBatch(true);
 
-    // signs
-    const hutSign = this.signMesh('SKI PATROL', '#e63946', 5, 1.1, [S.hut.x, hut.y + 3.6, S.hut.z + 3.4]);
-    this.group.add(hutSign);
+    // rescue station: sign, radio mast, old wooden akja on the wall, avalanche bulletin board
+    this.buildStation(hut);
+    this.flushBatch(true);
     const lodgeSign = this.signMesh('BASE LODGE · KAFFEE & KUCHEN', '#2e9e5b', 12, 1.4, [0, 0, 0]);
     lodgeSign.position.set(S.lodge.x + Math.sin(0.15) * 5.4, lodge.y + 7.0, S.lodge.z + Math.cos(0.15) * 5.4);
     lodgeSign.rotation.y = 0.15;
     this.group.add(lodgeSign);
-    // flag on the patrol hut
+    // Pistenrettung flag on the station
     const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 10, 8), mat('#c9ced8', { metalness: 0.6, roughness: 0.3 }));
     flagPole.position.set(S.hut.x + 5, hut.y + 5, S.hut.z + 5);
     this.group.add(flagPole);
-    const flag = this.makeFlag('#e63946', true);
+    const flag = this.makeFlag();
     flag.position.set(S.hut.x + 5, hut.y + 9, S.hut.z + 5);
     this.group.add(flag);
 
-    // clinic red cross + drop-off ring + helipad
-    const crossMat = new THREE.MeshStandardMaterial({ color: '#ff3b47', emissive: '#ff1f2d', emissiveIntensity: 1.3 });
-    const cross = new THREE.Group();
-    cross.add(new THREE.Mesh(new THREE.BoxGeometry(0.8, 2.6, 0.3), crossMat), new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.8, 0.3), crossMat));
-    cross.position.set(cx + Math.sin(0.5) * 4.5, clinic.y + 8.4, cz + Math.cos(0.5) * 4.5);
-    cross.rotation.y = 0.5;
-    this.group.add(cross);
-    const clinicSign = this.signMesh('FIRST AID · CLINIC', '#e63946', 6, 1, [0, 0, 0]);
+    // clinic (Unfallambulanz): big round emblem sign on the gable, slightly emissive so it reads at dusk
+    const emTex = makeEmblemTexture(512);
+    this.emblemMat = new THREE.MeshStandardMaterial({ map: emTex, emissive: '#ffffff', emissiveMap: emTex, emissiveIntensity: 0.35, transparent: true, alphaTest: 0.3, roughness: 0.5 });
+    const badge = new THREE.Group();
+    const badgeBack = new THREE.Mesh(new THREE.CylinderGeometry(1.42, 1.42, 0.14, 40).rotateX(Math.PI / 2), mat(BRAND.petrol, { flatShading: false, roughness: 0.5 }));
+    badgeBack.castShadow = true;
+    const badgeFace = new THREE.Mesh(new THREE.CircleGeometry(1.4, 48), this.emblemMat);
+    badgeFace.position.z = 0.075;
+    badge.add(badgeBack, badgeFace);
+    badge.position.set(cx + Math.sin(0.5) * 4.5, clinic.y + 8.4, cz + Math.cos(0.5) * 4.5);
+    badge.rotation.y = 0.5;
+    this.group.add(badge);
+    const clinicSign = this.signMesh('UNFALLAMBULANZ', BRAND.petrol, 6, 1, [0, 0, 0]);
     clinicSign.position.set(cx + Math.sin(0.5) * 4.4, clinic.y + 3.6, cz + Math.cos(0.5) * 4.4);
     clinicSign.rotation.y = 0.5;
     this.group.add(clinicSign);
@@ -497,14 +510,29 @@ export class World {
     ring.position.set(S.clinic.x, m.heightAt(S.clinic.x, S.clinic.z) + 0.15, S.clinic.z);
     this.group.add(ring);
     this.clinicRing = ring;
+    // helipad: white "H" inside a circle, perimeter lights, orange windsock
     const padX = S.clinic.x + 22, padZ = S.clinic.z + 10;
-    const pad = new THREE.Mesh(new THREE.CircleGeometry(5, 32).rotateX(-Math.PI / 2), mat('#3a4152'));
+    const pad = new THREE.Mesh(new THREE.CircleGeometry(5.5, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: this.helipadTexture(), roughness: 0.8 }));
     pad.position.set(padX, m.heightAt(padX, padZ) + 0.1, padZ);
-    const H = this.signMesh('H', '#3a4152', 3, 3, [0, 0, 0], '#ffffff');
-    H.rotation.x = -Math.PI / 2;
-    H.position.copy(pad.position).add(new THREE.Vector3(0, 0.03, 0));
-    this.group.add(pad, H);
+    pad.receiveShadow = true;
+    this.padLightMat = new THREE.MeshStandardMaterial({ color: '#fff6d8', emissive: '#ffd36a', emissiveIntensity: 0.4 });
+    const lamps = [];
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2;
+      lamps.push(new THREE.CylinderGeometry(0.09, 0.11, 0.12, 8).translate(padX + Math.cos(a) * 5.75, pad.position.y + 0.02, padZ + Math.sin(a) * 5.75));
+    }
+    this.group.add(pad, new THREE.Mesh(mergeGeometries(lamps), this.padLightMat));
     this.helipad = pad.position.clone();
+    const sock = makeWindsock(4);
+    const wsx = padX + 6.5, wsz = padZ - 4.5;
+    sock.position.set(wsx, m.heightAt(wsx, wsz) - 0.05, wsz);
+    this.group.add(sock);
+    this.helipadWindsock = sock.userData.windsock;
+    this.animated.push((dt, time) => {
+      const w = this.helipadWindsock;
+      w.rotation.y = 2.2 + Math.sin(time * 0.23) * 0.35 + Math.sin(time * 1.7) * 0.05;
+      w.children[0].rotation.x = 0.2 + Math.sin(time * 2.3) * 0.05;
+    });
 
     // sled rack + charge crate at the summit
     const woodDark = new THREE.MeshStandardMaterial({ color: '#5f3c28', roughness: 0.8 });
@@ -512,7 +540,7 @@ export class World {
     for (const sx of [-4, 4]) { const post = new THREE.Mesh(new THREE.BoxGeometry(0.25, 1.6, 0.25), woodDark); post.position.set(sx, 0.8, -1.8); rack.add(post); }
     const bar = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.25, 0.25), woodDark);
     bar.position.set(0, 1.5, -1.8);
-    rack.add(bar, this.signMesh('TOBOGGANS', '#ff5a2c', 4, 0.8, [0, 2.3, -1.8]));
+    rack.add(bar, this.signMesh('AKJA', BRAND.orange, 4, 0.8, [0, 2.3, -1.8]));
     rack.position.set(S.rack.x, m.heightAt(S.rack.x, S.rack.z), S.rack.z);
     this.group.add(rack);
     const crate = new THREE.Group();
@@ -549,54 +577,266 @@ export class World {
     this.smokeSources.push({ x: hut.x + 1.8, y: hut.y + hut.H + 4.2, z: hut.z - 1.5 });
   }
 
-  signMesh(text, bg, w, h, at, fg = '#ffffff') {
+  /**
+   * Board with a canvas face on front and back (2 draw calls: sides + faces).
+   * draw(ctx, W, H) paints the face; it is repainted once the web font has loaded.
+   */
+  signCanvas(w, h, draw, bg, { depth = 0.08, px = 64, emissive = 0 } = {}) {
     const cv = document.createElement('canvas');
-    const px = 64;
-    cv.width = Math.min(2048, Math.round(w * px)); cv.height = Math.round(h * px);
+    cv.width = Math.min(2048, Math.round(w * px)); cv.height = Math.min(1024, Math.round(h * px));
     const ctx = cv.getContext('2d');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, cv.width, cv.height);
-    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-    ctx.lineWidth = 5;
-    ctx.strokeRect(6, 6, cv.width - 12, cv.height - 12);
-    ctx.fillStyle = fg;
-    ctx.font = `${Math.round(cv.height * 0.55)}px "Lilita One", sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, cv.width / 2, cv.height / 2 + 2, cv.width - 20);
+    const paint = () => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); draw(ctx, cv.width, cv.height); };
+    paint();
     const tex = new THREE.CanvasTexture(cv);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 4;
+    afterFonts(() => { paint(); tex.needsUpdate = true; });
     const side = new THREE.MeshStandardMaterial({ color: bg, roughness: 0.6 });
     const face = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 });
-    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.08), [side, side, side, side, face, face]);
-    m.position.set(at[0], at[1], at[2]);
+    if (emissive) { face.emissive.set('#ffffff'); face.emissiveMap = tex; face.emissiveIntensity = emissive; }
+    const geo = new THREE.BoxGeometry(w, h, depth);
+    geo.clearGroups();
+    geo.addGroup(0, 24, 0); // +x, -x, +y, -y
+    geo.addGroup(24, 12, 1); // front + back
+    const m = new THREE.Mesh(geo, [side, face]);
     m.castShadow = true;
+    m.userData.canvas = { cv, ctx, tex, repaint: paint };
     return m;
   }
 
-  makeFlag(color, cross) {
-    const g = new THREE.BufferGeometry();
-    const W = 2.4, Hh = 1.5, seg = 12;
-    const verts = [], cols = [];
-    const c = new THREE.Color(color), w = new THREE.Color('#ffffff');
-    for (let i = 0; i < seg; i++) {
-      const x0 = (i / seg) * W, x1 = ((i + 1) / seg) * W;
-      for (const tri of [[x0, 0, x1, 0, x1, Hh], [x0, 0, x1, Hh, x0, Hh]]) {
-        for (let k = 0; k < 3; k++) {
-          const x = tri[k * 2], y = tri[k * 2 + 1];
-          verts.push(x, y - Hh / 2, 0);
-          const inCross = cross && ((Math.abs(x - W * 0.5) < 0.18 && Math.abs(y - Hh / 2) < 0.5) || (Math.abs(y - Hh / 2) < 0.18 && Math.abs(x - W * 0.5) < 0.5));
-          const cc = inCross ? w : c;
-          cols.push(cc.r, cc.g, cc.b);
-        }
-      }
+  signMesh(text, bg, w, h, at, fg = '#ffffff') {
+    const m = this.signCanvas(w, h, (ctx, W, H) => {
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+      ctx.lineWidth = 5;
+      ctx.strokeRect(6, 6, W - 12, H - 12);
+      ctx.fillStyle = fg;
+      ctx.font = `${Math.round(H * 0.55)}px ${SIGN_FONT}`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, W / 2, H / 2 + 2, W - 20);
+    }, bg);
+    m.position.set(at[0], at[1], at[2]);
+    return m;
+  }
+
+  // ------------------------------------------------------------------ rescue station (Rettungswache)
+  buildStation(hut) {
+    const m = this.m, S = m.sites, A = this.a;
+    const hx = S.hut.x, hz = S.hut.z, gy = hut.y;
+    // main sign over the door: emblem + RETTUNGSWACHE / PISTENRETTUNG HINTERECK
+    const sign = this.signCanvas(6.4, 1.5, (c, W, H) => {
+      c.fillStyle = BRAND.petrol; c.fillRect(0, 0, W, H);
+      c.fillStyle = BRAND.orange; c.fillRect(0, H * 0.9, W, H * 0.1);
+      c.strokeStyle = 'rgba(255,255,255,0.9)'; c.lineWidth = 6; c.strokeRect(7, 7, W - 14, H - 14);
+      drawEmblem(c, H * 0.56, H * 0.47, H * 0.38);
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      const tx = H * 0.98 + (W - H * 0.98) / 2, tw = W - H * 1.15;
+      c.fillStyle = '#ffffff';
+      c.font = `${Math.round(H * 0.42)}px ${SIGN_FONT}`;
+      c.fillText('RETTUNGSWACHE', tx, H * 0.36, tw);
+      c.fillStyle = '#ffc08a';
+      c.font = `${Math.round(H * 0.2)}px ${SIGN_FONT}`;
+      c.fillText('PISTENRETTUNG HINTERECK', tx, H * 0.7, tw);
+    }, BRAND.petrol, { px: 128 });
+    sign.position.set(hx, gy + 3.6, hz + 3.4);
+    this.group.add(sign);
+
+    const steel = new THREE.MeshStandardMaterial({ color: '#9aa3b2', metalness: 0.6, roughness: 0.35 });
+    const glassfibre = new THREE.MeshStandardMaterial({ color: '#f2f2ee', roughness: 0.5 });
+    const warn = new THREE.MeshStandardMaterial({ color: '#ff3a2a', emissive: '#ff2010', emissiveIntensity: 1.6 });
+    const wood = new THREE.MeshStandardMaterial({ color: '#7a5034', roughness: 0.85 });
+    const woodDark = new THREE.MeshStandardMaterial({ color: '#5f3c28', roughness: 0.85 });
+    const bake = (meshes, matrix) => {
+      const tpl = new THREE.Group();
+      for (const [geo, material] of meshes) tpl.add(new THREE.Mesh(geo, material));
+      this.batch.push({ template: tpl, matrix });
+    };
+    // radio antenna mast on the roof ridge (Bergfunk): pipe, side arm with a whip, collinear on top, warning light
+    const roofTpl = A.village.get('Roof_RoundTiles_6x6');
+    const mlx = 1.4, mlz = -1.2;
+    const roofY = gy + hut.H + (roofTpl ? this.templateHeightAt(roofTpl, mlx, mlz) : 2.5);
+    const mastH = 4.2;
+    bake([
+      [new THREE.BoxGeometry(0.34, 0.5, 0.34).translate(0, 0.05, 0), steel],
+      [new THREE.CylinderGeometry(0.05, 0.06, mastH, 8).translate(0, mastH / 2, 0), steel],
+      [new THREE.BoxGeometry(0.62, 0.05, 0.05).translate(0.31, mastH - 1.3, 0), steel],
+      [new THREE.CylinderGeometry(0.022, 0.03, 1.0, 6).translate(0.6, mastH - 1.3 + 0.5, 0), glassfibre],
+      [new THREE.CylinderGeometry(0.025, 0.04, 1.7, 8).translate(0, mastH + 0.85, 0), glassfibre],
+      [new THREE.SphereGeometry(0.07, 8, 6).translate(0, mastH + 1.75, 0), warn],
+    ], new THREE.Matrix4().makeTranslation(hx + mlx, roofY - 0.25, hz + mlz));
+    // old wooden akja hung upright on the east wall (bottom against the wall, bow up)
+    const akja = makeToboggan({ wood: true }).root;
+    const wallX = hx + hut.W / 2 + 0.32, wallZ = hz - 2;
+    const akM = new THREE.Matrix4().compose(new THREE.Vector3(wallX, gy + 0.55 + 1.13, wallZ),
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, -Math.PI / 2, 0, 'YXZ')), new THREE.Vector3(1, 1, 1));
+    this.batch.push({ template: akja, matrix: akM });
+    bake([
+      [new THREE.BoxGeometry(0.12, 0.08, 0.5).translate(-0.04, 0.0, 0), woodDark],
+      [new THREE.BoxGeometry(0.12, 0.08, 0.5).translate(-0.04, 1.75, 0), woodDark],
+    ], new THREE.Matrix4().makeTranslation(wallX, gy + 0.55, wallZ));
+    // avalanche bulletin board (Lawinenlagebericht) by the entrance: two posts, backing board, little roof
+    const bx = hx - 3.7, bz = hz + 4.7, by = m.heightAt(bx, bz) - 0.05, byaw = 0.35;
+    const bM = new THREE.Matrix4().compose(new THREE.Vector3(bx, by, bz), new THREE.Quaternion().setFromAxisAngle(UP, byaw), new THREE.Vector3(1, 1, 1));
+    bake([
+      [new THREE.BoxGeometry(0.12, 2.55, 0.12).translate(-0.98, 1.27, -0.02), wood],
+      [new THREE.BoxGeometry(0.12, 2.55, 0.12).translate(0.98, 1.27, -0.02), wood],
+      [new THREE.BoxGeometry(1.92, 1.42, 0.07).translate(0, 1.6, -0.02), woodDark],
+      [new THREE.BoxGeometry(1.16, 0.05, 0.5).rotateZ(0.42).translate(-0.53, 2.56, 0.0), woodDark],
+      [new THREE.BoxGeometry(1.16, 0.05, 0.5).rotateZ(-0.42).translate(0.53, 2.56, 0.0), woodDark],
+    ], bM);
+    this.bulletin = this.makeBulletinFace();
+    this.bulletin.position.set(0, 1.6, 0.022);
+    const bg = new THREE.Group();
+    bg.add(this.bulletin);
+    bg.position.set(bx, by, bz);
+    bg.rotation.y = byaw;
+    this.group.add(bg);
+  }
+
+  // height of a kit template's surface at local (lx, lz) (raycast against its parts)
+  templateHeightAt(template, lx, lz) {
+    const rc = new THREE.Raycaster(new THREE.Vector3(lx, 50, lz), new THREE.Vector3(0, -1, 0));
+    let best = 0;
+    for (const part of this.a.parts(template)) {
+      const probe = new THREE.Mesh(part.geometry);
+      probe.matrixAutoUpdate = false;
+      probe.matrix.copy(part.matrix);
+      probe.matrixWorld.copy(part.matrix);
+      const hit = rc.intersectObject(probe, false)[0];
+      if (hit) best = Math.max(best, hit.point.y);
     }
-    g.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
-    g.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
-    g.computeVertexNormals();
+    return best;
+  }
+
+  makeBulletinFace() {
+    const cv = document.createElement('canvas');
+    cv.width = 512; cv.height = 376;
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(1.74, 1.28), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.75 }));
+    face.userData = { cv, ctx: cv.getContext('2d'), tex };
+    return face;
+  }
+
+  /** Redraws the avalanche bulletin board for danger level 1..5 (European scale, German names). */
+  setBulletin(level) {
+    const lv = Math.max(1, Math.min(5, Math.round(level) || 1));
+    this.bulletinLevel = lv;
+    if (!this.bulletin) return;
+    const { cv, ctx: c, tex } = this.bulletin.userData;
+    const W = cv.width, H = cv.height;
+    const paint = () => {
+      c.setTransform(1, 0, 0, 1, 0, 0);
+      c.fillStyle = '#f6f2e6'; c.fillRect(0, 0, W, H);
+      // header
+      c.fillStyle = BRAND.petrol; c.fillRect(0, 0, W, 70);
+      c.fillStyle = BRAND.orange; c.fillRect(0, 70, W, 6);
+      drawEmblem(c, 40, 36, 27);
+      c.fillStyle = '#ffffff'; c.textAlign = 'left'; c.textBaseline = 'middle';
+      c.font = `38px ${SIGN_FONT}`;
+      c.fillText('LAWINENLAGEBERICHT', 78, 30, W - 92);
+      c.font = '800 15px Nunito, sans-serif';
+      c.fillStyle = '#d6eef0';
+      c.fillText('Pistenrettung Hintereck · heute', 80, 58, W - 92);
+      // level square with our own icon: mountain silhouette + number
+      const col = DANGER_COLORS[lv];
+      const sx = 22, sy = 96, sz = 168;
+      c.fillStyle = BRAND.ink; c.fillRect(sx - 4, sy - 4, sz + 8, sz + 8);
+      c.fillStyle = col; c.fillRect(sx, sy, sz, sz);
+      const ink = lv >= 4 ? '#ffffff' : BRAND.ink;
+      c.fillStyle = lv >= 4 ? 'rgba(255,255,255,0.28)' : 'rgba(29,42,68,0.2)';
+      c.beginPath(); c.moveTo(sx, sy + sz); c.lineTo(sx + sz * 0.38, sy + sz * 0.58); c.lineTo(sx + sz * 0.55, sy + sz * 0.72);
+      c.lineTo(sx + sz * 0.78, sy + sz * 0.48); c.lineTo(sx + sz, sy + sz * 0.7); c.lineTo(sx + sz, sy + sz); c.closePath(); c.fill();
+      c.fillStyle = ink; c.textAlign = 'center';
+      c.font = `128px ${SIGN_FONT}`;
+      c.fillText(String(lv), sx + sz / 2, sy + sz * 0.47);
+      // text block
+      const tx = sx + sz + 24, tw = W - tx - 18;
+      c.textAlign = 'left'; c.fillStyle = '#5b6474';
+      c.font = '800 20px Nunito, sans-serif';
+      c.fillText(`Gefahrenstufe ${lv} von 5`, tx, sy + 14, tw);
+      const name = DANGER_DE[lv] || '';
+      c.fillStyle = BRAND.ink;
+      c.font = `52px ${SIGN_FONT}`;
+      c.fillText(name.charAt(0).toUpperCase() + name.slice(1), tx, sy + 62, tw);
+      // hint, wrapped to two lines
+      c.font = '800 21px Nunito, sans-serif';
+      c.fillStyle = '#2b3550';
+      const words = (DANGER_HINTS[lv] || '').split(' ');
+      const lines = [''];
+      for (const wd of words) {
+        const t = lines[lines.length - 1] ? lines[lines.length - 1] + ' ' + wd : wd;
+        if (c.measureText(t).width > tw && lines[lines.length - 1]) lines.push(wd); else lines[lines.length - 1] = t;
+      }
+      lines.slice(0, 3).forEach((ln, i) => c.fillText(ln, tx, sy + 112 + i * 26, tw));
+      // scale bar 1..5
+      const by = H - 66, bw = (W - 44) / 5;
+      for (let k = 1; k <= 5; k++) {
+        const x = 22 + (k - 1) * bw;
+        const on = k === lv;
+        c.fillStyle = DANGER_COLORS[k];
+        c.fillRect(x + 2, on ? by - 8 : by, bw - 4, on ? 42 : 34);
+        if (on) { c.strokeStyle = BRAND.ink; c.lineWidth = 4; c.strokeRect(x + 2, by - 8, bw - 4, 42); }
+        c.fillStyle = k >= 4 ? '#ffffff' : BRAND.ink;
+        c.textAlign = 'center';
+        c.font = `${on ? 26 : 20}px ${SIGN_FONT}`;
+        c.fillText(String(k), x + bw / 2, by + (on ? 13 : 17));
+      }
+      c.textAlign = 'left';
+      c.fillStyle = '#7a8291';
+      c.font = '800 13px Nunito, sans-serif';
+      c.fillText('Leitstelle Talheim · Bergfunk Kanal 7', 22, H - 12);
+      tex.needsUpdate = true;
+    };
+    paint();
+    if (!this.bulletinFontHook) { this.bulletinFontHook = true; afterFonts(() => this.setBulletin(this.bulletinLevel)); }
+  }
+
+  helipadTexture() {
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = 512;
+    const c = cv.getContext('2d');
+    c.fillStyle = '#3a4152'; c.fillRect(0, 0, 512, 512);
+    c.strokeStyle = '#ffffff';
+    c.lineWidth = 10;
+    c.setLineDash([34, 20]);
+    c.beginPath(); c.arc(256, 256, 236, 0, Math.PI * 2); c.stroke();
+    c.setLineDash([]);
+    c.lineWidth = 18;
+    c.beginPath(); c.arc(256, 256, 172, 0, Math.PI * 2); c.stroke();
+    c.fillStyle = '#ffffff';
+    c.fillRect(178, 150, 40, 212); // H: two posts + bar
+    c.fillRect(294, 150, 40, 212);
+    c.fillRect(218, 236, 76, 40);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 8;
+    return tex;
+  }
+
+  // Pistenrettung flag: orange field, petrol hoist band, our badge
+  makeFlag() {
+    const W = 2.4, Hh = 1.5;
+    const g = new THREE.PlaneGeometry(W, Hh, 12, 2).translate(W / 2, 0, 0);
+    const cv = document.createElement('canvas');
+    cv.width = 384; cv.height = 240;
+    const c = cv.getContext('2d');
+    const paint = () => {
+      c.fillStyle = BRAND.orange; c.fillRect(0, 0, 384, 240);
+      c.fillStyle = BRAND.petrol; c.fillRect(0, 0, 86, 240);
+      c.fillStyle = '#ffffff'; c.fillRect(86, 0, 8, 240);
+      drawEmblem(c, 236, 120, 96);
+    };
+    paint();
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    afterFonts(() => { paint(); tex.needsUpdate = true; });
     const base = g.attributes.position.array.slice();
-    const flag = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 0.8 }));
+    const flag = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: tex, side: THREE.DoubleSide, roughness: 0.8 }));
     flag.castShadow = true;
     this.animated.push((dt, time) => {
       const a = g.attributes.position.array;
@@ -770,6 +1010,8 @@ export class World {
       if (c.position.x > 1000) c.position.x = -1000;
     }
     if (this.windowMat) this.windowMat.emissiveIntensity = 0.3 + Math.max(0, tod - 0.6) * 4;
+    if (this.emblemMat) this.emblemMat.emissiveIntensity = 0.3 + Math.max(0, tod - 0.55) * 2.2;
+    if (this.padLightMat) this.padLightMat.emissiveIntensity = 0.4 + Math.max(0, tod - 0.6) * 6;
     if (this.clinicRing) this.clinicRing.material.opacity = 0.35 + Math.sin(time * 3) * 0.2;
     this.lodTimer -= dt;
     if (cam && this.lodTimer <= 0) {

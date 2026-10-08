@@ -1,5 +1,6 @@
 // Animated characters built from the CC0 rigged models (Quaternius). Same pose interface as the old procedural skier.
 import * as THREE from 'three';
+import { makePatchMaterial } from './models.js';
 
 const SKIN_TONES = ['#f1c7a5', '#e0a98a', '#c78c68', '#9a6748', '#f6d7c0'];
 const NEON = ['#ff4fa3', '#38e1d4', '#ffe14d', '#7d3cff', '#ff8a00', '#46e06a', '#00b3ff', '#ffffff', '#e63946'];
@@ -42,17 +43,22 @@ function makeShovel() {
   g.add(handle, blade);
   return g;
 }
+// reflective strip (retro-reflective look: bright, slightly emissive)
+const reflectMat = new THREE.MeshStandardMaterial({ color: '#e6ebf0', roughness: 0.2, metalness: 0.5, emissive: '#5a6068', emissiveIntensity: 0.35 });
+const patchGeo = new THREE.CircleGeometry(0.1, 24);
 function makeBackpack(color) {
   const g = new THREE.Group();
   const body = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.42, 0.16, 2, 2, 1), new THREE.MeshStandardMaterial({ color, roughness: 0.6 }));
   body.castShadow = true;
-  const w = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.5 });
-  const cv = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.2, 0.02), w);
-  const ch = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.06, 0.02), w);
-  cv.position.z = ch.position.z = -0.085;
+  // Pistenrettung emblem patch on the back (faces -z, away from the wearer)
+  const patch = new THREE.Mesh(patchGeo, makePatchMaterial());
+  patch.position.set(0, 0.035, -0.0815);
+  patch.rotation.y = Math.PI;
+  const strip = new THREE.Mesh(new THREE.BoxGeometry(0.362, 0.028, 0.006), reflectMat);
+  strip.position.set(0, -0.135, -0.081);
   const lid = new THREE.Mesh(new THREE.BoxGeometry(0.37, 0.08, 0.17), darkMat);
   lid.position.y = 0.2;
-  g.add(body, cv, ch, lid);
+  g.add(body, patch, strip, lid);
   return g;
 }
 

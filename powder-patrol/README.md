@@ -2,10 +2,11 @@
 
 **Koop-Ski-Rettungs-Chaos für 1–4 Spieler · Low-Poly mit modernem Licht · Browser-Prototyp (Three.js + Node.js)**
 
-> Ihr seid die Bergwacht eines viel zu vollen Skigebiets. Funksprüche gehen rein, rote Rauchsäulen steigen auf,
-> irgendwo steckt ein Tourist kopfüber in einer Baumgrube. Schnappt euch einen Rettungsschlitten, rast den Berg
-> runter, sprengt Lawinen kontrolliert ab, grabt eure Freunde mit dem LVS-Gerät aus und bringt die Patienten
-> heil in die Klinik, bevor um 16:30 die Lifte schließen.
+> Ihr seid die **Pistenrettung Hintereck** eines viel zu vollen Skigebiets. Der Pieper geht, die **Leitstelle Talheim**
+> funkt einen Einsatz durch, irgendwo steckt ein Tourist kopfüber in einer Baumgrube. Quittiert den Einsatz,
+> sichert die Unfallstelle mit gekreuzten Ski, versorgt den Patienten in der richtigen Reihenfolge, bremst den Akja
+> zu zweit ins Tal, sucht Verschüttete mit LVS, Sonde und Schaufel und weist den Rettungshubschrauber **„Föhn 1“** ein,
+> bevor um 16:30 die Lifte stehen und die letzte Kontrollfahrt beginnt.
 
 
 | | |
@@ -40,40 +41,53 @@ Clip-Momente für Streamer: fliegende Rettungsschlitten, Kollisionen mit Teamkol
 ## 2. Gameplay
 
 **Schicht-Loop (≈ 6 Min, 09:00 → 16:30 Uhr im Spiel):**
-1. **Funkruf** → ein Patient erscheint irgendwo am Berg (rote Rauchsäule, Kompass, Funk-Liste)
-2. **Toboggan holen** (Rack an der Bergwacht-Hütte am Gipfel) → am Seil hinter sich herziehen
-3. **Patient befreien** (`E` halten): verletzt / steckt kopfüber in einer Baumgrube / verschüttet
-4. **Aufladen** und **sanft** zur Klinik an der Talstation fahren. Jeder Crash kostet Zustand, zu schnelles Querrutschen kippt den Schlitten.
-5. **Sessellift** zurück nach oben (Zeit zum Quatschen, Ausblick auf neue Rauchsäulen)
+1. **Alarmierung:** Pieper + Einsatzkarte der Leitstelle (Notfall-Stufe 1–3, Diagnose, Ort). Mit `X` quittiert ihr
+   per Funk („Hier Hintereck 2, verstanden, übernehme“). Rufnamen *Hintereck 1–4*, deutscher Funk per Sprachausgabe.
+2. **Unfallstelle absichern:** gekreuzte Ski 10 m oberhalb (`E`). Bleibt die Stelle ungesichert, während ihr dort
+   arbeitet, kann ein **Folgeunfall** passieren.
+3. **Erstversorgung:** echte Verletzungsmuster (Knie, Unterschenkel, Handgelenk, Schulter, Hüfte, Schädel-Hirn-Trauma,
+   Wirbelsäule, Unterkühlung, Lawinenverschüttung). Maßnahmen wählt ihr mit `1`–`4` in der richtigen Reihenfolge
+   (z. B. *HWS stabilisieren → Atemwege → Notfallcheck ABCDE → Wärmeerhalt*). Fallen wie „Schulter einrenken“,
+   „Helm abnehmen“ oder „Schnaps zum Aufwärmen“ kosten Zustand. Rettungsdecke und Vakuummatratze sieht man am Patienten.
+4. **Abtransport:** im **Akja** (Rack an der Rettungswache). Ein zweiter Retter übernimmt das **Bremsseil** hinten
+   (`E`): Das hält den Akja ruhiger, halbiert die Schläge für den Patienten und bringt einen Bonus. Alternativ geht's
+   mit dem **Rettungswagen** von der Talstation aus.
+5. **Rettungshubschrauber „Föhn 1“** (Betreiber *Talflug*): Bei Kopf-, Wirbelsäulen- und Hüftverletzungen fordert ihr ihn
+   mit `X` an. Ein Retter stellt sich auf eine ebene, freie Fläche (20×20 m ohne Bäume oder Fahrzeuge) und
+   **weist ein** (`E` halten, Arme hoch). Ohne Landeplatz kreist der Hubschrauber, bei Sturm (Warnstufe ≥ 4) oder nach
+   Sonnenuntergang fliegt er gar nicht. Die Crew holt den Patienten im Umkreis von 30 m selbst, sonst bringt ihr ihn im Akja hin.
+6. **Pistenschluss:** Die Leitstelle meldet „Lifte stehen“, dann beginnt die **letzte Kontrollfahrt**. Nachzügler auf den
+   Pisten müsst ihr ins Tal schicken.
+7. **Einsatzprotokoll** am Schichtende: Patient, Diagnose, Maßnahmen (richtig/falsch, gesichert), Transportmittel,
+   Einsatzdauer und Zustand bei Übergabe.
 
-**Lawinen:** Vier Lawinenhänge (orange Flaggen, Wechte). Die Gefahrenstufe steigt im Laufe des Tages (europäische Skala 1–5).
-Natürliche Abgänge werden 8 s vorher angekündigt („CORNICE CRACKING!“). Mit **Sprengladungen** (`G`, Kiste an der Hütte)
-löst ihr kontrollierte Lawinen aus (+30 $). Wer erwischt wird, ist **verschüttet**: Bildschirm verschneit, 75 s Luft.
-Das Team sucht mit dem **LVS-Gerät** (Piepen + Distanz + Pfeil) und gräbt gemeinsam (`E`, zu mehreren schneller).
+**Lawinen:** Ein **Lawinenlagebericht** (Tafel an der Wache, Stufe 1–5 *gering … sehr groß*) gibt die Lage vor. Mit
+**Sprengladungen** (`G`) löst ihr kontrolliert aus. Verschüttete sucht ihr wie echt: **Signalsuche → Grobsuche (Pfeil)
+→ Feinsuche unter 3 m** mit Ansagen („Zehn!“, „Feinsuche!“), dann **sondieren** (`E`, bis „Sondentreffer, eins zwanzig!“)
+und gemeinsam **ausschaufeln**. Die Überlebenskurve ist erst flach und knickt dann steil ab (verkürzte „15-Minuten-Regel“).
 
-**Roguelite-Run:** Tagesquote erfüllen → nächste Schicht (höhere Quote, mehr Lawinen, mehr Notrufe) + **Shop**
-(Race Wax, Pro Toboggan, Beacon Pro, Kakao-Thermoskanne, Extra-Schlitten). Quote verfehlt → **FIRED!**
+**Fahrzeuge:** Motorschlitten und Quads (mit Akja am Haken), Pickup und Rettungswagen mit **Blaulicht und Martinshorn**
+(`B`). Auf den Pisten fahren Touristen-Skifahrer herum. Wer einen umfährt, hat einen neuen Patienten.
 
-**Daily Mountain:** Wie bei PEAK gibt es täglich einen neuen, für alle gleichen Berg (Seed = Datum). Alternativ zufällig.
+**Roguelite-Run:** Tagesquote erfüllen, dann folgt die nächste Schicht (höhere Quote, mehr Lawinen, mehr Einsätze), plus **Shop**.
+Quote verfehlt: **FIRED!** **Daily Mountain:** täglich ein neuer, für alle gleicher Berg.
 
-**End-of-Shift-Awards:** Mountain Medic, Yard Sale, Speed Demon, Avalanche Magnet, Bowling Ball, Boom Boom,
-Snow Mole, Toboggan Tosser, Chairlift Romantic.
+> Vereinfachte Darstellung, **keine Erste-Hilfe-Ausbildung**. Echte Lawinen- und Erste-Hilfe-Kurse ersetzt das Spiel nicht.
 
 ### Steuerung
 | Taste | Aktion |
 |---|---|
-| `A` / `D` | Carven links/rechts (in der Luft: Spins → „360!“) |
-| `W` | Hocke (schnell) / Skaten auf flachem Gelände |
-| `S` | Schneepflug-Bremse |
-| `Space` | Sprung |
-| `E` | Interagieren: Schlitten nehmen, befreien/graben (halten), aufladen, Lift, Ladungen |
-| `Q` | Schlitten abstellen |
-| `G` | Sprengladung werfen |
-| `F` | Ping setzen |
-| `Tab` | Pistenplan |
-| `T` / `Enter` | Chat |
-| `R` (halten) | Zurück zur Gipfelhütte |
-| Maus | Kamera (Klick zum Fangen, `Esc` = Pause) |
+| `A` / `D` | Carven / lenken |
+| `W` / `S` | Hocke · Skaten / Schneepflug (im Fahrzeug: Gas / Bremse) |
+| `Space` | Sprung (im Fahrzeug: Handbremse) |
+| `E` | Interagieren: absichern, sondieren, graben, aufladen, Akja-Seil, Landeplatz einweisen (halten), einsteigen |
+| `1`–`4` | Erstversorgungs-Maßnahme wählen |
+| `X` | Funk: Einsatz übernehmen / Rettungshubschrauber anfordern |
+| `Q` | Akja abstellen / Seil loslassen |
+| `B` / `H` | Blaulicht + Martinshorn / Hupe |
+| `G` · `F` | Sprengladung · Ping |
+| `Tab` · `T` | Pistenplan · Chat |
+| `R` (halten) | Zurück zur Rettungswache |
 
 ---
 
@@ -88,7 +102,12 @@ Snow Mole, Toboggan Tosser, Chairlift Romantic.
 - **UI im Pistenschild-Design:** Menü-Buttons als grün/blau/schwarze Pistenschilder, Lobby als **Skipässe am Lanyard**,
   Kompassleiste mit Markern, Lawinen-Warnstufe als Raute (1–5), **gelbes LVS-Gerät** mit LCD, Funk-Feed,
   gemalter Pistenplan (Hillshade), Ergebnis als **Einsatzbericht auf dem Klemmbrett** mit Stempel.
-- 100 % prozedural: keine externen Assets, Sound per WebAudio (inkl. kleiner Folk-Loop via Karplus-Strong).
+- CC0-3D-Assets (Quaternius, ambientCG; siehe `client/assets/CREDITS.md`) plus prozedurale Modelle (Akja, Hubschrauber,
+  Fahrzeug-Livery, Requisiten). Sound komplett per WebAudio (Pieper, Martinshorn, Rotor, Funk-Rauschen, Folk-Loop),
+  Funksprüche per deutscher Sprachausgabe (Web Speech API, abschaltbar).
+- **Eigene Identität statt geschützter Zeichen:** Das Emblem der *Pistenrettung Hintereck* (orange/petrol, Akja-Silhouette
+  mit Pulslinie) ersetzt jedes Kreuz. Rotes Kreuz, Schweizer Kreuz, Star of Life, Edelweiß-Abzeichen sowie echte
+  Organisationsnamen (Bergwacht, Bergrettung, DRK, ADAC …) und Notrufnummern kommen bewusst nicht vor.
 
 ---
 
@@ -104,7 +123,8 @@ Dann **„Start a Patrol“** klicken und den 4-stelligen Code an Freunde schick
 Für Tests mit kurzer Schicht: `PP_SHIFT_SECONDS=90 npm start`.
 
 ```bash
-npm test             # 8 Tests: kompletter Rettungs-Loop über WebSockets, Skiphysik, Lift, Schlitten, Determinismus
+npm test             # 17 Tests: Rettungs-Loop über WebSockets, Erstversorgung, Hubschrauber/Landeplatz, Sonde,
+                     # Akja-Seil, Pistenschluss, Skiphysik, Lift, Schlitten, Determinismus
 ```
 
 ---
@@ -115,11 +135,11 @@ npm test             # 8 Tests: kompletter Rettungs-Loop über WebSockets, Skiph
 powder-patrol/
 ├── shared/            # läuft auf Server UND Client (deterministisch)
 │   ├── mountain.js    # Berg-Generator: Heightfield, Pisten, Lawinenpfade, Lift, Bäume, Kollision
-│   ├── constants.js   # Balancing, Shop, Awards, Patienten-Sprüche
+│   ├── constants.js   # Balancing, Shop, Awards, Verletzungen + Maßnahmen, Funksprüche, Rettungs-Regeln
 │   └── rng.js         # Seeded RNG + Noise
 ├── server/
 │   ├── index.js       # HTTP (statische Dateien) + WebSocket, Raum-Codes
-│   └── room.js        # autoritative Spiellogik: Notrufe, Patienten, Schlitten, Lawinen, Ladungen, Quote, Awards
+│   └── room.js        # autoritative Spiellogik: Alarmierung, Erstversorgung, Akja, Hubschrauber, Lawinen, Pistenschluss, Protokoll
 ├── client/
 │   ├── index.html / style.css
 │   └── js/
@@ -128,7 +148,11 @@ powder-patrol/
 │       ├── skier.js      # Skiphysik (Carven, Hocke, Sprünge, Crashes, Lift, Schlitten am Seil)
 │       ├── renderer.js   # Himmel-Shader, Tageszeit, Schatten, Post-Processing
 │       ├── world.js      # Terrain-Mesh + Schnee-Shader, Wald, Lift, Hütten, Bergkette
-│       ├── models.js     # prozedurale Low-Poly-Modelle (Patroller, Touristen, Toboggan, Heli…)
+│       ├── models.js     # Emblem, Akja, Hubschrauber „Föhn 1“, gekreuzte Ski, Sonde, Landeplatz, Rettungsdecke …
+│       ├── characters.js # animierte Patroller/Touristen (Skinned Meshes, Ausrüstung an Knochen)
+│       ├── vehicles.js   # Motorschlitten, Quad, Pickup, Rettungswagen: Physik, Livery, Blaulicht
+│       ├── npcs.js       # Touristen-Skifahrer auf den Pisten
+│       ├── voice.js / i18n.js
 │       ├── effects.js / avalanche.js / audio.js / ui.js / net.js
 └── test/
 ```
@@ -149,8 +173,8 @@ ohne dass Partikel übertragen werden.
 2. **Steamworks:** [steamworks.js](https://github.com/ceifa/steamworks.js) für Lobbys, Freundes-Einladungen,
    Achievements (Awards bieten sich an) und **Steam Networking Sockets/Relay** statt offener Ports.
 3. **Proximity Voice Chat:** Treiber der Friendslop-Hits. Patienten, die „ins Funkgerät“ schreien, wären lustig.
-4. **Content:** weitere Berge/Biome (Gletscher mit Gletscherspalten, Nacht-Schicht mit Stirnlampen),
-   neue Patienten (Snowboarder im Lift festgefroren, Yeti-Selfie), Schneemobil, Rettungshund.
+4. **Content:** weitere Berge/Biome (Gletscher mit Gletscherspalten, Nacht-Schicht mit Stirnlampen), Lawinenhund,
+   Sondierkette ohne LVS, morgendliche Sprengrunde mit Lawinenkommission, Bergung aus dem Sessellift.
 5. **Juice:** Ragdolls, Proximity-Chat-Lipsync, Kosmetik (Mützen sind schon da) als freischaltbare Belohnung.
 6. **Steam-Seite früh live** (Wishlists sammeln), Demo zum Steam Next Fest, Preisziel **7,99–9,99 $**
    (Friendslop-Sweetspot, Friend-Pass/4-Pack).

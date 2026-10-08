@@ -18,6 +18,8 @@ function getMountain(seed) {
 
 const clampStr = (s, n) => String(s ?? '').replace(/[<>]/g, '').slice(0, n);
 const r2 = (v) => Math.round(v * 100) / 100;
+const isVec3 = (a) => Array.isArray(a) && a.length === 3 && a.every(Number.isFinite);
+const own = (obj, k) => typeof k === 'string' && Object.hasOwn(obj, k);
 
 export class Room {
   constructor(code, onEmpty) {
@@ -74,8 +76,12 @@ export class Room {
     this.players.delete(id);
     if (this.shift) {
       for (const s of this.shift.sleds) {
-        if (s.owner === id) s.owner = null;
-        if (s.rear === id) s.rear = null;
+        if (s.owner === id) {
+          s.owner = null;
+          this.event({ k: 'sled', id: s.id, owner: null });
+          if (s.rear !== null) { s.rear = null; this.event({ k: 'sledRear', id: s.id, rear: null }); }
+        }
+        if (s.rear === id) { s.rear = null; this.event({ k: 'sledRear', id: s.id, rear: null }); }
       }
       for (const pt of this.shift.patients) if (pt.ack === id) pt.ack = null;
       for (const v of this.shift.vehicles) {
@@ -154,9 +160,9 @@ export class Room {
         break;
       case 'buy': {
         if (this.phase !== 'results' || !this.lastResults?.passed) break;
+        if (!own(SHOP_ITEMS, msg.item)) break;
         const item = SHOP_ITEMS[msg.item];
-        if (!item) break;
-        const owned = this.run.upgrades[msg.item] || 0;
+        const owned = Object.hasOwn(this.run.upgrades, msg.item) ? this.run.upgrades[msg.item] : 0;
         if (owned >= item.max || this.run.money < item.price) break;
         this.run.money -= item.price;
         this.run.upgrades[msg.item] = owned + 1;
@@ -180,18 +186,18 @@ export class Room {
     const m = sh.mountain;
     switch (msg.t) {
       case 'st': {
-        if (!Array.isArray(msg.p) || msg.p.length !== 3 || !msg.p.every(Number.isFinite)) return;
+        if (!isVec3(msg.p)) return;
         p.st = { p: msg.p.map(r2), yaw: r2(+msg.yaw || 0), a: msg.a | 0, sp: r2(+msg.sp || 0) };
         if (Number.isFinite(msg.sp)) p.stats.topSpeed = Math.max(p.stats.topSpeed, Math.min(msg.sp, 60));
         if (msg.sled && typeof msg.sled === 'object') {
           const s = sh.sleds.find((x) => x.id === msg.sled.id);
-          if (s && s.owner === p.id && Array.isArray(msg.sled.p) && msg.sled.p.every(Number.isFinite)) {
+          if (s && s.owner === p.id && isVec3(msg.sled.p)) {
             s.x = msg.sled.p[0]; s.y = msg.sled.p[1]; s.z = msg.sled.p[2]; s.yaw = +msg.sled.yaw || 0; s.tip = !!msg.sled.tip;
           }
         }
         if (msg.veh && typeof msg.veh === 'object') {
           const v = sh.vehicles.find((x) => x.id === msg.veh.id);
-          if (v && v.seats[0] === p.id && Array.isArray(msg.veh.p) && msg.veh.p.every(Number.isFinite) && Array.isArray(msg.veh.r)) {
+          if (v && v.seats[0] === p.id && isVec3(msg.veh.p) && isVec3(msg.veh.r)) {
             v.x = msg.veh.p[0]; v.y = msg.veh.p[1]; v.z = msg.veh.p[2];
             v.yaw = +msg.veh.r[0] || 0; v.pitch = +msg.veh.r[1] || 0; v.roll = +msg.veh.r[2] || 0;
             v.sp = +msg.veh.sp || 0; v.horn = !!msg.veh.horn; v.siren = !!msg.veh.sir;
@@ -239,11 +245,12 @@ export class Room {
         s.patient = null;
         pt.state = 'veh'; pt.sled = null; pt.veh = v.id;
         v.cargo = pt.id;
+        if (sh.heli && sh.heli.pt === pt.id) this.heliLeave(sh, 'abort'); // ground transport chosen: the RTH turns away
         this.event({ k: 'ambulance', id: pt.id, veh: v.id, by: p.id });
         break;
       }
       case 'injureTourist': {
-        if (!Array.isArray(msg.p) || !msg.p.every(Number.isFinite)) return;
+        if (!isVec3(msg.p) || !p.st || !(Math.hypot(msg.p[0] - p.st.p[0], msg.p[2] - p.st.p[2]) <= 15)) return;
         const active = sh.patients.filter((x) => x.state === 'waiting' || x.state === 'buried').length;
         if (active >= sh.cfg.maxActiveCalls + 2) return;
         const pt = this.spawnPatient(sh, { x: msg.p[0], z: msg.p[2], kind: 'injured' });
@@ -252,6 +259,7 @@ export class Room {
           pt.line = 'You ran me OVER!';
           pt.ack = p.id; // you broke it, you fix it
           this.callEvent(pt);
+          this.event({ k: 'ack', id: pt.id, by: p.id, slot: p.slot, bonus: 0 });
           this.toast(`${p.name} flattened a tourist (-$10). Rescue them!`, 'crash');
         }
         break;
@@ -289,7 +297,7 @@ export class Room {
         if (Math.hypot(pt.x - p.st.p[0], pt.z - p.st.p[2]) > 4.5) return;
         const steps = INJURIES[pt.inj].steps;
         const want = steps[pt.step];
-        const step = AID_STEPS[msg.step] ? msg.step : null;
+        const step = own(AID_STEPS, msg.step) ? msg.step : null;
         if (!step) return;
         // the client plays the action for AID_STEPS[step].time; don't accept faster than that
         if (sh.elapsed - pt.lastStepAt < AID_STEPS[step].time * 0.6) return;
@@ -407,8 +415,13 @@ export class Room {
       }
       case 'work': {
         // hold-to-interact progress, shared so several players dig faster together
-        const dt = Math.min(+msg.dt || 0, 0.35);
+        // credit at most the wall-clock time that has passed (small burst for jitter): spamming can't skip the dig
+        const tw = now();
+        p.workBudget = Math.min(0.5, (p.workBudget ?? 0.35) + (tw - (p.workAt ?? tw)));
+        p.workAt = tw;
+        const dt = Math.min(Number.isFinite(+msg.dt) ? +msg.dt : 0, 0.35, p.workBudget);
         if (!(dt > 0) || !p.st) return;
+        p.workBudget -= dt;
         if (msg.kind === 'patient') {
           const pt = sh.patients.find((x) => x.id === msg.id);
           if (!pt || pt.out || (pt.state !== 'waiting' && pt.state !== 'buried')) return;
@@ -464,7 +477,8 @@ export class Room {
         const s = sh.sleds.find((x) => x.owner === p.id);
         if (!s || s.patient === null) return;
         const pt = sh.patients.find((x) => x.id === s.patient);
-        if (pt) pt.condition = Math.max(1, pt.condition - Math.min(+msg.mag || 0, 15) * this.tobogganFactor());
+        const mag = Math.max(0, Math.min(Number.isFinite(+msg.mag) ? +msg.mag : 0, 15));
+        if (pt) pt.condition = Math.max(1, pt.condition - mag * this.tobogganFactor());
         break;
       }
       case 'crash':
@@ -480,7 +494,7 @@ export class Room {
         break;
       }
       case 'buried': {
-        if (p.buried || !Array.isArray(msg.p)) return;
+        if (p.buried || !isVec3(msg.p)) return;
         p.buried = { x: +msg.p[0], y: +msg.p[1], z: +msg.p[2], air: AIR_SUPPLY, progress: 0 };
         p.stats.buried++;
         this.event({ k: 'buried', id: p.id, x: p.buried.x, y: p.buried.y, z: p.buried.z });
@@ -488,8 +502,7 @@ export class Room {
         break;
       }
       case 'charge': {
-        if (p.charges <= 0 || !Array.isArray(msg.p) || !Array.isArray(msg.v)) return;
-        if (!msg.p.every(Number.isFinite) || !msg.v.every(Number.isFinite)) return;
+        if (p.charges <= 0 || !isVec3(msg.p) || !isVec3(msg.v)) return;
         p.charges--;
         p.stats.charges++;
         const c = { id: this.nextEntityId++, owner: p.id, x: msg.p[0], y: msg.p[1], z: msg.p[2], vx: msg.v[0], vy: msg.v[1], vz: msg.v[2], fuse: CHARGE_FUSE, landed: false };
@@ -512,7 +525,7 @@ export class Room {
         if (p.buried) return;
         break;
       case 'ping': {
-        if (!Array.isArray(msg.p) || !msg.p.every(Number.isFinite)) return;
+        if (!isVec3(msg.p)) return;
         this.event({ k: 'ping', id: p.id, color: p.color, name: p.name, p: msg.p.map(r2), kind: clampStr(msg.kind, 12) });
         break;
       }
@@ -542,7 +555,7 @@ export class Room {
     if (pt && Math.hypot(pt.x - x, pt.z - z) > RESCUE.lzMaxDist) return 'far';
     const n = m.normalAt(x, z);
     if (Math.hypot(n.x, n.z) / Math.max(0.01, n.y) > RESCUE.lzMaxSlope) return 'steep';
-    for (const c of m.collidersNear(x, z)) if (Math.hypot(c.x - x, c.z - z) < RESCUE.lzClear + c.r) return 'obstacles';
+    for (const c of m.collidersWithin(x, z, RESCUE.lzClear + 11)) if (Math.hypot(c.x - x, c.z - z) < RESCUE.lzClear + c.r) return 'obstacles';
     for (const v of sh.vehicles) if (Math.hypot(v.x - x, v.z - z) < RESCUE.lzClear * 0.6) return 'obstacles';
     return null;
   }
@@ -594,6 +607,11 @@ export class Room {
   heliEvent(sh, state, extra = {}) {
     const h = sh.heli;
     this.event({ k: 'heli', state, id: h?.pt ?? null, ...extra });
+  }
+
+  heliReward(pt) {
+    const c = Math.max(0, Math.min(100, pt.condition));
+    return INJURIES[pt.inj].heli ? 90 + c * 0.7 : 25 + c * 0.4;
   }
 
   heliLeave(sh, why) {
@@ -681,7 +699,7 @@ export class Room {
       case 'boarding': {
         if (h.t > 3 && pt) {
           const needed = !!INJURIES[pt.inj].heli;
-          this.handover(sh, pt, 'rth', needed ? 90 + Math.max(0, pt.condition) * 0.7 : 25 + Math.max(0, pt.condition) * 0.4, h.marshal ?? h.by);
+          this.handover(sh, pt, 'rth', this.heliReward(pt), h.marshal ?? h.by);
           h.state = 'leaving'; h.t = 0; h.why = 'done';
           this.heliEvent(sh, 'leaving', { why: 'done', needed });
         }
@@ -717,6 +735,7 @@ export class Room {
 
   // finish a patient: reward, stats, protocol line
   handover(sh, pt, transport, reward, creditId) {
+    pt.condition = Math.min(100, Math.max(0, pt.condition));
     reward = Math.max(0, Math.round(reward));
     sh.earned += reward;
     sh.delivered++;
@@ -1039,6 +1058,12 @@ export class Room {
 
   endShift() {
     const sh = this.shift;
+    // a patient already loaded into the helicopter counts as handed over
+    const h = sh.heli;
+    if (h?.state === 'boarding') {
+      const pt = sh.patients.find((x) => x.id === h.pt);
+      if (pt && pt.state === 'heli') this.handover(sh, pt, 'rth', this.heliReward(pt), h.marshal ?? h.by);
+    }
     const missed = sh.stragglers.filter((g) => !g.done).length;
     sh.penalties += missed * RESCUE.stragglerPenalty;
     // patients still on the mountain go into the protocol as handed over to the night shift

@@ -1,7 +1,14 @@
 // Tiny i18n layer: German / English. German is the default for German-speaking browsers.
-// Dictionaries are plain objects registered per module (see client/i18n/*.js), keys are dotted strings,
+// Dictionaries are plain data modules in client/i18n/*.js (export const en / de), keys are dotted strings,
 // values may contain {placeholders}. In-world radio jargon stays German in both languages.
+import * as dStatic from '../i18n/static.js';
+import * as dUi from '../i18n/ui.js';
+import * as dGame from '../i18n/game.js';
+import * as dServer from '../i18n/server.js';
+import * as dShared from '../i18n/shared.js';
+
 const dicts = { en: {}, de: {} };
+for (const d of [dStatic, dUi, dGame, dServer, dShared]) { Object.assign(dicts.en, d.en); Object.assign(dicts.de, d.de); }
 let lang = 'en';
 const listeners = new Set();
 

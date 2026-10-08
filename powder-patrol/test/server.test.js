@@ -83,7 +83,7 @@ test('full rescue loop: join, start, sled, ack, secure, treat, load, deliver, av
   a.send({ t: 'st', p: [call.x + 1, py, call.z], yaw: 0, a: 0, sp: 0, sled: { id: sled.id, p: [call.x + 2, py, call.z + 1], yaw: 0, tip: false } });
   await sleep(100);
   if (call.type !== 'injured') {
-    for (let i = 0; i < 14; i++) { a.send({ t: 'work', kind: 'patient', id: call.id, dt: 0.2 }); await sleep(20); }
+    for (let i = 0; i < 14; i++) { a.send({ t: 'work', kind: 'patient', id: call.id, dt: 0.2 }); await sleep(210); }
     await a.wait((x) => x.t === 'ev' && x.k === 'extracted' && x.id === call.id);
   }
   // secure the site with crossed skis (uphill)
@@ -129,7 +129,7 @@ test('full rescue loop: join, start, sled, ack, secure, treat, load, deliver, av
   await a.wait((x) => x.t === 'ev' && x.k === 'buried' && x.id === wb.id);
   a.send({ t: 'st', p: [gx + 1.5, gy, gz], yaw: 0, a: 0, sp: 0 });
   await sleep(80);
-  for (let i = 0; i < 16; i++) { a.send({ t: 'work', kind: 'player', id: wb.id, dt: 0.2 }); await sleep(20); }
+  for (let i = 0; i < 16; i++) { a.send({ t: 'work', kind: 'player', id: wb.id, dt: 0.2 }); await sleep(210); }
   await b.wait((x) => x.t === 'ev' && x.k === 'unburied' && x.id === wb.id);
 
   // chat is relayed and sanitized

@@ -574,7 +574,12 @@ export class Game {
       down: input.held('KeyS') || input.held('ArrowDown'),
       jump: input.pressed('Space'),
     };
+    // stand still while working on a patient (skis off, kneeling) or idling right next to the work
+    const idle = !inp.left && !inp.right && !inp.up && !inp.down && !inp.jump;
+    const working = !!this.treat || this.digging || this.probeAnim > 0 || s.act === 'wave';
+    const keep = s.mode === 'ski' && s.speed < 4 && (working || (idle && this.nearWork)) ? s.pos.clone() : null;
     s.update(dt, inp);
+    if (keep && s.mode === 'ski') { s.pos.copy(keep); s.vel.set(0, 0, 0); s.speed = 0; }
     this.handleSkierEvents();
     if (this.myVeh) this.driveVehicle(dt, inp, input, locked);
 
@@ -809,7 +814,7 @@ export class Game {
     const m = this.m;
     const n = m.normalAt(x, z);
     if (Math.hypot(n.x, n.z) / Math.max(0.01, n.y) > RESCUE.lzMaxSlope) return 'steep';
-    for (const c of m.collidersNear(x, z)) if (Math.hypot(c.x - x, c.z - z) < RESCUE.lzClear + c.r) return 'obstacles';
+    for (const c of m.collidersWithin(x, z, RESCUE.lzClear + 11)) if (Math.hypot(c.x - x, c.z - z) < RESCUE.lzClear + c.r) return 'obstacles';
     for (const v of this.vehicles.values()) if (Math.hypot(v.root.position.x - x, v.root.position.z - z) < RESCUE.lzClear * 0.6) return 'obstacles';
     return null;
   }
@@ -896,33 +901,39 @@ export class Game {
   radioKey(latest) {
     if (!latest) return;
     const s = this.skier;
-    const open = [...this.calls.values()].filter((c) => c.ack === null && latest.pt.some((p) => p.id === c.id && (p.s === 'waiting' || p.s === 'buried')));
+    // the patient right next to me first: take their call, then request the helicopter for them
+    let near = null, nd = 30;
+    for (const p of latest.pt) {
+      if (p.s !== 'waiting' && p.s !== 'buried') continue;
+      const d = Math.hypot(p.x - s.pos.x, p.z - s.pos.z);
+      if (d < nd) { nd = d; near = p; }
+    }
+    if (near && near.ack === null) { this.net.send({ t: 'ack', id: near.id }); return; }
+    if (near && near.s === 'waiting' && near.o && !near.he) {
+      if (latest.he) { this.ui.toast(`${ORG.heli} ist bereits im Einsatz · helicopter busy`, 'bad', 2.5); return; }
+      this.net.send({ t: 'heli', id: near.id });
+      return;
+    }
+    // otherwise take the newest open call (a fresh one may not be in the snapshot yet: the event arrives first)
+    const open = [...this.calls.values()].filter((c) => c.ack === null && (this.time - c.at < 2 || latest.pt.some((p) => p.id === c.id && (p.s === 'waiting' || p.s === 'buried'))));
     if (open.length) {
       const c = open.find((q) => q.id === this.dispatchId) || open.sort((a, b) => Math.hypot(a.x - s.pos.x, a.z - s.pos.z) - Math.hypot(b.x - s.pos.x, b.z - s.pos.z))[0];
       this.net.send({ t: 'ack', id: c.id });
       return;
     }
-    let best = null, bd = 40;
-    for (const p of latest.pt) {
-      if (p.s !== 'waiting' || !p.o || p.he) continue;
-      const d = Math.hypot(p.x - s.pos.x, p.z - s.pos.z);
-      if (d < bd) { bd = d; best = p; }
-    }
-    if (best) {
-      if (latest.he) { this.ui.toast(`${ORG.heli} ist bereits im Einsatz`, 'bad', 2.5); return; }
-      this.net.send({ t: 'heli', id: best.id });
-      return;
-    }
     this.sound.play('squelch');
-    this.ui.toast('📻 Funk: nothing to report (take calls or request the helicopter with X)', 'info', 2.5);
+    this.ui.toast('📻 Funk: nothing to report (X takes calls, or requests the helicopter next to a patient)', 'info', 2.5);
   }
+
 
   handleActions(input, dt) {
     const s = this.skier;
     const latest = this.net.latest();
     const treating = this.updateTreatment(input, dt, latest);
+    const act0 = s.mode === 'ski' || s.mode === 'crash' ? this.findAction(latest) : null;
+    this.nearWork = treating || this.beaconFine || (act0 && ['probe', 'patient', 'player', 'secure', 'lz', 'load'].includes(act0.kind));
     const act = s.mode === 'vehicle' ? { kind: 'exitVeh', label: this.myVeh?.seat === 0 ? `Get out · H horn · B blue lights${this.siren ? ' (on)' : ''}` : 'Hop off' }
-      : s.mode === 'ski' || s.mode === 'crash' ? this.findAction(latest) : null;
+      : act0;
     const eHeld = input.held('KeyE');
     const ePressed = input.pressed('KeyE');
     s.act = null;

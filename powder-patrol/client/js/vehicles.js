@@ -1,6 +1,8 @@
 // Drivable vehicles: detailed procedural snowmobile & ATV, CC0 pickup & rescue truck, arcade physics on the heightfield.
+// Livery of the fictional "Pistenrettung Hintereck" (orange / petrol, own badge) and German-style blue lights.
 import * as THREE from 'three';
 import { VEHICLE_TYPES, GRAVITY } from '/shared/constants.js';
+import { drawEmblem, makePatchMaterial, afterFonts, BRAND } from './models.js';
 
 // ------------------------------------------------------------------ materials
 const paint = (color) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.35, metalness: 0.15, clearcoat: 0.8, clearcoatRoughness: 0.25 });
@@ -26,18 +28,92 @@ function treadTexture() {
 let _tread = null;
 const tread = () => (_tread ??= treadTexture());
 
-function decal(text, bg, fg, w, h) {
-  const cv = document.createElement('canvas');
-  cv.width = 256; cv.height = Math.round(256 * h / w);
-  const c = cv.getContext('2d');
-  c.fillStyle = bg; c.fillRect(0, 0, cv.width, cv.height);
-  c.fillStyle = fg;
-  c.font = `${Math.round(cv.height * 0.62)}px "Lilita One", sans-serif`;
-  c.textAlign = 'center'; c.textBaseline = 'middle';
-  c.fillText(text, cv.width / 2, cv.height / 2 + 2);
-  const t = new THREE.CanvasTexture(cv);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: t, roughness: 0.4, transparent: bg === 'transparent' }));
+// Canvas decal on a plane (w x h metres). draw(ctx, W, H, pxPerMetre) paints on a transparent canvas.
+const decalCache = new Map();
+function decal(key, w, h, draw) {
+  let m = decalCache.get(key);
+  if (!m) {
+    const cv = document.createElement('canvas');
+    cv.width = Math.min(2048, Math.max(256, Math.round(w * 420)));
+    cv.height = Math.max(32, Math.round((cv.width * h) / w));
+    const c = cv.getContext('2d');
+    const paint = () => { c.clearRect(0, 0, cv.width, cv.height); draw(c, cv.width, cv.height, cv.width / w); };
+    paint();
+    const t = new THREE.CanvasTexture(cv);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = 4;
+    afterFonts(() => { paint(); t.needsUpdate = true; });
+    m = new THREE.MeshStandardMaterial({ map: t, roughness: 0.4, transparent: true, alphaTest: 0.05, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+    decalCache.set(key, m);
+  }
+  const d = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
+  d.castShadow = false;
+  return d;
+}
+const FONT = '"Lilita One", "Arial Black", sans-serif';
+// emblem + "PISTENRETTUNG" lettering; emblem on the side that faces the front of the vehicle
+function nameDecal(w, h, emblemRight, fg = '#ffffff') {
+  return decal(`name:${w}:${h}:${emblemRight}:${fg}`, w, h, (c, W, H) => {
+    const r = H * 0.47;
+    const ex = emblemRight ? W - r - 2 : r + 2;
+    drawEmblem(c, ex, H / 2, r);
+    c.fillStyle = fg;
+    c.font = `${Math.round(H * 0.56)}px ${FONT}`;
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    const tw = W - 2 * r - H * 0.3;
+    c.fillText('PISTENRETTUNG', emblemRight ? tw / 2 + H * 0.05 : W - tw / 2 - H * 0.05, H * 0.54, tw);
+  });
+}
+// German-style side band for the rescue truck: petrol / orange band, lettering and the badge at the front end
+function truckBand(W_m, H_m, emblemRight) {
+  return decal(`band:${emblemRight}`, W_m, H_m, (c, W, H, s) => {
+    const y0 = 0.06 * s, yO = y0 + 0.05 * s, hO = 0.34 * s, yP = yO + hO + 0.02 * s, hP = 0.15 * s;
+    c.fillStyle = BRAND.petrol; c.fillRect(0, y0, W, 0.035 * s);
+    c.fillStyle = BRAND.orange; c.fillRect(0, yO, W, hO);
+    c.fillStyle = BRAND.petrol; c.fillRect(0, yP, W, hP);
+    const r = 0.31 * s;
+    const ex = emblemRight ? W - r - 0.12 * s : r + 0.12 * s;
+    const textW = W - 2 * r - 0.5 * s;
+    const tx = emblemRight ? (W - 2 * r - 0.24 * s) / 2 : W - (W - 2 * r - 0.24 * s) / 2;
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillStyle = '#ffffff';
+    c.font = `${Math.round(0.27 * s)}px ${FONT}`;
+    if ('letterSpacing' in c) c.letterSpacing = `${Math.round(0.02 * s)}px`;
+    c.fillText('PISTENRETTUNG', tx, yO + hO / 2 + 0.01 * s, textW);
+    c.font = `800 ${Math.round(0.095 * s)}px Nunito, ${FONT}`;
+    if ('letterSpacing' in c) c.letterSpacing = `${Math.round(0.012 * s)}px`;
+    c.fillText('HINTERECK · BERGFUNK KANAL 7', tx, yP + hP / 2 + 0.005 * s, textW);
+    drawEmblem(c, ex, yO + hO / 2, r);
+  });
+}
+
+// ------------------------------------------------------------------ blue lights (Blaulicht)
+const lensGeo = new THREE.CapsuleGeometry(0.075, 0.62, 4, 10).rotateZ(Math.PI / 2).scale(1, 1, 1.5);
+const beaconLensGeo = new THREE.CapsuleGeometry(0.055, 0.06, 4, 12);
+const lightBase = new THREE.MeshStandardMaterial({ color: '#1c1f26', roughness: 0.5, metalness: 0.3 });
+const blueLens = () => new THREE.MeshStandardMaterial({ color: '#2a4f9e', emissive: '#2f7bff', emissiveIntensity: 0.05, roughness: 0.2, metalness: 0.1, toneMapped: true });
+// light bar: dark base with a left and a right lens (materials A / B flash alternately)
+function lightBar(width, A, B) {
+  const g = new THREE.Group();
+  const base = mesh(new THREE.BoxGeometry(width, 0.07, 0.26), lightBase, false);
+  base.position.y = 0.035;
+  const L = mesh(lensGeo, A, false), R = mesh(lensGeo, B, false);
+  const sx = (width / 2 - 0.05) / 0.77;
+  L.scale.x = R.scale.x = Math.min(1, sx);
+  L.position.set(width / 4, 0.14, 0);
+  R.position.set(-width / 4, 0.14, 0);
+  g.add(base, L, R);
+  return g;
+}
+// single rotating-style beacon on a short mast (snowmobile, quad)
+function mastBeacon(height, A) {
+  const g = new THREE.Group();
+  const m = mesh(new THREE.CylinderGeometry(0.014, 0.018, height, 6).translate(0, height / 2, 0), metal);
+  const foot = mesh(new THREE.CylinderGeometry(0.05, 0.055, 0.035, 12).translate(0, height + 0.017, 0), lightBase, false);
+  const lens = mesh(beaconLensGeo, A, false);
+  lens.position.y = height + 0.035 + 0.11;
+  g.add(m, foot, lens);
+  return g;
 }
 
 // Extrude a side profile given as [z, y] points into a body of the given width (centered on x).
@@ -76,7 +152,7 @@ function cyl(r1, r2, h, seg, m, axis = 'y') {
 }
 
 // ------------------------------------------------------------------ snowmobile
-export function makeSnowmobile(color = '#e63946') {
+export function makeSnowmobile(color = BRAND.orange) {
   const g = new THREE.Group();
   const body = paint(color);
   const white = paint('#f4f6fa');
@@ -128,17 +204,22 @@ export function makeSnowmobile(color = '#e63946') {
   rack.position.set(0, 0.88, -1.18);
   const hitch = cyl(0.03, 0.03, 0.3, 8, metal, 'z');
   hitch.position.set(0, 0.4, -1.6);
-  // patrol decals
+  // Pistenrettung decals on the hood sides (badge toward the front on both sides)
   for (const s of [-1, 1]) {
-    const d = decal('✚ PATROL', color, '#ffffff', 0.62, 0.16);
-    d.position.set(s * 0.5, 0.75, 0.85);
+    const d = nameDecal(0.66, 0.15, s < 0);
+    d.position.set(s * 0.5, 0.745, 0.82);
     d.rotation.y = s * Math.PI / 2;
     d.rotation.x = -0.1;
     g.add(d);
   }
-  g.add(hood, tunnel, stripe, seat, track, ws, post, bar, hl, tl, rack, hitch);
+  // blue flashing beacon on a short mast behind the passenger
+  const blue = blueLens();
+  const bcn = mastBeacon(0.42, blue);
+  bcn.position.set(0.24, 0.9, -1.3);
+  g.add(hood, tunnel, stripe, seat, track, ws, post, bar, hl, tl, rack, hitch, bcn);
   g.userData.spin = [];
   g.userData.lights = [hl];
+  g.userData.blue = { a: [blue], b: [], single: true };
   return g;
 }
 
@@ -194,15 +275,23 @@ export function makeQuad(color = '#f07b2c') {
   tl.position.set(0, 0.7, -1.03);
   const hitch = cyl(0.03, 0.03, 0.25, 8, metal, 'z');
   hitch.position.set(0, 0.45, -1.1);
+  const patchGeo = new THREE.CircleGeometry(0.11, 24);
   for (const s of [-1, 1]) {
-    const d = decal('✚', color, '#ffffff', 0.22, 0.22);
-    d.position.set(s * 0.6, 0.68, -0.6);
+    const p = mesh(patchGeo, makePatchMaterial(), false);
+    p.position.set(s * 0.6, 0.67, -0.6);
+    p.rotation.y = s * Math.PI / 2;
+    const d = nameDecal(0.56, 0.11, s < 0);
+    d.position.set(s * 0.6, 0.665, 0.66);
     d.rotation.y = s * Math.PI / 2;
-    g.add(d);
+    g.add(p, d);
   }
-  g.add(post, bar, tl, hitch);
+  const blue = blueLens();
+  const bcn = mastBeacon(0.45, blue);
+  bcn.position.set(0.4, 0.88, -1.0);
+  g.add(post, bar, tl, hitch, bcn);
   g.userData.spin = wheels;
   g.userData.steer = wheels.slice(0, 2);
+  g.userData.blue = { a: [blue], b: [], single: true };
   return g;
 }
 
@@ -214,9 +303,12 @@ export class VehicleView {
     this.id = id;
     this.root = new THREE.Group();
     this.root.rotation.order = 'YXZ';
+    /** true = blue lights flash (alternating); false = lights dark */
+    this.siren = false;
+    this.lightT = (id * 0.37) % 1;
     let model;
-    if (type === 'snowmobile') model = makeSnowmobile(id % 2 ? '#e63946' : '#2f6fd6');
-    else if (type === 'quad') model = makeQuad('#f07b2c');
+    if (type === 'snowmobile') model = makeSnowmobile(id % 2 ? BRAND.orange : BRAND.petrol);
+    else if (type === 'quad') model = makeQuad(BRAND.orange);
     else {
       model = assets.cloneVehicle(this.T.model);
       model.scale.setScalar(this.T.scale || 1);
@@ -228,19 +320,47 @@ export class VehicleView {
         if (/Wheel/i.test(o.name)) model.userData.spin.push(o);
         if (/FrontWheel/i.test(o.name)) model.userData.steer.push(o);
       });
+      const A = blueLens(), B = blueLens();
       if (this.T.ambulance) {
+        // side bands (box side at |x| = 1.2, box from z -2.3 to 0.79), badge on the rear doors, name on the box front
         for (const s of [-1, 1]) {
-          const d = decal('✚ RESCUE', '#ffffff', '#e63946', 1.6, 0.42);
-          d.position.set(s * 1.28, 2.0, -0.6);
+          const d = truckBand(3.0, 0.66, s < 0);
+          d.position.set(s * 1.236, 1.52, -0.76);
           d.rotation.y = s * Math.PI / 2;
           this.root.add(d);
         }
-        const beacon = mesh(new THREE.BoxGeometry(0.9, 0.14, 0.25), new THREE.MeshStandardMaterial({ color: '#ff3b3b', emissive: '#ff2020', emissiveIntensity: 0 }), false);
-        beacon.position.set(0, 2.78, 1.4);
-        this.root.add(beacon);
-        this.beacon = beacon;
+        const rear = mesh(new THREE.CircleGeometry(0.26, 32), makePatchMaterial(), false);
+        rear.position.set(0, 1.95, -2.31);
+        rear.rotation.y = Math.PI;
+        const front = decal('truckFront', 1.7, 0.3, (c, W, H) => {
+          c.fillStyle = BRAND.petrol; c.fillRect(0, 0, W, H);
+          c.fillStyle = BRAND.orange; c.fillRect(0, H * 0.84, W, H * 0.16);
+          c.fillStyle = '#ffffff'; c.font = `${Math.round(H * 0.58)}px ${FONT}`;
+          c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.fillText('PISTENRETTUNG', W / 2, H * 0.44, W * 0.94);
+        });
+        front.position.set(0, 2.33, 0.79);
+        // blue light bars on the front and rear top edge of the box, flashing diagonally opposite
+        const fb = lightBar(1.9, A, B);
+        fb.position.set(0, 2.535, 0.6);
+        const rb = lightBar(1.7, B, A);
+        rb.position.set(0, 2.535, -2.18);
+        this.root.add(rear, front, fb, rb);
+      } else {
+        // patrol pickup: roof light bar + door decals
+        const rb = lightBar(1.25, A, B);
+        rb.position.set(0, 1.747, 0.28);
+        this.root.add(rb);
+        for (const s of [-1, 1]) {
+          const d = nameDecal(1.0, 0.2, s < 0);
+          d.position.set(s * 1.015, 0.98, 0.32);
+          d.rotation.y = s * Math.PI / 2;
+          this.root.add(d);
+        }
       }
+      model.userData.blue = { a: [A], b: [B] };
     }
+    this.blue = model.userData.blue || null;
     this.model = model;
     this.root.add(model);
     this.spinAngle = 0;
@@ -262,7 +382,24 @@ export class VehicleView {
     for (const w of this.model.userData.spin || []) w.rotation.x = this.spinAngle;
     for (const w of this.model.userData.steer || []) w.rotation.y = steer * 0.4;
     if (this.type === 'snowmobile') tread().offset.y -= speed * dt * 0.4;
-    if (this.beacon) this.beacon.material.emissiveIntensity = speed > 2 ? (Math.sin(time * 12) > 0 ? 3 : 0.2) : 0.3;
+    this.updateLights(dt);
+    void time;
+  }
+
+  // Blaulicht: rapid double flashes, the two groups alternating; dark when the siren is off
+  updateLights(dt) {
+    const L = this.blue;
+    if (!L) return;
+    this.lightT += dt;
+    let ia = 0.05, ib = 0.05;
+    if (this.siren) {
+      const flash = (t) => (t < 0.1 || (t > 0.18 && t < 0.28) ? 3.6 : 0.2);
+      const t = (this.lightT * (L.single ? 2.6 : 2.2)) % 1;
+      ia = flash(t);
+      ib = flash((t + 0.5) % 1);
+    }
+    for (const m of L.a) m.emissiveIntensity = ia;
+    for (const m of L.b) m.emissiveIntensity = ib;
   }
 }
 

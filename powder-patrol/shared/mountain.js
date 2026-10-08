@@ -379,6 +379,18 @@ export function generateMountain(seedStr) {
     return out;
   };
 
+  // all colliders whose hash cell overlaps the square of half-size R around (x, z)
+  const collidersWithin = (x, z, R, out = []) => {
+    out.length = 0;
+    const x0 = Math.floor((x - R) / HC), x1 = Math.floor((x + R) / HC);
+    const z0 = Math.floor((z - R) / HC), z1 = Math.floor((z + R) / HC);
+    for (let a = x0; a <= x1; a++) for (let b = z0; b <= z1; b++) {
+      const l = hash.get(`${a},${b}`);
+      if (l) for (const c of l) out.push(c);
+    }
+    return out;
+  };
+
   // ---------- Patient spawn spots ----------
   const spots = [];
   for (let n = 0; n < 6000 && spots.length < 260; n++) {
@@ -401,7 +413,7 @@ export function generateMountain(seedStr) {
     seed: seedStr, world: WORLD, cell, nx, nz, heights, pisteGrid,
     heightAt, terrainAt, normalAt, pisteAt, pisteMaskAt,
     pistes, avalanches, cliffs, kickers, trees, rocks, towers, lift, sites, spots,
-    collidersNear, addCollider,
+    collidersNear, collidersWithin, addCollider,
   };
 }
 
