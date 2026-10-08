@@ -1,19 +1,36 @@
 // One patrol shift: local physics, networked entities, rescue loop, avalanches, HUD.
 import * as THREE from 'three';
 import { Skier } from './skier.js';
-import { makeToboggan, makeHelicopter, makeCharge, makeChair } from './models.js';
+import { makeToboggan, makeHelicopter, makeCharge, makeChair, makeCrossedSkis, makeProbe, makeLZMarker, makeRescueBlanket, makeVacuumMattress } from './models.js';
+import { NpcSkiers } from './npcs.js';
 import { Character } from './characters.js';
 import { TOURISTS } from './assets.js';
 import { Slide } from './avalanche.js';
 import { distToPolyline } from '/shared/mountain.js';
-import { PLAYER_SEND_RATE, PATIENT_TYPES, AIR_SUPPLY, DIG_TIME, VEHICLE_TYPES } from '/shared/constants.js';
+import {
+  PLAYER_SEND_RATE, AIR_SUPPLY, DIG_TIME, VEHICLE_TYPES, INJURIES, AID_STEPS, RESCUE, RADIO, ORG, callsign, DANGER_DE, DANGER_EN,
+} from '/shared/constants.js';
 import { VehicleView, VehiclePhysics } from './vehicles.js';
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const lerpAngle = (a, b, t) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * t;
 const v3 = new THREE.Vector3();
 const fwd = new THREE.Vector3();
-const PATIENT_TITLE = { injured: 'Injured skier', tree: 'Stuck in a tree well', buried: 'Buried by avalanche!' };
+const fmt = (str, vars) => String(str).replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
+const DIGIT = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
+const NUMPAD = ['Numpad1', 'Numpad2', 'Numpad3', 'Numpad4'];
+// German way to read a probe depth: 1.2 -> "eins zwanzig"
+const NUM_DE = ['null', 'eins', 'zwo', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
+const TENS_DE = { 0: '', 1: 'zehn', 2: 'zwanzig', 3: 'dreißig', 4: 'vierzig', 5: 'fünfzig', 6: 'sechzig', 7: 'siebzig', 8: 'achtzig', 9: 'neunzig' };
+const depthDe = (d) => {
+  const m = Math.floor(d), cm = Math.round((d - m) * 100 / 10) * 10;
+  return `${NUM_DE[m] || m} ${cm ? (cm % 10 === 0 ? TENS_DE[cm / 10] : cm) : 'hundert'}`.trim();
+};
+const LZ_BAD = {
+  steep: ['Zu steil für einen Landeplatz', 'Too steep for a landing zone'],
+  obstacles: ['Hindernisse! 20×20 m freihalten (Bäume, Fahrzeuge)', 'Obstacles! Keep 20×20 m clear (trees, vehicles)'],
+  far: ['Zu weit vom Patienten entfernt', 'Too far from the patient'],
+};
 
 export class Game {
   constructor(app, start) {
@@ -35,8 +52,10 @@ export class Game {
     this.group = new THREE.Group();
     this.scene.add(this.group);
 
-    const me = app.lobbyPlayers().find((p) => p.id === this.myId) || { color: '#e63946', hat: 'beanie', char: 'sam', name: 'You' };
+    const me = app.lobbyPlayers().find((p) => p.id === this.myId) || { color: '#e63946', hat: 'beanie', char: 'sam', name: 'You', slot: 0 };
     this.meInfo = me;
+    this.myCs = callsign(me.slot ?? 0);
+    this.voice = app.voice;
     this.skier = new Skier(this.m);
     this.skier.upgrades = this.upgrades;
     const sp = this.m.sites.spawn;
@@ -87,6 +106,27 @@ export class Game {
     this.vehicles = new Map();
     this.myVeh = null;
     for (const v of start.vehicles || []) this.ensureVehicle(v.id, v.type, v.x, v.y, v.z, v.yaw);
+    // mountain rescue state
+    this.calls = new Map(); // patient id -> dispatch info
+    this.dispatchId = null;
+    this.siteProps = new Map(); // patient id -> { skis, blanket, mattress }
+    this.probes = [];
+    this.rth = null;
+    this.lzMarker = null;
+    this.stragglers = new Map();
+    this.treat = null; // first aid measure in progress { id, step, t, need }
+    this.treatChoices = null;
+    this.treatHint = null;
+    this.treatPending = null;
+    this.badChoice = null;
+    this.callouts = new Map();
+    this.siren = false;
+    this.sweepSent = new Map();
+    this.forecast = start.forecast || 1;
+    this.lastBulletin = 0;
+    this.npcs = new NpcSkiers(app, 12);
+    this.group.add(this.npcs.group);
+    this.npcAvoidT = 0;
     for (const a of this.m.avalanches) this.world.setCornice(a.id, true);
     this.fx.clear();
     this.ui.prepareMap(this.m, this.mountainName);
@@ -99,10 +139,112 @@ export class Game {
     switch (e.k) {
       case 'toast': this.ui.toast(e.text, e.kind === 'join' || e.kind === 'leave' ? 'info' : e.kind); break;
       case 'call': {
-        this.sound.play('radio');
+        const I = INJURIES[e.inj] || INJURIES.knee;
         if (e.line) this.lines.set(e.id, e.line);
-        const d = Math.hypot(e.x - s.pos.x, e.z - s.pos.z);
-        this.ui.toast(`📻 ${PATIENT_TITLE[e.type] || 'Emergency'}: ${e.name} · ${e.type === 'buried' ? '~' : ''}${Math.round(d)}m`, e.type === 'buried' ? 'alert' : 'info', 5);
+        const prev = this.calls.get(e.id);
+        this.calls.set(e.id, { ...e, at: this.time, el: this.net.serverNow() - this.startAt, ack: prev?.ack ?? null, ackAt: prev?.ackAt ?? 0 });
+        this.dispatchId = e.id;
+        this.sound.play('pager');
+        const where = this.placeText(e.where);
+        if (e.folge) {
+          this.sound.play('bad');
+          this.ui.banner('FOLGEUNFALL!', 'Unsecured site: a skier crashed into it', 'alert', 3);
+          this.radioMsg(ORG.dispatch, RADIO.folge, 'Heads up! Follow-up crash: who forgot the crossed skis?!', { priority: true });
+        } else {
+          this.radioMsg(ORG.dispatch, fmt(e.repeat ? RADIO.repeat : RADIO.call, { what: `${e.type === 'buried' ? 'Lawinenverschüttung' : e.type === 'tree' ? 'Person in Baumloch' : 'Skiunfall'}, eine Person, ${I.de}`, where }),
+            `${e.repeat ? 'Repeat: ' : 'New mission: '}${I.en} · ${e.name}. Press X to take it.`);
+        }
+        break;
+      }
+      case 'ack': {
+        const c = this.calls.get(e.id);
+        if (c) { c.ack = e.by; c.ackAt = this.time; }
+        if (e.by === this.myId) {
+          this.sound.play('ack');
+          this.radioMsg(this.myCs, fmt(RADIO.ack, { cs: this.myCs }), `You took the call${e.bonus ? ` (+$${e.bonus} quick response)` : ''}.`, { dur: 4 });
+        } else {
+          this.ui.toast(`📻 ${this.csOf(e.by)} (${this.nameOf(e.by)}) übernimmt`, 'info', 3);
+        }
+        break;
+      }
+      case 'secured':
+        this.sound.play('clunk');
+        if (e.by === this.myId) {
+          this.ui.toast(`Unfallstelle abgesichert · scene secured +$${RESCUE.secureBonus}`, 'good', 3);
+          this.radioMsg(this.myCs, fmt(RADIO.secured, { cs: this.myCs }), 'Crossed skis planted 10 m uphill.', { voice: false, dur: 3.5 });
+        }
+        break;
+      case 'treated': {
+        this.sound.play(e.step === 'warm' || e.step === 'heatPack' ? 'foil' : 'treat');
+        if (this.treatPending?.id === e.id) this.treatPending = null;
+        if (e.by === this.myId) { this.treatHint = null; this.badChoice = null; this.ui.toast(`✓ ${AID_STEPS[e.step].de}`, 'good', 1.8); }
+        break;
+      }
+      case 'treatWrong': {
+        this.sound.play('wrong');
+        if (this.treatPending?.id === e.id) this.treatPending = null;
+        if (e.by === this.myId) {
+          const A = AID_STEPS[e.step];
+          this.badChoice = { id: e.id, step: e.step, until: this.time + 1.2 };
+          this.treatHint = { id: e.id, text: A.trap ? `✗ ${A.trap}` : `✗ Falsche Reihenfolge – erst: ${AID_STEPS[e.want].de} (${AID_STEPS[e.want].en})`, until: this.time + 6 };
+          this.hurtT = 0.25;
+        }
+        break;
+      }
+      case 'extracted':
+        this.sound.play('dig');
+        if (e.by === this.myId) this.ui.banner(e.inj === 'burial' ? 'KOPF FREI!' : 'BEFREIT!', 'Now first aid: keys 1–4', '', 2.2);
+        break;
+      case 'probeHit':
+        this.addProbe(e.x, e.z, true, e.id);
+        this.sound.play('probeHit', Math.max(0.3, this.distVol(e.x, e.z, 120)));
+        if (e.by === this.myId) {
+          this.ui.banner('SONDENTREFFER!', `Depth ${e.depth.toFixed(2)} m · dig it out (hold E, all together!)`, '', 2.6);
+          this.voice?.say(`Sondentreffer, ${depthDe(e.depth)}!`, { priority: true });
+        }
+        break;
+      case 'probeMiss':
+        this.addProbe(e.x, e.z, false, null);
+        if (e.by === this.myId) this.sound.play('probeMiss');
+        break;
+      case 'heli': this.onHeli(e); break;
+      case 'heliNo':
+        this.sound.play('bad');
+        this.radioMsg(ORG.dispatch, e.reason === 'dark' ? RADIO.heliNoDark : RADIO.heliNoWeather,
+          e.reason === 'dark' ? 'Denied: no flights after sunset. Take them down by akja.' : 'Denied: visibility below minimum. Ground transport only.', { priority: true });
+        break;
+      case 'heliBusy': this.ui.toast(`${ORG.heli} ist bereits im Einsatz · helicopter busy`, 'bad', 3); break;
+      case 'lz':
+        this.sound.play('ack');
+        this.ui.toast(`🚁 ${this.nameOf(e.by)} weist ein · landing zone marked`, 'good', 3);
+        break;
+      case 'lzBad': {
+        const [de, en] = LZ_BAD[e.reason] || LZ_BAD.obstacles;
+        this.ui.toast(`✗ ${de} · ${en}`, 'bad', 3.5);
+        this.sound.play('wrong');
+        break;
+      }
+      case 'lzLost': this.radioMsg(ORG.heli, fmt(RADIO.lzLost, { heli: ORG.heli }), 'Marshal lost! Stand in the landing zone again.', { priority: true }); break;
+      case 'heliBoard':
+        this.sound.play('load');
+        if (s.sled && e.sled === s.sled.id) { s.sled.hasPatient = false; this.ui.banner('PATIENT AN BORD', `${ORG.heli} takes over`, '', 2.4); }
+        break;
+      case 'sledRear':
+        if (e.rear === this.myId) this.ui.toast('Akja-Seil: bleib hinter dem Akja · stay behind it (Q = let go)', 'info', 4);
+        else if (s.sled && s.sled.id === e.id && e.rear !== null) this.ui.toast(`${this.nameOf(e.rear)} sichert das Akja hinten`, 'good', 3);
+        if (e.rear === null && this.rearOf === e.id) this.rearOf = null;
+        if (e.rear === this.myId) this.rearOf = e.id;
+        break;
+      case 'sweep':
+        this.ui.banner('PISTENSCHLUSS', 'Last sweep: send the stragglers off the slopes!', 'alert', 3.5);
+        this.radioMsg(ORG.dispatch, RADIO.sweep, 'Lifts stopped: last sweep run, pistes are being closed.', { priority: true });
+        this.npcs.setClosing(true);
+        break;
+      case 'swept': {
+        const g = this.stragglers.get(e.id);
+        if (g) { g.leaving = true; g.bubble = this.time + 3; }
+        this.sound.play('whistle');
+        if (e.by === this.myId) this.ui.toast(`+$${e.bonus} · Nachzügler ins Tal geschickt`, 'money', 2.5);
         break;
       }
       case 'sled': {
@@ -117,16 +259,18 @@ export class Game {
         }
         break;
       }
-      case 'freed':
+      case 'freed': {
         this.sound.play('load');
-        if (e.by === this.myId) this.ui.toast('Patient ready — load them onto a toboggan!', 'good');
+        const I = INJURIES[e.inj];
+        if (e.by === this.myId) this.ui.toast(I?.heli ? 'Versorgt! Request the helicopter (X) or take them down by akja' : 'Versorgt! Load them into an akja (E)', 'good', 4);
         this.showBubble(e.id, e.line, 4);
         break;
+      }
       case 'loaded':
         this.sound.play('load');
         if (s.sled?.id === e.sled) {
           s.sled.hasPatient = true;
-          this.ui.banner('PATIENT LOADED', 'Get them to the clinic at the base — gently!', '', 2.6);
+          this.ui.banner('PATIENT IM AKJA', `Down to the ${ORG.clinic}. Gently!`, '', 2.6);
         }
         break;
       case 'ejected':
@@ -135,11 +279,12 @@ export class Game {
         break;
       case 'delivered':
         this.sound.play('cash');
-        this.ui.toast(`+$${e.reward} · ${e.name} delivered (${e.condition}%)`, 'money', 4);
-        if (s.sled && e.by === this.myId) {
+        this.ui.toast(`+$${e.reward} · ${e.name} übergeben (${e.condition}%)${e.transport === 'rth' ? ` · ${ORG.heli}` : e.transport === 'akja2' ? ' · 2-Retter-Akja' : ''}`, 'money', 4);
+        if (s.sled && e.by === this.myId && e.transport !== 'rth') {
           s.sled.hasPatient = false;
-          this.ui.banner(`+$${e.reward}`, `${e.name} is safe!`, '', 2.2);
+          this.ui.banner(`+$${e.reward}`, `${e.name} handed over at the ${ORG.clinic}`, '', 2.2);
         }
+        if (e.by === this.myId) this.radioMsg(this.myCs, fmt(RADIO.delivered, { cs: this.myCs }), 'Patient handed over, ready for the next call.', { voice: false, dur: 3.5 });
         break;
       case 'airlift':
         this.sound.play('bad');
@@ -159,7 +304,10 @@ export class Game {
         const vol = this.distVol(a.release.x, a.release.z, 700);
         this.sound.play('rumble', Math.max(0.35, vol));
         this.shake = Math.max(this.shake, 0.3 + vol * 0.6);
-        if (!e.controlled) this.ui.banner('AVALANCHE!', a.name, 'alert', 3);
+        if (!e.controlled) {
+          this.ui.banner('LAWINE!', a.name, 'alert', 3);
+          this.radioMsg(ORG.dispatch, fmt(RADIO.avalanche, { where: a.name }), 'Avalanche! Beacons to search mode.', { priority: true });
+        }
         break;
       }
       case 'boom': {
@@ -179,7 +327,10 @@ export class Game {
         break;
       }
       case 'buried':
-        if (e.id !== this.myId) this.sound.play('radio');
+        if (e.id !== this.myId) {
+          this.sound.play('radio');
+          this.radioMsg(this.csOf(e.id), fmt(RADIO.mayday, { cs: this.csOf(e.id) }), `${this.nameOf(e.id)} is buried! Beacon search, then dig.`, { priority: true });
+        }
         break;
       case 'unburied':
         if (e.id === this.myId) {
@@ -233,6 +384,33 @@ export class Game {
     }
   }
 
+  // in-world radio: subtitle + German voice
+  radioMsg(from, de, en, { voice = true, dur = 6, priority = false } = {}) {
+    this.ui.radioSub(from, de, en, dur);
+    if (voice) this.voice?.say(de, { priority });
+  }
+
+  csOf(id) {
+    if (id === this.myId) return this.myCs;
+    const info = this.app.lobbyPlayers().find((p) => p.id === id);
+    return info ? callsign(info.slot ?? 0) : 'Hintereck';
+  }
+
+  nameOf(id) { return id === this.myId ? 'You' : this.remoteInfo(id).name; }
+
+  placeText(w) {
+    if (!w) return 'unbekannt';
+    if (w.kind === 'slide') return `Lawinenkegel ${w.name}`;
+    if (w.kind === 'off') return `abseits der Piste ${w.name}`;
+    return `Piste ${w.name}`;
+  }
+
+  clockAt(elapsed) {
+    const tod = THREE.MathUtils.clamp(elapsed / this.cfg.duration, 0, 1);
+    const mins = 9 * 60 + Math.floor(tod * 7.5 * 60);
+    return `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
+  }
+
   distVol(x, z, range) {
     const d = Math.hypot(x - this.skier.pos.x, z - this.skier.pos.z);
     return Math.max(0, 1 - d / range);
@@ -240,6 +418,41 @@ export class Game {
 
   showBubble(patientId, text, dur) {
     this.bubbles.set(patientId, { text, until: this.time + dur });
+  }
+
+  onHeli(e) {
+    const H = ORG.heli;
+    switch (e.state) {
+      case 'inbound':
+        this.sound.play('radio');
+        this.radioMsg(this.csOf(e.by), fmt(RADIO.heliReq, { cs: this.csOf(e.by) }), 'Requesting the rescue helicopter with an emergency doctor.', { dur: 3.5 });
+        setTimeout(() => {
+          if (this.disposed) return;
+          this.radioMsg(ORG.dispatch, fmt(RADIO.heliOk, { heli: H, eta: e.eta }), `${H} is on its way (~${e.eta}s). Mark a landing zone: flat, open, hold E there.`, { priority: true });
+        }, 3600);
+        this.ui.banner('RTH ALARMIERT', `${H} · ETA ${e.eta}s · prepare a landing zone`, '', 3);
+        if (!e.needed) this.ui.toast('No clear indication for the helicopter: lower reward', 'info', 3.5);
+        break;
+      case 'circling': this.radioMsg(H, fmt(RADIO.heliCircle, { heli: H }), 'No landing zone! Someone stand on flat, open ground and hold E.', { priority: true }); break;
+      case 'landing': this.radioMsg(H, fmt(RADIO.heliApproach, { heli: H }), 'On approach, marshal in sight.'); break;
+      case 'landed': this.radioMsg(H, fmt(RADIO.heliLanded, { heli: H }), 'Landed. Bring the patient (akja), or the crew fetches them if close.', { voice: false }); break;
+      case 'leaving':
+        if (e.why === 'done') this.radioMsg(H, fmt(RADIO.heliDone, { heli: H }), 'Patient on board, flying to the hospital.');
+        else {
+          this.radioMsg(H, fmt(RADIO.heliAbort, { heli: H }), e.why === 'timeout' ? 'Mission aborted: waited too long (-$15).' : 'Mission aborted.');
+          if (e.why === 'timeout') this.sound.play('bad');
+        }
+        break;
+    }
+  }
+
+  addProbe(x, z, hit, patientId) {
+    const obj = makeProbe(hit);
+    obj.position.set(x, this.m.heightAt(x, z), z);
+    obj.rotation.set((Math.random() - 0.5) * 0.12, Math.random() * 6, (Math.random() - 0.5) * 0.12);
+    this.group.add(obj);
+    this.probes.push({ obj, hit, patientId, until: this.time + (hit ? 600 : 25) });
+    while (this.probes.length > 40) { const o = this.probes.shift(); this.group.remove(o.obj); }
   }
 
   spawnHeli(x, y, z, playerId) {
@@ -335,8 +548,13 @@ export class Game {
       }
     } else if (this.lastCount !== 0) {
       this.lastCount = 0;
-      this.ui.banner('LIFTS ARE OPEN!', 'Follow the red smoke · Tab = trail map', '', 2.4);
+      this.ui.banner('LIFTE OFFEN!', `${ORG.name} · Dienstbeginn · Tab = trail map`, '', 2.4);
       this.sound.play('go');
+      const lv = this.danger || this.forecast;
+      setTimeout(() => {
+        if (this.disposed) return;
+        this.radioMsg(ORG.dispatch, fmt(RADIO.bulletin, { level: lv, name: DANGER_DE[lv] }), `Avalanche bulletin: level ${lv} (${DANGER_EN[lv]}). Charges at the crate, G to throw.`, { dur: 6 });
+      }, 2600);
     }
 
     // camera look
@@ -361,7 +579,7 @@ export class Game {
     if (this.myVeh) this.driveVehicle(dt, inp, input, locked);
 
     if (!locked) this.handleActions(input, dt);
-    else this.ui.prompt(null);
+    else { this.ui.prompt(null); this.ui.treatment(null); this.skier.act = null; }
 
     // snapshot driven
     const br = net.bracket();
@@ -369,11 +587,16 @@ export class Game {
     if (latest) {
       this.earned = latest.earned;
       this.danger = latest.danger;
+      if (this.danger !== this.lastBulletin) { this.lastBulletin = this.danger; this.world.setBulletin?.(this.danger); }
     }
     this.updateVehicles(dt, br, latest);
     this.updateRemotes(dt, br, latest);
     this.updateSleds(dt, br, latest);
     this.updatePatients(dt, latest);
+    this.updateRescueProps(dt, latest);
+    this.updateRth(dt, br, latest);
+    this.updateStragglers(dt, latest);
+    this.updateNpcs(dt);
     this.updateCharges(dt, br);
     this.updateSlides(dt, serverNow);
     this.updateHelis(dt);
@@ -387,7 +610,7 @@ export class Game {
       const msg = { t: 'st', p: [s.pos.x, s.pos.y, s.pos.z].map((v) => Math.round(v * 100) / 100), yaw: Math.round(s.heading * 100) / 100, a: s.animCode(), sp: Math.round(s.speed * 10) / 10 };
       if (s.sled) msg.sled = { id: s.sled.id, p: [s.sled.pos.x, s.sled.pos.y, s.sled.pos.z].map((v) => Math.round(v * 100) / 100), yaw: Math.round(s.sled.yaw * 100) / 100, tip: s.sled.tip };
       const ph = this.myVeh?.phys;
-      if (ph) msg.veh = { id: this.myVeh.id, p: [ph.pos.x, ph.pos.y, ph.pos.z].map((v) => Math.round(v * 100) / 100), r: [ph.yaw, ph.pitch, ph.roll].map((v) => Math.round(v * 1000) / 1000), sp: Math.round(ph.speed * 10) / 10, horn: !!this.horn };
+      if (ph) msg.veh = { id: this.myVeh.id, p: [ph.pos.x, ph.pos.y, ph.pos.z].map((v) => Math.round(v * 100) / 100), r: [ph.yaw, ph.pitch, ph.roll].map((v) => Math.round(v * 1000) / 1000), sp: Math.round(ph.speed * 10) / 10, horn: !!this.horn, sir: !!this.siren };
       net.send(msg);
     }
 
@@ -424,6 +647,7 @@ export class Game {
       ph.events.length = 0;
       view.setPose(ph.pos.x, ph.pos.y, ph.pos.z, ph.yaw, ph.pitch, ph.roll);
       view.speed = ph.speed;
+      view.siren = this.siren;
       view.steerVis = ph.steer;
       s.vel.copy(ph.vel);
       this.sound.updateEngine?.(true, ph.speed / VEHICLE_TYPES[view.type].maxSpeed, inp.up);
@@ -462,9 +686,17 @@ export class Game {
         view.steerVis = 0;
         if (vh.h && !view.hornWas) this.sound.play('horn', this.distVol(vh.p[0], vh.p[2], 250));
         view.hornWas = vh.h;
+        view.siren = !!vh.si;
       }
       view.update(dt, view.speed || 0, view.steerVis || 0, this.time);
     }
+    // Martinshorn: loudest moving vehicle with blue lights on
+    let sv = 0;
+    for (const view of this.vehicles.values()) {
+      if (!view.siren || (view.speed || 0) < 1) continue;
+      sv = Math.max(sv, this.distVol(view.root.position.x, view.root.position.z, 420));
+    }
+    this.sound.updateSiren?.(sv > 0.01, sv);
   }
 
   handleSkierEvents() {
@@ -491,7 +723,7 @@ export class Game {
           }
           break;
         case 'jump': this.sound.play('jump'); break;
-        case 'sledHit': this.net.send({ t: 'sledHit', mag: Math.round(e.mag * 10) / 10 }); this.sound.play('bonk'); break;
+        case 'sledHit': this.net.send({ t: 'sledHit', mag: Math.round(e.mag * (s.sled?.assist ? 0.5 : 1) * 10) / 10 }); this.sound.play('bonk'); break;
         case 'sledBonk': this.sound.play('bonk', Math.min(1, e.mag / 8)); break;
         case 'eject':
           this.net.send({ t: 'eject' });
@@ -508,37 +740,59 @@ export class Game {
     const s = this.skier, m = this.m;
     if (s.mode === 'lift' || s.mode === 'buried' || s.mode === 'air') return null;
     const dist = (x, z) => Math.hypot(x - s.pos.x, z - s.pos.z);
-    // digging out buried teammates
     if (latest) {
+      // digging out buried teammates
       for (const p of latest.pl) {
         if (p.id === this.myId || !p.b) continue;
-        if (dist(p.b[0], p.b[2]) < 3.4) return { kind: 'player', id: p.id, label: 'Dig them out!', hold: true, need: DIG_TIME, progress: p.b[4] };
+        if (dist(p.b[0], p.b[2]) < 3.4) return { kind: 'player', id: p.id, label: 'Ausgraben! Dig them out!', hold: true, need: DIG_TIME, progress: p.b[4] };
       }
       for (const p of latest.pt) {
         const d = dist(p.x, p.z);
-        if (p.s === 'buried' && d < 3.4) return { kind: 'patient', id: p.id, label: `Dig out ${p.n}!`, hold: true, need: DIG_TIME, progress: p.pr };
-        if (p.s === 'waiting' && !p.f && d < 3.4) return { kind: 'patient', id: p.id, label: `${PATIENT_TYPES[p.ty].verb} ${p.n}`, hold: true, need: PATIENT_TYPES[p.ty].time, progress: p.pr };
+        if (p.s === 'buried' && d < 3.4) {
+          if (!p.pb) return { kind: 'probe', id: p.id, label: 'Sondieren · probe for the victim' };
+          return { kind: 'patient', id: p.id, label: `Ausschaufeln · dig out ${p.n}`, hold: true, need: p.need, progress: p.pr };
+        }
+        if (p.s === 'waiting' && !p.o && d < 3.4) return { kind: 'patient', id: p.id, label: `Herausziehen · pull ${p.n} out`, hold: true, need: p.need, progress: p.pr };
+      }
+      // probing anywhere on fresh debris (a beacon fine search usually brings you here)
+      if (this.beaconFine) return { kind: 'probe', id: null, label: 'Sondieren · probe here' };
+      for (const p of latest.pt) {
+        if (p.s === 'waiting' && p.ty === 'injured' && !p.sec && !p.f && dist(p.x, p.z) < 7) return { kind: 'secure', id: p.id, label: 'Unfallstelle absichern · plant crossed skis uphill' };
+      }
+      // marshal the helicopter into a landing zone
+      const he = latest.he;
+      if (he && (he.s === 'inbound' || he.s === 'circling') && !he.lz && s.mode === 'ski') {
+        const hp = latest.pt.find((q) => q.id === he.pt);
+        if (hp && dist(hp.x, hp.z) < RESCUE.lzMaxDist) {
+          const bad = this.lzProblem(s.pos.x, s.pos.z);
+          if (bad) return { kind: 'hint', label: `Landeplatz: ${LZ_BAD[bad][0]}` };
+          return { kind: 'lz', id: he.pt, label: 'Landeplatz einweisen · marshal the helicopter (arms up!)', hold: true, need: 1.2, progress: 0 };
+        }
       }
       if (s.sled && !s.sled.hasPatient) {
         for (const p of latest.pt) {
           if (p.s !== 'waiting' || !p.f) continue;
-          if (dist(p.x, p.z) < 5.5 || Math.hypot(p.x - s.sled.pos.x, p.z - s.sled.pos.z) < 5.5) return { kind: 'load', id: p.id, label: `Load ${p.n} onto the toboggan` };
+          if (dist(p.x, p.z) < 5.5 || Math.hypot(p.x - s.sled.pos.x, p.z - s.sled.pos.z) < 5.5) return { kind: 'load', id: p.id, label: `${p.n} ins Akja · load into the akja` };
         }
       }
-      if (!s.sled) {
+      if (!s.sled && !this.rearOf) {
+        for (const sl of latest.sl) {
+          if (sl.o === null || sl.o === this.myId || sl.r !== null) continue;
+          if (dist(sl.p[0], sl.p[2]) < 4) return { kind: 'rear', id: sl.id, label: 'Akja hinten sichern · take the rear rope' };
+        }
         for (const sl of latest.sl) {
           if (sl.o !== null) continue;
-          if (dist(sl.p[0], sl.p[2]) < 4) return { kind: 'grab', id: sl.id, label: sl.pt !== null ? 'Grab toboggan (with patient!)' : 'Grab toboggan' };
+          if (dist(sl.p[0], sl.p[2]) < 4) return { kind: 'grab', id: sl.id, label: sl.pt !== null ? 'Akja nehmen (mit Patient!)' : 'Akja nehmen · grab an akja' };
         }
         for (const p of latest.pt) {
-          if (p.s === 'waiting' && p.f && dist(p.x, p.z) < 6) return { kind: 'hint', label: 'Bring a toboggan from the summit rack!' };
+          if (p.s === 'waiting' && p.f && dist(p.x, p.z) < 6) return { kind: 'hint', label: 'Bring an akja from the rack at the station!' };
         }
       }
     }
     for (const view of this.vehicles.values()) {
       const T = VEHICLE_TYPES[view.type];
       const d = dist(view.root.position.x, view.root.position.z);
-      if (T.ambulance && s.sled?.hasPatient && !view.cargo && d < T.len * 0.5 + 5) return { kind: 'ambulance', id: view.id, label: `Load patient into the ${T.label}` };
+      if (T.ambulance && s.sled?.hasPatient && !view.cargo && d < T.len * 0.5 + 5) return { kind: 'ambulance', id: view.id, label: `Patient in den ${T.label}` };
       if (d < T.len * 0.5 + 1.8 && view.seats && view.seats.includes(null)) {
         const driverFree = view.seats[0] === null;
         return { kind: 'enterVeh', id: view.id, label: driverFree ? `Drive the ${T.label}` : `Ride along (${T.label})` };
@@ -546,35 +800,157 @@ export class Game {
     }
     const ll = this.world.liftLoad;
     if (dist(ll.x, ll.z) < 6) return { kind: 'lift', label: 'Ride the chairlift' };
-    if (dist(m.sites.crate.x, m.sites.crate.z) < 5.5) return { kind: 'crate', label: 'Grab avalanche charges' };
+    if (dist(m.sites.crate.x, m.sites.crate.z) < 5.5) return { kind: 'crate', label: 'Sprengladungen · grab avalanche charges' };
     return null;
+  }
+
+  // same rules the server applies for a landing zone (client-side preview)
+  lzProblem(x, z) {
+    const m = this.m;
+    const n = m.normalAt(x, z);
+    if (Math.hypot(n.x, n.z) / Math.max(0.01, n.y) > RESCUE.lzMaxSlope) return 'steep';
+    for (const c of m.collidersNear(x, z)) if (Math.hypot(c.x - x, c.z - z) < RESCUE.lzClear + c.r) return 'obstacles';
+    for (const v of this.vehicles.values()) if (Math.hypot(v.root.position.x - x, v.root.position.z - z) < RESCUE.lzClear * 0.6) return 'obstacles';
+    return null;
+  }
+
+  // the patient I'm close enough to treat, if any
+  treatTarget(latest) {
+    const s = this.skier;
+    if (!latest || (s.mode !== 'ski' && s.mode !== 'crash')) return null;
+    let best = null, bd = 3.8;
+    for (const p of latest.pt) {
+      if (p.s !== 'waiting' || !p.o || p.f) continue;
+      const d = Math.hypot(p.x - s.pos.x, p.z - s.pos.z);
+      if (d < bd) { bd = d; best = p; }
+    }
+    return best;
+  }
+
+  treatChoicesFor(p) {
+    const key = `${p.id}:${p.st}`;
+    if (this.treatChoices?.key === key) return this.treatChoices.list;
+    const I = INJURIES[p.inj];
+    const want = I.steps[p.st];
+    let seed = (p.id * 97 + p.st * 13 + 7) % 2147483647;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const picks = [want];
+    const traps = (I.traps || []).filter((k) => k !== want);
+    if (traps.length && rnd() < 0.85) picks.push(traps[Math.floor(rnd() * traps.length)]);
+    const later = I.steps.slice(p.st + 1);
+    if (later.length) picks.push(later[Math.floor(rnd() * later.length)]);
+    const pool = Object.keys(AID_STEPS).filter((k) => !I.steps.includes(k) && !AID_STEPS[k].trap);
+    for (let i = 0; picks.length < 4 && i < 50; i++) { const k = pool[Math.floor(rnd() * pool.length)]; if (!picks.includes(k)) picks.push(k); }
+    for (let i = picks.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [picks[i], picks[j]] = [picks[j], picks[i]]; }
+    this.treatChoices = { key, list: picks };
+    return picks;
+  }
+
+  updateTreatment(input, dt, latest) {
+    const s = this.skier;
+    const p = this.treatTarget(latest);
+    if (this.treat) {
+      // a measure in progress: stay with the patient
+      const tp = latest?.pt.find((q) => q.id === this.treat.id);
+      if (!tp || Math.hypot(tp.x - s.pos.x, tp.z - s.pos.z) > 4.5 || tp.f) this.treat = null;
+      else {
+        this.treat.t += dt;
+        if (this.treat.t >= this.treat.need) {
+          this.net.send({ t: 'treat', id: this.treat.id, step: this.treat.step });
+          this.treatPending = { id: this.treat.id, st: tp.st, until: this.time + 1.5 };
+          this.treat = null;
+        }
+      }
+    }
+    if (this.treatPending && (this.treatPending.until < this.time || (p && p.id === this.treatPending.id && p.st !== this.treatPending.st))) this.treatPending = null;
+    if (!p) { this.ui.treatment(null); return false; }
+    const I = INJURIES[p.inj];
+    const choices = this.treatChoicesFor(p);
+    const busy = this.treat && this.treat.id === p.id ? this.treat : null;
+    if (!busy && !this.treatPending && !input.blocked) {
+      for (let i = 0; i < 4; i++) {
+        if (input.pressed(DIGIT[i]) || input.pressed(NUMPAD[i])) {
+          const step = choices[i];
+          if (!step) break;
+          this.treat = { id: p.id, step, t: 0, need: AID_STEPS[step].time };
+          this.sound.play('treat', 0.5);
+          break;
+        }
+      }
+    }
+    const hint = this.treatHint && this.treatHint.id === p.id && this.treatHint.until > this.time ? this.treatHint.text : (I.heli ? 'Indication for the helicopter: request it with X (if it can fly)' : '');
+    this.ui.treatment({
+      title: `${I.de}`, sub: `${I.en} · ${p.n}`, done: p.st, total: I.steps.length,
+      steps: I.steps.map((k, i) => ({ label: i < p.st ? AID_STEPS[k].de : i === p.st ? '?' : '…', state: i < p.st ? 'done' : i === p.st ? 'next' : 'todo' })),
+      choices: choices.map((k, i) => ({
+        key: String(i + 1), icon: AID_STEPS[k].icon, de: AID_STEPS[k].de, en: AID_STEPS[k].en,
+        cls: busy?.step === k ? 'busy' : this.badChoice && this.badChoice.id === p.id && this.badChoice.step === k && this.badChoice.until > this.time ? 'bad' : '',
+      })),
+      busy: busy ? Math.min(1, busy.t / busy.need) : null,
+      hint,
+    });
+    return true;
+  }
+
+  // X: radio — take the newest open call, or request the helicopter for the patient next to me
+  radioKey(latest) {
+    if (!latest) return;
+    const s = this.skier;
+    const open = [...this.calls.values()].filter((c) => c.ack === null && latest.pt.some((p) => p.id === c.id && (p.s === 'waiting' || p.s === 'buried')));
+    if (open.length) {
+      const c = open.find((q) => q.id === this.dispatchId) || open.sort((a, b) => Math.hypot(a.x - s.pos.x, a.z - s.pos.z) - Math.hypot(b.x - s.pos.x, b.z - s.pos.z))[0];
+      this.net.send({ t: 'ack', id: c.id });
+      return;
+    }
+    let best = null, bd = 40;
+    for (const p of latest.pt) {
+      if (p.s !== 'waiting' || !p.o || p.he) continue;
+      const d = Math.hypot(p.x - s.pos.x, p.z - s.pos.z);
+      if (d < bd) { bd = d; best = p; }
+    }
+    if (best) {
+      if (latest.he) { this.ui.toast(`${ORG.heli} ist bereits im Einsatz`, 'bad', 2.5); return; }
+      this.net.send({ t: 'heli', id: best.id });
+      return;
+    }
+    this.sound.play('squelch');
+    this.ui.toast('📻 Funk: nothing to report (take calls or request the helicopter with X)', 'info', 2.5);
   }
 
   handleActions(input, dt) {
     const s = this.skier;
     const latest = this.net.latest();
-    const act = s.mode === 'vehicle' ? { kind: 'exitVeh', label: this.myVeh?.seat === 0 ? 'Get out (H = horn)' : 'Hop off' }
+    const treating = this.updateTreatment(input, dt, latest);
+    const act = s.mode === 'vehicle' ? { kind: 'exitVeh', label: this.myVeh?.seat === 0 ? `Get out · H horn · B blue lights${this.siren ? ' (on)' : ''}` : 'Hop off' }
       : s.mode === 'ski' || s.mode === 'crash' ? this.findAction(latest) : null;
     const eHeld = input.held('KeyE');
     const ePressed = input.pressed('KeyE');
+    s.act = null;
     if (act) {
       if (act.hold) {
         const key = `${act.kind}:${act.id}`;
         if (this.hold.key !== key) this.hold = { key, acc: 0, send: 0 };
         if (eHeld && s.mode === 'ski') {
           this.hold.acc += dt;
-          this.hold.send += dt;
-          if (this.hold.send >= 0.2) {
-            this.net.send({ t: 'work', kind: act.kind, id: act.id, dt: Math.round(this.hold.send * 1000) / 1000 });
-            this.hold.send = 0;
-            this.sound.play('dig', 0.6);
-            this.fx.burst(s.pos.x + Math.sin(s.heading) * 0.8, s.pos.y + 0.2, s.pos.z + Math.cos(s.heading) * 0.8, 6, 2, 0.15, '#ffffff', 3);
+          if (act.kind === 'lz') {
+            s.act = 'wave';
+            if (this.hold.acc >= act.need && !this.hold.sent) { this.hold.sent = true; this.net.send({ t: 'lz' }); }
+          } else {
+            this.hold.send += dt;
+            if (this.hold.send >= 0.2) {
+              this.net.send({ t: 'work', kind: act.kind, id: act.id, dt: Math.round(this.hold.send * 1000) / 1000 });
+              this.hold.send = 0;
+              this.sound.play('dig', 0.6);
+              this.fx.burst(s.pos.x + Math.sin(s.heading) * 0.8, s.pos.y + 0.2, s.pos.z + Math.cos(s.heading) * 0.8, 6, 2, 0.15, '#ffffff', 3);
+            }
+            s.act = 'dig';
           }
-          this.digging = true;
+          this.digging = act.kind !== 'lz';
         } else {
           this.digging = false;
+          if (act.kind === 'lz') this.hold.sent = false;
         }
-        const prog = Math.max(act.progress || 0, this.hold.acc * 0.9) / act.need;
+        const prog = act.kind === 'lz' ? Math.min(1, this.hold.acc / act.need) : Math.max(act.progress || 0, this.hold.acc * 0.9) / act.need;
         this.ui.prompt(act.label, 'E', eHeld ? prog : null);
       } else {
         this.digging = false;
@@ -583,6 +959,15 @@ export class Game {
           switch (act.kind) {
             case 'load': this.net.send({ t: 'load', id: act.id }); break;
             case 'grab': this.net.send({ t: 'grabSled', id: act.id }); break;
+            case 'rear': this.net.send({ t: 'rear', id: act.id }); break;
+            case 'secure': this.net.send({ t: 'secure', id: act.id }); this.probeAnim = 0.6; break;
+            case 'probe': {
+              const px = s.pos.x + Math.sin(s.heading) * 0.6, pz = s.pos.z + Math.cos(s.heading) * 0.6;
+              this.net.send({ t: 'probe', p: [Math.round(px * 100) / 100, Math.round(pz * 100) / 100] });
+              this.probeAnim = 0.45;
+              this.sound.play('probeMiss', 0.5);
+              break;
+            }
             case 'lift': s.boardLift(); this.fx.trails.cut('meL'); this.fx.trails.cut('meR'); break;
             case 'crate': this.net.send({ t: 'refill' }); this.sound.play('load'); this.ui.toast('Charges restocked. Throw with G!', 'good'); break;
             case 'enterVeh': this.net.send({ t: 'enterVeh', id: act.id }); break;
@@ -593,17 +978,36 @@ export class Game {
       }
     } else {
       this.digging = false;
-      this.ui.prompt(null);
+      if (!treating) this.ui.prompt(null);
+      else this.ui.prompt(null);
     }
-    if (input.pressed('KeyQ') && s.sled) { this.dropSled(); this.ui.toast('Toboggan dropped', 'info', 2); }
+    if (this.treat) s.act = 'dig';
+    if (this.probeAnim > 0) { this.probeAnim -= dt; s.act = 'dig'; }
+    // marshalling: arms up in the YES posture while the helicopter comes in
+    const he = latest?.he;
+    if (he && he.m === this.myId && he.lz && (he.s === 'inbound' || he.s === 'circling' || he.s === 'landing') && Math.hypot(he.lz[0] - s.pos.x, he.lz[2] - s.pos.z) < 25) {
+      s.act = 'wave';
+      if (s.mode === 'ski' && s.speed < 2) this.ui.prompt('Einweisen: stay here, arms up (YES)', '');
+    }
+    if (input.pressed('KeyX')) this.radioKey(latest);
+    if (input.pressed('KeyB') && this.myVeh?.seat === 0) {
+      this.siren = !this.siren;
+      this.sound.play('clunk', 0.5);
+      this.ui.toast(this.siren ? 'Blaulicht & Martinshorn an' : 'Blaulicht aus', 'info', 1.8);
+    }
+    if (input.pressed('KeyQ')) {
+      if (s.sled) { this.dropSled(); this.ui.toast('Akja abgestellt · akja dropped', 'info', 2); }
+      else if (this.rearOf) { this.net.send({ t: 'rearOff' }); this.rearOf = null; this.ui.toast('Akja-Seil losgelassen', 'info', 2); }
+    }
     if (input.pressed('KeyG') && s.mode !== 'buried' && s.mode !== 'lift' && s.mode !== 'vehicle') this.throwCharge();
     if (input.pressed('KeyF')) this.ping();
     if (input.held('KeyR') && s.mode !== 'buried' && s.mode !== 'lift' && s.mode !== 'vehicle') {
       this.respawnHold += dt;
-      this.ui.prompt('Hold to return to the summit hut', 'R', this.respawnHold / 1.2);
+      this.ui.prompt('Hold to return to the Rettungswache', 'R', this.respawnHold / 1.2);
       if (this.respawnHold > 1.2) {
         this.respawnHold = 0;
         this.dropSled();
+        if (this.rearOf) { this.net.send({ t: 'rearOff' }); this.rearOf = null; }
         s.spawn(this.m.sites.spawn.x, this.m.sites.spawn.z, 0);
         this.fx.trails.cut('meL'); this.fx.trails.cut('meR');
       }
@@ -674,7 +1078,7 @@ export class Game {
         const a2 = r.a;
         r.ch.animate(dt, {
           speed: r.sp, lean: a2 === 0 || a2 === 5 ? r.lean : 0, tuck: a2 === 5 ? 1 : 0, plough: a2 === 6 ? 1 : 0,
-          air: a2 === 1, crash: a2 === 2, sit: a2 === 3 || a2 === 9, drive: a2 === 8, skate: a2 === 7,
+          air: a2 === 1, crash: a2 === 2, sit: a2 === 3 || a2 === 9, drive: a2 === 8, skate: a2 === 7, dig: a2 === 10, wave: a2 === 11,
         });
         // trails + spray for remotes
         const grounded = a2 === 0 || a2 === 5 || a2 === 6 || a2 === 7;
@@ -740,8 +1144,22 @@ export class Game {
       v.roll = lerp(v.roll, tip ? 1 : 0, Math.min(1, dt * 8));
       v.model.body.rotation.z = v.roll * Math.PI * 0.55;
       v.owner = sl.o;
+      v.rear = sl.r;
       v.patient = sl.pt;
       v.x = x; v.y = y; v.z = z; v.yaw = yaw;
+      if (mine) {
+        const r = sl.r !== null ? this.remotes.get(sl.r) : null;
+        this.skier.sled.assist = !!r && Math.hypot(r.pos.x - x, r.pos.z - z) < 9;
+      }
+      if (sl.r === this.myId) {
+        this.rearOf = sl.id;
+        const d = Math.hypot(this.skier.pos.x - x, this.skier.pos.z - z);
+        if (d > 14 || this.skier.mode === 'vehicle' || this.skier.mode === 'lift') {
+          this.net.send({ t: 'rearOff' });
+          this.rearOf = null;
+          this.ui.toast('Akja-Seil verloren · you lost the rope', 'bad', 2.5);
+        }
+      }
     }
     for (const [id, v] of this.sleds) if (!seen.has(id)) { this.group.remove(v.model.root); this.sleds.delete(id); }
   }
@@ -763,7 +1181,7 @@ export class Game {
       }
       v.data = p;
       const root = v.model.root;
-      root.visible = p.s !== 'buried' && p.s !== 'veh';
+      root.visible = p.s !== 'buried' && p.s !== 'veh' && p.s !== 'heli';
       if (p.s === 'sled') {
         const sl = this.sleds.get(p.sl);
         if (sl) {
@@ -779,21 +1197,22 @@ export class Game {
         }
       } else if (p.s === 'waiting') {
         const g = this.m.heightAt(p.x, p.z);
-        if (p.ty === 'tree' && !p.f) {
+        if (p.ty === 'tree' && !p.o) {
           // comically stuck head-first in the snow
           root.position.set(p.x, g + 1.55, p.z);
           root.rotation.set(Math.PI, p.id, 0.15 * Math.sin(this.time * 6));
           v.model.animate(dt, { noPoles: true, skate: true });
-        } else if (!p.f) {
+        } else if (!p.f || p.wr || (INJURIES[p.inj]?.sev ?? 1) >= 3) {
+          // injured, wrapped or severe (spine / head / hip) patients stay lying down
           root.position.set(p.x, g, p.z);
           root.rotation.set(0, p.id * 1.7, 0);
-          v.model.animate(dt, { lie: true, wave: true, noPoles: true });
+          v.model.animate(dt, { lie: true, wave: !p.f && !p.wr, noPoles: true });
         } else {
           root.position.set(p.x, g + 0.05, p.z);
           root.rotation.set(0, Math.atan2(s.pos.x - p.x, s.pos.z - p.z), 0);
           v.model.animate(dt, { sit: true, wave: true, noPoles: true });
         }
-        if (emitSmoke) {
+        if (emitSmoke && !p.f) {
           const sx = p.x + 1.4, sz = p.z + 1.4;
           this.fx.smoke.emit(sx, g + 0.4, sz, (Math.random() - 0.5) * 0.8 + 0.8, 3.5 + Math.random() * 2.5, (Math.random() - 0.5) * 0.8, 0.7 + Math.random() * 0.6, 5 + Math.random() * 3, Math.random() < 0.7 ? '#ff3030' : '#ff7a7a');
         }
@@ -807,6 +1226,174 @@ export class Game {
       }
     }
     for (const [id, v] of this.patients) if (!seen.has(id)) { this.group.remove(v.model.root); this.patients.delete(id); this.bubbles.delete(id); }
+  }
+
+  // crossed skis, rescue blankets, vacuum mattresses, probes
+  updateRescueProps(dt, latest) {
+    if (!latest) return;
+    const seen = new Set();
+    for (const p of latest.pt) {
+      seen.add(p.id);
+      let pr = this.siteProps.get(p.id);
+      if (!pr) { pr = {}; this.siteProps.set(p.id, pr); }
+      if (p.sec && !pr.skis) {
+        pr.skis = makeCrossedSkis();
+        pr.skis.position.set(p.sec[0], this.m.heightAt(p.sec[0], p.sec[1]), p.sec[1]);
+        pr.skis.rotation.y = Math.atan2(p.x - p.sec[0], p.z - p.sec[1]);
+        this.group.add(pr.skis);
+      } else if (!p.sec && pr.skis) { this.group.remove(pr.skis); pr.skis = null; }
+      const v = this.patients.get(p.id);
+      if (!v) continue;
+      const lying = v.model.root.visible && (p.s === 'sled' || (p.s === 'waiting' && p.o && (!p.f || p.wr || (INJURIES[p.inj]?.sev ?? 1) >= 3)));
+      if (p.wr && !pr.blanket) { pr.blanket = makeRescueBlanket(); v.model.root.add(pr.blanket); }
+      if (p.mt && !pr.mattress) { pr.mattress = makeVacuumMattress(); v.model.root.add(pr.mattress); }
+      if (pr.blanket || pr.mattress) {
+        if (lying) {
+          // lay the props along the body (feet -> head) in the character's local frame
+          const h = v.model.boneWorld('Head'), f = v.model.boneWorld('FootL');
+          const yaw = Math.atan2(h.x - f.x, h.z - f.z), mx = (h.x + f.x) / 2, mz = (h.z + f.z) / 2, my = Math.min(h.y, f.y);
+          if (pr.blanket) { pr.blanket.visible = true; pr.blanket.position.set(mx, my + 0.12, mz); pr.blanket.rotation.set(0, yaw, 0); }
+          if (pr.mattress) { pr.mattress.visible = true; pr.mattress.position.set(mx, my - 0.12, mz); pr.mattress.rotation.set(0, yaw, 0); }
+        } else {
+          if (pr.blanket) pr.blanket.visible = false;
+          if (pr.mattress) pr.mattress.visible = false;
+        }
+      }
+    }
+    for (const [id, pr] of this.siteProps) {
+      if (seen.has(id)) continue;
+      if (pr.skis) this.group.remove(pr.skis);
+      this.siteProps.delete(id);
+    }
+    // probe markers expire; a hit stays until the victim is out of the snow
+    this.probes = this.probes.filter((o) => {
+      const pt = o.patientId !== null ? latest.pt.find((q) => q.id === o.patientId) : null;
+      const gone = o.until < this.time || (o.hit && (!pt || pt.s !== 'buried'));
+      if (gone) this.group.remove(o.obj);
+      return !gone;
+    });
+  }
+
+  // the rescue helicopter (RTH) requested by the team
+  updateRth(dt, br, latest) {
+    const he = latest?.he;
+    if (!he) {
+      if (this.rth) { this.group.remove(this.rth.h.root); this.rth = null; }
+      if (this.lzMarker) { this.group.remove(this.lzMarker); this.lzMarker = null; }
+      this.sound.updateRotor?.(0);
+      return;
+    }
+    if (!this.rth) {
+      const h = makeHelicopter();
+      this.group.add(h.root);
+      this.rth = { h, pos: new THREE.Vector3(...he.p), prev: new THREE.Vector3(...he.p), vel: new THREE.Vector3(), pitch: 0, roll: 0, yaw: he.yaw };
+    }
+    const R = this.rth;
+    let x = he.p[0], y = he.p[1], z = he.p[2], yaw = he.yaw;
+    if (br && br.a.he && br.b.he) {
+      const a = br.a.he, b = br.b.he;
+      x = lerp(a.p[0], b.p[0], br.t); y = lerp(a.p[1], b.p[1], br.t); z = lerp(a.p[2], b.p[2], br.t);
+      yaw = lerpAngle(a.yaw, b.yaw, br.t);
+    }
+    R.prev.copy(R.pos);
+    R.pos.set(x, y, z);
+    const k = Math.min(1, dt * 3);
+    R.vel.lerp(new THREE.Vector3().subVectors(R.pos, R.prev).divideScalar(Math.max(dt, 1e-3)), k);
+    const fs = R.vel.x * Math.sin(yaw) + R.vel.z * Math.cos(yaw);
+    const yawRate = Math.atan2(Math.sin(yaw - R.yaw), Math.cos(yaw - R.yaw)) / Math.max(dt, 1e-3);
+    R.yaw = yaw;
+    R.pitch = lerp(R.pitch, THREE.MathUtils.clamp(fs * 0.01, -0.2, 0.28), k);
+    R.roll = lerp(R.roll, THREE.MathUtils.clamp(yawRate * 0.25, -0.35, 0.35), k);
+    const { root, rotor, tailRotor, beacon } = R.h;
+    root.position.copy(R.pos);
+    root.rotation.set(R.pitch, yaw, -R.roll, 'YXZ');
+    rotor.rotation.y += dt * 32;
+    tailRotor.rotation.x += dt * 45;
+    if (beacon) beacon.material.emissiveIntensity = Math.sin(this.time * 9) > 0.6 ? 4 : 0.2;
+    // rotor downwash whips up the snow near the ground
+    const g = this.m.heightAt(x, z), alt = y - g;
+    if (alt < 32) {
+      const n = Math.round((1 - alt / 32) * 6);
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2, r = 3 + Math.random() * 10;
+        const px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r;
+        this.fx.puff.emit(px, this.m.heightAt(px, pz) + 0.3, pz, Math.cos(a) * (8 + Math.random() * 8), 1 + Math.random() * 2, Math.sin(a) * (8 + Math.random() * 8), 1 + Math.random() * 1.5, 1.4, '#ffffff');
+      }
+    }
+    const cam = this.r.camera.position;
+    const d = Math.hypot(x - cam.x, y - cam.y, z - cam.z);
+    this.sound.updateRotor?.(THREE.MathUtils.clamp(1 - d / 700, 0, 1));
+    if (d < 25 && alt < 12) this.shake = Math.max(this.shake, 0.12);
+    // landing zone marking
+    if (he.lz) {
+      if (!this.lzMarker) { this.lzMarker = makeLZMarker(); this.group.add(this.lzMarker); }
+      this.lzMarker.position.set(he.lz[0], he.lz[1], he.lz[2]);
+      const sock = this.lzMarker.userData.windsock;
+      if (sock) sock.rotation.y = 0.8 + Math.sin(this.time * 0.7) * 0.25 + (alt < 25 ? Math.sin(this.time * 9) * 0.3 : 0);
+    } else if (this.lzMarker) { this.group.remove(this.lzMarker); this.lzMarker = null; }
+  }
+
+  // end-of-day stragglers (Pistenschluss)
+  updateStragglers(dt, latest) {
+    const s = this.skier;
+    const seen = new Set();
+    for (const g of latest?.sg || []) {
+      seen.add(g.id);
+      let v = this.stragglers.get(g.id);
+      if (!v) {
+        const ch = new Character(this.app.assets, { kind: 'tourist', model: TOURISTS[g.lk % TOURISTS.length], look: g.lk });
+        this.group.add(ch.root);
+        v = { ch, x: g.x, z: g.z, name: g.n, leaving: false, leaveT: 0, bubble: 0 };
+        this.stragglers.set(g.id, v);
+      }
+      v.ch.root.position.set(v.x, this.m.heightAt(v.x, v.z), v.z);
+      v.ch.root.rotation.y = Math.sin(this.time * 0.3 + g.id) * 1.4;
+      v.ch.animate(dt, { speed: 0, wave: Math.sin(this.time * 0.8 + g.id) > 0.85 });
+      if (s.mode !== 'buried' && Math.hypot(v.x - s.pos.x, v.z - s.pos.z) < 10 && (this.sweepSent.get(g.id) || 0) < this.time) {
+        this.sweepSent.set(g.id, this.time + 1);
+        this.net.send({ t: 'sweepNpc', id: g.id });
+      }
+    }
+    for (const [id, v] of this.stragglers) {
+      if (seen.has(id)) continue;
+      // swept: ski off downhill, then vanish
+      if (!v.leaving) { v.leaving = true; v.bubble = this.time + 3; }
+      v.leaveT += dt;
+      const n = this.m.normalAt(v.x, v.z);
+      const hl = Math.hypot(n.x, n.z) || 1;
+      v.x += (n.x / hl) * 9 * dt; v.z += (n.z / hl) * 9 * dt;
+      v.ch.root.position.set(v.x, this.m.heightAt(v.x, v.z), v.z);
+      v.ch.root.rotation.y = Math.atan2(n.x, n.z);
+      v.ch.animate(dt, { speed: 9, tuck: 0.3 });
+      if (v.leaveT > 5) { this.group.remove(v.ch.root); this.stragglers.delete(id); }
+    }
+  }
+
+  // ambient tourist skiers (client-side only)
+  updateNpcs(dt) {
+    const s = this.skier;
+    this.npcs.update(dt, this.time, this.r.camera.position);
+    if (s.mode === 'ski' && s.speed > 7) {
+      const hit = this.npcs.hitTest(s.pos, s.vel);
+      if (hit) {
+        s.crash('bump');
+        this.sound.play('crash');
+        this.net.send({ t: 'injureTourist', p: [hit.x, hit.y, hit.z] });
+      }
+    }
+    const ph = this.myVeh?.phys;
+    if (ph && ph.speed > 6) {
+      const hit = this.npcs.hitTest(ph.pos, ph.vel, VEHICLE_TYPES[this.vehicles.get(this.myVeh.id)?.type]?.radius || 1.2);
+      if (hit) { this.sound.play('bonk'); this.net.send({ t: 'injureTourist', p: [hit.x, hit.y, hit.z] }); }
+    }
+    this.npcAvoidT -= dt;
+    if (this.npcAvoidT <= 0) {
+      this.npcAvoidT = 0.5;
+      const pts = [];
+      for (const p of this.net.latest()?.pt || []) if (p.sec || p.s === 'waiting') pts.push({ x: p.x, z: p.z, r: p.sec ? 14 : 5 });
+      if (this.lzMarker) pts.push({ x: this.lzMarker.position.x, z: this.lzMarker.position.z, r: 16 });
+      this.npcs.setAvoid(pts);
+    }
   }
 
   updateCharges(dt, br) {
@@ -931,6 +1518,14 @@ export class Game {
       else { const r = this.remotes.get(v.owner); if (!r) continue; px = r.pos.x; py = r.pos.y; pz = r.pos.z; }
       arr.set([px, py + 0.95, pz, v.x + Math.sin(v.yaw) * 1.1, v.y + 0.45, v.z + Math.cos(v.yaw) * 1.1], n * 6);
       n++;
+      // second rescuer on the rear rope
+      if (v.rear !== null && v.rear !== undefined && n < 8) {
+        const rp = v.rear === this.myId ? this.skier.pos : this.remotes.get(v.rear)?.pos;
+        if (rp) {
+          arr.set([rp.x, rp.y + 0.9, rp.z, v.x - Math.sin(v.yaw) * 1.1, v.y + 0.4, v.z - Math.cos(v.yaw) * 1.1], n * 6);
+          n++;
+        }
+      }
     }
     this.ropeGeo.setDrawRange(0, n * 2);
     this.ropeGeo.attributes.position.needsUpdate = true;
@@ -998,27 +1593,44 @@ export class Game {
     const onScreen = (q) => q && q.x > -50 && q.x < W + 50 && q.y > -50 && q.y < H + 50;
     if (latest) {
       for (const p of latest.pt) {
+        const I = INJURIES[p.inj] || INJURIES.knee;
         let x = p.x, z = p.z;
-        if (p.s === 'buried') { x += Math.sin(p.id * 7.3) * 14; z += Math.cos(p.id * 3.1) * 14; }
+        if (p.s === 'buried') { x += Math.sin(p.id * 7.3) * 14; z += Math.cos(p.id * 3.1) * 14; } // only the rough last-seen area is known
         const d = distTo(x, z);
         const mine = s.sled && latest.sl.find((q) => q.id === s.sled.id)?.pt === p.id;
-        if (!mine) markers.push({ ang: angTo(x, z), icon: p.s === 'buried' ? '?' : '✚', dist: d, cls: 'pt' + (p.c < 30 ? ' urgent' : ''), color: p.s === 'buried' ? '#f39c12' : undefined });
-        let title, sub, cls = '';
+        if (!mine && p.s !== 'heli') markers.push({ ang: angTo(x, z), icon: p.s === 'buried' ? '?' : '♥', dist: d, cls: 'pt' + (p.c < 30 ? ' urgent' : ''), color: p.s === 'buried' ? '#f39c12' : undefined });
+        let title = I.de, sub, cls = '';
+        const tags = [];
+        if (p.ack === this.myId) tags.push(['Mein Einsatz', 'ok']);
+        else if (p.ack !== null && p.ack !== undefined) tags.push([this.csOf(p.ack)]);
+        else if (p.s === 'waiting' || p.s === 'buried') tags.push(['nicht quittiert · X', 'warn']);
         if (p.s === 'sled') {
           const sl = latest.sl.find((q) => q.id === p.sl);
           const owner = sl?.o === this.myId ? 'You' : this.remoteInfo(sl?.o).name;
-          title = 'On toboggan → Clinic'; sub = `${p.n} · pulled by ${owner}`; cls = 'sled';
+          sub = `${p.n} · im Akja → ${ORG.clinic} · ${owner}`; cls = 'sled';
+          if (sl?.r !== null && sl?.r !== undefined) tags.push(['2 Retter', 'ok']);
+        } else if (p.s === 'heli') {
+          sub = `${p.n} · an Bord ${ORG.heli}`; cls = 'heli';
         } else if (p.s === 'buried') {
-          title = PATIENT_TITLE.buried; sub = `${p.n} · use your beacon, then dig (E)`; cls = 'buried';
+          title = 'Lawinenverschüttung'; cls = 'buried';
+          sub = `${p.n} · LVS search → probe (E) → dig (hold E)`;
+          tags.push(p.pb ? ['Sondentreffer', 'ok'] : ['Sonde?']);
+          tags.push(p.sv > 0 ? [`Überleben ~${p.sv}s`, p.sv < 20 ? 'warn' : ''] : ['kritisch!', 'warn']);
+        } else if (!p.o) {
+          sub = `${p.n} · ${I.en} · hold E to pull them out`;
         } else if (!p.f) {
-          title = PATIENT_TITLE[p.ty]; sub = `${p.n} · hold E to ${PATIENT_TYPES[p.ty].verb.toLowerCase()}`;
+          sub = `${p.n} · ${I.en} · first aid 1–4`;
+          tags.push([`Versorgung ${p.st}/${I.steps.length}`]);
+          if (p.ty === 'injured') tags.push(p.sec ? ['gesichert', 'ok'] : ['ungesichert', 'warn']);
         } else {
-          title = 'Ready for pickup'; sub = `${p.n} · load onto a toboggan (E)`;
+          sub = `${p.n} · versorgt · ${I.heli ? 'RTH (X) or akja' : 'load into an akja'}`;
+          tags.push(['versorgt', 'ok']);
         }
-        calls.push({ id: p.id, title, sub, dist: p.s === 'buried' ? Math.round(d / 10) * 10 : d, condition: p.c, cls, state: p.s, mine });
+        if (I.heli && p.s !== 'sled' && p.s !== 'heli') tags.push(p.he ? [`${ORG.heli} alarmiert`, 'ok'] : ['RTH-Indikation', 'warn']);
+        calls.push({ id: p.id, title, sub, dist: p.s === 'buried' ? Math.round(d / 10) * 10 : d, condition: p.c, cls, state: p.s, mine, tags });
         if (p.s === 'waiting') {
           const q = this.project(p.x, this.m.heightAt(p.x, p.z) + 2.6, p.z);
-          if (onScreen(q) && d > 4) ui.label(`pt${p.id}`, q.x, q.y, `<div class="wi">✚</div>${Math.round(d)}m<div class="wbar"><i style="width:${p.c}%;background:${p.c > 50 ? '#6be08e' : p.c > 25 ? '#f6b94a' : '#ff5d5d'}"></i></div>`, 'wmark');
+          if (onScreen(q) && d > 4) ui.label(`pt${p.id}`, q.x, q.y, `<div class="wi">♥</div>${Math.round(d)}m<div class="wbar"><i style="width:${p.c}%;background:${p.c > 50 ? '#6be08e' : p.c > 25 ? '#f6b94a' : '#ff5d5d'}"></i></div>`, 'wmark');
           const bub = this.bubbles.get(p.id);
           if (bub && bub.until > this.time && d < 40) {
             const qb = this.project(p.x, this.m.heightAt(p.x, p.z) + 2.2, p.z);
@@ -1026,21 +1638,52 @@ export class Game {
           }
         }
       }
-      // buried teammates on the compass (exact for teammates — they have beacons on)
     }
     calls.sort((a, b) => (b.mine ? 1 : 0) - (a.mine ? 1 : 0) || a.dist - b.dist);
     ui.radio(calls);
+    // dispatch pager card: newest call, until taken (+4 s) or 16 s old
+    const dc = this.dispatchId !== null ? this.calls.get(this.dispatchId) : null;
+    const dcAlive = dc && latest?.pt.some((q) => q.id === dc.id && q.s !== 'sled' && q.s !== 'heli');
+    if (dc && dcAlive && (dc.ack === null ? this.time - dc.at < 30 : this.time - dc.ackAt < 4)) {
+      const I = INJURIES[dc.inj] || INJURIES.knee;
+      ui.dispatch({
+        id: dc.id, title: I.de, sub: `${I.en} · ${dc.name}`, sev: I.sev, where: this.placeText(dc.where), time: this.clockAt(dc.el),
+        taken: dc.ack !== null ? `${this.csOf(dc.ack)}${dc.ack === this.myId ? ' (du)' : ''}` : null, repeat: !!dc.repeat, folge: !!dc.folge,
+      });
+    } else ui.dispatch(null);
     // fixed places
     const C = m.sites.clinic;
     const carrying = s.sled && s.sled.hasPatient;
-    markers.push({ ang: angTo(C.x, C.z), icon: 'H', dist: carrying ? distTo(C.x, C.z) : undefined, cls: carrying ? 'pt urgent' : '', color: '#e63946' });
+    markers.push({ ang: angTo(C.x, C.z), icon: 'H', dist: carrying ? distTo(C.x, C.z) : undefined, cls: carrying ? 'pt urgent' : '', color: '#f07b2c' });
     if (carrying) {
       const q = this.project(C.x, m.heightAt(C.x, C.z) + 6, C.z);
-      if (onScreen(q)) ui.label('clinic', q.x, q.y, `<div class="wi">H</div>CLINIC ${Math.round(distTo(C.x, C.z))}m`, 'wmark clinic');
+      if (onScreen(q)) ui.label('clinic', q.x, q.y, `<div class="wi">H</div>UNFALLAMBULANZ ${Math.round(distTo(C.x, C.z))}m`, 'wmark clinic');
     }
     const L = this.world.liftLoad;
     markers.push({ ang: angTo(L.x, L.z), icon: '🚡', cls: '' });
     markers.push({ ang: angTo(m.sites.hut.x, m.sites.hut.z), icon: '⌂', cls: '' });
+    // helicopter + landing zone
+    const he = latest?.he;
+    if (he) {
+      markers.push({ ang: angTo(he.p[0], he.p[2]), icon: '🚁', dist: distTo(he.p[0], he.p[2]), color: '#1f6f78', cls: 'pt' });
+      const q = this.project(he.p[0], he.p[1] + 4, he.p[2]);
+      const st = { inbound: `ETA ${he.eta}s`, circling: 'kreist · needs a marshal', landing: 'landet', landed: 'gelandet · bring the patient', boarding: 'Patient an Bord', leaving: 'fliegt ab' }[he.s] || '';
+      if (onScreen(q)) ui.label('rth', q.x, q.y, `<div class="wi" style="background:#1f6f78">🚁</div>${ORG.heli} · ${st}`, 'wmark ping', '--c:#1f6f78');
+      if (he.lz) {
+        const ql = this.project(he.lz[0], he.lz[1] + 3, he.lz[2]);
+        if (onScreen(ql)) ui.label('lz', ql.x, ql.y, `<div class="wi" style="background:#f07b2c">H</div>Landeplatz ${Math.round(distTo(he.lz[0], he.lz[2]))}m`, 'wmark ping', '--c:#f07b2c');
+      }
+    }
+    // stragglers at closing time
+    for (const [id, g] of this.stragglers) {
+      const d = distTo(g.x, g.z);
+      if (!g.leaving) markers.push({ ang: angTo(g.x, g.z), icon: '⛷', dist: d, color: '#1f6f78', cls: 'pt' });
+      const q = this.project(g.x, this.m.heightAt(g.x, g.z) + 2.4, g.z);
+      if (onScreen(q) && d < 300) {
+        if (g.leaving && g.bubble > this.time) ui.label(`sgb${id}`, q.x, q.y - 30, 'Ja ja, ich fahr ja schon!', 'bubble');
+        else if (!g.leaving) ui.label(`sg${id}`, q.x, q.y, `<div class="wi" style="background:#1f6f78">⛷</div>Nachzügler ${Math.round(d)}m`, 'wmark ping', '--c:#1f6f78');
+      }
+    }
     for (const [zone, until] of this.warnZones) {
       if (until < this.time) { this.warnZones.delete(zone); continue; }
       const a = m.avalanches[zone];
@@ -1057,30 +1700,38 @@ export class Game {
       if (r.a !== 4) {
         const q = this.project(r.pos.x, r.pos.y + 2.4, r.pos.z);
         const d = distTo(r.pos.x, r.pos.z);
-        if (onScreen(q) && d < 250) ui.label(`tag${id}`, q.x, q.y, `${r.info.name}${d > 30 ? ` · ${Math.round(d)}m` : ''}`, 'tag', `--c:${r.info.color}`);
+        if (onScreen(q) && d < 250) ui.label(`tag${id}`, q.x, q.y, `${r.info.name} · ${this.csOf(id)}${d > 30 ? ` · ${Math.round(d)}m` : ''}`, 'tag', `--c:${r.info.color}`);
       }
     }
     ui.endLabels();
     ui.compass(this.camYaw, markers);
 
-    // beacon
+    // LVS beacon: signal search -> coarse search (arrow) -> fine search (< 3 m, probe) -> probe strike
     const targets = [];
     if (latest) {
-      for (const p of latest.pl) if (p.b && p.id !== this.myId) targets.push({ x: p.b[0], z: p.b[2] });
-      for (const p of latest.pt) if (p.s === 'buried') targets.push({ x: p.x, z: p.z });
+      for (const p of latest.pl) if (p.b && p.id !== this.myId) targets.push({ key: `p${p.id}`, x: p.b[0], z: p.b[2], player: true });
+      for (const p of latest.pt) if (p.s === 'buried') targets.push({ key: `t${p.id}`, x: p.x, z: p.z, hit: p.pb, depth: p.dp });
     }
-    if (targets.length && s.mode !== 'buried') {
+    this.beaconFine = false;
+    if (targets.length && s.mode !== 'buried' && s.mode !== 'vehicle') {
       const range = this.upgrades.beacon ? 120 : 60;
       let best = null, bd = Infinity;
       for (const t of targets) { const d = distTo(t.x, t.z); if (d < bd) { bd = d; best = t; } }
       if (bd <= range) {
         const rel = Math.atan2(Math.sin(this.camYaw - angTo(best.x, best.z)), Math.cos(this.camYaw - angTo(best.x, best.z)));
         this.beepT -= 1 / 60;
-        const interval = THREE.MathUtils.clamp(bd / 28, 0.1, 1.4);
+        const interval = THREE.MathUtils.clamp(bd / 28, 0.08, 1.4);
         let flash = false;
         if (this.beepT <= 0) { this.beepT = interval; this.sound.play('beep'); flash = true; this.beepIdx++; }
-        ui.beacon({ dist: bd, rel: this.upgrades.beacon ? rel : Math.round(rel / (Math.PI / 4)) * (Math.PI / 4), flash: flash || this.beepT > interval * 0.6, flashIdx: this.beepIdx });
-      } else ui.beacon({ dist: null, rel: 0 });
+        const phase = best.hit ? 'hit' : bd <= 3 ? 'fein' : 'grob';
+        this.beaconFine = phase === 'fein' && !best.player;
+        // standard callouts so the team knows when to bring probe and shovels
+        const co = this.callouts.get(best.key) || {};
+        if (bd < 10 && !co.ten) { co.ten = true; this.voice?.say('Zehn!', { priority: true, rate: 1.2 }); this.sound.play('callout'); }
+        if (bd < 3 && !co.fine) { co.fine = true; this.voice?.say('Feinsuche!', { priority: true, rate: 1.2 }); this.sound.play('callout'); }
+        this.callouts.set(best.key, co);
+        ui.beacon({ phase, dist: bd, depth: best.depth, rel: this.upgrades.beacon ? rel : Math.round(rel / (Math.PI / 4)) * (Math.PI / 4), flash: flash || this.beepT > interval * 0.6, flashIdx: this.beepIdx });
+      } else ui.beacon({ phase: 'signal', dist: null, rel: 0 });
     } else ui.beacon(null);
 
     // trail map
@@ -1088,7 +1739,9 @@ export class Game {
       ui.showMap(true);
       const players = [{ x: s.pos.x, z: s.pos.z, yaw: s.heading, color: this.meInfo.color, name: 'You' }];
       for (const r of this.remotes.values()) players.push({ x: r.pos.x, z: r.pos.z, yaw: r.yaw, color: r.info.color, name: r.info.name });
-      const pts = (latest?.pt || []).filter((p) => p.s !== 'sled').map((p) => (p.s === 'buried' ? { x: p.x + Math.sin(p.id * 7.3) * 14, z: p.z + Math.cos(p.id * 3.1) * 14, state: 'buried' } : { x: p.x, z: p.z, state: p.s }));
+      const pts = (latest?.pt || []).filter((p) => p.s !== 'sled' && p.s !== 'heli').map((p) => (p.s === 'buried' ? { x: p.x + Math.sin(p.id * 7.3) * 14, z: p.z + Math.cos(p.id * 3.1) * 14, state: 'buried' } : { x: p.x, z: p.z, state: p.s }));
+      for (const g of this.stragglers.values()) if (!g.leaving) pts.push({ x: g.x, z: g.z, state: 'straggler' });
+      if (latest?.he) pts.push({ x: latest.he.p[0], z: latest.he.p[2], state: 'heli' });
       ui.drawMap(players, pts, this.pings);
     } else ui.showMap(false);
     void br;
@@ -1097,6 +1750,10 @@ export class Game {
   end() {
     this.ended = true;
     this.ui.prompt(null);
+    this.ui.dispatch(null);
+    this.ui.treatment(null);
+    this.sound.updateSiren?.(false, 0);
+    this.sound.updateRotor?.(0);
     this.ui.buried(false);
     this.ui.beacon(null);
     this.ui.showMap(false);
@@ -1105,6 +1762,12 @@ export class Game {
   dispose() {
     this.disposed = true;
     this.sound.updateEngine?.(false, 0, false);
+    this.sound.updateSiren?.(false, 0);
+    this.sound.updateRotor?.(0);
+    this.voice?.cancel();
+    this.npcs.dispose();
+    this.ui.dispatch(null);
+    this.ui.treatment(null);
     this.scene.remove(this.group);
     for (const sl of this.slides) sl.dispose();
     this.fx.clear();

@@ -285,9 +285,11 @@ export class Skier {
     const along = sv.x * fx + sv.z * fz;
     const lx = -fz, lz = fx;
     const side = sv.x * lx + sv.z * lz;
-    const keep = Math.exp(-(this.upgrades.toboggan ? 4 : 2.6) * h);
+    // a second rescuer on the rear rope keeps the akja straight and brakes it on steep ground
+    const assist = !!s.assist;
+    const keep = Math.exp(-(this.upgrades.toboggan ? 4 : 2.6) * (assist ? 1.8 : 1) * h);
     sv.x -= lx * side * (1 - keep); sv.z -= lz * side * (1 - keep);
-    const fr = Math.exp(-0.25 * h);
+    const fr = Math.exp(-(assist && n.y < 0.95 ? 0.9 : 0.25) * h);
     sv.x *= fr; sv.z *= fr;
     sp.addScaledVector(sv, h);
     const g = m.heightAt(sp.x, sp.z);
@@ -327,7 +329,7 @@ export class Skier {
           if (s.hasPatient) this.events.push({ type: 'sledHit', mag: -vv * 1.4 });
           s.hitCd = 0.4;
           this.events.push({ type: 'sledBonk', mag: -vv });
-          if (-vv > (this.upgrades.toboggan ? 12 : 8)) this.tipSled();
+          if (-vv > (this.upgrades.toboggan ? 12 : 8) * (assist ? 1.5 : 1)) this.tipSled();
         }
         sv.x -= nx * vv * 1.3; sv.z -= nz * vv * 1.3;
       }
@@ -336,7 +338,7 @@ export class Skier {
     const ssp = Math.hypot(sv.x, sv.z);
     if (!s.tip && ssp > 7) {
       const sideNow = Math.abs(sv.x * -Math.cos(s.yaw) + sv.z * Math.sin(s.yaw));
-      if (sideNow > (this.upgrades.toboggan ? 9 : 6)) this.tipSled();
+      if (sideNow > (this.upgrades.toboggan ? 9 : 6) * (assist ? 1.6 : 1)) this.tipSled();
     }
   }
 
@@ -357,6 +359,8 @@ export class Skier {
 
   animCode() {
     // compact animation state for the network
+    if (this.mode === 'ski' && this.act === 'dig') return 10;
+    if (this.mode === 'ski' && this.act === 'wave') return 11;
     switch (this.mode) {
       case 'air': return 1;
       case 'crash': return 2;

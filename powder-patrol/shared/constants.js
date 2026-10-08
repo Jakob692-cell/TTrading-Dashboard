@@ -79,7 +79,7 @@ export const TOURIST_NAMES = [
 export function emptyStats() {
   return {
     rescues: 0, crashes: 0, topSpeed: 0, buried: 0, bumps: 0, charges: 0, digs: 0,
-    conditionSum: 0, ejections: 0, liftRides: 0,
+    conditionSum: 0, ejections: 0, liftRides: 0, treats: 0, probes: 0, secures: 0, assists: 0, sweeps: 0, acks: 0,
   };
 }
 
@@ -94,6 +94,12 @@ export const AWARDS = [
   { key: 'digs', title: 'Snow Mole', desc: 'Dug out the most people' },
   { key: 'ejections', title: 'Toboggan Tosser', desc: 'Launched patients off the sled' },
   { key: 'liftRides', title: 'Chairlift Romantic', desc: 'Most chairlift rides' },
+  { key: 'treats', title: 'Field Medic', desc: 'Most first-aid measures done right' },
+  { key: 'probes', title: 'Probe Line Hero', desc: 'Most probe strikes in the debris' },
+  { key: 'secures', title: 'Crossed Skis', desc: 'Secured the most accident sites' },
+  { key: 'assists', title: 'Second Rescuer', desc: 'Held the akja rope the most' },
+  { key: 'acks', title: 'Radio Operator', desc: 'Answered the most dispatch calls' },
+  { key: 'sweeps', title: 'Last Run', desc: 'Sent the most stragglers home at closing' },
 ];
 
 // Drivable vehicles. Seats are [x, y, z] offsets in the vehicle frame (+z = forward); seat 0 is the driver.
@@ -114,4 +120,101 @@ export const VEHICLE_TYPES = {
     label: 'Rescue Truck', seats: [[-0.5, 1.45, 1.35], [0.5, 1.45, 1.35]], maxSpeed: 22, accel: 6, climb: 0.3,
     grip: 3.4, turn: 1.1, radius: 2.3, len: 5.0, wid: 2.5, tow: false, mass: 3.5, model: 'truck', scale: 0.85, ambulance: true,
   },
+};
+
+// ---------------------------------------------------------------- mountain rescue (Pistenrettung)
+// Fictional organisation. Never use real rescue-org names, the red cross / Swiss cross or edelweiss badges.
+export const ORG = {
+  name: 'Pistenrettung Hintereck',
+  short: 'Pistenrettung',
+  station: 'Rettungswache Hintereck',
+  dispatch: 'Leitstelle Talheim',
+  heli: 'Föhn 1',
+  heliOperator: 'Talflug',
+  clinic: 'Unfallambulanz Talheim',
+  channel: 'Bergfunk Kanal 7',
+};
+export const callsign = (slot) => `Hintereck ${1 + (slot | 0)}`;
+
+// European avalanche danger scale (names only; icons are our own)
+export const DANGER_DE = ['', 'gering', 'mäßig', 'erheblich', 'groß', 'sehr groß'];
+export const DANGER_EN = ['', 'Low', 'Moderate', 'Considerable', 'High', 'Very high'];
+
+// First-aid measures. time = seconds the action takes (client animation, server minimum spacing).
+export const AID_STEPS = {
+  check: { de: 'Notfallcheck (ABCDE)', en: 'Primary survey (ABCDE)', icon: '🩺', time: 1.1 },
+  cspine: { de: 'Kopf/HWS stabilisieren', en: 'Stabilise head & neck', icon: '🧣', time: 1.0 },
+  airway: { de: 'Atemwege freimachen', en: 'Clear the airway', icon: '💨', time: 1.0 },
+  dms: { de: 'DMS prüfen (Puls, Motorik, Gefühl)', en: 'Check pulse, movement, feeling', icon: '🦶', time: 0.8 },
+  vacuumSplint: { de: 'Vakuumschiene anlegen', en: 'Vacuum splint', icon: '🦴', time: 1.4 },
+  kneeSplint: { de: 'Knie schienen', en: 'Splint the knee', icon: '🦵', time: 1.2 },
+  armSplint: { de: 'Mehrzweckschiene', en: 'Multi-purpose splint', icon: '🩹', time: 1.0 },
+  sling: { de: 'Arm ruhigstellen (Dreiecktuch)', en: 'Sling the arm', icon: '🔺', time: 1.0 },
+  mattress: { de: 'Vakuummatratze', en: 'Vacuum mattress', icon: '🛏', time: 1.6 },
+  cool: { de: 'Kühlen', en: 'Cool the injury', icon: '❄', time: 0.8 },
+  warm: { de: 'Wärmeerhalt (Rettungsdecke)', en: 'Keep warm (rescue blanket)', icon: '✨', time: 1.0 },
+  heatPack: { de: 'Wärmepackung', en: 'Hypothermia wrap', icon: '🔥', time: 1.4 },
+  // traps: never right — popular myths and mistakes
+  reduce: { de: 'Schulter einrenken', en: 'Pop the shoulder back in', icon: '💪', time: 1.0, trap: 'Nie selbst einrenken – Nerven und Gefäße!' },
+  helmetOff: { de: 'Helm abnehmen', en: 'Take the helmet off', icon: '⛑', time: 0.8, trap: 'Helm bleibt drauf, Kopf achsengerecht halten!' },
+  sitUp: { de: 'Patient aufsetzen', en: 'Sit the patient up', icon: '🪑', time: 0.8, trap: 'Bei Verdacht auf Wirbelsäule nie aufsetzen!' },
+  bootOff: { de: 'Skischuh ausziehen', en: 'Pull the ski boot off', icon: '🥾', time: 0.8, trap: 'Skischuh nur öffnen, nicht ausziehen!' },
+  schnaps: { de: 'Schnaps zum Aufwärmen', en: 'Schnapps to warm up', icon: '🥃', time: 0.8, trap: 'Alkohol kühlt aus – niemals!' },
+  rubSnow: { de: 'Mit Schnee abreiben', en: 'Rub with snow', icon: '🧊', time: 0.8, trap: 'Abreiben schadet – nur sanft wärmen!' },
+};
+
+// Injury patterns. sev 1..3 (Notfall-Stufe); heli = needs the rescue helicopter (RTH) if it can fly.
+// traps = typical mistakes offered as wrong answers for this injury.
+export const INJURIES = {
+  knee: { de: 'Knieverletzung', en: 'Knee injury', sev: 1, steps: ['check', 'cool', 'kneeSplint', 'warm'], traps: ['bootOff'] },
+  wrist: { de: 'Handgelenksbruch', en: 'Broken wrist', sev: 1, steps: ['check', 'dms', 'armSplint', 'sling'], traps: ['rubSnow'] },
+  shoulder: { de: 'Schulterluxation', en: 'Dislocated shoulder', sev: 1, steps: ['check', 'dms', 'sling', 'warm'], traps: ['reduce'] },
+  lowerLeg: { de: 'Unterschenkelbruch', en: 'Broken lower leg', sev: 2, steps: ['check', 'dms', 'vacuumSplint', 'warm'], traps: ['bootOff'] },
+  hip: { de: 'Oberschenkel-/Hüftverletzung', en: 'Hip / thigh injury', sev: 3, heli: true, steps: ['check', 'dms', 'mattress', 'heatPack'], traps: ['sitUp', 'schnaps'] },
+  head: { de: 'Schädel-Hirn-Trauma', en: 'Head injury', sev: 3, heli: true, steps: ['cspine', 'airway', 'check', 'warm'], traps: ['helmetOff'] },
+  spine: { de: 'V.a. Wirbelsäulenverletzung', en: 'Suspected spinal injury', sev: 3, heli: true, steps: ['cspine', 'check', 'mattress', 'warm'], traps: ['sitUp', 'helmetOff'] },
+  hypo: { de: 'Unterkühlung', en: 'Hypothermia', sev: 2, steps: ['airway', 'check', 'heatPack'], traps: ['schnaps', 'rubSnow'] },
+  burial: { de: 'Lawinenverschüttung', en: 'Avalanche burial', sev: 3, heli: true, steps: ['airway', 'check', 'heatPack'], traps: ['schnaps', 'sitUp'] },
+};
+// roughly the real mix of piste accidents: knees and lower legs first
+export const INJURY_POOL = ['knee', 'knee', 'knee', 'lowerLeg', 'lowerLeg', 'wrist', 'shoulder', 'head', 'spine', 'hip'];
+
+export const RESCUE = {
+  heliEta: 22, // seconds from request to arrival
+  heliWait: 40, // seconds the landed helicopter waits for the patient
+  lzMaxDist: 90, // landing zone must be within this distance of the patient
+  lzMaxSlope: 0.3, // tan of max slope at the landing zone
+  lzClear: 9, // no colliders within this radius
+  probeHitRadius: 0.9,
+  secureBonus: 5,
+  ackBonus: 5,
+  assistBonus: 10,
+  sweepBonus: 15,
+  stragglerPenalty: 10,
+  sweepAt: 0.9, // fraction of the shift when the closing sweep (Pistenschluss) starts
+  buriedGrace: 55, // seconds of flat survival before the curve drops (scaled-down "15 minutes")
+};
+
+// Leitstelle radio (in-world German radio jargon). {cs} callsign, {heli} helicopter, {where} place, {eta} seconds
+export const RADIO = {
+  call: 'Pistenrettung Hintereck von Leitstelle Talheim: Einsatz, {what}. {where}. Kommen.',
+  repeat: 'Pistenrettung Hintereck von Leitstelle Talheim, bitte melden! Einsatz {where} noch offen. Kommen.',
+  ack: 'Hier {cs}, verstanden, übernehme. Kommen.',
+  secured: 'Hier {cs}: Unfallstelle abgesichert, Ski stecken oberhalb.',
+  heliReq: 'Hier {cs} mit Nachforderung: Benötigen Rettungshubschrauber mit Notarzt. Kommen.',
+  heliOk: 'Verstanden. {heli} ist alarmiert, Eintreffen in etwa {eta} Sekunden. Landeplatz vorbereiten. Kommen.',
+  heliNoWeather: 'Abgelehnt, Sicht unter Minimum. Abtransport bodengebunden. Kommen.',
+  heliNoDark: 'Abgelehnt, keine Flüge mehr nach Sonnenuntergang. Abtransport bodengebunden. Kommen.',
+  heliCircle: 'Hintereck von {heli}: Kein Landeplatz in Sicht, wir kreisen. Einweiser! Kommen.',
+  heliApproach: 'Hintereck von {heli}: Im Anflug, sehe Einweiser. Kommen.',
+  heliLanded: '{heli} ist gelandet. Patient zum Hubschrauber bringen!',
+  heliDone: '{heli}: Patient an Bord, fliegen ins Klinikum. Ende.',
+  heliAbort: '{heli}: Einsatz abgebrochen, drehen ab. Ende.',
+  lzLost: '{heli}: Einweiser verloren! Landeplatz räumen und neu einweisen. Kommen.',
+  folge: 'Achtung, von oben! Folgeunfall – wer hat die Ski nicht gesteckt?!',
+  delivered: 'Hier {cs}: Patient übergeben, wieder einsatzbereit. Kommen.',
+  sweep: 'An alle: Lifte stehen. Beginnen letzte Kontrollfahrt, Pisten werden gesperrt. Ende.',
+  avalanche: 'An alle: Lawinenabgang {where}! LVS auf Suchen! Kommen.',
+  mayday: 'Mayday, Mayday, Mayday, hier {cs}: Retter verschüttet! Kommen.',
+  bulletin: 'Lawinenlagebericht für heute: Warnstufe {level}, {name}.',
 };

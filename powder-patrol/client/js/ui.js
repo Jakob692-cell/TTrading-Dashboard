@@ -1,11 +1,11 @@
 // DOM user interface: screens, HUD widgets, world-anchored labels, trail map, results.
-import { JACKET_COLORS, CHARACTERS, SHOP_ITEMS } from '/shared/constants.js';
+import { JACKET_COLORS, CHARACTERS, SHOP_ITEMS, DANGER_DE, DANGER_EN, INJURIES } from '/shared/constants.js';
 import { renderPortrait } from './models.js';
 import { Character } from './characters.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const DANGER = ['', 'Low', 'Moderate', 'Considerable', 'High', 'Very High'];
+const TRANSPORT = { akja: 'Akja', akja2: 'Akja (2 rescuers)', rtw: 'Rescue truck', rth: 'Helicopter Föhn 1', airlift: 'Emergency airlift', open: 'Night shift' };
 
 export class UI {
   constructor() {
@@ -124,7 +124,7 @@ export class UI {
       const d = $('danger');
       d.className = `danger lv${h.danger}` + (this.lastDanger && h.danger > this.lastDanger ? ' flash' : '');
       $('danger-num').innerHTML = `<span>${h.danger}</span>`;
-      $('danger-label').textContent = DANGER[h.danger];
+      $('danger-label').textContent = `${DANGER_DE[h.danger]} · ${DANGER_EN[h.danger]}`;
       this.lastDanger = h.danger;
     }
   }
@@ -153,15 +153,59 @@ export class UI {
   }
 
   radio(calls) {
-    const key = calls.map((c) => `${c.id}:${c.state}:${Math.round(c.condition / 5)}:${Math.round(c.dist / 10)}`).join('|');
+    const key = calls.map((c) => `${c.id}:${c.state}:${Math.round(c.condition / 5)}:${Math.round(c.dist / 10)}:${c.tags.map((t) => t[0]).join(',')}`).join('|');
     if (key === this.radioKey) return;
     this.radioKey = key;
     $('radio').innerHTML = calls.slice(0, 4).map((c) => `
       <div class="call ${c.cls}">
         <div class="ct">${esc(c.title)}</div><div class="cd">${Math.round(c.dist)}m</div>
         <div class="cs">${esc(c.sub)}</div>
+        ${c.tags.length ? `<div class="tags">${c.tags.map(([t, k]) => `<i class="${k || ''}">${esc(t)}</i>`).join('')}</div>` : ''}
         <div class="cbar"><i style="width:${c.condition}%;background:${c.condition > 50 ? '#2e9e5b' : c.condition > 25 ? '#f39c12' : '#e63946'}"></i></div>
       </div>`).join('');
+  }
+
+  // pager / dispatch card from the Leitstelle
+  dispatch(card) {
+    const d = $('dispatch');
+    if (!card) { d.classList.add('hidden'); this.dispatchKey = null; return; }
+    const key = JSON.stringify(card);
+    if (key === this.dispatchKey) return;
+    const fresh = !this.dispatchKey || JSON.parse(this.dispatchKey).id !== card.id;
+    this.dispatchKey = key;
+    d.classList.remove('hidden');
+    d.classList.toggle('taken', !!card.taken);
+    if (fresh) { d.style.animation = 'none'; void d.offsetWidth; d.style.animation = ''; }
+    d.innerHTML = `
+      <div class="ph"><span>${card.repeat ? 'REPEAT · ' : ''}${card.folge ? 'FOLGEUNFALL · ' : ''}EINSATZ · LEITSTELLE TALHEIM</span><span class="blink">● ${esc(card.time)}</span></div>
+      <div class="pt">${esc(card.title)}<span class="sev s${card.sev}">NOTFALL ${card.sev}</span></div>
+      <div class="pw">${esc(card.where)} · ${esc(card.sub)}</div>
+      <div class="pa">${card.taken ? `<span class="taken">✔ ${esc(card.taken)} übernimmt</span>` : `<kbd>X</kbd><span>Übernehmen · take the call</span>`}</div>`;
+  }
+
+  // radio subtitle line (German radio jargon + English gloss)
+  radioSub(from, de, en, dur = 5) {
+    const r = $('radio-sub');
+    r.innerHTML = `<b>📻 ${esc(from)}:</b>${esc(de)}${en ? `<small>${esc(en)}</small>` : ''}`;
+    r.classList.remove('hidden');
+    clearTimeout(this.radioSubT);
+    this.radioSubT = setTimeout(() => r.classList.add('hidden'), dur * 1000);
+  }
+
+  // first-aid panel
+  treatment(t) {
+    const el = $('treat');
+    if (!t) { el.classList.add('hidden'); this.treatKey = null; return; }
+    const key = JSON.stringify(t);
+    if (key === this.treatKey) return;
+    this.treatKey = key;
+    el.classList.remove('hidden');
+    el.innerHTML = `
+      <div class="th"><div class="tt">${esc(t.title)}<small>${esc(t.sub)}</small></div><div class="ts">ERSTVERSORGUNG ${t.done}/${t.total}</div></div>
+      <div class="steps">${t.steps.map((st) => `<span class="${st.state}">${st.state === 'done' ? '✓ ' : st.state === 'next' ? '? ' : ''}${esc(st.label)}</span>`).join('')}</div>
+      <div class="choices">${t.choices.map((c) => `<div class="choice ${c.cls || ''}"><kbd>${c.key}</kbd><span class="ci">${c.icon}</span><div>${esc(c.de)}<small>${esc(c.en)}</small></div></div>`).join('')}</div>
+      ${t.busy !== null ? `<div class="bar"><i style="width:${Math.round(t.busy * 100)}%"></i></div>` : ''}
+      ${t.hint ? `<div class="hint">${esc(t.hint)}</div>` : ''}`;
   }
 
   prompt(text, key = 'E', progress = null) {
@@ -224,10 +268,15 @@ export class UI {
     const b = $('beacon');
     if (!state) { b.classList.add('hidden'); return; }
     b.classList.remove('hidden');
-    $('beacon-dist').textContent = state.dist === null ? '--' : `${Math.round(state.dist)}m`;
-    $('beacon-sub').textContent = state.dist === null ? 'SEARCHING…' : state.dist < 3 ? 'DIG HERE!' : 'SIGNAL';
+    const ph = state.phase || (state.dist === null ? 'signal' : 'grob');
+    const PH = { signal: 'SIGNALSUCHE', grob: 'GROBSUCHE', fein: 'FEINSUCHE', hit: 'SONDENTREFFER' };
+    $('beacon-phase').textContent = PH[ph];
+    $('beacon-dist').textContent = state.dist === null ? '--' : ph === 'fein' || ph === 'hit' ? `${state.dist.toFixed(1)}m` : `${Math.round(state.dist)}m`;
+    const sub = $('beacon-sub');
+    sub.textContent = ph === 'signal' ? 'KEIN SIGNAL · SEARCH STRIPS' : ph === 'grob' ? 'FOLLOW THE ARROW' : ph === 'fein' ? 'SONDIEREN (E) · PROBE' : `TIEFE ${state.depth?.toFixed(2) ?? '?'}m · SCHAUFELN`;
+    sub.classList.toggle('fine', ph === 'fein' || ph === 'hit');
     const arrow = $('beacon-arrow');
-    arrow.style.visibility = state.dist === null ? 'hidden' : 'visible';
+    arrow.style.visibility = ph === 'grob' ? 'visible' : 'hidden';
     arrow.style.transform = `rotate(${state.rel}rad)`;
     const leds = b.querySelectorAll('.beacon-leds i');
     leds.forEach((l, i) => l.classList.toggle('on', state.dist !== null && state.flash && i === (state.flashIdx % 3)));
@@ -352,8 +401,8 @@ export class UI {
       ctx.textAlign = 'left';
     };
     lbl('SUMMIT LIFT', m.lift.top.x + 20, m.lift.top.z + 14, '#2f6fd6');
-    lbl('✚ PATROL HUT', m.sites.hut.x, m.sites.hut.z - 4, '#e63946');
-    lbl('✚ CLINIC', m.sites.clinic.x, m.sites.clinic.z, '#e63946');
+    lbl('RETTUNGSWACHE', m.sites.hut.x, m.sites.hut.z - 4, '#1f6f78');
+    lbl('UNFALLAMBULANZ', m.sites.clinic.x, m.sites.clinic.z, '#f07b2c');
     lbl('LIFT', m.lift.bottom.x, m.lift.bottom.z + 6, '#2f6fd6');
     lbl('BASE LODGE', m.sites.lodge.x - 10, m.sites.lodge.z + 16, '#5f3c28');
     this.mapBase = cv;
@@ -369,12 +418,14 @@ export class UI {
     for (const p of patients) {
       ctx.save();
       ctx.translate(sx(p.x), sz(p.z));
-      ctx.fillStyle = p.state === 'buried' ? '#f39c12' : '#e63946';
+      ctx.fillStyle = p.state === 'buried' ? '#f39c12' : p.state === 'straggler' ? '#1f6f78' : p.state === 'heli' ? '#f07b2c' : '#e63946';
       ctx.strokeStyle = '#fff';
       ctx.lineWidth = 3;
       ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.fillStyle = '#fff';
-      ctx.fillRect(-2, -6, 4, 12); ctx.fillRect(-6, -2, 12, 4);
+      ctx.font = '900 13px Nunito';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(p.state === 'buried' ? '?' : p.state === 'straggler' ? 'S' : p.state === 'heli' ? 'H' : '!', 0, 1);
       ctx.restore();
     }
     for (const p of pings) {
@@ -394,6 +445,7 @@ export class UI {
       ctx.restore();
       ctx.font = '900 12px Nunito';
       ctx.fillStyle = '#1c2741';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
       ctx.fillText(p.name, sx(p.x) + 12, sz(p.z) - 8);
     }
   }
@@ -411,6 +463,14 @@ export class UI {
     $('res-delivered').textContent = r.delivered;
     $('res-airlift').textContent = r.airlifted;
     $('res-controlled').textContent = r.controlled;
+    $('res-sweep').textContent = `${(r.stragglers || 0) - (r.stragglersMissed || 0)}/${r.stragglers || 0}`;
+    const proto = r.protocol || [];
+    $('res-protocol').innerHTML = `<div class="h">Einsatzprotokoll · Mission log</div>${proto.length ? `<table>
+      <tr><th>Patient</th><th>Diagnosis</th><th>Measures</th><th>Transport</th><th>Time</th><th>Handover</th></tr>
+      ${proto.map((e) => `<tr><td>${esc(e.name)}${e.folge ? ' <small>(Folgeunfall)</small>' : ''}</td><td>${esc(INJURIES[e.inj]?.de || e.inj)}</td>
+        <td>${e.steps}/${e.total}${e.wrong ? ` · ${e.wrong}✗` : ''}${e.secured ? ' · gesichert' : ''}</td><td>${esc(TRANSPORT[e.transport] || e.transport)}</td>
+        <td>${e.mins} min</td><td class="c" style="color:${e.condition > 50 ? '#2e9e5b' : e.condition > 25 ? '#c77700' : '#b51f2c'}">${e.condition}%</td></tr>`).join('')}
+    </table>` : '<div class="none">No missions today.</div>'}`;
     $('res-awards').innerHTML = r.players.map((p, i) => {
       const s = p.stats;
       const avg = s.rescues ? Math.round(s.conditionSum / s.rescues) : 0;

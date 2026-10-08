@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Powder Patrol</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e63946'/%3E%3Cpath d='M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28.5' fill='%23f07b2c' stroke='%231f6f78' stroke-width='5'/%3E%3Cpath d='M11 30h8l4-8 6 15 5-11 3 4h16' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 40c1.5 6 5 8 10 8h20c4 0 7-2 9-8z' fill='white'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
   <script type="importmap">
     {
@@ -23,7 +23,7 @@
     <!-- ============ LOADING ============ -->
     <div id="loading" class="screen show">
       <div class="loader-card">
-        <div class="logo small"><span class="cross"></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
+        <div class="logo small"><span class="emblem"><svg class="emblem-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28.5" fill="#f07b2c" stroke="#1f6f78" stroke-width="5"/><path d="M11 30h8l4-8 6 15 5-11 3 4h16" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 40c1.5 6 5 8 10 8h20c4 0 7-2 9-8z" fill="#fff"/><path d="M50 40l4-5" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
         <div class="loader-bar"><div id="loader-fill"></div></div>
         <div id="loader-text">Waxing skis…</div>
       </div>
@@ -32,8 +32,8 @@
     <!-- ============ MAIN MENU ============ -->
     <div id="menu" class="screen">
       <div class="menu-left">
-        <div class="logo"><span class="cross"></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
-        <div class="tagline">Co-op ski rescue chaos for 1–4 patrollers</div>
+        <div class="logo"><span class="emblem"><svg class="emblem-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28.5" fill="#f07b2c" stroke="#1f6f78" stroke-width="5"/><path d="M11 30h8l4-8 6 15 5-11 3 4h16" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 40c1.5 6 5 8 10 8h20c4 0 7-2 9-8z" fill="#fff"/><path d="M50 40l4-5" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></span><span class="l1">POWDER</span><span class="l2">PATROL</span></div>
+        <div class="tagline">Co-op ski rescue for 1–4 patrollers · <span class="de">Pistenrettung Hintereck</span></div>
         <div class="menu-buttons">
           <button class="sign green" id="btn-host"><i class="ico circle"></i><span>Start a Patrol</span><small>host a new room</small></button>
           <div class="join-row">
@@ -62,31 +62,35 @@
         <div class="card-title">How to Patrol</div>
         <div class="how-grid">
           <div class="how-col">
-            <h3><i class="ico circle"></i> The Job</h3>
-            <p>Radio calls pop up all over the mountain. Follow the <b class="red">red smoke</b>, grab a <b>toboggan</b> from the rack at the summit hut, load the patient and get them to the <b>clinic</b> at the base — fast <i>and</i> gentle.</p>
-            <p>Every crash on the way hurts your patient. Tip the sled and they go flying.</p>
-            <p>Earn the <b>daily quota</b> before the lifts close at 16:30 or you're fired.</p>
+            <h3><i class="ico circle"></i> Der Einsatz · The call</h3>
+            <p>The pager goes off and <b>Leitstelle Talheim</b> sends a mission. Press <kbd>X</kbd> on the radio to take it (<i>„übernehme“</i>). Follow the <b class="red">red smoke</b>.</p>
+            <p>At the scene, plant <b>crossed skis</b> 10&nbsp;m uphill (<kbd>E</kbd>), or the next skier may crash into you (<i>Folgeunfall</i>).</p>
+            <p><b>First aid</b>: pick each measure in the right order with <kbd>1</kbd>–<kbd>4</kbd>. Watch out for myths. Never pop a shoulder back in!</p>
+            <p>Then load the patient into the <b>akja</b> and bring them down to the <b>Unfallambulanz</b>. A teammate can take the <b>rear rope</b> (<kbd>E</kbd>) to keep the akja steady.</p>
           </div>
           <div class="how-col">
-            <h3><i class="ico square"></i> Avalanches</h3>
-            <p>Orange flags mark <b>avalanche zones</b>. The danger rises all day. Toss <b>charges</b> (crate at the hut) onto a cornice to trigger a controlled slide for cash.</p>
-            <p>If someone gets <b>buried</b>, your <b>beacon</b> turns on. Follow the beeps, then everyone hold <kbd>E</kbd> to dig — together it's faster. Air runs out!</p>
+            <h3><i class="ico square"></i> Lawine · Avalanche</h3>
+            <p>The <b>Lawinenlagebericht</b> (1–5) at the station sets the risk. Throw <b>charges</b> (<kbd>G</kbd>) onto cornices for controlled releases.</p>
+            <p>Buried? <b>LVS</b> search: signal, then coarse, then fine search. At under 3&nbsp;m, <b>probe</b> (<kbd>E</kbd>) until you hit, then dig together. After ~1 minute the survival curve drops fast.</p>
+            <p>Head, spine or hip injuries need the <b>helicopter</b> „Föhn&nbsp;1“: request it with <kbd>X</kbd>, stand on flat open ground and hold <kbd>E</kbd> to <b>marshal</b> it in (arms up!). No flights in storms or at dusk.</p>
+            <p>At closing time comes the <b>last sweep</b>: send the stragglers off the slopes.</p>
           </div>
           <div class="how-col">
             <h3><i class="ico diamond"></i> Controls</h3>
             <table class="keys">
-              <tr><td><kbd>A</kbd><kbd>D</kbd></td><td>Carve left / right</td></tr>
-              <tr><td><kbd>W</kbd></td><td>Tuck (fast) / skate</td></tr>
-              <tr><td><kbd>S</kbd></td><td>Brake (snowplough)</td></tr>
-              <tr><td><kbd>Space</kbd></td><td>Jump (spin in the air!)</td></tr>
-              <tr><td><kbd>E</kbd></td><td>Interact / grab sled / dig / ride lift</td></tr>
-              <tr><td><kbd>Q</kbd></td><td>Drop toboggan</td></tr>
-              <tr><td><kbd>G</kbd></td><td>Throw avalanche charge</td></tr>
-              <tr><td><kbd>F</kbd></td><td>Ping location</td></tr>
-              <tr><td><kbd>Tab</kbd></td><td>Trail map</td></tr>
-              <tr><td><kbd>T</kbd></td><td>Chat</td></tr>
-              <tr><td><kbd>R</kbd> (hold)</td><td>Back to summit hut</td></tr>
+              <tr><td><kbd>A</kbd><kbd>D</kbd></td><td>Carve / steer</td></tr>
+              <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Tuck · skate / brake</td></tr>
+              <tr><td><kbd>Space</kbd></td><td>Jump · handbrake</td></tr>
+              <tr><td><kbd>E</kbd></td><td>Interact · secure · probe · dig · marshal</td></tr>
+              <tr><td><kbd>1</kbd>–<kbd>4</kbd></td><td>First-aid measures</td></tr>
+              <tr><td><kbd>X</kbd></td><td>Radio: take call · request helicopter</td></tr>
+              <tr><td><kbd>Q</kbd></td><td>Drop akja / let go of rope</td></tr>
+              <tr><td><kbd>B</kbd> / <kbd>H</kbd></td><td>Blue lights &amp; siren / horn</td></tr>
+              <tr><td><kbd>G</kbd> · <kbd>F</kbd></td><td>Charge · ping</td></tr>
+              <tr><td><kbd>Tab</kbd> · <kbd>T</kbd></td><td>Trail map · chat</td></tr>
+              <tr><td><kbd>R</kbd> (hold)</td><td>Back to the station</td></tr>
             </table>
+            <p class="muted small">Simplified for gameplay. This is not first-aid training.</p>
           </div>
         </div>
         <button class="btn" data-close>Got it</button>
@@ -104,6 +108,10 @@
         <label class="field row"><span>Master volume</span><input type="range" id="set-vol" min="0" max="1" step="0.05" /></label>
         <label class="field row"><span>Music</span><input type="range" id="set-music" min="0" max="1" step="0.05" /></label>
         <label class="field row"><span>Invert mouse Y</span><input type="checkbox" id="set-invert" /></label>
+        <label class="field row"><span>Radio voice (German)</span><input type="checkbox" id="set-voice" /></label>
+        <label class="field row"><span>Language</span>
+          <select id="set-lang"><option value="auto">Auto</option><option value="de">Deutsch</option><option value="en">English</option></select>
+        </label>
         <button class="btn" data-close>Done</button>
       </div>
     </div>
@@ -144,10 +152,13 @@
           <div class="quota"><div class="quota-fill" id="quota-fill"></div><div class="quota-mark"></div></div>
           <div class="money-row"><span id="money">$0</span><span class="quota-text">/ <span id="quota">$200</span> quota</span></div>
         </div>
-        <div class="danger" id="danger"><div class="danger-num" id="danger-num"><span>1</span></div><div class="danger-txt"><b>Avalanche danger</b><span id="danger-label">Low</span></div></div>
+        <div class="danger" id="danger"><div class="danger-num" id="danger-num"><span>1</span></div><div class="danger-txt"><b>Lawinenwarnstufe</b><span id="danger-label">gering</span></div></div>
       </div>
       <div class="hud-tr"><div id="radio"></div></div>
       <div id="crosshair"></div>
+      <div id="dispatch" class="hidden"></div>
+      <div id="radio-sub" class="hidden"></div>
+      <div id="treat" class="hidden"></div>
       <div id="prompt" class="hidden"><kbd id="prompt-key">E</kbd><span id="prompt-text"></span><div id="prompt-bar"><i></i></div></div>
       <div id="banner" class="hidden"></div>
       <div id="trick" class="hidden"></div>
@@ -159,7 +170,7 @@
         </div>
       </div>
       <div id="beacon" class="hidden">
-        <div class="beacon-brand">PATROL·BEACON</div>
+        <div class="beacon-brand">LVS · <span id="beacon-phase">SUCHEN</span></div>
         <div class="beacon-screen">
           <div id="beacon-arrow">▲</div>
           <div id="beacon-dist">--</div>
@@ -179,7 +190,7 @@
       </div>
       <div id="map" class="hidden">
         <div class="map-card">
-          <div class="map-title"><span id="map-name">Trail Map</span><span class="map-legend"><i class="ico circle"></i>Easy <i class="ico square"></i>Intermediate <i class="ico diamond"></i>Expert <i class="lg-av"></i>Avalanche zone <i class="lg-pt">✚</i>Patient</span></div>
+          <div class="map-title"><span id="map-name">Trail Map</span><span class="map-legend"><i class="ico circle"></i>Easy <i class="ico square"></i>Intermediate <i class="ico diamond"></i>Expert <i class="lg-av"></i>Avalanche zone <i class="lg-pt">♥</i>Patient</span></div>
           <canvas id="map-canvas" width="640" height="960"></canvas>
         </div>
       </div>
@@ -205,7 +216,7 @@
         <div class="clip"></div>
         <div class="report-head">
           <div>
-            <div class="eyebrow">Incident report · Shift <span id="res-day">1</span></div>
+            <div class="eyebrow">Einsatzbericht · Shift <span id="res-day">1</span></div>
             <div class="report-title" id="res-mountain">Mount Kaboom</div>
           </div>
           <div class="stamp" id="res-stamp">QUOTA MET</div>
@@ -216,7 +227,9 @@
           <div><b id="res-delivered">0</b><span>patients saved</span></div>
           <div><b id="res-airlift">0</b><span>airlifted</span></div>
           <div><b id="res-controlled">0</b><span>slides controlled</span></div>
+          <div><b id="res-sweep">0/0</b><span>stragglers sent home</span></div>
         </div>
+        <div class="protocol" id="res-protocol"></div>
         <div class="awards" id="res-awards"></div>
         <div id="shop" class="shop">
           <div class="shop-head"><span>Patrol Supply</span><span class="wallet">Team wallet: <b id="res-money">$0</b></span></div>

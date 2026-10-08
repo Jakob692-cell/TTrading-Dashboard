@@ -3,6 +3,7 @@ import { Renderer } from './renderer.js';
 import { World } from './world.js';
 import { Effects } from './effects.js';
 import { Sound } from './audio.js';
+import { Voice } from './voice.js';
 import { Net } from './net.js';
 import { UI } from './ui.js';
 import { Game } from './game.js';
@@ -37,7 +38,7 @@ class Input {
 // ------------------------------------------------------------------ app
 const app = {
   state: 'boot',
-  settings: { quality: 'high', sens: 1, volume: 0.8, music: 0.5, invert: false, ...store.get('pp-settings', {}) },
+  settings: { quality: 'high', sens: 1, volume: 0.8, music: 0.5, invert: false, lang: 'auto', ...store.get('pp-settings', {}) },
   profile: { name: `Patroller${Math.floor(Math.random() * 90 + 10)}`, color: JACKET_COLORS[Math.floor(Math.random() * 4)], hat: 'beanie', char: CHARACTERS[Math.floor(Math.random() * 4)], ...store.get('pp-profile', {}) },
   input: new Input(),
   lobby: null,
@@ -54,6 +55,7 @@ const sound = new Sound();
 sound.setVolume(app.settings.volume);
 sound.setMusic(app.settings.music);
 app.sound = sound;
+app.voice = new Voice(sound);
 const net = new Net();
 app.net = net;
 app.fx = new Effects(renderer.scene);
@@ -338,6 +340,8 @@ function openSettings() {
   $('set-vol').value = s.volume;
   $('set-music').value = s.music;
   $('set-invert').checked = !!s.invert;
+  $('set-voice').checked = !!app.voice.enabled;
+  $('set-lang').value = s.lang || 'auto';
   ui.modal('settings', true);
 }
 $('set-quality').addEventListener('change', (e) => { app.settings.quality = e.target.value; renderer.setQuality(e.target.value); saveSettings(); });
@@ -345,6 +349,8 @@ $('set-sens').addEventListener('input', (e) => { app.settings.sens = +e.target.v
 $('set-vol').addEventListener('input', (e) => { app.settings.volume = +e.target.value; sound.setVolume(+e.target.value); saveSettings(); });
 $('set-music').addEventListener('input', (e) => { app.settings.music = +e.target.value; sound.setMusic(+e.target.value); saveSettings(); });
 $('set-invert').addEventListener('change', (e) => { app.settings.invert = e.target.checked; saveSettings(); });
+$('set-voice').addEventListener('change', (e) => { app.voice.setEnabled(e.target.checked); if (e.target.checked) app.voice.say('Leitstelle Talheim, Funkprobe. Kommen.'); });
+$('set-lang').addEventListener('change', (e) => { app.settings.lang = e.target.value; saveSettings(); });
 
 // pointer lock + keyboard
 let chatOpen = false;

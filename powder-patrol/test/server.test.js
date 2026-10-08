@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process';
 import { WebSocket } from 'ws';
 import { generateMountain } from '../shared/mountain.js';
 import { dailySeedString } from '../shared/rng.js';
+import { INJURIES, AID_STEPS } from '../shared/constants.js';
 
 const PORT = 3999;
 let proc;
@@ -40,7 +41,7 @@ function client() {
 }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-test('full rescue loop: join, start, sled, free, load, deliver, avalanche, bury & dig', { timeout: 60000 }, async () => {
+test('full rescue loop: join, start, sled, ack, secure, treat, load, deliver, avalanche, bury & dig', { timeout: 60000 }, async () => {
   const m = generateMountain(dailySeedString());
   const a = client(), b = client();
   await Promise.all([a.open(), b.open()]);
@@ -70,11 +71,35 @@ test('full rescue loop: join, start, sled, free, load, deliver, avalanche, bury 
   const call = await a.wait((x) => x.t === 'ev' && x.k === 'call', 20000);
   assert.ok(Number.isFinite(call.x) && Number.isFinite(call.z));
 
-  // ski over (teleport), free the patient by holding E
+  assert.ok(INJURIES[call.inj], `call carries an injury (${call.inj})`);
+  assert.ok(call.where && call.where.kind, 'call says where');
+  // guest acknowledges the call over the radio
+  b.send({ t: 'ack', id: call.id });
+  const ack = await a.wait((x) => x.t === 'ev' && x.k === 'ack' && x.id === call.id);
+  assert.equal(ack.by, wb.id);
+
+  // ski over (teleport); tree-well victims must be pulled out first
   const py = m.heightAt(call.x, call.z);
   a.send({ t: 'st', p: [call.x + 1, py, call.z], yaw: 0, a: 0, sp: 0, sled: { id: sled.id, p: [call.x + 2, py, call.z + 1], yaw: 0, tip: false } });
   await sleep(100);
-  for (let i = 0; i < 14; i++) { a.send({ t: 'work', kind: 'patient', id: call.id, dt: 0.2 }); await sleep(20); }
+  if (call.type !== 'injured') {
+    for (let i = 0; i < 14; i++) { a.send({ t: 'work', kind: 'patient', id: call.id, dt: 0.2 }); await sleep(20); }
+    await a.wait((x) => x.t === 'ev' && x.k === 'extracted' && x.id === call.id);
+  }
+  // secure the site with crossed skis (uphill)
+  a.send({ t: 'secure', id: call.id });
+  const sec = await a.wait((x) => x.t === 'ev' && x.k === 'secured' && x.id === call.id);
+  assert.ok(m.heightAt(sec.x, sec.z) > py, 'crossed skis go uphill of the patient');
+  // first aid: a wrong measure is rejected, then the right sequence frees the patient
+  const steps = INJURIES[call.inj].steps;
+  const wrong = Object.keys(AID_STEPS).find((k) => k !== steps[0]);
+  a.send({ t: 'treat', id: call.id, step: wrong });
+  await a.wait((x) => x.t === 'ev' && x.k === 'treatWrong' && x.id === call.id);
+  for (const st of steps) {
+    await sleep(AID_STEPS[st].time * 1000);
+    a.send({ t: 'treat', id: call.id, step: st });
+    await a.wait((x) => x.t === 'ev' && x.k === 'treated' && x.id === call.id && x.step === st);
+  }
   await a.wait((x) => x.t === 'ev' && x.k === 'freed' && x.id === call.id);
   a.send({ t: 'load', id: call.id });
   await a.wait((x) => x.t === 'ev' && x.k === 'loaded' && x.id === call.id);
@@ -83,7 +108,8 @@ test('full rescue loop: join, start, sled, free, load, deliver, avalanche, bury 
   const C = m.sites.clinic;
   a.send({ t: 'st', p: [C.x, m.heightAt(C.x, C.z), C.z - 2], yaw: 0, a: 0, sp: 4, sled: { id: sled.id, p: [C.x, m.heightAt(C.x, C.z), C.z], yaw: 0, tip: false } });
   const del = await a.wait((x) => x.t === 'ev' && x.k === 'delivered' && x.id === call.id);
-  assert.ok(del.reward >= 40 && del.reward <= 100, `reward ${del.reward}`);
+  assert.ok(del.reward >= 40 && del.reward <= 110, `reward ${del.reward}`);
+  assert.equal(del.transport, 'akja');
   const snap = await a.wait((x) => x.t === 'snap' && x.earned >= del.reward);
   assert.ok(snap.earned >= del.reward);
 
