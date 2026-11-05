@@ -1,6 +1,6 @@
 # Van Eik – Pitch-Deck „Für unsere Eltern“
 
-Neues, komplett überarbeitetes Pitch-Deck für **Van Eik** (Oskar Roth · Oskar Kuhnhart · Jakob Rösler).
+Neues, komplett überarbeitetes Pitch-Deck für **Van Eik** (Oskar Roth · Oskar Kunhart · Jakob Rösler).
 Ziel des Pitches: kein Geld, sondern das **Okay der Eltern**, Van Eik zu starten.
 
 ## Dateien
