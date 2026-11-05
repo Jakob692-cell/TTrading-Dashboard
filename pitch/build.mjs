@@ -119,7 +119,7 @@ await pg.goto('file://' + path.join(here, 'index.html') + '?print=1');
 await pg.evaluate(() => document.fonts.ready);
 await pg.waitForTimeout(800);
 
-const pngDir = path.join(here, process.env.PNG_DIR || 'png');
+const pngDir = path.resolve(here, process.env.PNG_DIR || 'png');
 if (!process.argv.includes('--no-png')) {
   fs.mkdirSync(pngDir, { recursive: true });
   const sections = await pg.$$('section');

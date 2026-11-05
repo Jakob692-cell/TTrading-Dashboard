@@ -13,6 +13,7 @@ Ziel des Pitches: kein Geld, sondern das **Okay der Eltern**, Van Eik zu starten
 | `deck-source/project/` | Quelle der Folien (eine HTML-Datei pro Folie, Sprechertexte im `<aside>`) |
 | `assets/` | Logo (freigestellt), Gürtel-Illustrationen (SVG), Frames und Clip aus dem Sample-Video, Shop-Screenshots |
 | `build.mjs` | Baut `index.html`, `png/` und das PDF neu |
+| `VORBEREITUNG.md` | Checkliste: was ihr vor dem Pitch klären solltet und welche Fragen eure Eltern stellen werden |
 
 ## Neu bauen
 
