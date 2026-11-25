@@ -1,0 +1,7036 @@
+{
+ "genres": [
+  {
+   "slug": "horror",
+   "name": "Horror",
+   "supply": 7412,
+   "supply_change": -0.004298764105319721,
+   "players_top": 922607.2000000001,
+   "players_per_island": 124.47479762547222,
+   "mid_tier_players": 6459.1125,
+   "top3_share": 0.3270924325469532,
+   "growth_median": 1.2989027521117302,
+   "new_in_top50": 8,
+   "d1_top10": 0.15793333333333331,
+   "min_top10": 22.6095,
+   "opportunity": 69.2
+  },
+  {
+   "slug": "roleplaying-social",
+   "name": "Roleplaying & Social",
+   "supply": 27666,
+   "supply_change": -0.005535585909417685,
+   "players_top": 811724.3666666667,
+   "players_per_island": 29.340141931130873,
+   "mid_tier_players": 7929.195833333333,
+   "top3_share": 0.34078111326049054,
+   "growth_median": 1.3663911958053678,
+   "new_in_top50": 7,
+   "d1_top10": 0.2316666666666667,
+   "min_top10": 34.94146666666667,
+   "opportunity": 63.8
+  },
+  {
+   "slug": "shooter",
+   "name": "Shooter",
+   "supply": 134053,
+   "supply_change": -0.002099229538095061,
+   "players_top": 6945856.083333333,
+   "players_per_island": 51.81425319338868,
+   "mid_tier_players": 55416.6125,
+   "top3_share": 0.2502951610008524,
+   "growth_median": 1.2009014318769284,
+   "new_in_top50": 4,
+   "d1_top10": 0.31433333333333335,
+   "min_top10": 26.862166666666667,
+   "opportunity": 63.1
+  },
+  {
+   "slug": "party-mini-games",
+   "name": "Party & Mini Games",
+   "supply": 20844,
+   "supply_change": 0.00802785569203985,
+   "players_top": 2361209.15,
+   "players_per_island": 113.28003981961236,
+   "mid_tier_players": 16081.191666666666,
+   "top3_share": 0.508465193211142,
+   "growth_median": 1.2409053725695511,
+   "new_in_top50": 3,
+   "d1_top10": 0.21749999999999997,
+   "min_top10": 29.223166666666668,
+   "opportunity": 54.6
+  },
+  {
+   "slug": "sports-racing",
+   "name": "Sports & Racing",
+   "supply": 5119,
+   "supply_change": -0.0017550702028081124,
+   "players_top": 647951.2,
+   "players_per_island": 126.57769095526469,
+   "mid_tier_players": 5735.946666666667,
+   "top3_share": 0.3388940916126606,
+   "growth_median": 1.2324215876004683,
+   "new_in_top50": 5,
+   "d1_top10": 0.13116666666666668,
+   "min_top10": 21.003,
+   "opportunity": 54.2
+  },
+  {
+   "slug": "adventure-rpg",
+   "name": "Adventure & RPG",
+   "supply": 7722,
+   "supply_change": 0.00901607212857703,
+   "players_top": 294809.6,
+   "players_per_island": 38.17788137788138,
+   "mid_tier_players": 2866.0754166666666,
+   "top3_share": 0.3642379126505153,
+   "growth_median": 1.2246486907110319,
+   "new_in_top50": 25,
+   "d1_top10": 0.18183333333333335,
+   "min_top10": 37.64691666666667,
+   "opportunity": 53.1
+  },
+  {
+   "slug": "battle-royale",
+   "name": "Battle Royale",
+   "supply": 31505,
+   "supply_change": 0.00034927287737346796,
+   "players_top": 3201172.2666666666,
+   "players_per_island": 101.60838808654711,
+   "mid_tier_players": 25733.629166666666,
+   "top3_share": 0.38394742017840794,
+   "growth_median": 1.207906519009245,
+   "new_in_top50": 4,
+   "d1_top10": 0.23900000000000002,
+   "min_top10": 24.088666666666665,
+   "opportunity": 52.7
+  },
+  {
+   "slug": "deathrun-platformer",
+   "name": "Deathrun & Platformer",
+   "supply": 18166,
+   "supply_change": -0.0060732067625978,
+   "players_top": 719095.2666666666,
+   "players_per_island": 39.5846783368197,
+   "mid_tier_players": 6417.03125,
+   "top3_share": 0.3097489910701679,
+   "growth_median": 1.1971866076087734,
+   "new_in_top50": 10,
+   "d1_top10": 0.14091666666666666,
+   "min_top10": 20.2833,
+   "opportunity": 49.6
+  },
+  {
+   "slug": "simulation-tycoon",
+   "name": "Simulation & Tycoon",
+   "supply": 7579,
+   "supply_change": 0.020053835800807537,
+   "players_top": 1936202.6166666667,
+   "players_per_island": 255.4694044948762,
+   "mid_tier_players": 9617.698333333334,
+   "top3_share": 0.44554496823193185,
+   "growth_median": 1.1316938261230187,
+   "new_in_top50": 10,
+   "d1_top10": 0.42523333333333335,
+   "min_top10": 81.26683333333332,
+   "opportunity": 48.1
+  },
+  {
+   "slug": "survival",
+   "name": "Survival",
+   "supply": 7968,
+   "supply_change": 0.006314725940894165,
+   "players_top": 344787.68333333335,
+   "players_per_island": 43.27154660307898,
+   "mid_tier_players": 1712.7166666666667,
+   "top3_share": 0.4662946921779543,
+   "growth_median": 1.2384372444437615,
+   "new_in_top50": 13,
+   "d1_top10": 0.14750000000000002,
+   "min_top10": 27.9065,
+   "opportunity": 45.0
+  },
+  {
+   "slug": "roguelike",
+   "name": "Roguelike",
+   "supply": 441,
+   "supply_change": 0.004555808656036446,
+   "players_top": 229152.61666666667,
+   "players_per_island": 519.6204459561602,
+   "mid_tier_players": 1442.5725,
+   "top3_share": 0.33213236273322067,
+   "growth_median": 1.1980985565087023,
+   "new_in_top50": 4,
+   "d1_top10": 0.15783333333333333,
+   "min_top10": 32.483,
+   "opportunity": 36.2
+  },
+  {
+   "slug": "strategy",
+   "name": "Strategy",
+   "supply": 8233,
+   "supply_change": 0.0006076810889645114,
+   "players_top": 394852.31666666665,
+   "players_per_island": 47.959712943843876,
+   "mid_tier_players": 2180.340416666667,
+   "top3_share": 0.5401508977681486,
+   "growth_median": 1.137328624203314,
+   "new_in_top50": 15,
+   "d1_top10": 0.1766666666666667,
+   "min_top10": 33.15383333333333,
+   "opportunity": 30.4
+  },
+  {
+   "slug": "music-rhythm",
+   "name": "Music & Rhythm",
+   "supply": 1826,
+   "supply_change": -0.01457096600107933,
+   "players_top": 160313.15,
+   "players_per_island": 87.7947152245345,
+   "mid_tier_players": 569.1766666666666,
+   "top3_share": 0.5415525800597144,
+   "growth_median": 1.1859430562832638,
+   "new_in_top50": 25,
+   "d1_top10": 0.07285185185185186,
+   "min_top10": 14.654833333333334,
+   "opportunity": 30.0
+  }
+ ],
+ "tags": [
+  {
+   "tag": "role playing",
+   "maps_tracked": 128,
+   "supply": 5682,
+   "demand_share": 0.052911479196639084,
+   "supply_share": 0.005861792912203094,
+   "lift": 9.026500933952793,
+   "growth_median": 1.3225002596913695,
+   "viral_avg": 55.80625,
+   "examples": [
+    "PrimeM",
+    "Glow Up [FASHION]",
+    "SQUID CAR"
+   ],
+   "opportunity": 88.9
+  },
+  {
+   "tag": "physics",
+   "maps_tracked": 14,
+   "supply": 401,
+   "demand_share": 0.0030683199673602617,
+   "supply_share": 0.0004136886585345724,
+   "lift": 7.416978696562064,
+   "growth_median": 1.38715025533789,
+   "viral_avg": 53.278571428571425,
+   "examples": [
+    "Shred A Billion",
+    "PENGUIN KNOCKOUT!🐧",
+    "Spawn Menu"
+   ],
+   "opportunity": 85.6
+  },
+  {
+   "tag": "survival horror",
+   "maps_tracked": 146,
+   "supply": 4200,
+   "demand_share": 0.05059573189407987,
+   "supply_share": 0.004332898667943152,
+   "lift": 11.677109429863012,
+   "growth_median": 1.2792224073827647,
+   "viral_avg": 50.06849315068493,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "ANOMALY FARM [HORROR]",
+    "Poppy Playtime Boss Survival"
+   ],
+   "opportunity": 77.7
+  },
+  {
+   "tag": "casual",
+   "maps_tracked": 276,
+   "supply": 18359,
+   "demand_share": 0.1259445698085998,
+   "supply_share": 0.018939925391611507,
+   "lift": 6.649686691183095,
+   "growth_median": 1.2561303196068452,
+   "viral_avg": 55.57644927536232,
+   "examples": [
+    "SANTA TYCOON [TYCOON]",
+    "Hyper Realistic Ragdoll",
+    "PET SHOP TYCOON"
+   ],
+   "opportunity": 77.4
+  },
+  {
+   "tag": "party game",
+   "maps_tracked": 286,
+   "supply": 15022,
+   "demand_share": 0.1569541146192738,
+   "supply_share": 0.015497334235676674,
+   "lift": 10.127813740891456,
+   "growth_median": 1.2748860602390941,
+   "viral_avg": 50.01083916083916,
+   "examples": [
+    "Glow Up [FASHION]",
+    "PENGUIN KNOCKOUT!🐧",
+    "Community Frenzy"
+   ],
+   "opportunity": 75.5
+  },
+  {
+   "tag": "open world",
+   "maps_tracked": 131,
+   "supply": 6985,
+   "demand_share": 0.03347754756074005,
+   "supply_share": 0.007206023141805457,
+   "lift": 4.64577297379485,
+   "growth_median": 1.2902595436028936,
+   "viral_avg": 55.70610687022901,
+   "examples": [
+    "PrimeM",
+    "🔶 Prison Breakout 🔷",
+    "Prison Life 2.0"
+   ],
+   "opportunity": 75.4
+  },
+  {
+   "tag": "roguelike",
+   "maps_tracked": 57,
+   "supply": 1156,
+   "demand_share": 0.011997292931715461,
+   "supply_share": 0.0011925787762243534,
+   "lift": 10.059958445427236,
+   "growth_median": 1.1957777457319505,
+   "viral_avg": 54.43859649122807,
+   "examples": [
+    "Rogue Rails [Roguelike]",
+    "CHRISTMAS ESCAPE [ROGUELIKE]",
+    "GHOST HEIST ESCAPE [ROGUELIKE]"
+   ],
+   "opportunity": 73.4
+  },
+  {
+   "tag": "sandbox",
+   "maps_tracked": 14,
+   "supply": 1015,
+   "demand_share": 0.002320669273778132,
+   "supply_share": 0.0010471171780862619,
+   "lift": 2.2162460155791224,
+   "growth_median": 1.451499803563521,
+   "viral_avg": 65.35,
+   "examples": [
+    "Glow Up [FASHION]",
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "Spawn Menu"
+   ],
+   "opportunity": 73.1
+  },
+  {
+   "tag": "horror",
+   "maps_tracked": 162,
+   "supply": 6139,
+   "demand_share": 0.040256138040759365,
+   "supply_share": 0.006333253552976908,
+   "lift": 6.356312392046456,
+   "growth_median": 1.2979644471674396,
+   "viral_avg": 49.83888888888889,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "SMASH VERITY FOR SCP MONSTERS",
+    "ANOMALY FARM [HORROR]"
+   ],
+   "opportunity": 72.5
+  },
+  {
+   "tag": "creatures",
+   "maps_tracked": 63,
+   "supply": 3758,
+   "demand_share": 0.018795070891790423,
+   "supply_share": 0.003876912665269135,
+   "lift": 4.847947971633163,
+   "growth_median": 1.2767491489110845,
+   "viral_avg": 52.75238095238095,
+   "examples": [
+    "DUSTFALL ZOMBIE SURVIVAL",
+    "SPIDER BOSS FIGHT EVENT - BOSSFIGHT",
+    "Bus Driver RP 2.0🌲"
+   ],
+   "opportunity": 70.8
+  },
+  {
+   "tag": "simulator",
+   "maps_tracked": 278,
+   "supply": 7464,
+   "demand_share": 0.13165601479696531,
+   "supply_share": 0.0077001799184589735,
+   "lift": 17.0977842324642,
+   "growth_median": 1.1535422312338641,
+   "viral_avg": 55.5226618705036,
+   "examples": [
+    "PrimeM",
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]"
+   ],
+   "opportunity": 70.5
+  },
+  {
+   "tag": "aim course",
+   "maps_tracked": 32,
+   "supply": 2899,
+   "demand_share": 0.023421266677615616,
+   "supply_share": 0.0029907317234207616,
+   "lift": 7.831283058323487,
+   "growth_median": 1.2156538915137374,
+   "viral_avg": 51.440625,
+   "examples": [
+    "PUROM TRAINING🎯PRACTICE AIM EDIT PIECE",
+    "Piece Moving Bots 📦 + Aim Edit Warmup",
+    "MECHANICS TRAINING V5 🎯"
+   ],
+   "opportunity": 70.1
+  },
+  {
+   "tag": "just for fun",
+   "maps_tracked": 729,
+   "supply": 58021,
+   "demand_share": 0.4173558603839518,
+   "supply_share": 0.05985693181255468,
+   "lift": 6.972556857590445,
+   "growth_median": 1.2267943225153788,
+   "viral_avg": 51.3161865569273,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]",
+    "Hyper Realistic Ragdoll"
+   ],
+   "opportunity": 70.0
+  },
+  {
+   "tag": "tycoon",
+   "maps_tracked": 229,
+   "supply": 7732,
+   "demand_share": 0.12439927030174863,
+   "supply_share": 0.007976660119175347,
+   "lift": 15.595408158698058,
+   "growth_median": 1.1492085119157565,
+   "viral_avg": 55.663318777292574,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]",
+    "Score Goals To Animals"
+   ],
+   "opportunity": 69.8
+  },
+  {
+   "tag": "base",
+   "maps_tracked": 12,
+   "supply": 2155,
+   "demand_share": 0.009510321573543236,
+   "supply_share": 0.0022231896736708318,
+   "lift": 4.277782362060101,
+   "growth_median": 1.2658432256591259,
+   "viral_avg": 53.65,
+   "examples": [
+    "Race Your Lucky Block",
+    "STAR WARS: BASE WARS",
+    "Lucky Block Bedwars"
+   ],
+   "opportunity": 68.6
+  },
+  {
+   "tag": "2v2",
+   "maps_tracked": 39,
+   "supply": 5725,
+   "demand_share": 0.09500250286693354,
+   "supply_share": 0.005906153541422511,
+   "lift": 16.085342550043485,
+   "growth_median": 1.2170582855508736,
+   "viral_avg": 48.52307692307693,
+   "examples": [
+    "Pillars Reload Duo 2v2",
+    "INFINITE PILLARS DUO",
+    "DUO RELOAD CUP ENDGAME 🏆 ريلود الدو"
+   ],
+   "opportunity": 68.6
+  },
+  {
+   "tag": "escape",
+   "maps_tracked": 152,
+   "supply": 8536,
+   "demand_share": 0.04466810231544539,
+   "supply_share": 0.008806100721324464,
+   "lift": 5.0724042035175785,
+   "growth_median": 1.2792224073827647,
+   "viral_avg": 49.919736842105266,
+   "examples": [
+    "Mog For Eggs",
+    "CLIMB AND JUMP TOWER",
+    "CHRISTMAS ESCAPE [ROGUELIKE]"
+   ],
+   "opportunity": 67.5
+  },
+  {
+   "tag": "exploration",
+   "maps_tracked": 18,
+   "supply": 3754,
+   "demand_share": 0.006103253136941839,
+   "supply_share": 0.003872786095109189,
+   "lift": 1.5759334461176235,
+   "growth_median": 1.3619749833929373,
+   "viral_avg": 58.28333333333333,
+   "examples": [
+    "Vibe Place",
+    "KPOP DEMON HUNTERS [RP]",
+    "👻Ghost Vs Shadow🎱"
+   ],
+   "opportunity": 67.1
+  },
+  {
+   "tag": "5v5",
+   "maps_tracked": 5,
+   "supply": 1826,
+   "demand_share": 0.002551755690124169,
+   "supply_share": 0.0018837792780152848,
+   "lift": 1.3545937785304931,
+   "growth_median": 1.5093968739954493,
+   "viral_avg": 57.82000000000001,
+   "examples": [
+    "Ballistic R",
+    "Bodycam FPS",
+    "ELITE 1V1-5V5 ZERO BUILD"
+   ],
+   "opportunity": 67.0
+  },
+  {
+   "tag": "edit course",
+   "maps_tracked": 32,
+   "supply": 3709,
+   "demand_share": 0.024687114362573166,
+   "supply_share": 0.003826362180809798,
+   "lift": 6.451849876204994,
+   "growth_median": 1.2102953561464942,
+   "viral_avg": 52.071875,
+   "examples": [
+    "BLACKOUTZ TRAINING 🎯",
+    "PUROM TRAINING🎯PRACTICE AIM EDIT PIECE",
+    "Piece Moving Bots 📦 + Aim Edit Warmup"
+   ],
+   "opportunity": 66.8
+  },
+  {
+   "tag": "first person",
+   "maps_tracked": 101,
+   "supply": 6281,
+   "demand_share": 0.029272308724893163,
+   "supply_share": 0.006479746793654986,
+   "lift": 4.517508115217837,
+   "growth_median": 1.2942416178338174,
+   "viral_avg": 49.142574257425736,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "Ballistic R",
+    "ESCAPE THE T-REX [HORROR]"
+   ],
+   "opportunity": 65.6
+  },
+  {
+   "tag": "party world",
+   "maps_tracked": 21,
+   "supply": 2361,
+   "demand_share": 0.003207550768776205,
+   "supply_share": 0.0024357080369080434,
+   "lift": 1.3168863920357057,
+   "growth_median": 1.3574348118659814,
+   "viral_avg": 57.26190476190476,
+   "examples": [
+    "🦸Hero Academy Roleplay🦸",
+    "KPOP DEMON HUNTERS [RP]",
+    "フォートナイト学校🏫 - Japanese School - たくまん"
+   ],
+   "opportunity": 63.9
+  },
+  {
+   "tag": "boss battle",
+   "maps_tracked": 88,
+   "supply": 2788,
+   "demand_share": 0.012296869499835614,
+   "supply_share": 0.002876219401482264,
+   "lift": 4.275358650838112,
+   "growth_median": 1.2246486907110319,
+   "viral_avg": 53.49090909090909,
+   "examples": [
+    "CHRISTMAS ESCAPE [ROGUELIKE]",
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "Poppy Playtime Boss Survival"
+   ],
+   "opportunity": 63.5
+  },
+  {
+   "tag": "4v4",
+   "maps_tracked": 11,
+   "supply": 3715,
+   "demand_share": 0.008353053791591547,
+   "supply_share": 0.003832552036049717,
+   "lift": 2.1795017296624093,
+   "growth_median": 1.2907278396858524,
+   "viral_avg": 55.25454545454545,
+   "examples": [
+    "Soccer / Football",
+    "ELITE ZONE WARS [1V1 TO 4V4]",
+    "🏆🥇سكرمز الانديه السعوديه🥇🏆"
+   ],
+   "opportunity": 62.9
+  },
+  {
+   "tag": "heroes",
+   "maps_tracked": 8,
+   "supply": 2391,
+   "demand_share": 0.004069923900720775,
+   "supply_share": 0.0024666573131076376,
+   "lift": 1.6499754056201872,
+   "growth_median": 1.3390352197943267,
+   "viral_avg": 54.2,
+   "examples": [
+    "🦸Hero Academy Roleplay🦸",
+    "EMP Party Murder",
+    "😂 بوكس فايت ميمز العرب 😂"
+   ],
+   "opportunity": 62.7
+  },
+  {
+   "tag": "choices matter",
+   "maps_tracked": 6,
+   "supply": 546,
+   "demand_share": 0.0036054476172699824,
+   "supply_share": 0.0005632768268326098,
+   "lift": 6.400844922990984,
+   "growth_median": 1.2761019202906043,
+   "viral_avg": 45.56666666666666,
+   "examples": [
+    "FNAF 1 REMAKE",
+    "Rocket Racing Reborn",
+    "أسئلة متنوعة"
+   ],
+   "opportunity": 62.4
+  },
+  {
+   "tag": "event",
+   "maps_tracked": 19,
+   "supply": 1219,
+   "demand_share": 0.006303326810122587,
+   "supply_share": 0.0012575722562435006,
+   "lift": 5.012297924694428,
+   "growth_median": 1.2729246970694956,
+   "viral_avg": 47.647368421052626,
+   "examples": [
+    "BOSS EVENTS",
+    "EVENT The Seven Power Hour LIVE CONCERT",
+    "ZERO HOUR"
+   ],
+   "opportunity": 62.1
+  },
+  {
+   "tag": "boxfight",
+   "maps_tracked": 71,
+   "supply": 25176,
+   "demand_share": 0.174777251965082,
+   "supply_share": 0.02597263258669924,
+   "lift": 6.729285195932992,
+   "growth_median": 1.2458951082796987,
+   "viral_avg": 45.29577464788732,
+   "examples": [
+    "🏆🥇سكرمز<RASF🏆🥇",
+    "1V2 CLUTCH REALISTICS 🎯 SPEED 2V1 DUO",
+    "MEME BOX PVP - BOX FIGHTS (SOLO)"
+   ],
+   "opportunity": 61.7
+  },
+  {
+   "tag": "survival",
+   "maps_tracked": 90,
+   "supply": 6551,
+   "demand_share": 0.017799823070446877,
+   "supply_share": 0.006758290279451331,
+   "lift": 2.6337760490352817,
+   "growth_median": 1.2772334363729223,
+   "viral_avg": 51.68666666666667,
+   "examples": [
+    "Rogue Rails [Roguelike]",
+    "GUN ARMY : MERGE & SURVIVE",
+    "Community Frenzy"
+   ],
+   "opportunity": 61.4
+  },
+  {
+   "tag": "training",
+   "maps_tracked": 33,
+   "supply": 8120,
+   "demand_share": 0.03562079199536846,
+   "supply_share": 0.008376937424690095,
+   "lift": 4.252245204838241,
+   "growth_median": 1.2225303175667444,
+   "viral_avg": 52.21212121212121,
+   "examples": [
+    "BLACKOUTZ TRAINING 🎯",
+    "PUROM TRAINING🎯PRACTICE AIM EDIT PIECE",
+    "Piece Moving Bots 📦 + Aim Edit Warmup"
+   ],
+   "opportunity": 61.2
+  },
+  {
+   "tag": "minigame",
+   "maps_tracked": 200,
+   "supply": 17615,
+   "demand_share": 0.13246894051928929,
+   "supply_share": 0.018172383341861578,
+   "lift": 7.289574406794303,
+   "growth_median": 1.2146228025472285,
+   "viral_avg": 46.8485,
+   "examples": [
+    "PENGUIN KNOCKOUT!🐧",
+    "Pillars Reload Duo 2v2",
+    "SLAP FIGHTS 🖐️"
+   ],
+   "opportunity": 61.1
+  },
+  {
+   "tag": "arcade",
+   "maps_tracked": 5,
+   "supply": 2921,
+   "demand_share": 0.0016168017955753447,
+   "supply_share": 0.0030134278593004636,
+   "lift": 0.5365324378300095,
+   "growth_median": 1.7306403146034133,
+   "viral_avg": 57.67999999999999,
+   "examples": [
+    "SNAKE FIGHT [Survival]",
+    "Worm Wars",
+    "🛹SKATE FOR EGGS🥚"
+   ],
+   "opportunity": 60.7
+  },
+  {
+   "tag": "rpg",
+   "maps_tracked": 12,
+   "supply": 996,
+   "demand_share": 0.0024095683522937766,
+   "supply_share": 0.001027515969826519,
+   "lift": 2.345042240755243,
+   "growth_median": 1.2282391622398485,
+   "viral_avg": 57.23333333333333,
+   "examples": [
+    "Halloween Party",
+    "Aetheria",
+    "Fort Seas"
+   ],
+   "opportunity": 60.5
+  },
+  {
+   "tag": "practice",
+   "maps_tracked": 241,
+   "supply": 58566,
+   "demand_share": 0.39375727830316193,
+   "supply_share": 0.0604191769968473,
+   "lift": 6.517091060735706,
+   "growth_median": 1.2082757179346422,
+   "viral_avg": 48.49709543568464,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "CREIME 1V1 BUILD FIGHTS📝"
+   ],
+   "opportunity": 60.0
+  },
+  {
+   "tag": "driver simulator",
+   "maps_tracked": 74,
+   "supply": 3050,
+   "demand_share": 0.015737001721580567,
+   "supply_share": 0.003146509746958718,
+   "lift": 5.001415214680737,
+   "growth_median": 1.234821629640586,
+   "viral_avg": 48.18648648648649,
+   "examples": [
+    "SQUID CAR",
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵"
+   ],
+   "opportunity": 59.2
+  },
+  {
+   "tag": "clicker",
+   "maps_tracked": 3,
+   "supply": 481,
+   "demand_share": 0.0002529206584037852,
+   "supply_share": 0.0004962200617334895,
+   "lift": 0.5096945446345621,
+   "growth_median": 1.3491444013957723,
+   "viral_avg": 65.53333333333333,
+   "examples": [
+    "CHARGE YOUR PHONE WITH POTATOES",
+    "+1 Kick Power",
+    "Lumberjack Heroes"
+   ],
+   "opportunity": 59.1
+  },
+  {
+   "tag": "economy",
+   "maps_tracked": 4,
+   "supply": 583,
+   "demand_share": 0.0002581497563905338,
+   "supply_share": 0.000601447600812109,
+   "lift": 0.4292140429888908,
+   "growth_median": 1.6433456394467727,
+   "viral_avg": 58.675000000000004,
+   "examples": [
+    "BREAK THE MOUNTAIN",
+    "CHARGE YOUR PHONE WITH POTATOES",
+    "WASH THE CAR"
+   ],
+   "opportunity": 58.0
+  },
+  {
+   "tag": "farming simulator",
+   "maps_tracked": 4,
+   "supply": 386,
+   "demand_share": 0.003965394893876807,
+   "supply_share": 0.00039821402043477543,
+   "lift": 9.957948968113518,
+   "growth_median": 1.041657327981549,
+   "viral_avg": 51.175,
+   "examples": [
+    "CUT YOUR GRASS TYCOON",
+    "Farm Life 5🌾",
+    "FARM LIFE 4🌾"
+   ],
+   "opportunity": 56.7
+  },
+  {
+   "tag": "fashion",
+   "maps_tracked": 16,
+   "supply": 2230,
+   "demand_share": 0.0035249945248696435,
+   "supply_share": 0.002300562864169817,
+   "lift": 1.5322313420640545,
+   "growth_median": 1.2534815239066042,
+   "viral_avg": 55.75,
+   "examples": [
+    "Glow Up [FASHION]",
+    "👑SUPER FASHION SHOW🎭",
+    "PARTY SKYE 2"
+   ],
+   "opportunity": 56.0
+  },
+  {
+   "tag": "fighting",
+   "maps_tracked": 29,
+   "supply": 13770,
+   "demand_share": 0.011063888791776721,
+   "supply_share": 0.014205717775613622,
+   "lift": 0.7788334927200686,
+   "growth_median": 1.3131100326725542,
+   "viral_avg": 55.43103448275862,
+   "examples": [
+    "Fight In A School 💥",
+    "CREIME 1V1 BUILD FIGHTS📝",
+    "OG MOVEMENT 1V1 (OOGGHI)"
+   ],
+   "opportunity": 55.8
+  },
+  {
+   "tag": "1v1",
+   "maps_tracked": 140,
+   "supply": 63694,
+   "demand_share": 0.19285924775347205,
+   "supply_share": 0.06570943994189789,
+   "lift": 2.9350310689606176,
+   "growth_median": 1.2364899287036022,
+   "viral_avg": 50.39642857142857,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "CREIME 1V1 BUILD FIGHTS📝"
+   ],
+   "opportunity": 55.6
+  },
+  {
+   "tag": "trios",
+   "maps_tracked": 11,
+   "supply": 883,
+   "demand_share": 0.012717960597137782,
+   "supply_share": 0.0009109403628080484,
+   "lift": 13.961353691622167,
+   "growth_median": 1.154550131829088,
+   "viral_avg": 46.24545454545454,
+   "examples": [
+    "Bed Wars Nuked",
+    "Trio Escape Room 3 2026",
+    "2v3 CLUTCH REALISTICS 🎯 [SPEED] WZF"
+   ],
+   "opportunity": 55.6
+  },
+  {
+   "tag": "duo",
+   "maps_tracked": 32,
+   "supply": 3531,
+   "demand_share": 0.06728647960867874,
+   "supply_share": 0.0036427298086922073,
+   "lift": 18.471443983608424,
+   "growth_median": 1.167335152530032,
+   "viral_avg": 43.3875,
+   "examples": [
+    "BEST CHRISTMAS DUO ESCAPE ROOM🎄",
+    "1V2 CLUTCH REALISTICS 🎯 SPEED 2V1 DUO",
+    "دو سكرمز المعرقين 🏆 DUO SCRIMS RANKED"
+   ],
+   "opportunity": 55.2
+  },
+  {
+   "tag": "teams",
+   "maps_tracked": 5,
+   "supply": 6496,
+   "demand_share": 0.001409755991745601,
+   "supply_share": 0.006701549939752076,
+   "lift": 0.21036267795055108,
+   "growth_median": 1.4308335571068276,
+   "viral_avg": 63.7,
+   "examples": [
+    "Community Frenzy",
+    "Soccer / Football",
+    "TMNT CAPTURE THE FLAG 🚩"
+   ],
+   "opportunity": 55.2
+  },
+  {
+   "tag": "pvp",
+   "maps_tracked": 283,
+   "supply": 65385,
+   "demand_share": 0.39019283299194496,
+   "supply_share": 0.06745394747701501,
+   "lift": 5.784581148863134,
+   "growth_median": 1.185088710305664,
+   "viral_avg": 48.72826855123675,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "Prison Life 2.0",
+    "SLAP FIGHTS 🖐️"
+   ],
+   "opportunity": 54.9
+  },
+  {
+   "tag": "pve",
+   "maps_tracked": 86,
+   "supply": 5700,
+   "demand_share": 0.01827423155115386,
+   "supply_share": 0.00588036247792285,
+   "lift": 3.107670933511731,
+   "growth_median": 1.2212107423486107,
+   "viral_avg": 50.633720930232556,
+   "examples": [
+    "Rogue Rails [Roguelike]",
+    "BAKERY?!?HELLO NEIGHBOR |HORROR",
+    "KONG BOSS EVENT"
+   ],
+   "opportunity": 54.6
+  },
+  {
+   "tag": "building",
+   "maps_tracked": 69,
+   "supply": 35326,
+   "demand_share": 0.08341855137692161,
+   "supply_share": 0.03644380436756186,
+   "lift": 2.2889638670975674,
+   "growth_median": 1.2688284470373623,
+   "viral_avg": 50.80434782608695,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "CREIME 1V1 BUILD FIGHTS📝",
+    "Falco 1v1 Build Fights (200 Pumps)"
+   ],
+   "opportunity": 54.6
+  },
+  {
+   "tag": "race",
+   "maps_tracked": 141,
+   "supply": 8227,
+   "demand_share": 0.043568425215202614,
+   "supply_share": 0.008487323176468647,
+   "lift": 5.133352920505885,
+   "growth_median": 1.198224570681089,
+   "viral_avg": 47.09078014184397,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "SQUID CAR",
+    "STAR WARS MEGA DRIVE CITY 🚀"
+   ],
+   "opportunity": 54.5
+  },
+  {
+   "tag": "sports",
+   "maps_tracked": 53,
+   "supply": 2110,
+   "demand_share": 0.014204157617241904,
+   "supply_share": 0.002176765759371441,
+   "lift": 6.525349618391402,
+   "growth_median": 1.1901626195270025,
+   "viral_avg": 44.56037735849056,
+   "examples": [
+    "Score Goals To Animals",
+    "Football Tycoon 🏈 Custom Stadium",
+    "Baseball Tycoon ⚾ Custom Stadium"
+   ],
+   "opportunity": 52.9
+  },
+  {
+   "tag": "zonewars",
+   "maps_tracked": 101,
+   "supply": 23615,
+   "demand_share": 0.14657189015850142,
+   "supply_share": 0.02436223858178037,
+   "lift": 6.016355585160273,
+   "growth_median": 1.1921747287738782,
+   "viral_avg": 46.163366336633665,
+   "examples": [
+    "🏆🥇سكرمز<RASF🏆🥇",
+    "PARTY ROYAL JAZAN 2.2 | جازان",
+    "DUO RELOAD CUP ENDGAME 🏆 ريلود الدو"
+   ],
+   "opportunity": 52.8
+  },
+  {
+   "tag": "co-op",
+   "maps_tracked": 99,
+   "supply": 5722,
+   "demand_share": 0.028882300092062742,
+   "supply_share": 0.005903058613802552,
+   "lift": 4.892768644466793,
+   "growth_median": 1.1434561866298774,
+   "viral_avg": 51.49393939393939,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "Shred A Billion",
+    "CHRISTMAS ESCAPE [ROGUELIKE]"
+   ],
+   "opportunity": 51.8
+  },
+  {
+   "tag": "team deathmatch",
+   "maps_tracked": 46,
+   "supply": 19551,
+   "demand_share": 0.04724446344892323,
+   "supply_share": 0.020169643299275373,
+   "lift": 2.342354931513368,
+   "growth_median": 1.2254555878603024,
+   "viral_avg": 51.01521739130435,
+   "examples": [
+    "GAY RED VS BLUE🌈",
+    "NEW COMBAT - RED VS YELLOW 🔴🌕",
+    "👻Ghost Vs Shadow🎱"
+   ],
+   "opportunity": 51.5
+  },
+  {
+   "tag": "shooter",
+   "maps_tracked": 23,
+   "supply": 8307,
+   "demand_share": 0.032419480842249035,
+   "supply_share": 0.008569854579667564,
+   "lift": 3.782967440213744,
+   "growth_median": 1.2054211146491436,
+   "viral_avg": 49.060869565217395,
+   "examples": [
+    "LOOK PARTY ROYAL 2.0",
+    "🔴🔵MINECRAFT RED VS BLUE [SHOOTERS]",
+    "TILTED TOWER RED VS BLUE 🔴🔵"
+   ],
+   "opportunity": 51.5
+  },
+  {
+   "tag": "capture the flag",
+   "maps_tracked": 4,
+   "supply": 1816,
+   "demand_share": 0.00024165051810154378,
+   "supply_share": 0.00187346285261542,
+   "lift": 0.12898602060040376,
+   "growth_median": 1.4006892795717134,
+   "viral_avg": 55.775,
+   "examples": [
+    "TMNT CAPTURE THE FLAG 🚩",
+    "🚩CAPTURE THE FLAG🚩",
+    "Make a Army! ⚔️"
+   ],
+   "opportunity": 51.5
+  },
+  {
+   "tag": "moving",
+   "maps_tracked": 3,
+   "supply": 957,
+   "demand_share": 0.001145397508884725,
+   "supply_share": 0.0009872819107670469,
+   "lift": 1.1601524310263456,
+   "growth_median": 1.8506759466083909,
+   "viral_avg": 47.5,
+   "examples": [
+    "باركور سهل 250 لفل",
+    "3467 HARD PARKOUR 18+LEVELS سفن",
+    "DEFAULT DEATHRUN 250 LEVELS"
+   ],
+   "opportunity": 51.3
+  },
+  {
+   "tag": "solo",
+   "maps_tracked": 12,
+   "supply": 7055,
+   "demand_share": 0.009539750142719293,
+   "supply_share": 0.00727823811960451,
+   "lift": 1.3107224558953658,
+   "growth_median": 1.2935282001375548,
+   "viral_avg": 49.76666666666667,
+   "examples": [
+    "BIG YAHU PILLARS PILLERS PILARS PILERS",
+    "MINI BATTLE ROYALE (OG)",
+    "RELOAD CUP ENDGAME 🏆 بطولة الريلود"
+   ],
+   "opportunity": 49.5
+  },
+  {
+   "tag": "free for all",
+   "maps_tracked": 226,
+   "supply": 69313,
+   "demand_share": 0.14404940064868751,
+   "supply_share": 0.07150623937408183,
+   "lift": 2.014501138776146,
+   "growth_median": 1.230608024053703,
+   "viral_avg": 50.38982300884956,
+   "examples": [
+    "Fight In A School 💥",
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "SPIDER BOSS FIGHT EVENT - BOSSFIGHT"
+   ],
+   "opportunity": 48.5
+  },
+  {
+   "tag": "gun fight",
+   "maps_tracked": 5,
+   "supply": 7878,
+   "demand_share": 0.0008122885225356265,
+   "supply_share": 0.00812727993001337,
+   "lift": 0.0999459265006872,
+   "growth_median": 1.2877643079309717,
+   "viral_avg": 60.08,
+   "examples": [
+    "👑 King City RP كنق سيتي 👑",
+    "FN Mod",
+    "🏆🥇سكرمز الانديه السعوديه🥇🏆"
+   ],
+   "opportunity": 47.7
+  },
+  {
+   "tag": "collection",
+   "maps_tracked": 16,
+   "supply": 1651,
+   "demand_share": 0.006701431057439465,
+   "supply_share": 0.0017032418335176534,
+   "lift": 3.9345153022687356,
+   "growth_median": 1.1112023838110352,
+   "viral_avg": 51.925000000000004,
+   "examples": [
+    "FNAF - Fazbear's Mega Roleplay",
+    "Toss Keys for Cars",
+    "CHARGE YOUR PHONE WITH POTATOES"
+   ],
+   "opportunity": 47.2
+  },
+  {
+   "tag": "battle",
+   "maps_tracked": 25,
+   "supply": 23704,
+   "demand_share": 0.018167739757149977,
+   "supply_share": 0.024454054767839163,
+   "lift": 0.7429336332820905,
+   "growth_median": 1.2620400444786868,
+   "viral_avg": 52.663999999999994,
+   "examples": [
+    "ملوك الحشر",
+    "🏆🥇سكرمز<RASF🏆🥇",
+    "👻Ghost Vs Shadow🎱"
+   ],
+   "opportunity": 47.0
+  },
+  {
+   "tag": "friendly",
+   "maps_tracked": 26,
+   "supply": 6583,
+   "demand_share": 0.0016612469220922495,
+   "supply_share": 0.006791302840730898,
+   "lift": 0.24461387763904544,
+   "growth_median": 1.327186117099934,
+   "viral_avg": 52.573076923076925,
+   "examples": [
+    "Maiyxh's Plaza",
+    "フォートナイト学校🏫 - Japanese School - たくまん",
+    "Best Slide and Relax 🚀😴"
+   ],
+   "opportunity": 46.9
+  },
+  {
+   "tag": "3v3",
+   "maps_tracked": 14,
+   "supply": 2477,
+   "demand_share": 0.019459198990390295,
+   "supply_share": 0.0025553785715464734,
+   "lift": 7.6149965437856455,
+   "growth_median": 1.147649576428005,
+   "viral_avg": 42.478571428571435,
+   "examples": [
+    "Trio Escape Room 3 2026",
+    "Zero Build 2v2-4v4 By H8",
+    "تريو سكرمز المعرقين🏆TRIO SCRIMS RELOAD"
+   ],
+   "opportunity": 46.3
+  },
+  {
+   "tag": "prop hunt",
+   "maps_tracked": 23,
+   "supply": 3340,
+   "demand_share": 0.004086939429697064,
+   "supply_share": 0.0034456860835547927,
+   "lift": 1.1861032405716752,
+   "growth_median": 1.3220747709055123,
+   "viral_avg": 46.51304347826087,
+   "examples": [
+    "CLUCKSPIRACY 🐔 HIDE & SEEK",
+    "Home Alone - Prop Hunt",
+    "PROP CHAMELEON"
+   ],
+   "opportunity": 46.1
+  },
+  {
+   "tag": "competitive",
+   "maps_tracked": 77,
+   "supply": 45401,
+   "demand_share": 0.091583582690777,
+   "supply_share": 0.04683760295792549,
+   "lift": 1.9553430770794804,
+   "growth_median": 1.2438103221220462,
+   "viral_avg": 47.80909090909091,
+   "examples": [
+    "BLADE BALL",
+    "🏆🥇سكرمز<RASF🏆🥇",
+    "Sjay 1v1 Map (200 Pumps)"
+   ],
+   "opportunity": 44.9
+  },
+  {
+   "tag": "difficulty: impossible",
+   "maps_tracked": 20,
+   "supply": 1261,
+   "demand_share": 0.008211556606440589,
+   "supply_share": 0.0013009012429229321,
+   "lift": 6.31220598113231,
+   "growth_median": 1.1646222461533264,
+   "viral_avg": 41.055,
+   "examples": [
+    "RAGDOLL LABORATY ESCAPE [ROGUELIKE]",
+    "HARD PARKOUR 15 LEVELS",
+    "HARD PARKOUR ⭐ 6337 HARD باركور 🔥"
+   ],
+   "opportunity": 43.8
+  },
+  {
+   "tag": "adventure",
+   "maps_tracked": 101,
+   "supply": 9108,
+   "demand_share": 0.023116744309475596,
+   "supply_share": 0.009396200254196721,
+   "lift": 2.4602226095756876,
+   "growth_median": 1.1578057275840008,
+   "viral_avg": 51.32178217821782,
+   "examples": [
+    "+1 Drill Evolution",
+    "BLOCKYMON",
+    "GHOST HEIST ESCAPE [ROGUELIKE]"
+   ],
+   "opportunity": 43.6
+  },
+  {
+   "tag": "base building",
+   "maps_tracked": 8,
+   "supply": 1722,
+   "demand_share": 0.0015090603133437372,
+   "supply_share": 0.0017764884538566926,
+   "lift": 0.8494624944325541,
+   "growth_median": 1.2044756863239285,
+   "viral_avg": 55.075,
+   "examples": [
+    "Season 1 Playground - Chapter 1 OG Map",
+    "Build a Block Base",
+    "🎄 CHRISTMAS MANSION 2 TYCOON 🎁"
+   ],
+   "opportunity": 43.5
+  },
+  {
+   "tag": "respawn",
+   "maps_tracked": 20,
+   "supply": 8575,
+   "demand_share": 0.025238380434381237,
+   "supply_share": 0.008846334780383935,
+   "lift": 2.8529759568160813,
+   "growth_median": 1.1664927964011669,
+   "viral_avg": 49.334999999999994,
+   "examples": [
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "The Pit - Free For All",
+    "CHAPTER 5 REWIND 🔄 RELOAD"
+   ],
+   "opportunity": 43.1
+  },
+  {
+   "tag": "story",
+   "maps_tracked": 14,
+   "supply": 1395,
+   "demand_share": 0.0020833697182208364,
+   "supply_share": 0.0014391413432811185,
+   "lift": 1.4476477435294386,
+   "growth_median": 1.2580076107757123,
+   "viral_avg": 46.6,
+   "examples": [
+    "Baldi's Schoolhouse",
+    "FNAF 1 REMAKE",
+    "松葉壮 205号室 MATSUBA-SOU: Room 205 [HORROR]"
+   ],
+   "opportunity": 42.1
+  },
+  {
+   "tag": "tower defense",
+   "maps_tracked": 3,
+   "supply": 312,
+   "demand_share": 0.0002981689037676,
+   "supply_share": 0.00032187247247577705,
+   "lift": 0.9263572665103852,
+   "growth_median": 1.1632735232278448,
+   "viral_avg": 60.73333333333333,
+   "examples": [
+    "GUN ARMY : MERGE & SURVIVE",
+    "Bunker Vs Verity",
+    "Defend the Beach [TOWER DEFENSE]"
+   ],
+   "opportunity": 41.9
+  },
+  {
+   "tag": "arena",
+   "maps_tracked": 11,
+   "supply": 11864,
+   "demand_share": 0.005468321497345792,
+   "supply_share": 0.01223940709439942,
+   "lift": 0.44677993428685114,
+   "growth_median": 1.2857825222924197,
+   "viral_avg": 50.41818181818182,
+   "examples": [
+    "Hunger Games - Sunrise",
+    "Tank Royale",
+    "🏆🥇سكرمز الانديه السعوديه🥇🏆"
+   ],
+   "opportunity": 41.7
+  },
+  {
+   "tag": "memes",
+   "maps_tracked": 30,
+   "supply": 2950,
+   "demand_share": 0.013829415302888275,
+   "supply_share": 0.0030433454929600715,
+   "lift": 4.544148975158673,
+   "growth_median": 1.1772026752833296,
+   "viral_avg": 42.516666666666666,
+   "examples": [
+    "GUESS THE BRAINROT BY SOUND",
+    "MEME BOX PVP - BOX FIGHTS (SOLO)",
+    "GUESS MEME🔎MUSIC SONG BRIDGE OBBY"
+   ],
+   "opportunity": 41.6
+  },
+  {
+   "tag": "melee",
+   "maps_tracked": 3,
+   "supply": 1686,
+   "demand_share": 0.0007870564699717203,
+   "supply_share": 0.0017393493224171798,
+   "lift": 0.4525005183420805,
+   "growth_median": 1.2422558510996822,
+   "viral_avg": 52.300000000000004,
+   "examples": [
+    "Navy",
+    "Jujutsu Battles [Reborn]",
+    "سكرمز البحرين 👑🇧🇭"
+   ],
+   "opportunity": 41.6
+  },
+  {
+   "tag": "point capture",
+   "maps_tracked": 3,
+   "supply": 1136,
+   "demand_share": 0.0006076820818848485,
+   "supply_share": 0.001171945925424624,
+   "lift": 0.5185239938990109,
+   "growth_median": 1.2206862728695913,
+   "viral_avg": 53.63333333333333,
+   "examples": [
+    "BALLISTIC BATTLEFIELD",
+    "STAR WARS: BASE WARS",
+    "BALLISTIC: FRONTLINES"
+   ],
+   "opportunity": 41.4
+  },
+  {
+   "tag": "battle royale",
+   "maps_tracked": 19,
+   "supply": 10293,
+   "demand_share": 0.005053462072766732,
+   "supply_share": 0.010618696664080683,
+   "lift": 0.47590229127279027,
+   "growth_median": 1.2942416178338174,
+   "viral_avg": 48.12105263157895,
+   "examples": [
+    "Community Frenzy",
+    "Hunger Games - Sunrise",
+    "MINI BATTLE ROYALE (OG)"
+   ],
+   "opportunity": 40.6
+  },
+  {
+   "tag": "music",
+   "maps_tracked": 44,
+   "supply": 2668,
+   "demand_share": 0.009752501620554833,
+   "supply_share": 0.0027524222966838884,
+   "lift": 3.5432432124622095,
+   "growth_median": 1.1772026752833296,
+   "viral_avg": 43.79772727272727,
+   "examples": [
+    "Mog For Eggs",
+    "GUESS THE BRAINROT BY SOUND",
+    "EVENT The Seven Power Hour LIVE CONCERT"
+   ],
+   "opportunity": 39.7
+  },
+  {
+   "tag": "strategy",
+   "maps_tracked": 46,
+   "supply": 3017,
+   "demand_share": 0.008094350677490009,
+   "supply_share": 0.0031124655431391643,
+   "lift": 2.600623385319866,
+   "growth_median": 1.130082294983572,
+   "viral_avg": 49.23913043478261,
+   "examples": [
+    "Hyper Realistic Ragdoll",
+    "BLOCKYMON",
+    "GUN ARMY : MERGE & SURVIVE"
+   ],
+   "opportunity": 37.6
+  },
+  {
+   "tag": "board game",
+   "maps_tracked": 14,
+   "supply": 684,
+   "demand_share": 0.0017419647789476134,
+   "supply_share": 0.0007056434973507419,
+   "lift": 2.4686187649820646,
+   "growth_median": 1.1860156610989205,
+   "viral_avg": 44.278571428571425,
+   "examples": [
+    "🎲 GAME OF PAIN 2 🤬",
+    "🎲 THE GAME OF PAIN 🤬",
+    "Tropical Party 🌴"
+   ],
+   "opportunity": 37.4
+  },
+  {
+   "tag": "one shot",
+   "maps_tracked": 14,
+   "supply": 8397,
+   "demand_share": 0.009087448611458746,
+   "supply_share": 0.008662702408266346,
+   "lift": 1.0490316050551487,
+   "growth_median": 1.1773790958154842,
+   "viral_avg": 51.22857142857142,
+   "examples": [
+    "EMP Party Murder",
+    "Sneaky Snipers [Meadows] - One Shot",
+    "Sneaky Snipers [Mountains] - One Shot"
+   ],
+   "opportunity": 36.6
+  },
+  {
+   "tag": "gun game",
+   "maps_tracked": 15,
+   "supply": 12465,
+   "demand_share": 0.008216505936653193,
+   "supply_share": 0.012859424260931285,
+   "lift": 0.6389481962747025,
+   "growth_median": 1.1904633343943731,
+   "viral_avg": 51.666666666666664,
+   "examples": [
+    "Bodycam FPS",
+    "ENDLESS ONE SHOT GUN GAME FFA 🎯",
+    "ATOM CITY GUN GAME 🔫 NUKE CITY"
+   ],
+   "opportunity": 36.3
+  },
+  {
+   "tag": "difficulty: hard",
+   "maps_tracked": 29,
+   "supply": 2638,
+   "demand_share": 0.010054912933440118,
+   "supply_share": 0.0027214730204842942,
+   "lift": 3.694658318402442,
+   "growth_median": 1.1646222461533264,
+   "viral_avg": 39.8448275862069,
+   "examples": [
+    "HARD PARKOUR 15 LEVELS",
+    "HARD PARKOUR ⭐ 6337 HARD باركور 🔥",
+    "⭐ HARD PARKOUR DEATHRUN 5677"
+   ],
+   "opportunity": 35.0
+  },
+  {
+   "tag": "deathrun",
+   "maps_tracked": 151,
+   "supply": 16153,
+   "demand_share": 0.05246287554226705,
+   "supply_share": 0.01666412194840137,
+   "lift": 3.148253217584017,
+   "growth_median": 1.148793707645988,
+   "viral_avg": 43.69602649006623,
+   "examples": [
+    "HARD PARKOUR 15 LEVELS",
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "HARD PARKOUR ⭐ 6337 HARD باركور 🔥"
+   ],
+   "opportunity": 34.8
+  },
+  {
+   "tag": "attack",
+   "maps_tracked": 3,
+   "supply": 6039,
+   "demand_share": 0.0005788898299490363,
+   "supply_share": 0.006230089298978261,
+   "lift": 0.09291838401802277,
+   "growth_median": 1.3131100326725542,
+   "viral_avg": 46.76666666666667,
+   "examples": [
+    "Squid game roguelike",
+    "2v2 - Paradise",
+    "TILTED ZONE WARS (ALL🔫/NAME OFF) ⭐(AM)"
+   ],
+   "opportunity": 33.8
+  },
+  {
+   "tag": "parkour",
+   "maps_tracked": 149,
+   "supply": 17243,
+   "demand_share": 0.04126722583689883,
+   "supply_share": 0.017788612316986613,
+   "lift": 2.319867626632806,
+   "growth_median": 1.175285586782915,
+   "viral_avg": 43.43489932885906,
+   "examples": [
+    "HARD PARKOUR 15 LEVELS",
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "HARD PARKOUR ⭐ 6337 HARD باركور 🔥"
+   ],
+   "opportunity": 32.2
+  },
+  {
+   "tag": "sniper",
+   "maps_tracked": 17,
+   "supply": 4538,
+   "demand_share": 0.01682525158794446,
+   "supply_share": 0.004681593846458577,
+   "lift": 3.5939152647067054,
+   "growth_median": 1.0674329640034863,
+   "viral_avg": 43.61176470588235,
+   "examples": [
+    "Sneaky Snipers [Meadows] - One Shot",
+    "Sneaky Snipers [Mountains] - One Shot",
+    "VERITY TRICK SHOT 100 LEVELS🎯 MEME"
+   ],
+   "opportunity": 31.9
+  },
+  {
+   "tag": "squad",
+   "maps_tracked": 4,
+   "supply": 1270,
+   "demand_share": 0.002800447177633017,
+   "supply_share": 0.0013101860257828104,
+   "lift": 2.137442410866659,
+   "growth_median": 1.1902182374258405,
+   "viral_avg": 40.625,
+   "examples": [
+    "Bed Wars Klombos [PvP BedWars]",
+    "Pirate Token Simulator🧭",
+    "PANDVIL Box Fights (4v4) 📦"
+   ],
+   "opportunity": 31.4
+  },
+  {
+   "tag": "quiz",
+   "maps_tracked": 3,
+   "supply": 921,
+   "demand_share": 0.00030601475711818153,
+   "supply_share": 0.0009501427793275341,
+   "lift": 0.3220723914091777,
+   "growth_median": 1.2915226228383683,
+   "viral_avg": 40.86666666666667,
+   "examples": [
+    "أسئلة متنوعة",
+    "Guess the Song or Die 2",
+    "GUESS THE CORRECT LOGO MEME SOUND ON"
+   ],
+   "opportunity": 29.0
+  },
+  {
+   "tag": "puzzle",
+   "maps_tracked": 8,
+   "supply": 2286,
+   "demand_share": 0.004647339875203503,
+   "supply_share": 0.002358334846409059,
+   "lift": 1.9706022163391341,
+   "growth_median": 1.1343069892599587,
+   "viral_avg": 46.4375,
+   "examples": [
+    "50+ SUPER ESCAPE ROOM 📺",
+    "Trio Escape Room 3 2026",
+    "POPPY PLAYTIME: CHAPTER 2 🧸"
+   ],
+   "opportunity": 28.8
+  },
+  {
+   "tag": "platformer",
+   "maps_tracked": 14,
+   "supply": 1514,
+   "demand_share": 0.004843274397404022,
+   "supply_share": 0.0015619068055395078,
+   "lift": 3.1008728435183923,
+   "growth_median": 1.0541602070367189,
+   "viral_avg": 40.5,
+   "examples": [
+    "Squishy Obby",
+    "+1 Speed Monkey Escape",
+    "STAR WARS PARKOUR DEATHRUN 400+ ⭐"
+   ],
+   "opportunity": 27.3
+  },
+  {
+   "tag": "single player",
+   "maps_tracked": 5,
+   "supply": 1954,
+   "demand_share": 0.003330180838862066,
+   "supply_share": 0.0020158295231335523,
+   "lift": 1.652015113701376,
+   "growth_median": 1.1166006114644698,
+   "viral_avg": 46.06,
+   "examples": [
+    "SUPER HERO EXPE INFINITE SLIDE AND CHILL",
+    "BEST SLIDE AND CHILL INFINITE🚀",
+    "Nuketown Gun Game - FFA"
+   ],
+   "opportunity": 26.3
+  },
+  {
+   "tag": "action",
+   "maps_tracked": 41,
+   "supply": 31091,
+   "demand_share": 0.012276633552538033,
+   "supply_share": 0.03207479821071918,
+   "lift": 0.3827501414626286,
+   "growth_median": 1.18385042101858,
+   "viral_avg": 49.7609756097561,
+   "examples": [
+    "PrimeM",
+    "Fight In A School 💥",
+    "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐"
+   ],
+   "opportunity": 26.1
+  },
+  {
+   "tag": "mystery",
+   "maps_tracked": 11,
+   "supply": 1416,
+   "demand_share": 0.0014536362874251188,
+   "supply_share": 0.0014608058366208342,
+   "lift": 0.99509205876922,
+   "growth_median": 1.174296455671332,
+   "viral_avg": 45.95454545454545,
+   "examples": [
+    "THE 13TH FRIDAY",
+    "NANNY [HORROR]",
+    "WHO'S THE LIAR?"
+   ],
+   "opportunity": 25.7
+  },
+  {
+   "tag": "runner",
+   "maps_tracked": 3,
+   "supply": 1511,
+   "demand_share": 0.0043086178824078706,
+   "supply_share": 0.0015588118779195485,
+   "lift": 2.764039678834319,
+   "growth_median": 0.9683416130304416,
+   "viral_avg": 35.9,
+   "examples": [
+    "🏃‍♂️TRUCK PURSUIT!🚚",
+    "KUBO BEAT",
+    "SNIPER VS RUNNER - NEW SEASON"
+   ],
+   "opportunity": 24.4
+  },
+  {
+   "tag": "difficulty: easy",
+   "maps_tracked": 36,
+   "supply": 7268,
+   "demand_share": 0.009912772370663448,
+   "supply_share": 0.007497977980621627,
+   "lift": 1.3220594133888908,
+   "growth_median": 1.1483288176130202,
+   "viral_avg": 44.71666666666667,
+   "examples": [
+    "MECCHA ESCAPE [ROGUELIKE]",
+    "باركور سهل 250 لفل",
+    "Happy Tower Obby"
+   ],
+   "opportunity": 24.2
+  },
+  {
+   "tag": "artistic",
+   "maps_tracked": 9,
+   "supply": 2947,
+   "demand_share": 0.002414254683147723,
+   "supply_share": 0.003040250565340112,
+   "lift": 0.7940972729915902,
+   "growth_median": 1.184694416750199,
+   "viral_avg": 43.41111111111111,
+   "examples": [
+    "Halloween Party",
+    "Fortography Studio 📷 Monochrome Photo",
+    "Flasky Studio 🎥 Replay Map"
+   ],
+   "opportunity": 23.5
+  },
+  {
+   "tag": "peaceful",
+   "maps_tracked": 5,
+   "supply": 1984,
+   "demand_share": 0.0014934039085699108,
+   "supply_share": 0.002046778799333146,
+   "lift": 0.729636201555572,
+   "growth_median": 1.1148480364213627,
+   "viral_avg": 46.64,
+   "examples": [
+    "フォートナイト学校🏫 - Japanese School - たくまん",
+    "THE HOUSE ROLEPLAY",
+    "Springtrap Finale | FNaF 3 Song"
+   ],
+   "opportunity": 19.5
+  },
+  {
+   "tag": "funny",
+   "maps_tracked": 33,
+   "supply": 9402,
+   "demand_share": 0.0036232053692685255,
+   "supply_share": 0.009699503160952742,
+   "lift": 0.37354545992154026,
+   "growth_median": 1.1772026752833296,
+   "viral_avg": 44.36666666666667,
+   "examples": [
+    "GUESS THE BRAINROT BY SOUND",
+    "Steal a Klombo Egg🥚",
+    "THE HOUSE ROLEPLAY"
+   ],
+   "opportunity": 17.3
+  },
+  {
+   "tag": "rounds",
+   "maps_tracked": 3,
+   "supply": 3143,
+   "demand_share": 0.0006797209599044849,
+   "supply_share": 0.003242452503177459,
+   "lift": 0.20963173993709655,
+   "growth_median": 1.083799521589021,
+   "viral_avg": 45.63333333333333,
+   "examples": [
+    "MINECRAFT PILLARS pilers pilars pillers",
+    "CHILL GUY PILLARS! 🐻",
+    "Femboy Pillars"
+   ],
+   "opportunity": 9.5
+  },
+  {
+   "tag": "fortnitemares",
+   "maps_tracked": 6,
+   "supply": 1172,
+   "demand_share": 0.0005423788116010545,
+   "supply_share": 0.0012090850568641368,
+   "lift": 0.44858615076077385,
+   "growth_median": 1.0205528441628602,
+   "viral_avg": 42.9,
+   "examples": [
+    "🔴🔵MINECRAFT RED VS BLUE [SHOOTERS]",
+    "PARTY ROYALE ILO",
+    "POPPY BOSS SURVIVAL"
+   ],
+   "opportunity": 9.1
+  },
+  {
+   "tag": "timed",
+   "maps_tracked": 5,
+   "supply": 1094,
+   "demand_share": 0.0002853896060717147,
+   "supply_share": 0.0011286169387451925,
+   "lift": 0.2528666691721052,
+   "growth_median": 1.0848790031842293,
+   "viral_avg": 34.4,
+   "examples": [
+    "KARTING [GO KART]",
+    "Go Karting",
+    "Rocket vs Cars ALL VEHICLES!"
+   ],
+   "opportunity": 5.4
+  },
+  {
+   "tag": "atmospheric",
+   "maps_tracked": 4,
+   "supply": 3723,
+   "demand_share": 0.0002164096400558035,
+   "supply_share": 0.0038408051763696087,
+   "lift": 0.05634486263121458,
+   "growth_median": 1.124015537399976,
+   "viral_avg": 38.15,
+   "examples": [
+    "💃 Emotify ☀️",
+    "LIVE EVENT PLAYGROUND [OG Events]",
+    "おかめの館【彼岸】"
+   ],
+   "opportunity": 4.0
+  }
+ ],
+ "combos": [
+  {
+   "tags": [
+    "exploration",
+    "role playing"
+   ],
+   "count_breakout": 4,
+   "count_all": 4,
+   "lift": 6.675,
+   "examples": [
+    "Vibe Place",
+    "KPOP DEMON HUNTERS [RP]",
+    "The Amazing Digital Circus RP Lounge"
+   ]
+  },
+  {
+   "tags": [
+    "open world",
+    "party game"
+   ],
+   "count_breakout": 4,
+   "count_all": 4,
+   "lift": 6.675,
+   "examples": [
+    "PARTY ROYAL JAZAN 2.2 | جازان",
+    "PARTY ROYALE ILO",
+    "Oakwood Estates RP 🌴"
+   ]
+  },
+  {
+   "tags": [
+    "sports",
+    "tycoon"
+   ],
+   "count_breakout": 5,
+   "count_all": 6,
+   "lift": 5.5625,
+   "examples": [
+    "Score Goals To Animals",
+    "Football Tycoon 🏈 Custom Stadium",
+    "Baseball Tycoon ⚾ Custom Stadium"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "tycoon"
+   ],
+   "count_breakout": 53,
+   "count_all": 172,
+   "lift": 2.056831395348837,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]",
+    "Score Goals To Animals"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "simulator"
+   ],
+   "count_breakout": 55,
+   "count_all": 181,
+   "lift": 2.0283149171270716,
+   "examples": [
+    "SANTA TYCOON [TYCOON]",
+    "Hyper Realistic Ragdoll",
+    "PET SHOP TYCOON"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "simulator"
+   ],
+   "count_breakout": 63,
+   "count_all": 218,
+   "lift": 1.92901376146789,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]",
+    "Hyper Realistic Ragdoll"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "just for fun"
+   ],
+   "count_breakout": 63,
+   "count_all": 222,
+   "lift": 1.8942567567567568,
+   "examples": [
+    "SANTA TYCOON [TYCOON]",
+    "Hyper Realistic Ragdoll",
+    "PET SHOP TYCOON"
+   ]
+  },
+  {
+   "tags": [
+    "simulator",
+    "tycoon"
+   ],
+   "count_breakout": 56,
+   "count_all": 200,
+   "lift": 1.869,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "SANTA TYCOON [TYCOON]",
+    "Score Goals To Animals"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "tycoon"
+   ],
+   "count_breakout": 42,
+   "count_all": 142,
+   "lift": 1.9742957746478873,
+   "examples": [
+    "SANTA TYCOON [TYCOON]",
+    "PET SHOP TYCOON",
+    "BUILD A SUPERMARKET [TYCOON]"
+   ]
+  },
+  {
+   "tags": [
+    "race",
+    "survival"
+   ],
+   "count_breakout": 4,
+   "count_all": 6,
+   "lift": 4.45,
+   "examples": [
+    "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵",
+    "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖",
+    "🦖Dinosaur Island🦖"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "tycoon"
+   ],
+   "count_breakout": 3,
+   "count_all": 4,
+   "lift": 5.0062500000000005,
+   "examples": [
+    "CLIMB AND JUMP TOWER",
+    "Escape Waves For Eggs",
+    "Eat the Ice Cream 🍦"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "casual"
+   ],
+   "count_breakout": 12,
+   "count_all": 30,
+   "lift": 2.67,
+   "examples": [
+    "BLOCKYMON",
+    "+1 APPEAL EVOLUTION",
+    "+1 Anime Fruit Evolution"
+   ]
+  },
+  {
+   "tags": [
+    "simulator",
+    "sports"
+   ],
+   "count_breakout": 5,
+   "count_all": 9,
+   "lift": 3.708333333333333,
+   "examples": [
+    "Score Goals To Animals",
+    "Football Tycoon 🏈 Custom Stadium",
+    "Baseball Tycoon ⚾ Custom Stadium"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "sandbox"
+   ],
+   "count_breakout": 5,
+   "count_all": 9,
+   "lift": 3.708333333333333,
+   "examples": [
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "Spawn Menu",
+    "Ragdoll Physics Lab"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "just for fun"
+   ],
+   "count_breakout": 16,
+   "count_all": 48,
+   "lift": 2.225,
+   "examples": [
+    "+1 Drill Evolution",
+    "BLOCKYMON",
+    "+1 APPEAL EVOLUTION"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "sandbox"
+   ],
+   "count_breakout": 4,
+   "count_all": 7,
+   "lift": 3.814285714285714,
+   "examples": [
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "Spawn Menu",
+    "CHAPTER 4 SEASON 2 PLAYGROUND"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "simulator"
+   ],
+   "count_breakout": 15,
+   "count_all": 47,
+   "lift": 2.13031914893617,
+   "examples": [
+    "+1 Drill Evolution",
+    "+1 Anime Fruit Evolution",
+    "Clean The Bugs"
+   ]
+  },
+  {
+   "tags": [
+    "pvp",
+    "sandbox"
+   ],
+   "count_breakout": 3,
+   "count_all": 5,
+   "lift": 4.005000000000001,
+   "examples": [
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "CHAPTER 4 SEASON 2 PLAYGROUND",
+    "CHAPTER 5 SEASON 3 PLAYGROUND"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "open world"
+   ],
+   "count_breakout": 19,
+   "count_all": 69,
+   "lift": 1.8380434782608694,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐"
+   ]
+  },
+  {
+   "tags": [
+    "role playing",
+    "simulator"
+   ],
+   "count_breakout": 4,
+   "count_all": 8,
+   "lift": 3.3375,
+   "examples": [
+    "PrimeM",
+    "Vibe Place",
+    "VIBE ROYALE"
+   ]
+  },
+  {
+   "tags": [
+    "open world",
+    "pvp"
+   ],
+   "count_breakout": 5,
+   "count_all": 12,
+   "lift": 2.78125,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "Prison Life 2.0",
+    "CHAOS MAP FFA"
+   ]
+  },
+  {
+   "tags": [
+    "party world",
+    "role playing"
+   ],
+   "count_breakout": 4,
+   "count_all": 9,
+   "lift": 2.966666666666667,
+   "examples": [
+    "🦸Hero Academy Roleplay🦸",
+    "KPOP DEMON HUNTERS [RP]",
+    "🎧 Tuff's Club 🎧"
+   ]
+  },
+  {
+   "tags": [
+    "boss battle",
+    "co-op"
+   ],
+   "count_breakout": 9,
+   "count_all": 29,
+   "lift": 2.071551724137931,
+   "examples": [
+    "CHRISTMAS ESCAPE [ROGUELIKE]",
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "Poppy Playtime Boss Survival"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "role playing"
+   ],
+   "count_breakout": 8,
+   "count_all": 25,
+   "lift": 2.136,
+   "examples": [
+    "Realistic Family RP",
+    "BAYSIDE CITY🏠",
+    "Vibe Place"
+   ]
+  },
+  {
+   "tags": [
+    "party game",
+    "role playing"
+   ],
+   "count_breakout": 13,
+   "count_all": 49,
+   "lift": 1.7709183673469389,
+   "examples": [
+    "Glow Up [FASHION]",
+    "Maiyxh's Plaza",
+    "Realistic Family RP"
+   ]
+  },
+  {
+   "tags": [
+    "pvp",
+    "race"
+   ],
+   "count_breakout": 3,
+   "count_all": 6,
+   "lift": 3.3375000000000004,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵",
+    "Desert Military Drive 🏜️"
+   ]
+  },
+  {
+   "tags": [
+    "open world",
+    "survival"
+   ],
+   "count_breakout": 3,
+   "count_all": 6,
+   "lift": 3.3375000000000004,
+   "examples": [
+    "DUSTFALL ZOMBIE SURVIVAL",
+    "🦖Dinosaur Island🦖",
+    "🚗Mega Drive🚗"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "open world"
+   ],
+   "count_breakout": 3,
+   "count_all": 6,
+   "lift": 3.3375000000000004,
+   "examples": [
+    "Halloween Party",
+    "The Hood",
+    "Hunt the Yeti"
+   ]
+  },
+  {
+   "tags": [
+    "open world",
+    "race"
+   ],
+   "count_breakout": 15,
+   "count_all": 62,
+   "lift": 1.6149193548387097,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "MIAMI DRIVE CITY"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "team deathmatch"
+   ],
+   "count_breakout": 4,
+   "count_all": 10,
+   "lift": 2.67,
+   "examples": [
+    "GAY RED VS BLUE🌈",
+    "NEW COMBAT - RED VS YELLOW 🔴🌕",
+    "🔴🔵MINECRAFT RED VS BLUE [SHOOTERS]"
+   ]
+  },
+  {
+   "tags": [
+    "party game",
+    "survival horror"
+   ],
+   "count_breakout": 9,
+   "count_all": 33,
+   "lift": 1.8204545454545455,
+   "examples": [
+    "GORILLA HIDE AND SEEK [HORROR]",
+    "BAKERY?!?HELLO NEIGHBOR |HORROR",
+    "LOOT SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "simulator"
+   ],
+   "count_breakout": 3,
+   "count_all": 7,
+   "lift": 2.8607142857142858,
+   "examples": [
+    "Mog For Eggs",
+    "Escape Waves For Eggs",
+    "Eat the Ice Cream 🍦"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "physics"
+   ],
+   "count_breakout": 3,
+   "count_all": 7,
+   "lift": 2.8607142857142858,
+   "examples": [
+    "PENGUIN KNOCKOUT!🐧",
+    "Spawn Menu",
+    "Ragdoll Physics Lab"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "pve"
+   ],
+   "count_breakout": 3,
+   "count_all": 7,
+   "lift": 2.8607142857142858,
+   "examples": [
+    "BAKERY?!?HELLO NEIGHBOR |HORROR",
+    "BEST CHRISTMAS DUO ESCAPE ROOM🎄",
+    "HOHOH SOON NEIGHBOR [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "fighting",
+    "race"
+   ],
+   "count_breakout": 3,
+   "count_all": 7,
+   "lift": 2.8607142857142858,
+   "examples": [
+    "🚗NINJA DRIVE🚗",
+    "🚗MILITARY DRIVE🚗",
+    "🚗TERMINAL DRIVE🚗"
+   ]
+  },
+  {
+   "tags": [
+    "open world",
+    "role playing"
+   ],
+   "count_breakout": 12,
+   "count_all": 53,
+   "lift": 1.5113207547169814,
+   "examples": [
+    "PrimeM",
+    "Prison Life 2.0",
+    "🦸Hero Academy Roleplay🦸"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "role playing"
+   ],
+   "count_breakout": 14,
+   "count_all": 68,
+   "lift": 1.374264705882353,
+   "examples": [
+    "SQUID CAR",
+    "Maiyxh's Plaza",
+    "Realistic Family RP"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "open world"
+   ],
+   "count_breakout": 6,
+   "count_all": 21,
+   "lift": 1.907142857142857,
+   "examples": [
+    "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐",
+    "Bus Driver RP 2.0🌲",
+    "EMP Party Murder"
+   ]
+  },
+  {
+   "tags": [
+    "boss battle",
+    "horror"
+   ],
+   "count_breakout": 4,
+   "count_all": 12,
+   "lift": 2.225,
+   "examples": [
+    "Poppy Playtime Boss Survival",
+    "FNAF THE MIMIC - SURVIVAL",
+    "BOSS CITY - SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "role playing"
+   ],
+   "count_breakout": 3,
+   "count_all": 8,
+   "lift": 2.5031250000000003,
+   "examples": [
+    "GORILLA HIDE AND SEEK [HORROR]",
+    "HIDE OR DIE [HORROR]",
+    "Murder vs Survivors"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "pve"
+   ],
+   "count_breakout": 3,
+   "count_all": 8,
+   "lift": 2.5031250000000003,
+   "examples": [
+    "BOSS CITY - SURVIVAL",
+    "BEST CHRISTMAS DUO ESCAPE ROOM🎄",
+    "SURVIVE THE NIGHT"
+   ]
+  },
+  {
+   "tags": [
+    "fighting",
+    "open world"
+   ],
+   "count_breakout": 3,
+   "count_all": 8,
+   "lift": 2.5031250000000003,
+   "examples": [
+    "🚗NINJA DRIVE🚗",
+    "🚗MILITARY DRIVE🚗",
+    "🚗TERMINAL DRIVE🚗"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "race"
+   ],
+   "count_breakout": 16,
+   "count_all": 88,
+   "lift": 1.2136363636363636,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "SQUID CAR",
+    "STAR WARS MEGA DRIVE CITY 🚀"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "party game"
+   ],
+   "count_breakout": 8,
+   "count_all": 36,
+   "lift": 1.4833333333333334,
+   "examples": [
+    "GORILLA HIDE AND SEEK [HORROR]",
+    "Home Alone Escape Room Christmas IQ",
+    "BAKERY?!?HELLO NEIGHBOR |HORROR"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "strategy"
+   ],
+   "count_breakout": 3,
+   "count_all": 9,
+   "lift": 2.225,
+   "examples": [
+    "Hyper Realistic Ragdoll",
+    "BLOCKYMON",
+    "FLATTEN A MOUNTAIN"
+   ]
+  },
+  {
+   "tags": [
+    "fighting",
+    "free for all"
+   ],
+   "count_breakout": 3,
+   "count_all": 9,
+   "lift": 2.225,
+   "examples": [
+    "Fight In A School 💥",
+    "🚗NINJA DRIVE🚗",
+    "🚗TERMINAL DRIVE🚗"
+   ]
+  },
+  {
+   "tags": [
+    "friendly",
+    "role playing"
+   ],
+   "count_breakout": 3,
+   "count_all": 9,
+   "lift": 2.225,
+   "examples": [
+    "Maiyxh's Plaza",
+    "The Amazing Digital Circus RP Lounge",
+    "🎉LOL Party🎉"
+   ]
+  },
+  {
+   "tags": [
+    "creatures",
+    "survival"
+   ],
+   "count_breakout": 4,
+   "count_all": 14,
+   "lift": 1.907142857142857,
+   "examples": [
+    "DUSTFALL ZOMBIE SURVIVAL",
+    "SPIDER BOSS FIGHT EVENT - BOSSFIGHT",
+    "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "survival"
+   ],
+   "count_breakout": 5,
+   "count_all": 20,
+   "lift": 1.66875,
+   "examples": [
+    "Clone Baby Care (Anomaly)",
+    "LOOT SURVIVAL",
+    "BEST SLIDE AND CHILL 🚀✨"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "survival horror"
+   ],
+   "count_breakout": 13,
+   "count_all": 78,
+   "lift": 1.1125,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "Baldi's Schoolhouse",
+    "GORILLA HIDE AND SEEK [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "just for fun"
+   ],
+   "count_breakout": 5,
+   "count_all": 21,
+   "lift": 1.5892857142857142,
+   "examples": [
+    "Clone Baby Care (Anomaly)",
+    "The Hood",
+    "RAMEN ANOMALIES [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "survival horror"
+   ],
+   "count_breakout": 5,
+   "count_all": 21,
+   "lift": 1.5892857142857142,
+   "examples": [
+    "Clone Baby Care (Anomaly)",
+    "LOOT SURVIVAL",
+    "RAMEN ANOMALIES [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "driver simulator",
+    "open world"
+   ],
+   "count_breakout": 6,
+   "count_all": 28,
+   "lift": 1.4303571428571429,
+   "examples": [
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "Bus Driver RP 2.0🌲",
+    "CAR WARS CITY"
+   ]
+  },
+  {
+   "tags": [
+    "simulator",
+    "strategy"
+   ],
+   "count_breakout": 3,
+   "count_all": 10,
+   "lift": 2.0025000000000004,
+   "examples": [
+    "Hyper Realistic Ragdoll",
+    "GUN ARMY : MERGE & SURVIVE",
+    "Eat the Ice Cream 🍦"
+   ]
+  },
+  {
+   "tags": [
+    "pve",
+    "survival horror"
+   ],
+   "count_breakout": 3,
+   "count_all": 10,
+   "lift": 2.0025000000000004,
+   "examples": [
+    "BAKERY?!?HELLO NEIGHBOR |HORROR",
+    "SURVIVE THE NIGHT",
+    "HOHOH SOON NEIGHBOR [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "first person",
+    "just for fun"
+   ],
+   "count_breakout": 3,
+   "count_all": 10,
+   "lift": 2.0025000000000004,
+   "examples": [
+    "RAMEN ANOMALIES [HORROR]",
+    "99 NIGHTS IN A FOREST",
+    "MIDNIGHT AT CHUCKE'S [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "survival",
+    "survival horror"
+   ],
+   "count_breakout": 5,
+   "count_all": 22,
+   "lift": 1.5170454545454544,
+   "examples": [
+    "ANOMALY FARM [HORROR]",
+    "Clone Baby Care (Anomaly)",
+    "FNAF THE MIMIC - SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "role playing",
+    "survival horror"
+   ],
+   "count_breakout": 4,
+   "count_all": 16,
+   "lift": 1.66875,
+   "examples": [
+    "GORILLA HIDE AND SEEK [HORROR]",
+    "HIDE OR DIE [HORROR]",
+    "Murder vs Survivors"
+   ]
+  },
+  {
+   "tags": [
+    "boss battle",
+    "creatures"
+   ],
+   "count_breakout": 4,
+   "count_all": 16,
+   "lift": 1.66875,
+   "examples": [
+    "SPIDER BOSS FIGHT EVENT - BOSSFIGHT",
+    "Aetheria",
+    "BOSS CITY - SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "just for fun"
+   ],
+   "count_breakout": 11,
+   "count_all": 68,
+   "lift": 1.0797794117647057,
+   "examples": [
+    "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐",
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "Spawn Menu"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "survival horror"
+   ],
+   "count_breakout": 15,
+   "count_all": 105,
+   "lift": 0.9535714285714286,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "ANOMALY FARM [HORROR]",
+    "Poppy Playtime Boss Survival"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "minigame"
+   ],
+   "count_breakout": 4,
+   "count_all": 17,
+   "lift": 1.5705882352941176,
+   "examples": [
+    "AMUSEMENT PARK",
+    "BEST SLIDE AND CHILL 🚀✨",
+    "BEST CHILL SLIDE RYLOS"
+   ]
+  },
+  {
+   "tags": [
+    "party game",
+    "pve"
+   ],
+   "count_breakout": 3,
+   "count_all": 11,
+   "lift": 1.8204545454545455,
+   "examples": [
+    "BAKERY?!?HELLO NEIGHBOR |HORROR",
+    "KONG BOSS EVENT",
+    "HOHOH SOON NEIGHBOR [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "just for fun"
+   ],
+   "count_breakout": 6,
+   "count_all": 31,
+   "lift": 1.2919354838709678,
+   "examples": [
+    "CLIMB AND JUMP TOWER",
+    "Home Alone Escape Room Christmas IQ",
+    "Escape Waves For Eggs"
+   ]
+  },
+  {
+   "tags": [
+    "driver simulator",
+    "just for fun"
+   ],
+   "count_breakout": 7,
+   "count_all": 40,
+   "lift": 1.168125,
+   "examples": [
+    "SQUID CAR",
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "CAR WARS CITY"
+   ]
+  },
+  {
+   "tags": [
+    "1v1",
+    "free for all"
+   ],
+   "count_breakout": 7,
+   "count_all": 40,
+   "lift": 1.168125,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "Falco 1v1 Build Fights (200 Pumps)"
+   ]
+  },
+  {
+   "tags": [
+    "co-op",
+    "simulator"
+   ],
+   "count_breakout": 5,
+   "count_all": 25,
+   "lift": 1.335,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "Shred A Billion",
+    "FLIP A HOUSE!"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "party game"
+   ],
+   "count_breakout": 4,
+   "count_all": 18,
+   "lift": 1.4833333333333334,
+   "examples": [
+    "ABYSS",
+    "SCARY ELEVATOR👻",
+    "99 NIGHTS IN A FOREST"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "parkour"
+   ],
+   "count_breakout": 3,
+   "count_all": 12,
+   "lift": 1.6687500000000002,
+   "examples": [
+    "Best Slide and Relax 🚀😴",
+    "BEST CHILL SLIDE RYLOS",
+    "INFINITE SLIDE AND CHILL 🚀 SPACE"
+   ]
+  },
+  {
+   "tags": [
+    "boss battle",
+    "roguelike"
+   ],
+   "count_breakout": 5,
+   "count_all": 26,
+   "lift": 1.283653846153846,
+   "examples": [
+    "CHRISTMAS ESCAPE [ROGUELIKE]",
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "MAFIA HEIST 2 [ROGUELIKE]"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "party game"
+   ],
+   "count_breakout": 20,
+   "count_all": 178,
+   "lift": 0.75,
+   "examples": [
+    "PENGUIN KNOCKOUT!🐧",
+    "Pillars Reload Duo 2v2",
+    "Maiyxh's Plaza"
+   ]
+  },
+  {
+   "tags": [
+    "co-op",
+    "horror"
+   ],
+   "count_breakout": 3,
+   "count_all": 13,
+   "lift": 1.5403846153846152,
+   "examples": [
+    "ANOMALY FARM [HORROR]",
+    "Poppy Playtime Boss Survival",
+    "Hunt the Yeti"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "one shot"
+   ],
+   "count_breakout": 3,
+   "count_all": 13,
+   "lift": 1.5403846153846152,
+   "examples": [
+    "EMP Party Murder",
+    "Sneaky Snipers [Meadows] - One Shot",
+    "Sneaky Snipers [Mountains] - One Shot"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "race"
+   ],
+   "count_breakout": 3,
+   "count_all": 13,
+   "lift": 1.5403846153846152,
+   "examples": [
+    "🚗NINJA DRIVE🚗",
+    "🚗TERMINAL DRIVE🚗",
+    "Race Your Lucky Block"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "pvp"
+   ],
+   "count_breakout": 13,
+   "count_all": 108,
+   "lift": 0.8034722222222223,
+   "examples": [
+    "🔶 Prison Breakout 🔷",
+    "SLAP FIGHTS 🖐️",
+    "CHAPTER 7 SEASON 1 PLAYGROUND"
+   ]
+  },
+  {
+   "tags": [
+    "casual",
+    "party game"
+   ],
+   "count_breakout": 6,
+   "count_all": 37,
+   "lift": 1.0824324324324324,
+   "examples": [
+    "Realistic Family RP",
+    "BAYSIDE CITY🏠",
+    "ABYSS"
+   ]
+  },
+  {
+   "tags": [
+    "party game",
+    "survival"
+   ],
+   "count_breakout": 4,
+   "count_all": 21,
+   "lift": 1.2714285714285714,
+   "examples": [
+    "Community Frenzy",
+    "SNAKE FIGHT [Survival]",
+    "LOOT SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "creatures",
+    "open world"
+   ],
+   "count_breakout": 3,
+   "count_all": 14,
+   "lift": 1.4303571428571429,
+   "examples": [
+    "DUSTFALL ZOMBIE SURVIVAL",
+    "Bus Driver RP 2.0🌲",
+    "🚗Mega Drive🚗"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "respawn"
+   ],
+   "count_breakout": 3,
+   "count_all": 14,
+   "lift": 1.4303571428571429,
+   "examples": [
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "The Pit - Free For All",
+    "CHAPTER 5 REWIND 🔄 RELOAD"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "horror"
+   ],
+   "count_breakout": 10,
+   "count_all": 81,
+   "lift": 0.8240740740740741,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "Baldi's Schoolhouse",
+    "ESCAPE THE T-REX [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "pvp"
+   ],
+   "count_breakout": 13,
+   "count_all": 117,
+   "lift": 0.7416666666666667,
+   "examples": [
+    "BLADE BALL",
+    "CHAPTER 7 SEASON 1 PLAYGROUND",
+    "GAY RED VS BLUE🌈"
+   ]
+  },
+  {
+   "tags": [
+    "creatures",
+    "pve"
+   ],
+   "count_breakout": 4,
+   "count_all": 22,
+   "lift": 1.2136363636363636,
+   "examples": [
+    "BOSS CITY - SURVIVAL",
+    "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖",
+    "XENO LEGEND 2 [ROGUELIKE PRO]"
+   ]
+  },
+  {
+   "tags": [
+    "driver simulator",
+    "race"
+   ],
+   "count_breakout": 7,
+   "count_all": 51,
+   "lift": 0.9161764705882353,
+   "examples": [
+    "SQUID CAR",
+    "STAR WARS MEGA DRIVE CITY 🚀",
+    "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵"
+   ]
+  },
+  {
+   "tags": [
+    "co-op",
+    "roguelike"
+   ],
+   "count_breakout": 6,
+   "count_all": 41,
+   "lift": 0.976829268292683,
+   "examples": [
+    "CHRISTMAS ESCAPE [ROGUELIKE]",
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "MAFIA HEIST 2 [ROGUELIKE]"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "tycoon"
+   ],
+   "count_breakout": 4,
+   "count_all": 23,
+   "lift": 1.1608695652173913,
+   "examples": [
+    "+1 Drill Evolution",
+    "Clean The Bugs",
+    "+1 SCP Evolution"
+   ]
+  },
+  {
+   "tags": [
+    "free for all",
+    "practice"
+   ],
+   "count_breakout": 8,
+   "count_all": 64,
+   "lift": 0.834375,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "GAY RED VS BLUE🌈"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "strategy"
+   ],
+   "count_breakout": 4,
+   "count_all": 24,
+   "lift": 1.1125,
+   "examples": [
+    "Hyper Realistic Ragdoll",
+    "BLOCKYMON",
+    "ESCAPE MR PICKLE 2 FALL GUYS [ESCAPE]"
+   ]
+  },
+  {
+   "tags": [
+    "horror",
+    "survival"
+   ],
+   "count_breakout": 4,
+   "count_all": 24,
+   "lift": 1.1125,
+   "examples": [
+    "ANOMALY FARM [HORROR]",
+    "Clone Baby Care (Anomaly)",
+    "FNAF THE MIMIC - SURVIVAL"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "sports"
+   ],
+   "count_breakout": 5,
+   "count_all": 34,
+   "lift": 0.9816176470588235,
+   "examples": [
+    "Score Goals To Animals",
+    "Football Tycoon 🏈 Custom Stadium",
+    "Baseball Tycoon ⚾ Custom Stadium"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "boss battle"
+   ],
+   "count_breakout": 3,
+   "count_all": 17,
+   "lift": 1.1779411764705883,
+   "examples": [
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "Aetheria",
+    "JUJUTSU [ROGUELIKE]"
+   ]
+  },
+  {
+   "tags": [
+    "friendly",
+    "just for fun"
+   ],
+   "count_breakout": 3,
+   "count_all": 17,
+   "lift": 1.1779411764705883,
+   "examples": [
+    "Maiyxh's Plaza",
+    "Best Slide and Relax 🚀😴",
+    "🎉LOL Party🎉"
+   ]
+  },
+  {
+   "tags": [
+    "first person",
+    "survival horror"
+   ],
+   "count_breakout": 8,
+   "count_all": 75,
+   "lift": 0.712,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "ESCAPE THE T-REX [HORROR]",
+    "INSANITY [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "co-op",
+    "just for fun"
+   ],
+   "count_breakout": 3,
+   "count_all": 18,
+   "lift": 1.1125,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "FLIP A HOUSE!",
+    "FLATTEN A MOUNTAIN"
+   ]
+  },
+  {
+   "tags": [
+    "co-op",
+    "tycoon"
+   ],
+   "count_breakout": 3,
+   "count_all": 18,
+   "lift": 1.1125,
+   "examples": [
+    "CLEAN THE BALLS!",
+    "FLIP A HOUSE!",
+    "Clean The Bugs"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "minigame"
+   ],
+   "count_breakout": 12,
+   "count_all": 134,
+   "lift": 0.5977611940298508,
+   "examples": [
+    "PENGUIN KNOCKOUT!🐧",
+    "Pillars Reload Duo 2v2",
+    "SLAP FIGHTS 🖐️"
+   ]
+  },
+  {
+   "tags": [
+    "race",
+    "role playing"
+   ],
+   "count_breakout": 4,
+   "count_all": 30,
+   "lift": 0.8899999999999999,
+   "examples": [
+    "SQUID CAR",
+    "MIAMI DRIVE CITY",
+    "CALIFORTIA HOOD"
+   ]
+  },
+  {
+   "tags": [
+    "1v1",
+    "building"
+   ],
+   "count_breakout": 6,
+   "count_all": 55,
+   "lift": 0.7281818181818183,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "CREIME 1V1 BUILD FIGHTS📝",
+    "Falco 1v1 Build Fights (200 Pumps)"
+   ]
+  },
+  {
+   "tags": [
+    "first person",
+    "horror"
+   ],
+   "count_breakout": 8,
+   "count_all": 85,
+   "lift": 0.6282352941176471,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "ESCAPE THE T-REX [HORROR]",
+    "INSANITY [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "adventure",
+    "co-op"
+   ],
+   "count_breakout": 3,
+   "count_all": 21,
+   "lift": 0.9535714285714285,
+   "examples": [
+    "GHOST HEIST ESCAPE [ROGUELIKE]",
+    "Clean The Bugs",
+    "JUJUTSU [ROGUELIKE]"
+   ]
+  },
+  {
+   "tags": [
+    "1v1",
+    "practice"
+   ],
+   "count_breakout": 8,
+   "count_all": 90,
+   "lift": 0.5933333333333334,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+    "CREIME 1V1 BUILD FIGHTS📝"
+   ]
+  },
+  {
+   "tags": [
+    "escape",
+    "first person"
+   ],
+   "count_breakout": 6,
+   "count_all": 60,
+   "lift": 0.6675,
+   "examples": [
+    "SUZY SAYS [HORROR]",
+    "ESCAPE THE T-REX [HORROR]",
+    "INSANITY [HORROR]"
+   ]
+  },
+  {
+   "tags": [
+    "building",
+    "practice"
+   ],
+   "count_breakout": 5,
+   "count_all": 48,
+   "lift": 0.6953125,
+   "examples": [
+    "Cobraxz 1v1 Build Fights (200 Pumps)",
+    "CREIME 1V1 BUILD FIGHTS📝",
+    "Falco 1v1 Build Fights (200 Pumps)"
+   ]
+  },
+  {
+   "tags": [
+    "1v1",
+    "pvp"
+   ],
+   "count_breakout": 5,
+   "count_all": 50,
+   "lift": 0.6675,
+   "examples": [
+    "OG MOVEMENT 1V1 (OOGGHI)",
+    "HUGE 1V1 FFA - ALL GUNS & VEHICLES",
+    "世界一軽い乱戦場"
+   ]
+  },
+  {
+   "tags": [
+    "minigame",
+    "party game"
+   ],
+   "count_breakout": 9,
+   "count_all": 129,
+   "lift": 0.4656976744186046,
+   "examples": [
+    "PENGUIN KNOCKOUT!🐧",
+    "Pillars Reload Duo 2v2",
+    "SLAP FIGHTS 🖐️"
+   ]
+  },
+  {
+   "tags": [
+    "pve",
+    "survival"
+   ],
+   "count_breakout": 3,
+   "count_all": 26,
+   "lift": 0.7701923076923076,
+   "examples": [
+    "Rogue Rails [Roguelike]",
+    "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖",
+    "SURVIVE THE NIGHT"
+   ]
+  },
+  {
+   "tags": [
+    "minigame",
+    "parkour"
+   ],
+   "count_breakout": 3,
+   "count_all": 26,
+   "lift": 0.7701923076923076,
+   "examples": [
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "BEST CHILL SLIDE RYLOS",
+    "INFINITE SLIDE AND CHILL 🚀 SPACE"
+   ]
+  },
+  {
+   "tags": [
+    "pvp",
+    "team deathmatch"
+   ],
+   "count_breakout": 3,
+   "count_all": 30,
+   "lift": 0.6675,
+   "examples": [
+    "GAY RED VS BLUE🌈",
+    "NEW COMBAT - RED VS YELLOW 🔴🌕",
+    "TMNT CAPTURE THE FLAG 🚩"
+   ]
+  },
+  {
+   "tags": [
+    "boss battle",
+    "pve"
+   ],
+   "count_breakout": 3,
+   "count_all": 31,
+   "lift": 0.6459677419354839,
+   "examples": [
+    "KONG BOSS EVENT",
+    "BOSS CITY - SURVIVAL",
+    "BOSS EVENTS"
+   ]
+  },
+  {
+   "tags": [
+    "practice",
+    "pvp"
+   ],
+   "count_breakout": 6,
+   "count_all": 103,
+   "lift": 0.3888349514563107,
+   "examples": [
+    "GAY RED VS BLUE🌈",
+    "The Pit - Free For All",
+    "世界一軽い乱戦場"
+   ]
+  },
+  {
+   "tags": [
+    "just for fun",
+    "parkour"
+   ],
+   "count_breakout": 5,
+   "count_all": 94,
+   "lift": 0.3550531914893617,
+   "examples": [
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "Best Slide and Relax 🚀😴",
+    "BEST CHILL SLIDE RYLOS"
+   ]
+  },
+  {
+   "tags": [
+    "party game",
+    "pvp"
+   ],
+   "count_breakout": 3,
+   "count_all": 50,
+   "lift": 0.4005,
+   "examples": [
+    "SLAP FIGHTS 🖐️",
+    "INFINITE PILLARS SNIPER",
+    "Gay Yahu Pillars Pillers Pillar Pilars"
+   ]
+  },
+  {
+   "tags": [
+    "deathrun",
+    "parkour"
+   ],
+   "count_breakout": 4,
+   "count_all": 108,
+   "lift": 0.24722222222222223,
+   "examples": [
+    "HARD PARKOUR 15 LEVELS",
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "HARD PARKOUR ⭐ 6337 HARD باركور 🔥"
+   ]
+  },
+  {
+   "tags": [
+    "deathrun",
+    "just for fun"
+   ],
+   "count_breakout": 3,
+   "count_all": 87,
+   "lift": 0.23017241379310346,
+   "examples": [
+    "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+    "ESCAPE MR PICKLE 2 FALL GUYS [ESCAPE]",
+    "CARS RAMP PARKOUR"
+   ]
+  }
+ ],
+ "keywords": {
+  "keywords": [
+   {
+    "word": "THROW",
+    "breakout_maps": 3,
+    "tracked_maps": 3,
+    "lift": 6.0,
+    "catalog_rate": 0.0002729429549224212,
+    "examples": [
+     "Throw Food for Pets",
+     "THROW FOOD FOR ANIMALS",
+     "+1 THROW A PLANE"
+    ]
+   },
+   {
+    "word": "DEFENSE",
+    "breakout_maps": 5,
+    "tracked_maps": 7,
+    "lift": 4.285714285714286,
+    "catalog_rate": 0.0006648610440417953,
+    "examples": [
+     "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵",
+     "Mini Wars - Tower defense [Tycoon]",
+     "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖"
+    ]
+   },
+   {
+    "word": "RP",
+    "breakout_maps": 10,
+    "tracked_maps": 23,
+    "lift": 2.608695652173913,
+    "catalog_rate": 0.0054938517849769395,
+    "examples": [
+     "Realistic Family RP",
+     "Bus Driver RP 2.0🌲",
+     "KPOP DEMON HUNTERS [RP]"
+    ]
+   },
+   {
+    "word": "BALLISTIC",
+    "breakout_maps": 3,
+    "tracked_maps": 4,
+    "lift": 4.5,
+    "catalog_rate": 0.0013367206253892937,
+    "examples": [
+     "Ballistic R",
+     "BALLISTIC BATTLEFIELD",
+     "CORE BALLISTIC 🎯AIM | DM | 1V1 & 2V2"
+    ]
+   },
+   {
+    "word": "CUSTOM",
+    "breakout_maps": 3,
+    "tracked_maps": 4,
+    "lift": 4.5,
+    "catalog_rate": 0.0018651101919698783,
+    "examples": [
+     "Football Tycoon 🏈 Custom Stadium",
+     "Baseball Tycoon ⚾ Custom Stadium",
+     "REAL JDM DRIFT - CUSTOM CAR"
+    ]
+   },
+   {
+    "word": "STEAL",
+    "breakout_maps": 10,
+    "tracked_maps": 26,
+    "lift": 2.3076923076923075,
+    "catalog_rate": 0.002620952220985814,
+    "examples": [
+     "STEAL A FNAF EGG 🥚",
+     "DETECT AND STEAL AN EGG 🥚",
+     "Steal a Verity"
+    ]
+   },
+   {
+    "word": "FASHION",
+    "breakout_maps": 4,
+    "tracked_maps": 7,
+    "lift": 3.4285714285714284,
+    "catalog_rate": 0.002872899563991126,
+    "examples": [
+     "Glow Up [FASHION]",
+     "👑SUPER FASHION SHOW🎭",
+     "Fashion Show الكبينه 👑"
+    ]
+   },
+   {
+    "word": "CHRISTMAS",
+    "breakout_maps": 4,
+    "tracked_maps": 7,
+    "lift": 3.4285714285714284,
+    "catalog_rate": 0.005437863486531315,
+    "examples": [
+     "CHRISTMAS ESCAPE [ROGUELIKE]",
+     "CHRISTMAS FACTORY TYCOON",
+     "Home Alone Escape Room Christmas IQ"
+    ]
+   },
+   {
+    "word": "SEASON",
+    "breakout_maps": 4,
+    "tracked_maps": 7,
+    "lift": 3.4285714285714284,
+    "catalog_rate": 0.005227907367360222,
+    "examples": [
+     "CHAPTER 7 SEASON 1 PLAYGROUND",
+     "CHAPTER 4 SEASON 2 PLAYGROUND",
+     "CHAPTER 5 SEASON 3 PLAYGROUND"
+    ]
+   },
+   {
+    "word": "EVOLUTION",
+    "breakout_maps": 11,
+    "tracked_maps": 31,
+    "lift": 2.129032258064516,
+    "catalog_rate": 0.0007173500738345686,
+    "examples": [
+     "+1 Drill Evolution",
+     "+1 APPEAL EVOLUTION",
+     "+1 Anomaly Evolution"
+    ]
+   },
+   {
+    "word": "DRIVE",
+    "breakout_maps": 16,
+    "tracked_maps": 52,
+    "lift": 1.846153846153846,
+    "catalog_rate": 0.0067185958134749835,
+    "examples": [
+     "STAR WARS MEGA DRIVE CITY 🚀",
+     "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐",
+     "🧟 CAR DRIVE ZOMBIES CITY TRAP DEFENSE🎵"
+    ]
+   },
+   {
+    "word": "TYCOON",
+    "breakout_maps": 17,
+    "tracked_maps": 59,
+    "lift": 1.728813559322034,
+    "catalog_rate": 0.014661935655448011,
+    "examples": [
+     "SANTA TYCOON [TYCOON]",
+     "PET SHOP TYCOON",
+     "BUILD A SUPERMARKET [TYCOON]"
+    ]
+   },
+   {
+    "word": "SHOW",
+    "breakout_maps": 3,
+    "tracked_maps": 5,
+    "lift": 3.6,
+    "catalog_rate": 0.002886896638602532,
+    "examples": [
+     "👑SUPER FASHION SHOW🎭",
+     "Fashion Show الكبينه 👑",
+     "Dress Up [Fashion Show]"
+    ]
+   },
+   {
+    "word": "MILITARY",
+    "breakout_maps": 3,
+    "tracked_maps": 5,
+    "lift": 3.6,
+    "catalog_rate": 0.0005703807904148033,
+    "examples": [
+     "Desert Military Drive 🏜️",
+     "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖",
+     "🚗MILITARY DRIVE🚗"
+    ]
+   },
+   {
+    "word": "EGG",
+    "breakout_maps": 7,
+    "tracked_maps": 18,
+    "lift": 2.3333333333333335,
+    "catalog_rate": 0.0010287849839383568,
+    "examples": [
+     "STEAL A FNAF EGG 🥚",
+     "DETECT AND STEAL AN EGG 🥚",
+     "RUN FOR EGG🥚"
+    ]
+   },
+   {
+    "word": "ANOMALY",
+    "breakout_maps": 4,
+    "tracked_maps": 8,
+    "lift": 3.0,
+    "catalog_rate": 0.0002519473430053119,
+    "examples": [
+     "ANOMALY FARM [HORROR]",
+     "+1 Anomaly Evolution",
+     "Clone Baby Care (Anomaly)"
+    ]
+   },
+   {
+    "word": "TOWER",
+    "breakout_maps": 5,
+    "tracked_maps": 12,
+    "lift": 2.5,
+    "catalog_rate": 0.003618243787048507,
+    "examples": [
+     "CLIMB AND JUMP TOWER",
+     "Mini Wars - Tower defense [Tycoon]",
+     "🧟ZOMBIE TOWER TRAP DEFENSE MILITARY🪖"
+    ]
+   },
+   {
+    "word": "ANIME",
+    "breakout_maps": 4,
+    "tracked_maps": 9,
+    "lift": 2.666666666666667,
+    "catalog_rate": 0.0009308054616585133,
+    "examples": [
+     "ANIME CARDS TYCOON",
+     "+1 Anime Fruit Evolution",
+     "ANIME CARD FARM"
+    ]
+   },
+   {
+    "word": "PARTY",
+    "breakout_maps": 9,
+    "tracked_maps": 29,
+    "lift": 1.8620689655172413,
+    "catalog_rate": 0.008545214050263495,
+    "examples": [
+     "party. seven",
+     "Halloween Party",
+     "PARTY ROYAL JAZAN 2.2 | جازان"
+    ]
+   },
+   {
+    "word": "EGGS",
+    "breakout_maps": 8,
+    "tracked_maps": 25,
+    "lift": 1.92,
+    "catalog_rate": 0.0006683603126946469,
+    "examples": [
+     "Mog For Eggs",
+     "DROP FOR EGGS",
+     "Escape Waves For Eggs"
+    ]
+   },
+   {
+    "word": "RAGDOLL",
+    "breakout_maps": 3,
+    "tracked_maps": 6,
+    "lift": 3.0,
+    "catalog_rate": 9.09809849741404e-05,
+    "examples": [
+     "Hyper Realistic Ragdoll",
+     "Ragdoll Physics Lab",
+     "RAGDOLL LABORATY ESCAPE [ROGUELIKE]"
+    ]
+   },
+   {
+    "word": "ROLEPLAY",
+    "breakout_maps": 3,
+    "tracked_maps": 6,
+    "lift": 3.0,
+    "catalog_rate": 0.0008363252080315214,
+    "examples": [
+     "🦸Hero Academy Roleplay🦸",
+     "FNAF - Fazbear's Mega Roleplay",
+     "THE HOUSE ROLEPLAY"
+    ]
+   },
+   {
+    "word": "CITY",
+    "breakout_maps": 12,
+    "tracked_maps": 45,
+    "lift": 1.6,
+    "catalog_rate": 0.011848523658555363,
+    "examples": [
+     "STAR WARS MEGA DRIVE CITY 🚀",
+     "BAYSIDE CITY🏠",
+     "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐"
+    ]
+   },
+   {
+    "word": "PLAYGROUND",
+    "breakout_maps": 4,
+    "tracked_maps": 10,
+    "lift": 2.4000000000000004,
+    "catalog_rate": 0.0010637776704668725,
+    "examples": [
+     "CHAPTER 7 SEASON 1 PLAYGROUND",
+     "CHAPTER 4 SEASON 2 PLAYGROUND",
+     "CHAPTER 5 SEASON 3 PLAYGROUND"
+    ]
+   },
+   {
+    "word": "BEST",
+    "breakout_maps": 5,
+    "tracked_maps": 14,
+    "lift": 2.142857142857143,
+    "catalog_rate": 0.0053328854269457686,
+    "examples": [
+     "Best Slide and Relax 🚀😴",
+     "BEST SLIDE AND CHILL 🚀✨",
+     "BEST CHRISTMAS DUO ESCAPE ROOM🎄"
+    ]
+   },
+   {
+    "word": "CARD",
+    "breakout_maps": 3,
+    "tracked_maps": 7,
+    "lift": 2.571428571428571,
+    "catalog_rate": 0.00025544661165816346,
+    "examples": [
+     "Pack a Soccer Card ⚽",
+     "ANIME CARD FARM",
+     "Pack a Anime Card ⛩️"
+    ]
+   },
+   {
+    "word": "HOOD",
+    "breakout_maps": 3,
+    "tracked_maps": 7,
+    "lift": 2.571428571428571,
+    "catalog_rate": 0.0005388873725391393,
+    "examples": [
+     "The Hood",
+     "CRIMINAL HOOD RP",
+     "CALIFORTIA HOOD"
+    ]
+   },
+   {
+    "word": "MURDER",
+    "breakout_maps": 3,
+    "tracked_maps": 7,
+    "lift": 2.571428571428571,
+    "catalog_rate": 0.0006473647007775374,
+    "examples": [
+     "EMP Party Murder",
+     "Murder vs Survivors",
+     "Murder Mystery"
+    ]
+   },
+   {
+    "word": "ANIMALS",
+    "breakout_maps": 4,
+    "tracked_maps": 11,
+    "lift": 2.1818181818181817,
+    "catalog_rate": 0.0002974378354923821,
+    "examples": [
+     "Score Goals To Animals",
+     "THROW FOOD FOR ANIMALS",
+     "Shoot Arrows For Animals"
+    ]
+   },
+   {
+    "word": "JUMP",
+    "breakout_maps": 4,
+    "tracked_maps": 12,
+    "lift": 2.0,
+    "catalog_rate": 0.0017076431025915583,
+    "examples": [
+     "CLIMB AND JUMP TOWER",
+     "DOUBLE JUMP FOR BRAINROTS",
+     "Jump For Plants"
+    ]
+   },
+   {
+    "word": "SCHOOL",
+    "breakout_maps": 3,
+    "tracked_maps": 8,
+    "lift": 2.25,
+    "catalog_rate": 0.0010182871779798022,
+    "examples": [
+     "Fight In A School 💥",
+     "フォートナイト学校🏫 - Japanese School - たくまん",
+     "📚High School RP📚"
+    ]
+   },
+   {
+    "word": "DIG",
+    "breakout_maps": 3,
+    "tracked_maps": 8,
+    "lift": 2.25,
+    "catalog_rate": 0.0002344509997410541,
+    "examples": [
+     "Dig for Rocks",
+     "Detect And Steal An Egg [Dig]",
+     "Dig to Earth's Core ⛏️"
+    ]
+   },
+   {
+    "word": "SLIDE",
+    "breakout_maps": 4,
+    "tracked_maps": 14,
+    "lift": 1.7142857142857142,
+    "catalog_rate": 0.002834407608809759,
+    "examples": [
+     "Best Slide and Relax 🚀😴",
+     "BEST SLIDE AND CHILL 🚀✨",
+     "BEST CHILL SLIDE RYLOS"
+    ]
+   },
+   {
+    "word": "DUO",
+    "breakout_maps": 6,
+    "tracked_maps": 26,
+    "lift": 1.3846153846153844,
+    "catalog_rate": 0.005182416874873152,
+    "examples": [
+     "Pillars Reload Duo 2v2",
+     "INFINITE PILLARS DUO",
+     "DUO RELOAD CUP ENDGAME 🏆 ريلود الدو"
+    ]
+   },
+   {
+    "word": "CHAPTER",
+    "breakout_maps": 5,
+    "tracked_maps": 20,
+    "lift": 1.5000000000000002,
+    "catalog_rate": 0.008552212587569198,
+    "examples": [
+     "CHAPTER 7 SEASON 1 PLAYGROUND",
+     "CHAPTER 4 SEASON 2 PLAYGROUND",
+     "CHAPTER 5 REWIND 🔄 RELOAD"
+    ]
+   },
+   {
+    "word": "BRAINROT",
+    "breakout_maps": 4,
+    "tracked_maps": 15,
+    "lift": 1.5999999999999999,
+    "catalog_rate": 0.010504804495860364,
+    "examples": [
+     "Unbox A Brainrot",
+     "GUESS THE BRAINROT BY SOUND",
+     "BRAINROT TOWER DEFENSE"
+    ]
+   },
+   {
+    "word": "HOUSE",
+    "breakout_maps": 3,
+    "tracked_maps": 10,
+    "lift": 1.8,
+    "catalog_rate": 0.00238650122124476,
+    "examples": [
+     "FLIP A HOUSE!",
+     "[⭐] MEGA RICH HOUSE TYCOON  [⭐]",
+     "THE HOUSE ROLEPLAY"
+    ]
+   },
+   {
+    "word": "ESCAPE",
+    "breakout_maps": 14,
+    "tracked_maps": 93,
+    "lift": 0.9032258064516129,
+    "catalog_rate": 0.01808771966658968,
+    "examples": [
+     "CHRISTMAS ESCAPE [ROGUELIKE]",
+     "GHOST HEIST ESCAPE [ROGUELIKE]",
+     "ESCAPE THE T-REX [HORROR]"
+    ]
+   },
+   {
+    "word": "BOSS",
+    "breakout_maps": 5,
+    "tracked_maps": 22,
+    "lift": 1.3636363636363635,
+    "catalog_rate": 0.002197540713990776,
+    "examples": [
+     "Poppy Playtime Boss Survival",
+     "SPIDER BOSS FIGHT EVENT - BOSSFIGHT",
+     "KONG BOSS EVENT"
+    ]
+   },
+   {
+    "word": "HORROR",
+    "breakout_maps": 15,
+    "tracked_maps": 103,
+    "lift": 0.8737864077669902,
+    "catalog_rate": 0.009416531944823532,
+    "examples": [
+     "SUZY SAYS [HORROR]",
+     "ANOMALY FARM [HORROR]",
+     "GORILLA HIDE AND SEEK [HORROR]"
+    ]
+   }
+  ],
+  "bigrams": [
+   {
+    "word": "STEAL A",
+    "breakout_maps": 5,
+    "tracked_maps": 7,
+    "lift": 4.285714285714286,
+    "catalog_rate": null,
+    "examples": [
+     "STEAL A FNAF EGG 🥚",
+     "Steal a Verity",
+     "Steal a Klombo Egg🥚"
+    ]
+   },
+   {
+    "word": "FASHION SHOW",
+    "breakout_maps": 3,
+    "tracked_maps": 5,
+    "lift": 3.6,
+    "catalog_rate": null,
+    "examples": [
+     "👑SUPER FASHION SHOW🎭",
+     "Fashion Show الكبينه 👑",
+     "Dress Up [Fashion Show]"
+    ]
+   },
+   {
+    "word": "CITY DRIVE",
+    "breakout_maps": 3,
+    "tracked_maps": 5,
+    "lift": 3.6,
+    "catalog_rate": null,
+    "examples": [
+     "CITY DRIVE - BODYCAM - ZOMBIE 🧟‍♂️⭐",
+     "🏙️ SPEED CITY - DRIVE ROAD FFA",
+     "STAR WARS CITY DRIVE 🌌"
+    ]
+   },
+   {
+    "word": "AND STEAL",
+    "breakout_maps": 3,
+    "tracked_maps": 7,
+    "lift": 2.571428571428571,
+    "catalog_rate": null,
+    "examples": [
+     "DETECT AND STEAL AN EGG 🥚",
+     "Detect And Steal An Egg [Dig]",
+     "Bike and Steal Eggs 🥚"
+    ]
+   },
+   {
+    "word": "FOR EGGS",
+    "breakout_maps": 6,
+    "tracked_maps": 22,
+    "lift": 1.6363636363636362,
+    "catalog_rate": null,
+    "examples": [
+     "Mog For Eggs",
+     "DROP FOR EGGS",
+     "Escape Waves For Eggs"
+    ]
+   },
+   {
+    "word": "SLIDE AND",
+    "breakout_maps": 3,
+    "tracked_maps": 8,
+    "lift": 2.25,
+    "catalog_rate": null,
+    "examples": [
+     "Best Slide and Relax 🚀😴",
+     "BEST SLIDE AND CHILL 🚀✨",
+     "INFINITE SLIDE AND CHILL 🚀 SPACE"
+    ]
+   },
+   {
+    "word": "STEAL AN",
+    "breakout_maps": 3,
+    "tracked_maps": 9,
+    "lift": 2.0,
+    "catalog_rate": null,
+    "examples": [
+     "DETECT AND STEAL AN EGG 🥚",
+     "Detect And Steal An Egg [Dig]",
+     "MOG TO STEAL AN EGG [ADVENTURE]"
+    ]
+   },
+   {
+    "word": "DRIVE CITY",
+    "breakout_maps": 3,
+    "tracked_maps": 9,
+    "lift": 2.0,
+    "catalog_rate": null,
+    "examples": [
+     "STAR WARS MEGA DRIVE CITY 🚀",
+     "MIAMI DRIVE CITY",
+     "DRIVE CITY RP"
+    ]
+   },
+   {
+    "word": "FOR BRAINROTS",
+    "breakout_maps": 3,
+    "tracked_maps": 10,
+    "lift": 1.8,
+    "catalog_rate": null,
+    "examples": [
+     "DOUBLE JUMP FOR BRAINROTS",
+     "Score Goals For Brainrots (Tycoon)",
+     "BREAK SLIME FOR BRAINROTS"
+    ]
+   },
+   {
+    "word": "AN EGG",
+    "breakout_maps": 3,
+    "tracked_maps": 11,
+    "lift": 1.6363636363636362,
+    "catalog_rate": null,
+    "examples": [
+     "DETECT AND STEAL AN EGG 🥚",
+     "Detect And Steal An Egg [Dig]",
+     "MOG TO STEAL AN EGG [ADVENTURE]"
+    ]
+   },
+   {
+    "word": "ESCAPE ROGUELIKE",
+    "breakout_maps": 4,
+    "tracked_maps": 20,
+    "lift": 1.2000000000000002,
+    "catalog_rate": null,
+    "examples": [
+     "CHRISTMAS ESCAPE [ROGUELIKE]",
+     "GHOST HEIST ESCAPE [ROGUELIKE]",
+     "RAGDOLL LABORATY ESCAPE [ROGUELIKE]"
+    ]
+   },
+   {
+    "word": "ESCAPE ROOM",
+    "breakout_maps": 3,
+    "tracked_maps": 14,
+    "lift": 1.2857142857142856,
+    "catalog_rate": null,
+    "examples": [
+     "Home Alone Escape Room Christmas IQ",
+     "50+ SUPER ESCAPE ROOM 📺",
+     "BEST CHRISTMAS DUO ESCAPE ROOM🎄"
+    ]
+   },
+   {
+    "word": "200 PUMPS",
+    "breakout_maps": 3,
+    "tracked_maps": 16,
+    "lift": 1.125,
+    "catalog_rate": null,
+    "examples": [
+     "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "Falco 1v1 Build Fights (200 Pumps)",
+     "Sjay 1v1 Map (200 Pumps)"
+    ]
+   },
+   {
+    "word": "RED VS",
+    "breakout_maps": 4,
+    "tracked_maps": 29,
+    "lift": 0.8275862068965518,
+    "catalog_rate": null,
+    "examples": [
+     "GAY RED VS BLUE🌈",
+     "NEW COMBAT - RED VS YELLOW 🔴🌕",
+     "🔴🔵MINECRAFT RED VS BLUE [SHOOTERS]"
+    ]
+   },
+   {
+    "word": "BUILD FIGHTS",
+    "breakout_maps": 3,
+    "tracked_maps": 21,
+    "lift": 0.8571428571428571,
+    "catalog_rate": null,
+    "examples": [
+     "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "CREIME 1V1 BUILD FIGHTS📝",
+     "Falco 1v1 Build Fights (200 Pumps)"
+    ]
+   },
+   {
+    "word": "1V1 BUILD",
+    "breakout_maps": 3,
+    "tracked_maps": 26,
+    "lift": 0.6923076923076922,
+    "catalog_rate": null,
+    "examples": [
+     "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "CREIME 1V1 BUILD FIGHTS📝",
+     "Falco 1v1 Build Fights (200 Pumps)"
+    ]
+   },
+   {
+    "word": "VS BLUE",
+    "breakout_maps": 3,
+    "tracked_maps": 27,
+    "lift": 0.6666666666666666,
+    "catalog_rate": null,
+    "examples": [
+     "GAY RED VS BLUE🌈",
+     "🔴🔵MINECRAFT RED VS BLUE [SHOOTERS]",
+     "TILTED TOWER RED VS BLUE 🔴🔵"
+    ]
+   }
+  ],
+  "patterns": [
+   {
+    "pattern": "Saisonal (Christmas/Winter/Santa)",
+    "rate_breakout": 0.026217228464419477,
+    "rate_top100": 0.01,
+    "rate_all": 0.008739076154806492,
+    "lift": 3.0,
+    "examples": [
+     "SANTA TYCOON [TYCOON]",
+     "CHRISTMAS ESCAPE [ROGUELIKE]",
+     "CHRISTMAS FACTORY TYCOON"
+    ]
+   },
+   {
+    "pattern": "RP / Roleplay",
+    "rate_breakout": 0.04868913857677903,
+    "rate_top100": 0.0,
+    "rate_all": 0.018102372034956304,
+    "lift": 2.689655172413793,
+    "examples": [
+     "Realistic Family RP",
+     "🦸Hero Academy Roleplay🦸",
+     "FNAF - Fazbear's Mega Roleplay"
+    ]
+   },
+   {
+    "pattern": "„Steal a/an …“",
+    "rate_breakout": 0.03745318352059925,
+    "rate_top100": 0.02,
+    "rate_all": 0.016229712858926344,
+    "lift": 2.3076923076923075,
+    "examples": [
+     "STEAL A FNAF EGG 🥚",
+     "DETECT AND STEAL AN EGG 🥚",
+     "Steal a Verity"
+    ]
+   },
+   {
+    "pattern": "„… Evolution“",
+    "rate_breakout": 0.04119850187265917,
+    "rate_top100": 0.02,
+    "rate_all": 0.019350811485642945,
+    "lift": 2.129032258064516,
+    "examples": [
+     "+1 Drill Evolution",
+     "+1 APPEAL EVOLUTION",
+     "+1 Anomaly Evolution"
+    ]
+   },
+   {
+    "pattern": "Tycoon / Simulator",
+    "rate_breakout": 0.07116104868913857,
+    "rate_top100": 0.04,
+    "rate_all": 0.04057428214731586,
+    "lift": 1.7538461538461536,
+    "examples": [
+     "SANTA TYCOON [TYCOON]",
+     "PET SHOP TYCOON",
+     "BUILD A SUPERMARKET [TYCOON]"
+    ]
+   },
+   {
+    "pattern": "„+1 … pro Klick/Sekunde“",
+    "rate_breakout": 0.06367041198501873,
+    "rate_top100": 0.05,
+    "rate_all": 0.03745318352059925,
+    "lift": 1.7,
+    "examples": [
+     "+1 Drill Evolution",
+     "+1 APPEAL EVOLUTION",
+     "+1 Anomaly Evolution"
+    ]
+   },
+   {
+    "pattern": "[GENRE]-Klammer am Ende (z.B. „… [TYCOON]“)",
+    "rate_breakout": 0.13108614232209737,
+    "rate_top100": 0.17,
+    "rate_all": 0.149812734082397,
+    "lift": 0.8749999999999999,
+    "examples": [
+     "SANTA TYCOON [TYCOON]",
+     "Rogue Rails [Roguelike]",
+     "BUILD A SUPERMARKET [TYCOON]"
+    ]
+   },
+   {
+    "pattern": "Emoji im Titel",
+    "rate_breakout": 0.2846441947565543,
+    "rate_top100": 0.32,
+    "rate_all": 0.3264669163545568,
+    "lift": 0.8718929254302102,
+    "examples": [
+     "🔶 Prison Breakout 🔷",
+     "Fight In A School 💥",
+     "STEAL A FNAF EGG 🥚"
+    ]
+   },
+   {
+    "pattern": "„Escape / Prison / Obby“",
+    "rate_breakout": 0.06367041198501873,
+    "rate_top100": 0.01,
+    "rate_all": 0.07428214731585518,
+    "lift": 0.8571428571428572,
+    "examples": [
+     "🔶 Prison Breakout 🔷",
+     "CHRISTMAS ESCAPE [ROGUELIKE]",
+     "GHOST HEIST ESCAPE [ROGUELIKE]"
+    ]
+   },
+   {
+    "pattern": "Hide and Seek / Prop Hunt",
+    "rate_breakout": 0.0149812734082397,
+    "rate_top100": 0.01,
+    "rate_all": 0.020599250936329586,
+    "lift": 0.7272727272727273,
+    "examples": [
+     "GORILLA HIDE AND SEEK [HORROR]",
+     "HIDE OR DIE [HORROR]",
+     "Supermarket Prop Hunt [swany]"
+    ]
+   },
+   {
+    "pattern": "„Build a/your …“",
+    "rate_breakout": 0.018726591760299626,
+    "rate_top100": 0.05,
+    "rate_all": 0.03620474406991261,
+    "lift": 0.5172413793103449,
+    "examples": [
+     "BUILD A SUPERMARKET [TYCOON]",
+     "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "CREIME 1V1 BUILD FIGHTS📝"
+    ]
+   },
+   {
+    "pattern": "Level-/Zahl im Titel (100 LEVEL, 999…)",
+    "rate_breakout": 0.011235955056179775,
+    "rate_top100": 0.02,
+    "rate_all": 0.025593008739076155,
+    "lift": 0.43902439024390244,
+    "examples": [
+     "HARD PARKOUR 15 LEVELS",
+     "99 NIGHTS IN A FOREST",
+     "99 NIGHTS IN AMONG US [HORROR]"
+    ]
+   },
+   {
+    "pattern": "1v1 / Zonewars / Boxfight",
+    "rate_breakout": 0.0449438202247191,
+    "rate_top100": 0.24,
+    "rate_all": 0.10861423220973783,
+    "lift": 0.41379310344827586,
+    "examples": [
+     "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "CREIME 1V1 BUILD FIGHTS📝",
+     "Falco 1v1 Build Fights (200 Pumps)"
+    ]
+   }
+  ],
+  "style_breakout": {
+   "emoji_rate": 0.2846441947565543,
+   "caps_rate": 0.5580524344569289,
+   "avg_len": 21.172284644194757,
+   "number_rate": 0.18352059925093633
+  },
+  "style_top": {
+   "emoji_rate": 0.32,
+   "caps_rate": 0.61,
+   "avg_len": 22.41,
+   "number_rate": 0.34
+  },
+  "style_all": {
+   "emoji_rate": 0.3264669163545568,
+   "caps_rate": 0.6036204744069913,
+   "avg_len": 22.77465667915106,
+   "number_rate": 0.2634207240948814
+  }
+ },
+ "ideas": [
+  {
+   "genre": "Horror",
+   "genre_slug": "horror",
+   "opportunity": 69.2,
+   "tags": [
+    "survival",
+    "survival horror",
+    "party game"
+   ],
+   "keywords": [
+    "ANOMALY"
+   ],
+   "title_pattern": "„… Evolution“",
+   "title_pattern_rate": 0.1,
+   "hook": "kurze Jump-Scare-Runden (5–10 Min) im Koop für 2–4 Spieler, ein klar erkennbares Monster",
+   "benchmarks": [
+    {
+     "title": "SUZY SAYS [HORROR]",
+     "code": "8217-7835-0119",
+     "viral": 81.4,
+     "players": 409.8333333333333,
+     "growth": 4.154066610483203,
+     "new": false
+    },
+    {
+     "title": "ANOMALY FARM [HORROR]",
+     "code": "2667-5971-6116",
+     "viral": 79.1,
+     "players": 1473.3333333333333,
+     "growth": 1.4081510293855906,
+     "new": false
+    },
+    {
+     "title": "+1 Anomaly Evolution",
+     "code": "7554-8268-3857",
+     "viral": 78.8,
+     "players": 1108.8333333333333,
+     "growth": 1.7840232496807327,
+     "new": false
+    }
+   ],
+   "target_d1": 0.148375,
+   "target_minutes": 20.842166666666667,
+   "target_social": 135.65468161136,
+   "mid_tier_players": 6459.1125
+  },
+  {
+   "genre": "Roleplaying & Social",
+   "genre_slug": "roleplaying-social",
+   "opportunity": 63.8,
+   "tags": [
+    "simulator",
+    "party game",
+    "race"
+   ],
+   "keywords": [
+    "PRISON"
+   ],
+   "title_pattern": "RP / Roleplay",
+   "title_pattern_rate": 0.1,
+   "hook": "Rollen, Jobs, Häuser und tägliche Belohnungen als Grund zum Wiederkommen",
+   "benchmarks": [
+    {
+     "title": "PrimeM",
+     "code": "8006-1388-2871",
+     "viral": 93.2,
+     "players": 6970.0,
+     "growth": 31.714420493855737,
+     "new": false
+    },
+    {
+     "title": "Mog For Eggs",
+     "code": "4383-1222-6590",
+     "viral": 84.4,
+     "players": 625.8333333333334,
+     "growth": 2.2050386243581896,
+     "new": false
+    },
+    {
+     "title": "Glow Up [FASHION]",
+     "code": "3464-9260-4988",
+     "viral": 84.3,
+     "players": 13312.5,
+     "growth": 5.487118213107387,
+     "new": false
+    }
+   ],
+   "target_d1": 0.29713333333333336,
+   "target_minutes": 47.150333333333336,
+   "target_social": 56.62783299720927,
+   "mid_tier_players": 7929.195833333333
+  },
+  {
+   "genre": "Shooter",
+   "genre_slug": "shooter",
+   "opportunity": 63.1,
+   "tags": [
+    "strategy",
+    "respawn",
+    "team deathmatch"
+   ],
+   "keywords": [
+    "1V1",
+    "RED",
+    "PUMPS",
+    "FIGHTS"
+   ],
+   "title_pattern": null,
+   "title_pattern_rate": 0,
+   "hook": "sofort in der Action spawnen, Kill-Streaks, Ranked-/Leaderboard-Gefühl",
+   "benchmarks": [
+    {
+     "title": "Cobraxz 1v1 Build Fights (200 Pumps)",
+     "code": "9920-2650-4258",
+     "viral": 77.5,
+     "players": 1966.8333333333333,
+     "growth": 1.8636371093459319,
+     "new": false
+    },
+    {
+     "title": "DO WHAT YOU WANT ! - ! سوي اللي بدك اياه",
+     "code": "5475-0272-3172",
+     "viral": 75.2,
+     "players": 1798.5,
+     "growth": 2.1184303976156564,
+     "new": false
+    },
+    {
+     "title": "GAY RED VS BLUE🌈",
+     "code": "0127-9548-2393",
+     "viral": 73.1,
+     "players": 1458.6666666666667,
+     "growth": 22.496964592346647,
+     "new": false
+    }
+   ],
+   "target_d1": 0.30423333333333336,
+   "target_minutes": 29.230666666666668,
+   "target_social": 44.054733259564486,
+   "mid_tier_players": 55416.6125
+  },
+  {
+   "genre": "Party & Mini Games",
+   "genre_slug": "party-mini-games",
+   "opportunity": 54.6,
+   "tags": [
+    "survival",
+    "2v2",
+    "party game"
+   ],
+   "keywords": [
+    "PILLARS",
+    "DUO",
+    "INFINITE"
+   ],
+   "title_pattern": null,
+   "title_pattern_rate": 0,
+   "hook": "Runden unter 3 Minuten, Lobby-Voting, Chaos-Momente, die sich clippen lassen",
+   "benchmarks": [
+    {
+     "title": "PENGUIN KNOCKOUT!🐧",
+     "code": "0169-9555-7822",
+     "viral": 79.7,
+     "players": 989.1666666666666,
+     "growth": 1.7039342535887894,
+     "new": false
+    },
+    {
+     "title": "Pillars Reload Duo 2v2",
+     "code": "9378-8458-1155",
+     "viral": 78.4,
+     "players": 3435.4,
+     "growth": 8.776549239243202,
+     "new": false
+    },
+    {
+     "title": "SLAP FIGHTS 🖐️",
+     "code": "8851-5480-5161",
+     "viral": 76.6,
+     "players": 1131.6666666666667,
+     "growth": 1.4604812345604117,
+     "new": false
+    }
+   ],
+   "target_d1": 0.2476,
+   "target_minutes": 37.04366666666667,
+   "target_social": 44.931530150333195,
+   "mid_tier_players": 16081.191666666666
+  },
+  {
+   "genre": "Sports & Racing",
+   "genre_slug": "sports-racing",
+   "opportunity": 54.2,
+   "tags": [
+    "tycoon",
+    "simulator",
+    "open world"
+   ],
+   "keywords": [
+    "CUSTOM",
+    "CITY",
+    "DRIVE",
+    "TYCOON"
+   ],
+   "title_pattern": "Tycoon / Simulator",
+   "title_pattern_rate": 0.2,
+   "hook": "Matches unter 5 Minuten, Upgrades für Fahrzeuge oder Skills",
+   "benchmarks": [
+    {
+     "title": "Score Goals To Animals",
+     "code": "4563-6434-9923",
+     "viral": 86.0,
+     "players": 13215.5,
+     "growth": 25.055538883064344,
+     "new": false
+    },
+    {
+     "title": "STAR WARS MEGA DRIVE CITY 🚀",
+     "code": "4283-3001-7839",
+     "viral": 76.6,
+     "players": 768.5,
+     "growth": 3.1214062547756773,
+     "new": false
+    },
+    {
+     "title": "Football Tycoon 🏈 Custom Stadium",
+     "code": "8210-7181-1669",
+     "viral": 76.0,
+     "players": 500.3333333333333,
+     "growth": 1.9051533714454758,
+     "new": false
+    }
+   ],
+   "target_d1": 0.16333333333333333,
+   "target_minutes": 26.793416666666666,
+   "target_social": 58.41200275280802,
+   "mid_tier_players": 5735.946666666667
+  },
+  {
+   "genre": "Adventure & RPG",
+   "genre_slug": "adventure-rpg",
+   "opportunity": 53.1,
+   "tags": [
+    "simulator",
+    "tycoon"
+   ],
+   "keywords": [
+    "EVOLUTION"
+   ],
+   "title_pattern": "„… Evolution“",
+   "title_pattern_rate": 0.5,
+   "hook": "klarer Quest-Faden, Loot-Seltenheiten, alle ~10 Minuten ein Boss",
+   "benchmarks": [
+    {
+     "title": "+1 Drill Evolution",
+     "code": "9821-7888-3528",
+     "viral": 84.9,
+     "players": 9788.0,
+     "growth": 50.11776766748439,
+     "new": false
+    },
+    {
+     "title": "BLOCKYMON",
+     "code": "3626-0573-9677",
+     "viral": 84.7,
+     "players": 331.8,
+     "growth": 1.8738819145909413,
+     "new": false
+    },
+    {
+     "title": "+1 APPEAL EVOLUTION",
+     "code": "4031-3817-6447",
+     "viral": 79.0,
+     "players": 1360.5,
+     "growth": null,
+     "new": true
+    }
+   ],
+   "target_d1": 0.17833333333333334,
+   "target_minutes": 32.28613333333333,
+   "target_social": 108.94596921979841,
+   "mid_tier_players": 2866.0754166666666
+  },
+  {
+   "genre": "Battle Royale",
+   "genre_slug": "battle-royale",
+   "opportunity": 52.7,
+   "tags": [
+    "sandbox",
+    "2v2",
+    "boxfight"
+   ],
+   "keywords": [
+    "SEASON",
+    "PLAYGROUND",
+    "CHAPTER",
+    "DUO"
+   ],
+   "title_pattern": null,
+   "title_pattern_rate": 0,
+   "hook": "kleinere Lobbys, schnelle Zone, bekanntes Loot mit einem Twist",
+   "benchmarks": [
+    {
+     "title": "CREIME 1V1 BUILD FIGHTS📝",
+     "code": "0159-1587-4760",
+     "viral": 75.0,
+     "players": 902.8333333333334,
+     "growth": 1.3389948057318866,
+     "new": false
+    },
+    {
+     "title": "CHAPTER 7 SEASON 1 PLAYGROUND",
+     "code": "1477-5500-6228",
+     "viral": 74.0,
+     "players": 1038.1666666666667,
+     "growth": 1.4718826242031648,
+     "new": false
+    },
+    {
+     "title": "🏆🥇سكرمز<RASF🏆🥇",
+     "code": "8455-7667-6776",
+     "viral": 71.4,
+     "players": 21058.0,
+     "growth": 5.206656893630767,
+     "new": false
+    }
+   ],
+   "target_d1": 0.21549999999999997,
+   "target_minutes": 26.247166666666665,
+   "target_social": 55.05522670576795,
+   "mid_tier_players": 25733.629166666666
+  },
+  {
+   "genre": "Deathrun & Platformer",
+   "genre_slug": "deathrun-platformer",
+   "opportunity": 49.6,
+   "tags": [
+    "difficulty: impossible",
+    "difficulty: hard",
+    "difficulty: easy"
+   ],
+   "keywords": [
+    "PARKOUR",
+    "SLIDE",
+    "HARD",
+    "OBBY"
+   ],
+   "title_pattern": "„+1 … pro Klick/Sekunde“",
+   "title_pattern_rate": 0.1,
+   "hook": "Level-Nummern im Titel, faire Checkpoints, „nur 1 % schaffen es“-Challenge",
+   "benchmarks": [
+    {
+     "title": "HARD PARKOUR 15 LEVELS",
+     "code": "2951-9636-0803",
+     "viral": 71.3,
+     "players": 2037.3333333333333,
+     "growth": 15.55675551735876,
+     "new": false
+    },
+    {
+     "title": "ASMR FALL GUYS OBBY WAX PARKOUR 🌈",
+     "code": "0970-4275-5735",
+     "viral": 70.6,
+     "players": 471.8333333333333,
+     "growth": 6.019328662828626,
+     "new": false
+    },
+    {
+     "title": "HARD PARKOUR ⭐ 6337 HARD باركور 🔥",
+     "code": "1226-5557-0009",
+     "viral": 70.6,
+     "players": 449.6666666666667,
+     "growth": 2.4497267813837436,
+     "new": false
+    }
+   ],
+   "target_d1": 0.17650000000000002,
+   "target_minutes": 27.63416666666667,
+   "target_social": 63.41730642823616,
+   "mid_tier_players": 6417.03125
+  }
+ ],
+ "eco_growth": 0.6913213342673924,
+ "generated_at": "2026-11-25T07:24:39.000Z",
+ "top_breakouts": [
+  {
+   "code": "8006-1388-2871",
+   "title": "PrimeM",
+   "creator": "y78",
+   "createdIn": "UEFN",
+   "tags": [
+    "role playing",
+    "action",
+    "open world",
+    "simulator"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 29,
+   "rank_d1": 23,
+   "rank_d7": 81,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 29,
+     "d1": 23,
+     "d7": 81
+    }
+   },
+   "ccu_series": [
+    102,
+    71,
+    62,
+    82,
+    2575,
+    1198
+   ],
+   "peak_ccu": 2575,
+   "ccu_last": 1198,
+   "players_avg": 6970.0,
+   "plays_per_player": 1.4487087517934003,
+   "growth": 21.92485549132948,
+   "growth_rel": 31.714420493855737,
+   "growth_new": false,
+   "climb": 1.0271533246859648,
+   "social": 85.74844571975132,
+   "d1": 0.365,
+   "d7": 0.145,
+   "minutes": 41.46,
+   "viral_score": 93.2,
+   "quality_score": 89.7,
+   "size_pct": 0.7730961298377028
+  },
+  {
+   "code": "6164-9024-8173",
+   "title": "CLEAN THE BALLS!",
+   "creator": "supercombat",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "co-op",
+    "tycoon",
+    "just for fun"
+   ],
+   "genre": "strategy",
+   "rank": 39,
+   "rank_d1": 67,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "strategy": {
+     "top_n": 250,
+     "now": 39,
+     "d1": 67
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    null,
+    367,
+    18,
+    13
+   ],
+   "peak_ccu": 367,
+   "ccu_last": 13,
+   "players_avg": 313.0,
+   "plays_per_player": 1.402555910543131,
+   "growth": null,
+   "growth_rel": null,
+   "growth_new": true,
+   "climb": 0.5411309732613195,
+   "social": 127.79552715654953,
+   "d1": 0.54,
+   "d7": null,
+   "minutes": 39.11666666666667,
+   "viral_score": 89.1,
+   "quality_score": 93.7,
+   "size_pct": 0.017790262172284643
+  },
+  {
+   "code": "2877-7221-2604",
+   "title": "SANTA TYCOON [TYCOON]",
+   "creator": "henseystudios",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "simulator",
+    "casual",
+    "just for fun"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 27,
+   "rank_d1": 71,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 27,
+     "d1": 71
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    null,
+    null,
+    203,
+    194
+   ],
+   "peak_ccu": 203,
+   "ccu_last": 194,
+   "players_avg": 1495.0,
+   "plays_per_player": 1.2036789297658863,
+   "growth": null,
+   "growth_rel": null,
+   "growth_new": true,
+   "climb": 0.9668430110369864,
+   "social": 144.48160535117057,
+   "d1": null,
+   "d7": null,
+   "minutes": 35.705,
+   "viral_score": 89.0,
+   "quality_score": 89.4,
+   "size_pct": 0.4460049937578027
+  },
+  {
+   "code": "6485-7575-0507",
+   "title": "Shred A Billion",
+   "creator": "outlawz",
+   "createdIn": "UEFN",
+   "tags": [
+    "physics",
+    "simulator",
+    "co-op"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 152,
+   "rank_d1": null,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 152
+    }
+   },
+   "ccu_series": [
+    10,
+    8,
+    12,
+    16,
+    15,
+    210
+   ],
+   "peak_ccu": 210,
+   "ccu_last": 210,
+   "players_avg": 348.1666666666667,
+   "plays_per_player": 1.3810435615126853,
+   "growth": 5.833333333333333,
+   "growth_rel": 8.437947802544004,
+   "growth_new": false,
+   "climb": 0.6799019538099246,
+   "social": 163.23599808520822,
+   "d1": 0.17500000000000002,
+   "d7": 0.01,
+   "minutes": 38.76833333333333,
+   "viral_score": 87.6,
+   "quality_score": 79.6,
+   "size_pct": 0.0433832709113608
+  },
+  {
+   "code": "7696-2013-9314",
+   "title": "Hyper Realistic Ragdoll",
+   "creator": "lafowl",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "casual",
+    "just for fun",
+    "strategy"
+   ],
+   "genre": "strategy",
+   "rank": 12,
+   "rank_d1": 26,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "strategy": {
+     "top_n": 250,
+     "now": 12,
+     "d1": 26
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    90,
+    151,
+    293,
+    71
+   ],
+   "peak_ccu": 293,
+   "ccu_last": 71,
+   "players_avg": 1656.5,
+   "plays_per_player": 1.5517657712043464,
+   "growth": 1.471264367816092,
+   "growth_rel": 2.1281917610357293,
+   "growth_new": false,
+   "climb": 0.7731898882334817,
+   "social": 176.27527920313915,
+   "d1": 0.23,
+   "d7": null,
+   "minutes": 29.6375,
+   "viral_score": 86.1,
+   "quality_score": 78.2,
+   "size_pct": 0.47659176029962547
+  },
+  {
+   "code": "4563-6434-9923",
+   "title": "Score Goals To Animals",
+   "creator": "smippyvlad",
+   "createdIn": "UEFN",
+   "tags": [
+    "sports",
+    "tycoon",
+    "simulator",
+    "just for fun"
+   ],
+   "genre": "sports-racing",
+   "rank": 7,
+   "rank_d1": 2,
+   "rank_d7": 61,
+   "new_in_top": false,
+   "ranks": {
+    "sports-racing": {
+     "top_n": 250,
+     "now": 7,
+     "d1": 2,
+     "d7": 61
+    }
+   },
+   "ccu_series": [
+    51,
+    80,
+    96,
+    147,
+    1884,
+    1491
+   ],
+   "peak_ccu": 1884,
+   "ccu_last": 1491,
+   "players_avg": 13215.5,
+   "plays_per_player": 1.2785491783637901,
+   "growth": 17.321428571428573,
+   "growth_rel": 25.055538883064344,
+   "growth_new": false,
+   "climb": 2.164963715117998,
+   "social": 80.68808091508708,
+   "d1": 0.17166666666666666,
+   "d7": 0.015,
+   "minutes": 32.89833333333333,
+   "viral_score": 86.0,
+   "quality_score": 71.5,
+   "size_pct": 0.851123595505618
+  },
+  {
+   "code": "1228-7329-7095",
+   "title": "PET SHOP TYCOON",
+   "creator": "octago",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "simulator",
+    "just for fun",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 12,
+   "rank_d1": 8,
+   "rank_d7": 114,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 12,
+     "d1": 8,
+     "d7": 114
+    }
+   },
+   "ccu_series": [
+    624,
+    195,
+    3905,
+    1720,
+    1642,
+    1094
+   ],
+   "peak_ccu": 3905,
+   "ccu_last": 1094,
+   "players_avg": 24852.333333333332,
+   "plays_per_player": 1.3236315838888368,
+   "growth": 1.1658206429780034,
+   "growth_rel": 1.6863657827274312,
+   "growth_new": false,
+   "climb": 2.2512917986064953,
+   "social": 109.45987633622597,
+   "d1": 0.18000000000000002,
+   "d7": 0.08,
+   "minutes": 35.725,
+   "viral_score": 85.1,
+   "quality_score": 76.7,
+   "size_pct": 0.9166666666666666
+  },
+  {
+   "code": "9821-7888-3528",
+   "title": "+1 Drill Evolution",
+   "creator": "larpstudios",
+   "createdIn": "UEFN",
+   "tags": [
+    "adventure",
+    "simulator",
+    "just for fun",
+    "tycoon"
+   ],
+   "genre": "adventure-rpg",
+   "rank": 5,
+   "rank_d1": 1,
+   "rank_d7": 43,
+   "new_in_top": false,
+   "ranks": {
+    "adventure-rpg": {
+     "top_n": 250,
+     "now": 5,
+     "d1": 1,
+     "d7": 43
+    }
+   },
+   "ccu_series": [
+    28,
+    18,
+    91,
+    265,
+    2459,
+    2337
+   ],
+   "peak_ccu": 2459,
+   "ccu_last": 2337,
+   "players_avg": 9788.0,
+   "plays_per_player": 1.1385710393679336,
+   "growth": 34.64748201438849,
+   "growth_rel": 50.11776766748439,
+   "growth_new": false,
+   "climb": 2.151762203259462,
+   "social": 86.9942787086228,
+   "d1": 0.125,
+   "d7": 0.016666666666666666,
+   "minutes": 34.435,
+   "viral_score": 84.9,
+   "quality_score": 68.7,
+   "size_pct": 0.8199126092384519
+  },
+  {
+   "code": "3626-0573-9677",
+   "title": "BLOCKYMON",
+   "creator": "oacstudio",
+   "createdIn": "UEFN",
+   "tags": [
+    "adventure",
+    "just for fun",
+    "casual",
+    "strategy"
+   ],
+   "genre": "adventure-rpg",
+   "rank": 204,
+   "rank_d1": 220,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "adventure-rpg": {
+     "top_n": 250,
+     "now": 204,
+     "d1": 220
+    }
+   },
+   "ccu_series": [
+    null,
+    147,
+    34,
+    20,
+    14,
+    80
+   ],
+   "peak_ccu": 147,
+   "ccu_last": 80,
+   "players_avg": 331.8,
+   "plays_per_player": 1.3899939722724532,
+   "growth": 1.2954545454545454,
+   "growth_rel": 1.8738819145909413,
+   "growth_new": false,
+   "climb": 0.0755075525081451,
+   "social": 165.76250753465942,
+   "d1": 0.25666666666666665,
+   "d7": null,
+   "minutes": 53.068000000000005,
+   "viral_score": 84.7,
+   "quality_score": 89.3,
+   "size_pct": 0.032147315855181026
+  },
+  {
+   "code": "3092-1733-8452",
+   "title": "Rogue Rails [Roguelike]",
+   "creator": "chaosforge",
+   "createdIn": "UEFN",
+   "tags": [
+    "pve",
+    "roguelike",
+    "survival"
+   ],
+   "genre": "survival",
+   "rank": 21,
+   "rank_d1": 52,
+   "rank_d7": 47,
+   "new_in_top": false,
+   "ranks": {
+    "survival": {
+     "top_n": 250,
+     "now": 21,
+     "d1": 52,
+     "d7": 47
+    }
+   },
+   "ccu_series": [
+    26,
+    26,
+    39,
+    41,
+    43,
+    42
+   ],
+   "peak_ccu": 43,
+   "ccu_last": 42,
+   "players_avg": 449.6666666666667,
+   "plays_per_player": 1.2935507783543365,
+   "growth": 1.2352941176470589,
+   "growth_rel": 1.7868595346563776,
+   "growth_new": false,
+   "climb": 0.8056251639866356,
+   "social": 93.77316530763528,
+   "d1": 0.17,
+   "d7": 0.03833333333333334,
+   "minutes": 46.123333333333335,
+   "viral_score": 84.6,
+   "quality_score": 77.9,
+   "size_pct": 0.10143570536828964
+  },
+  {
+   "code": "5751-6977-2703",
+   "title": "BUILD A SUPERMARKET [TYCOON]",
+   "creator": "octago",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "simulator",
+    "just for fun",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 6,
+   "rank_d1": 46,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 6,
+     "d1": 46
+    }
+   },
+   "ccu_series": [
+    null,
+    711,
+    102,
+    94,
+    73,
+    3216
+   ],
+   "peak_ccu": 3216,
+   "ccu_last": 3216,
+   "players_avg": 4911.0,
+   "plays_per_player": 1.2872734677255142,
+   "growth": 14.772321428571429,
+   "growth_rel": 21.3682417948608,
+   "growth_new": false,
+   "climb": 2.03688192726104,
+   "social": 106.04764813683568,
+   "d1": 0.16666666666666666,
+   "d7": null,
+   "minutes": 27.381999999999998,
+   "viral_score": 84.5,
+   "quality_score": 67.6,
+   "size_pct": 0.7137952559300874
+  },
+  {
+   "code": "8310-8560-6805",
+   "title": "Throw Food for Pets",
+   "creator": "pircolino",
+   "createdIn": "UEFN",
+   "tags": [
+    "casual",
+    "just for fun",
+    "simulator",
+    "tycoon"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 93,
+   "rank_d1": 212,
+   "rank_d7": 185,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 93,
+     "d1": 212,
+     "d7": 185
+    }
+   },
+   "ccu_series": [
+    21,
+    31,
+    33,
+    43,
+    40,
+    35
+   ],
+   "peak_ccu": 43,
+   "ccu_last": 35,
+   "players_avg": 503.3333333333333,
+   "plays_per_player": 1.316225165562914,
+   "growth": 1.130952380952381,
+   "growth_rel": 1.6359286555952663,
+   "growth_new": false,
+   "climb": 0.6877563319250689,
+   "social": 103.3112582781457,
+   "d1": 0.21666666666666667,
+   "d7": 0.045000000000000005,
+   "minutes": 39.03,
+   "viral_score": 84.5,
+   "quality_score": 81.5,
+   "size_pct": 0.13764044943820225
+  },
+  {
+   "code": "4383-1222-6590",
+   "title": "Mog For Eggs",
+   "creator": "natrx",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "casual",
+    "music",
+    "escape"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 38,
+   "rank_d1": 85,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 38,
+     "d1": 85
+    }
+   },
+   "ccu_series": [
+    110,
+    26,
+    29,
+    33,
+    44,
+    61
+   ],
+   "peak_ccu": 110,
+   "ccu_last": 61,
+   "players_avg": 625.8333333333334,
+   "plays_per_player": 1.3078561917443408,
+   "growth": 1.524390243902439,
+   "growth_rel": 2.2050386243581896,
+   "growth_new": false,
+   "climb": 0.8050650967639307,
+   "social": 88.1491344873502,
+   "d1": 0.178,
+   "d7": null,
+   "minutes": 35.998333333333335,
+   "viral_score": 84.4,
+   "quality_score": 75.2,
+   "size_pct": 0.19382022471910113
+  },
+  {
+   "code": "3464-9260-4988",
+   "title": "Glow Up [FASHION]",
+   "creator": "ripsti",
+   "createdIn": "UEFN",
+   "tags": [
+    "role playing",
+    "fashion",
+    "party game",
+    "sandbox"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 18,
+   "rank_d1": 8,
+   "rank_d7": 77,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 18,
+     "d1": 8,
+     "d7": 77
+    }
+   },
+   "ccu_series": [
+    377,
+    404,
+    578,
+    510,
+    814,
+    2709
+   ],
+   "peak_ccu": 2709,
+   "ccu_last": 2709,
+   "players_avg": 13312.5,
+   "plays_per_player": 1.3463912363067292,
+   "growth": 3.7933618843683083,
+   "growth_rel": 5.487118213107387,
+   "growth_new": false,
+   "climb": 1.4534336639575192,
+   "social": 68.04381846635368,
+   "d1": 0.19666666666666666,
+   "d7": 0.04666666666666667,
+   "minutes": 30.80333333333333,
+   "viral_score": 84.3,
+   "quality_score": 70.4,
+   "size_pct": 0.8536204744069913
+  },
+  {
+   "code": "8399-8303-7944",
+   "title": "CLIMB AND JUMP TOWER",
+   "creator": "trashmapsfnc",
+   "createdIn": "UEFN",
+   "tags": [
+    "casual",
+    "just for fun",
+    "tycoon",
+    "escape"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 111,
+   "rank_d1": 115,
+   "rank_d7": 234,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 111,
+     "d1": 115,
+     "d7": 234
+    }
+   },
+   "ccu_series": [
+    20,
+    23,
+    44,
+    44,
+    52,
+    68
+   ],
+   "peak_ccu": 68,
+   "ccu_last": 68,
+   "players_avg": 749.0,
+   "plays_per_player": 1.2527814864263462,
+   "growth": 1.6091954022988506,
+   "growth_rel": 2.327709738632829,
+   "growth_new": false,
+   "climb": 0.7457909140453672,
+   "social": 97.68580329327993,
+   "d1": 0.19166666666666665,
+   "d7": 0.06333333333333334,
+   "minutes": 31.143333333333334,
+   "viral_score": 83.8,
+   "quality_score": 73.8,
+   "size_pct": 0.25998751560549316
+  },
+  {
+   "code": "8238-3374-0527",
+   "title": "🔶 Prison Breakout 🔷",
+   "creator": "breakoutgames",
+   "createdIn": "UEFN",
+   "tags": [
+    "pvp",
+    "open world",
+    "just for fun",
+    "race"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 23,
+   "rank_d1": 37,
+   "rank_d7": 58,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 23,
+     "d1": 37,
+     "d7": 58
+    }
+   },
+   "ccu_series": [
+    90,
+    123,
+    131,
+    153,
+    130,
+    137
+   ],
+   "peak_ccu": 153,
+   "ccu_last": 137,
+   "players_avg": 1777.0,
+   "plays_per_player": 1.7401050459576064,
+   "growth": 1.0474452554744527,
+   "growth_rel": 1.515135152865566,
+   "growth_new": false,
+   "climb": 0.9249487946172696,
+   "social": 58.15044081785781,
+   "d1": 0.2733333333333334,
+   "d7": 0.13833333333333334,
+   "minutes": 47.653333333333336,
+   "viral_score": 83.4,
+   "quality_score": 81.8,
+   "size_pct": 0.4984394506866417
+  },
+  {
+   "code": "1174-6921-3701",
+   "title": "CHRISTMAS ESCAPE [ROGUELIKE]",
+   "creator": "ponczekstudio",
+   "createdIn": "UEFN",
+   "tags": [
+    "roguelike",
+    "co-op",
+    "boss battle",
+    "escape"
+   ],
+   "genre": "roguelike",
+   "rank": 29,
+   "rank_d1": 32,
+   "rank_d7": 82,
+   "new_in_top": false,
+   "ranks": {
+    "roguelike": {
+     "top_n": 250,
+     "now": 29,
+     "d1": 32,
+     "d7": 82
+    }
+   },
+   "ccu_series": [
+    14,
+    14,
+    32,
+    33,
+    38,
+    33
+   ],
+   "peak_ccu": 38,
+   "ccu_last": 33,
+   "players_avg": 388.8333333333333,
+   "plays_per_player": 1.1671667381054436,
+   "growth": 1.378787878787879,
+   "growth_rel": 1.994424026055856,
+   "growth_new": false,
+   "climb": 1.039423417277779,
+   "social": 139.30561508786968,
+   "d1": 0.12,
+   "d7": 0.025,
+   "minutes": 33.876666666666665,
+   "viral_score": 83.0,
+   "quality_score": 70.4,
+   "size_pct": 0.06710362047440699
+  },
+  {
+   "code": "4487-0409-0517",
+   "title": "GUN ARMY : MERGE & SURVIVE",
+   "creator": "seekersstudio",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "strategy",
+    "survival",
+    "tower defense"
+   ],
+   "genre": "strategy",
+   "rank": 25,
+   "rank_d1": 25,
+   "rank_d7": 42,
+   "new_in_top": false,
+   "ranks": {
+    "strategy": {
+     "top_n": 250,
+     "now": 25,
+     "d1": 25,
+     "d7": 42
+    }
+   },
+   "ccu_series": [
+    29,
+    35,
+    52,
+    59,
+    61,
+    76
+   ],
+   "peak_ccu": 76,
+   "ccu_last": 76,
+   "players_avg": 900.8333333333334,
+   "plays_per_player": 1.2103607770582792,
+   "growth": 1.4672897196261683,
+   "growth_rel": 2.1224424112140063,
+   "growth_new": false,
+   "climb": 0.5187937934151675,
+   "social": 116.37372802960222,
+   "d1": 0.15166666666666667,
+   "d7": 0.01,
+   "minutes": 35.82333333333333,
+   "viral_score": 82.9,
+   "quality_score": 74.7,
+   "size_pct": 0.3080524344569288
+  },
+  {
+   "code": "5571-6245-1746",
+   "title": "GHOST HEIST ESCAPE [ROGUELIKE]",
+   "creator": "sparkgames",
+   "createdIn": "UEFN",
+   "tags": [
+    "co-op",
+    "roguelike",
+    "adventure",
+    "boss battle"
+   ],
+   "genre": "roguelike",
+   "rank": 16,
+   "rank_d1": 57,
+   "rank_d7": 15,
+   "new_in_top": false,
+   "ranks": {
+    "roguelike": {
+     "top_n": 250,
+     "now": 16,
+     "d1": 57,
+     "d7": 15
+    }
+   },
+   "ccu_series": [
+    164,
+    127,
+    139,
+    157,
+    118,
+    333
+   ],
+   "peak_ccu": 333,
+   "ccu_last": 333,
+   "players_avg": 2413.5,
+   "plays_per_player": 1.3816725364270424,
+   "growth": 1.490506329113924,
+   "growth_rel": 2.1560253607585316,
+   "growth_new": false,
+   "climb": -0.06453852113757118,
+   "social": 55.45197154892618,
+   "d1": 0.36000000000000004,
+   "d7": 0.19333333333333333,
+   "minutes": 64.15666666666667,
+   "viral_score": 81.4,
+   "quality_score": 87.2,
+   "size_pct": 0.5733458177278402
+  },
+  {
+   "code": "8217-7835-0119",
+   "title": "SUZY SAYS [HORROR]",
+   "creator": "zombiemod",
+   "createdIn": "UEFN",
+   "tags": [
+    "horror",
+    "first person",
+    "survival horror",
+    "escape"
+   ],
+   "genre": "horror",
+   "rank": 50,
+   "rank_d1": 78,
+   "rank_d7": 205,
+   "new_in_top": false,
+   "ranks": {
+    "horror": {
+     "top_n": 250,
+     "now": 50,
+     "d1": 78,
+     "d7": 205
+    }
+   },
+   "ccu_series": [
+    7,
+    6,
+    12,
+    13,
+    30,
+    62
+   ],
+   "peak_ccu": 62,
+   "ccu_last": 62,
+   "players_avg": 409.8333333333333,
+   "plays_per_player": 1.3672224481496544,
+   "growth": 2.871794871794872,
+   "growth_rel": 4.154066610483203,
+   "growth_new": false,
+   "climb": 1.410986973710262,
+   "social": 294.4286295241968,
+   "d1": 0.165,
+   "d7": 0.03333333333333333,
+   "minutes": 21.75,
+   "viral_score": 81.4,
+   "quality_score": 62.1,
+   "size_pct": 0.07646691635455681
+  },
+  {
+   "code": "4680-0364-3262",
+   "title": "Fight In A School 💥",
+   "creator": "outlawz",
+   "createdIn": "UEFN",
+   "tags": [
+    "free for all",
+    "fighting",
+    "action"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 55,
+   "rank_d1": 84,
+   "rank_d7": 61,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 55,
+     "d1": 84,
+     "d7": 61
+    }
+   },
+   "ccu_series": [
+    52,
+    54,
+    77,
+    73,
+    84,
+    65
+   ],
+   "peak_ccu": 84,
+   "ccu_last": 65,
+   "players_avg": 910.1666666666666,
+   "plays_per_player": 1.671305621681011,
+   "growth": 1.1496598639455782,
+   "growth_rel": 1.662989129597594,
+   "growth_new": false,
+   "climb": 0.10354067894084036,
+   "social": 71.9648416041018,
+   "d1": 0.30666666666666664,
+   "d7": 0.08833333333333333,
+   "minutes": 44.13166666666667,
+   "viral_score": 81.3,
+   "quality_score": 85.9,
+   "size_pct": 0.31242197253433207
+  },
+  {
+   "code": "9487-7479-9925",
+   "title": "SQUID CAR",
+   "creator": "eubebo",
+   "createdIn": "UEFN",
+   "tags": [
+    "role playing",
+    "race",
+    "driver simulator",
+    "just for fun"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 50,
+   "rank_d1": 77,
+   "rank_d7": 222,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 50,
+     "d1": 77,
+     "d7": 222
+    }
+   },
+   "ccu_series": [
+    18,
+    24,
+    42,
+    85,
+    64,
+    102
+   ],
+   "peak_ccu": 102,
+   "ccu_last": 102,
+   "players_avg": 889.0,
+   "plays_per_player": 1.1782902137232847,
+   "growth": 2.1627906976744184,
+   "growth_rel": 3.128488288252196,
+   "growth_new": false,
+   "climb": 1.4906543764441336,
+   "social": 62.054743157105364,
+   "d1": 0.16666666666666666,
+   "d7": 0.05833333333333333,
+   "minutes": 29.006666666666664,
+   "viral_score": 81.0,
+   "quality_score": 64.4,
+   "size_pct": 0.3036828963795256
+  },
+  {
+   "code": "7695-4056-9550",
+   "title": "SMASH VERITY FOR SCP MONSTERS",
+   "creator": "scufsteam",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "simulator",
+    "horror",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 11,
+   "rank_d1": 23,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 11,
+     "d1": 23
+    },
+    "horror": {
+     "top_n": 250,
+     "d7": 207
+    }
+   },
+   "ccu_series": [
+    139,
+    49,
+    201,
+    148,
+    413,
+    2845
+   ],
+   "peak_ccu": 2845,
+   "ccu_last": 2845,
+   "players_avg": 9799.166666666666,
+   "plays_per_player": 1.2025852538481165,
+   "growth": 10.677524429967427,
+   "growth_rel": 15.445096080077757,
+   "growth_new": false,
+   "climb": 0.7375989431307791,
+   "social": 84.5309975338039,
+   "d1": 0.14833333333333334,
+   "d7": 0.023333333333333334,
+   "minutes": 27.58666666666667,
+   "viral_score": 80.7,
+   "quality_score": 64.2,
+   "size_pct": 0.8205368289637952
+  },
+  {
+   "code": "9908-2785-1648",
+   "title": "CHRISTMAS FACTORY TYCOON",
+   "creator": "fatcatstudio",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "simulator",
+    "just for fun",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 67,
+   "rank_d1": 106,
+   "rank_d7": 188,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 67,
+     "d1": 106,
+     "d7": 188
+    }
+   },
+   "ccu_series": [
+    60,
+    71,
+    86,
+    113,
+    101,
+    95
+   ],
+   "peak_ccu": 113,
+   "ccu_last": 95,
+   "players_avg": 1484.3333333333333,
+   "plays_per_player": 1.1212665618684032,
+   "growth": 1.2203389830508475,
+   "growth_rel": 1.765226852638746,
+   "growth_new": false,
+   "climb": 1.0317493434389833,
+   "social": 144.733887267011,
+   "d1": 0.085,
+   "d7": 0.03333333333333333,
+   "minutes": 37.13333333333333,
+   "viral_score": 80.7,
+   "quality_score": 67.4,
+   "size_pct": 0.4416354556803995
+  },
+  {
+   "code": "8347-2772-6205",
+   "title": "DOUBLE JUMP FOR BRAINROTS",
+   "creator": "nlvc",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "just for fun",
+    "simulator",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 126,
+   "rank_d1": 154,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 126,
+     "d1": 154
+    }
+   },
+   "ccu_series": [
+    9,
+    12,
+    15,
+    19,
+    31,
+    35
+   ],
+   "peak_ccu": 35,
+   "ccu_last": 35,
+   "players_avg": 309.6666666666667,
+   "plays_per_player": 1.3810548977395047,
+   "growth": 1.8297872340425532,
+   "growth_rel": 2.6467970006764174,
+   "growth_new": false,
+   "climb": 0.20067069546215124,
+   "social": 66.7384284176534,
+   "d1": 0.24000000000000002,
+   "d7": 0.04666666666666667,
+   "minutes": 32.79,
+   "viral_score": 80.3,
+   "quality_score": 75.8,
+   "size_pct": 0.011548064918851436
+  },
+  {
+   "code": "1668-6777-1307",
+   "title": "Prison Life 2.0",
+   "creator": "floatstudios",
+   "createdIn": "UEFN",
+   "tags": [
+    "pvp",
+    "open world",
+    "role playing"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 33,
+   "rank_d1": 68,
+   "rank_d7": 173,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 33,
+     "d1": 68,
+     "d7": 173
+    }
+   },
+   "ccu_series": [
+    60,
+    58,
+    80,
+    72,
+    70,
+    58
+   ],
+   "peak_ccu": 80,
+   "ccu_last": 58,
+   "players_avg": 747.1666666666666,
+   "plays_per_player": 1.805933526656257,
+   "growth": 0.9736842105263158,
+   "growth_rel": 1.4084394076426836,
+   "growth_new": false,
+   "climb": 1.6567840330312986,
+   "social": 40.37474905197413,
+   "d1": 0.32166666666666666,
+   "d7": 0.165,
+   "minutes": 49.77,
+   "viral_score": 80.3,
+   "quality_score": 79.6,
+   "size_pct": 0.25686641697877655
+  },
+  {
+   "code": "2276-7799-6979",
+   "title": "Ballistic R",
+   "creator": "zoramaps",
+   "createdIn": "UEFN",
+   "tags": [
+    "first person",
+    "5v5",
+    "search & destroy",
+    "strategy"
+   ],
+   "genre": "strategy",
+   "rank": 5,
+   "rank_d1": null,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "strategy": {
+     "top_n": 250,
+     "now": 5
+    },
+    "shooter": {
+     "top_n": 250,
+     "d1": 54,
+     "d7": 25
+    }
+   },
+   "ccu_series": [
+    517,
+    512,
+    639,
+    587,
+    605,
+    503
+   ],
+   "peak_ccu": 639,
+   "ccu_last": 503,
+   "players_avg": 6870.833333333333,
+   "plays_per_player": 4.571497877501517,
+   "growth": 1.00355871886121,
+   "growth_rel": 1.4516530434066557,
+   "growth_new": false,
+   "climb": 4.0943445622221,
+   "social": 26.46452395391146,
+   "d1": 0.46166666666666667,
+   "d7": 0.36000000000000004,
+   "minutes": 73.62,
+   "viral_score": 80.1,
+   "quality_score": 77.6,
+   "size_pct": 0.7705992509363296
+  },
+  {
+   "code": "2876-0488-2279",
+   "title": "STEAL A FNAF EGG 🥚",
+   "creator": "trigo",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "just for fun",
+    "casual",
+    "simulator"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 75,
+   "rank_d1": 135,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 75,
+     "d1": 135
+    }
+   },
+   "ccu_series": [
+    17,
+    21,
+    37,
+    193,
+    29,
+    46
+   ],
+   "peak_ccu": 193,
+   "ccu_last": 46,
+   "players_avg": 537.8333333333334,
+   "plays_per_player": 1.278896808180973,
+   "growth": 1.2179487179487178,
+   "growth_rel": 1.7617693214102867,
+   "growth_new": false,
+   "climb": 0.5877866649021191,
+   "social": 79.02076231794236,
+   "d1": 0.17833333333333334,
+   "d7": 0.06,
+   "minutes": 31.515,
+   "viral_score": 80.0,
+   "quality_score": 70.8,
+   "size_pct": 0.15387016229712858
+  },
+  {
+   "code": "4716-5682-4385",
+   "title": "DROP FOR EGGS",
+   "creator": "numberstudiofn",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "casual",
+    "simulator",
+    "just for fun"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 37,
+   "rank_d1": 78,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 37,
+     "d1": 78
+    }
+   },
+   "ccu_series": [
+    null,
+    24,
+    330,
+    7,
+    289,
+    297
+   ],
+   "peak_ccu": 330,
+   "ccu_last": 297,
+   "players_avg": 2465.6,
+   "plays_per_player": 1.1523361453601557,
+   "growth": 8.911764705882353,
+   "growth_rel": 12.890915214306725,
+   "growth_new": false,
+   "climb": 0.7457909140453672,
+   "social": 62.134977287475664,
+   "d1": 0.185,
+   "d7": null,
+   "minutes": 26.35,
+   "viral_score": 79.9,
+   "quality_score": 63.5,
+   "size_pct": 0.5783395755305868
+  },
+  {
+   "code": "0169-9555-7822",
+   "title": "PENGUIN KNOCKOUT!🐧",
+   "creator": "aidenomalley",
+   "createdIn": "UEFN",
+   "tags": [
+    "physics",
+    "just for fun",
+    "minigame",
+    "party game"
+   ],
+   "genre": "party-mini-games",
+   "rank": 60,
+   "rank_d1": 64,
+   "rank_d7": 141,
+   "new_in_top": false,
+   "ranks": {
+    "party-mini-games": {
+     "top_n": 250,
+     "now": 60,
+     "d1": 64,
+     "d7": 141
+    }
+   },
+   "ccu_series": [
+    38,
+    45,
+    59,
+    53,
+    48,
+    71
+   ],
+   "peak_ccu": 71,
+   "ccu_last": 71,
+   "players_avg": 989.1666666666666,
+   "plays_per_player": 1.2918281381634371,
+   "growth": 1.1779661016949152,
+   "growth_rel": 1.7039342535887894,
+   "growth_new": false,
+   "climb": 0.8544153281560676,
+   "social": 59.983150800336986,
+   "d1": 0.21333333333333335,
+   "d7": 0.03166666666666667,
+   "minutes": 30.12,
+   "viral_score": 79.7,
+   "quality_score": 69.8,
+   "size_pct": 0.33614232209737827
+  },
+  {
+   "code": "4905-2125-8489",
+   "title": "FNAF - Fazbear Tycoon",
+   "creator": "3dlab",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "casual",
+    "simulator",
+    "just for fun"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 48,
+   "rank_d1": 127,
+   "rank_d7": 132,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 48,
+     "d1": 127,
+     "d7": 132
+    }
+   },
+   "ccu_series": [
+    33,
+    28,
+    31,
+    30,
+    29,
+    33
+   ],
+   "peak_ccu": 33,
+   "ccu_last": 33,
+   "players_avg": 506.0,
+   "plays_per_player": 1.2664690382081687,
+   "growth": 1.0123456790123457,
+   "growth_rel": 1.464363428166367,
+   "growth_new": false,
+   "climb": 1.0116009116784799,
+   "social": 80.36890645586298,
+   "d1": 0.18499999999999997,
+   "d7": 0.041666666666666664,
+   "minutes": 33.85,
+   "viral_score": 79.5,
+   "quality_score": 73.5,
+   "size_pct": 0.1388888888888889
+  },
+  {
+   "code": "2328-1345-3889",
+   "title": "FLIP A HOUSE!",
+   "creator": "van",
+   "createdIn": "UEFN",
+   "tags": [
+    "just for fun",
+    "co-op",
+    "tycoon",
+    "simulator"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 45,
+   "rank_d1": 140,
+   "rank_d7": 90,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 45,
+     "d1": 140,
+     "d7": 90
+    }
+   },
+   "ccu_series": [
+    29,
+    33,
+    31,
+    46,
+    38,
+    34
+   ],
+   "peak_ccu": 46,
+   "ccu_last": 34,
+   "players_avg": 578.0,
+   "plays_per_player": 1.1761822376009228,
+   "growth": 1.0952380952380953,
+   "growth_rel": 1.5842677506817318,
+   "growth_new": false,
+   "climb": 0.6931471805599453,
+   "social": 115.62860438292964,
+   "d1": 0.11666666666666665,
+   "d7": 0.015,
+   "minutes": 37.65833333333333,
+   "viral_score": 79.4,
+   "quality_score": 71.0,
+   "size_pct": 0.17072409488139825
+  },
+  {
+   "code": "1115-3909-3530",
+   "title": "CUT YOUR GRASS TYCOON",
+   "creator": "krystal",
+   "createdIn": "UEFN",
+   "tags": [
+    "farming simulator",
+    "just for fun",
+    "tycoon",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 8,
+   "rank_d1": 5,
+   "rank_d7": 130,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 8,
+     "d1": 5,
+     "d7": 130
+    }
+   },
+   "ccu_series": [
+    51,
+    129,
+    247,
+    3325,
+    2007,
+    2668
+   ],
+   "peak_ccu": 3325,
+   "ccu_last": 2668,
+   "players_avg": 22524.666666666668,
+   "plays_per_player": 1.1229096989966556,
+   "growth": 11.856060606060606,
+   "growth_rel": 17.14985494932645,
+   "growth_new": false,
+   "climb": 2.7880929087757464,
+   "social": 63.744931482522865,
+   "d1": 0.09999999999999999,
+   "d7": 0.013333333333333334,
+   "minutes": 29.655,
+   "viral_score": 79.3,
+   "quality_score": 57.2,
+   "size_pct": 0.9060549313358303
+  },
+  {
+   "code": "7541-3275-7180",
+   "title": "Community Frenzy",
+   "creator": "communityfrenzy",
+   "createdIn": "UEFN",
+   "tags": [
+    "survival",
+    "battle royale",
+    "teams",
+    "party game"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 3,
+   "rank_d1": 24,
+   "rank_d7": 7,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 3,
+     "d1": 24,
+     "d7": 7
+    }
+   },
+   "ccu_series": [
+    431,
+    395,
+    472,
+    515,
+    439,
+    454
+   ],
+   "peak_ccu": 515,
+   "ccu_last": 454,
+   "players_avg": 6536.166666666667,
+   "plays_per_player": 10.10617844302216,
+   "growth": 0.9891657638136512,
+   "growth_rel": 1.4308335571068276,
+   "growth_new": false,
+   "climb": 0.8472978603872037,
+   "social": 31.797434785934673,
+   "d1": 0.42333333333333334,
+   "d7": 0.25,
+   "minutes": 67.73,
+   "viral_score": 79.3,
+   "quality_score": 79.9,
+   "size_pct": 0.7587390761548065
+  },
+  {
+   "code": "2667-5971-6116",
+   "title": "ANOMALY FARM [HORROR]",
+   "creator": "rrml",
+   "createdIn": "UEFN",
+   "tags": [
+    "horror",
+    "survival horror",
+    "survival",
+    "co-op"
+   ],
+   "genre": "horror",
+   "rank": 29,
+   "rank_d1": 44,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "horror": {
+     "top_n": 250,
+     "now": 29,
+     "d1": 44
+    }
+   },
+   "ccu_series": [
+    137,
+    172,
+    81,
+    107,
+    110,
+    127
+   ],
+   "peak_ccu": 172,
+   "ccu_last": 127,
+   "players_avg": 1473.3333333333333,
+   "plays_per_player": 1.4144796380090499,
+   "growth": 0.9734848484848485,
+   "growth_rel": 1.4081510293855906,
+   "growth_new": false,
+   "climb": 0.4168938039317871,
+   "social": 129.29864253393666,
+   "d1": 0.202,
+   "d7": null,
+   "minutes": 37.361666666666665,
+   "viral_score": 79.1,
+   "quality_score": 80.9,
+   "size_pct": 0.4410112359550562
+  },
+  {
+   "code": "8009-0591-7629",
+   "title": "ANIME CARDS TYCOON",
+   "creator": "ma-da",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "just for fun",
+    "simulator",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 165,
+   "rank_d1": 77,
+   "rank_d7": 167,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 165,
+     "d1": 77,
+     "d7": 167
+    }
+   },
+   "ccu_series": [
+    47,
+    50,
+    78,
+    67,
+    57,
+    63
+   ],
+   "peak_ccu": 78,
+   "ccu_last": 63,
+   "players_avg": 810.5,
+   "plays_per_player": 1.471725272465556,
+   "growth": 1.0218978102189782,
+   "growth_rel": 1.4781806369420156,
+   "growth_new": false,
+   "climb": 0.012048338516174574,
+   "social": 82.25375282747275,
+   "d1": 0.2816666666666667,
+   "d7": 0.12,
+   "minutes": 52.61166666666667,
+   "viral_score": 79.0,
+   "quality_score": 87.2,
+   "size_pct": 0.27808988764044945
+  },
+  {
+   "code": "4031-3817-6447",
+   "title": "+1 APPEAL EVOLUTION",
+   "creator": "bonzai.pro",
+   "createdIn": "UEFN",
+   "tags": [
+    "adventure",
+    "just for fun",
+    "casual"
+   ],
+   "genre": "adventure-rpg",
+   "rank": 15,
+   "rank_d1": 48,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "adventure-rpg": {
+     "top_n": 250,
+     "now": 15,
+     "d1": 48
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    null,
+    null,
+    559,
+    24
+   ],
+   "peak_ccu": 559,
+   "ccu_last": 24,
+   "players_avg": 1360.5,
+   "plays_per_player": 1.1786108048511577,
+   "growth": null,
+   "growth_rel": null,
+   "growth_new": true,
+   "climb": 1.1631508098056809,
+   "social": 62.10951855935318,
+   "d1": null,
+   "d7": null,
+   "minutes": 24.634999999999998,
+   "viral_score": 79.0,
+   "quality_score": 63.0,
+   "size_pct": 0.41916354556804
+  },
+  {
+   "code": "7554-8268-3857",
+   "title": "+1 Anomaly Evolution",
+   "creator": "pircolino",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "tycoon",
+    "casual",
+    "just for fun"
+   ],
+   "genre": "horror",
+   "rank": 120,
+   "rank_d1": 55,
+   "rank_d7": 233,
+   "new_in_top": false,
+   "ranks": {
+    "horror": {
+     "top_n": 250,
+     "now": 120,
+     "d1": 55,
+     "d7": 233
+    }
+   },
+   "ccu_series": [
+    21,
+    28,
+    72,
+    86,
+    69,
+    59
+   ],
+   "peak_ccu": 86,
+   "ccu_last": 59,
+   "players_avg": 1108.8333333333333,
+   "plays_per_player": 1.2427476326469262,
+   "growth": 1.2333333333333334,
+   "growth_rel": 1.7840232496807327,
+   "growth_new": false,
+   "climb": 0.6635467107836546,
+   "social": 121.14835412595822,
+   "d1": 0.14166666666666666,
+   "d7": 0.023333333333333334,
+   "minutes": 27.441666666666666,
+   "viral_score": 78.8,
+   "quality_score": 66.2,
+   "size_pct": 0.36485642946317104
+  },
+  {
+   "code": "8180-9010-1526",
+   "title": "DETECT AND STEAL AN EGG 🥚",
+   "creator": "maco",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "just for fun",
+    "casual",
+    "tycoon"
+   ],
+   "genre": "adventure-rpg",
+   "rank": 67,
+   "rank_d1": 125,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "adventure-rpg": {
+     "top_n": 250,
+     "now": 67,
+     "d1": 125
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    null,
+    null,
+    179,
+    13
+   ],
+   "peak_ccu": 179,
+   "ccu_last": 13,
+   "players_avg": 423.0,
+   "plays_per_player": 1.1501182033096926,
+   "growth": null,
+   "growth_rel": null,
+   "growth_new": true,
+   "climb": 0.6236211179113351,
+   "social": 126.4775413711584,
+   "d1": null,
+   "d7": null,
+   "minutes": 21.58,
+   "viral_score": 78.6,
+   "quality_score": 64.7,
+   "size_pct": 0.08583021223470662
+  },
+  {
+   "code": "6115-4313-4291",
+   "title": "Steal a Verity",
+   "creator": "ripstu",
+   "createdIn": "UEFN",
+   "tags": [
+    "simulator",
+    "tycoon",
+    "just for fun",
+    "casual"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 41,
+   "rank_d1": 12,
+   "rank_d7": 151,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 41,
+     "d1": 12,
+     "d7": 151
+    }
+   },
+   "ccu_series": [
+    135,
+    134,
+    175,
+    151,
+    388,
+    2203
+   ],
+   "peak_ccu": 2203,
+   "ccu_last": 2203,
+   "players_avg": 7018.166666666667,
+   "plays_per_player": 1.1688237668906885,
+   "growth": 8.532679738562091,
+   "growth_rel": 12.342566785682015,
+   "growth_new": false,
+   "climb": 1.3037077701106166,
+   "social": 61.29331021871809,
+   "d1": 0.12333333333333334,
+   "d7": 0.03,
+   "minutes": 27.22666666666667,
+   "viral_score": 78.5,
+   "quality_score": 57.7,
+   "size_pct": 0.7743445692883895
+  },
+  {
+   "code": "9378-8458-1155",
+   "title": "Pillars Reload Duo 2v2",
+   "creator": "knzi",
+   "createdIn": "UEFN",
+   "tags": [
+    "just for fun",
+    "minigame",
+    "party game",
+    "2v2"
+   ],
+   "genre": "party-mini-games",
+   "rank": 61,
+   "rank_d1": 97,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "party-mini-games": {
+     "top_n": 250,
+     "now": 61,
+     "d1": 97
+    }
+   },
+   "ccu_series": [
+    null,
+    40,
+    79,
+    233,
+    143,
+    917
+   ],
+   "peak_ccu": 917,
+   "ccu_last": 917,
+   "players_avg": 3435.4,
+   "plays_per_player": 1.3841182977237003,
+   "growth": 6.067415730337078,
+   "growth_rel": 8.776549239243202,
+   "growth_new": false,
+   "climb": 0.4638371143300716,
+   "social": 55.07364499039413,
+   "d1": 0.236,
+   "d7": 0.0,
+   "minutes": 25.47,
+   "viral_score": 78.4,
+   "quality_score": 64.8,
+   "size_pct": 0.6438826466916354
+  },
+  {
+   "code": "7254-4664-3899",
+   "title": "[⭐] MEGA RICH HOUSE TYCOON  [⭐]",
+   "creator": "codecraft",
+   "createdIn": "UEFN",
+   "tags": [
+    "tycoon",
+    "just for fun",
+    "casual",
+    "simulator"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 62,
+   "rank_d1": 39,
+   "rank_d7": 215,
+   "new_in_top": false,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 62,
+     "d1": 39,
+     "d7": 215
+    }
+   },
+   "ccu_series": [
+    70,
+    94,
+    202,
+    162,
+    190,
+    161
+   ],
+   "peak_ccu": 202,
+   "ccu_last": 161,
+   "players_avg": 3341.5,
+   "plays_per_player": 1.1293331338221357,
+   "growth": 1.3442028985507246,
+   "growth_rel": 1.944396667542749,
+   "growth_new": false,
+   "climb": 1.2435036430825712,
+   "social": 132.02653498927629,
+   "d1": 0.07166666666666667,
+   "d7": 0.015,
+   "minutes": 29.833333333333332,
+   "viral_score": 78.2,
+   "quality_score": 59.4,
+   "size_pct": 0.6401373283395755
+  },
+  {
+   "code": "8624-1680-2917",
+   "title": "Poppy Playtime Boss Survival",
+   "creator": "ftld",
+   "createdIn": "UEFN",
+   "tags": [
+    "boss battle",
+    "survival horror",
+    "horror",
+    "co-op"
+   ],
+   "genre": "survival",
+   "rank": 4,
+   "rank_d1": 24,
+   "rank_d7": 68,
+   "new_in_top": false,
+   "ranks": {
+    "survival": {
+     "top_n": 250,
+     "now": 4,
+     "d1": 24,
+     "d7": 68
+    }
+   },
+   "ccu_series": [
+    31,
+    33,
+    65,
+    77,
+    57,
+    595
+   ],
+   "peak_ccu": 595,
+   "ccu_last": 595,
+   "players_avg": 1504.3333333333333,
+   "plays_per_player": 1.2236871260802127,
+   "growth": 5.694915254237288,
+   "growth_rel": 8.237725312314147,
+   "growth_new": false,
+   "climb": 2.833213344056216,
+   "social": 48.30489696432528,
+   "d1": 0.16333333333333333,
+   "d7": 0.04,
+   "minutes": 25.398333333333337,
+   "viral_score": 78.1,
+   "quality_score": 56.5,
+   "size_pct": 0.4478776529338327
+  },
+  {
+   "code": "3347-8458-3151",
+   "title": "THROW FOOD FOR ANIMALS",
+   "creator": "foad",
+   "createdIn": "UEFN",
+   "tags": [
+    "casual",
+    "simulator",
+    "just for fun",
+    "tycoon"
+   ],
+   "genre": "simulation-tycoon",
+   "rank": 2,
+   "rank_d1": 2,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "simulation-tycoon": {
+     "top_n": 250,
+     "now": 2,
+     "d1": 2
+    }
+   },
+   "ccu_series": [
+    536,
+    6725,
+    9606,
+    18054,
+    9503,
+    7475
+   ],
+   "peak_ccu": 18054,
+   "ccu_last": 7475,
+   "players_avg": 116432.83333333333,
+   "plays_per_player": 1.6565158453299973,
+   "growth": 1.0395694452938657,
+   "growth_rel": 1.5037427514015882,
+   "growth_new": false,
+   "climb": 0.0,
+   "social": 67.65846403577456,
+   "d1": 0.294,
+   "d7": null,
+   "minutes": 46.699999999999996,
+   "viral_score": 77.7,
+   "quality_score": 85.2,
+   "size_pct": 0.9809612983770287
+  },
+  {
+   "code": "9920-2650-4258",
+   "title": "Cobraxz 1v1 Build Fights (200 Pumps)",
+   "creator": "cobraxz",
+   "createdIn": "UEFN",
+   "tags": [
+    "1v1",
+    "free for all",
+    "building",
+    "practice"
+   ],
+   "genre": "shooter",
+   "rank": 130,
+   "rank_d1": null,
+   "rank_d7": 140,
+   "new_in_top": false,
+   "ranks": {
+    "shooter": {
+     "top_n": 250,
+     "now": 130,
+     "d7": 140
+    }
+   },
+   "ccu_series": [
+    95,
+    89,
+    100,
+    141,
+    116,
+    141
+   ],
+   "peak_ccu": 141,
+   "ccu_last": 141,
+   "players_avg": 1966.8333333333333,
+   "plays_per_player": 2.347767138378104,
+   "growth": 1.2883720930232558,
+   "growth_rel": 1.8636371093459319,
+   "growth_new": false,
+   "climb": 0.07410797215372183,
+   "social": 48.046775696974834,
+   "d1": 0.38999999999999996,
+   "d7": 0.23666666666666666,
+   "minutes": 30.974999999999998,
+   "viral_score": 77.5,
+   "quality_score": 77.2,
+   "size_pct": 0.5271535580524345
+  },
+  {
+   "code": "6344-2387-7935",
+   "title": "Maiyxh's Plaza",
+   "creator": "maiyxh",
+   "createdIn": "UEFN",
+   "tags": [
+    "party game",
+    "just for fun",
+    "role playing",
+    "friendly"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 42,
+   "rank_d1": 50,
+   "rank_d7": 42,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 42,
+     "d1": 50,
+     "d7": 42
+    }
+   },
+   "ccu_series": [
+    80,
+    77,
+    94,
+    87,
+    106,
+    118
+   ],
+   "peak_ccu": 118,
+   "ccu_last": 118,
+   "players_avg": 704.8333333333334,
+   "plays_per_player": 3.0399621659966893,
+   "growth": 1.304812834224599,
+   "growth_rel": 1.8874187292474294,
+   "growth_new": false,
+   "climb": 0.0,
+   "social": 31.213052731142113,
+   "d1": 0.5,
+   "d7": 0.365,
+   "minutes": 84.43833333333333,
+   "viral_score": 77.2,
+   "quality_score": 80.7,
+   "size_pct": 0.24126092384519351
+  },
+  {
+   "code": "3793-8653-7610",
+   "title": "MAFIA HEIST 2 [ROGUELIKE]",
+   "creator": "coremaps",
+   "createdIn": "UEFN",
+   "tags": [
+    "roguelike",
+    "simulator",
+    "co-op",
+    "boss battle"
+   ],
+   "genre": "roguelike",
+   "rank": 20,
+   "rank_d1": 22,
+   "rank_d7": 23,
+   "new_in_top": false,
+   "ranks": {
+    "roguelike": {
+     "top_n": 250,
+     "now": 20,
+     "d1": 22,
+     "d7": 23
+    }
+   },
+   "ccu_series": [
+    58,
+    63,
+    75,
+    81,
+    57,
+    114
+   ],
+   "peak_ccu": 114,
+   "ccu_last": 114,
+   "players_avg": 836.3333333333334,
+   "plays_per_player": 1.4182941410920686,
+   "growth": 1.2088607594936709,
+   "growth_rel": 1.7486235409973652,
+   "growth_new": false,
+   "climb": 0.13976194237515863,
+   "social": 38.660821044240734,
+   "d1": 0.2733333333333333,
+   "d7": 0.13,
+   "minutes": 60.69833333333333,
+   "viral_score": 77.2,
+   "quality_score": 77.2,
+   "size_pct": 0.2843320848938826
+  },
+  {
+   "code": "6735-8195-8690",
+   "title": "Baldi's Schoolhouse",
+   "creator": "megarapture52",
+   "createdIn": "UEFN",
+   "tags": [
+    "survival horror",
+    "horror",
+    "escape",
+    "story"
+   ],
+   "genre": "horror",
+   "rank": 62,
+   "rank_d1": 70,
+   "rank_d7": 245,
+   "new_in_top": false,
+   "ranks": {
+    "horror": {
+     "top_n": 250,
+     "now": 62,
+     "d1": 70,
+     "d7": 245
+    }
+   },
+   "ccu_series": [
+    7,
+    12,
+    16,
+    23,
+    28,
+    32
+   ],
+   "peak_ccu": 32,
+   "ccu_last": 32,
+   "players_avg": 472.6666666666667,
+   "plays_per_player": 1.367771509167842,
+   "growth": 1.6666666666666667,
+   "growth_rel": 2.410842229298287,
+   "growth_new": false,
+   "climb": 1.3741238254996355,
+   "social": 92.3836389280677,
+   "d1": 0.21,
+   "d7": 0.043333333333333335,
+   "minutes": 16.125,
+   "viral_score": 77.1,
+   "quality_score": 55.5,
+   "size_pct": 0.1182896379525593
+  },
+  {
+   "code": "9332-3396-3481",
+   "title": "Realistic Family RP",
+   "creator": "caymass",
+   "createdIn": "UEFN",
+   "tags": [
+    "casual",
+    "just for fun",
+    "role playing",
+    "party game"
+   ],
+   "genre": "roleplaying-social",
+   "rank": 43,
+   "rank_d1": 52,
+   "rank_d7": 97,
+   "new_in_top": false,
+   "ranks": {
+    "roleplaying-social": {
+     "top_n": 250,
+     "now": 43,
+     "d1": 52,
+     "d7": 97
+    }
+   },
+   "ccu_series": [
+    88,
+    95,
+    145,
+    152,
+    143,
+    149
+   ],
+   "peak_ccu": 152,
+   "ccu_last": 149,
+   "players_avg": 1789.3333333333333,
+   "plays_per_player": 1.4026639344262297,
+   "growth": 1.2,
+   "growth_rel": 1.7358064050947668,
+   "growth_new": false,
+   "climb": 0.8135108628098204,
+   "social": 28.78166915052161,
+   "d1": 0.24,
+   "d7": 0.08833333333333333,
+   "minutes": 40.51166666666666,
+   "viral_score": 77.0,
+   "quality_score": 67.0,
+   "size_pct": 0.5015605493133583
+  },
+  {
+   "code": "8000-9173-4391",
+   "title": "GORILLA HIDE AND SEEK [HORROR]",
+   "creator": "elmonchito",
+   "createdIn": "UEFN",
+   "tags": [
+    "survival horror",
+    "party game",
+    "role playing",
+    "escape"
+   ],
+   "genre": "horror",
+   "rank": 34,
+   "rank_d1": null,
+   "rank_d7": null,
+   "new_in_top": true,
+   "ranks": {
+    "horror": {
+     "top_n": 250,
+     "now": 34
+    }
+   },
+   "ccu_series": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    31
+   ],
+   "peak_ccu": 31,
+   "ccu_last": 31,
+   "players_avg": 571.0,
+   "plays_per_player": 1.2066549912434326,
+   "growth": null,
+   "growth_rel": null,
+   "growth_new": true,
+   "climb": 2.17742195004004,
+   "social": 166.37478108581436,
+   "d1": null,
+   "d7": null,
+   "minutes": 11.89,
+   "viral_score": 77.0,
+   "quality_score": 51.1,
+   "size_pct": 0.16697877652933832
+  }
+ ]
+}
